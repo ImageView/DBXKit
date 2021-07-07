@@ -12,10 +12,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // 取字典更深层次的值
-@interface NSDictionary (valuePath)
+@interface NSDictionary (dbx_valuePath)
 
 // keypath以.隔开
-- (id)valueForKeyPath:(NSString *)keyPath;
+- (id)dbx_valueForKeyPath:(NSString *)keyPath;
 
 @end
 

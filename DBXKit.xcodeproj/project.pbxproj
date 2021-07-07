@@ -14,8 +14,9 @@
 		2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27D2691CA0100A2801A /* Assets.xcassets */; };
 		2E95C2812691CA0100A2801A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27F2691CA0100A2801A /* LaunchScreen.storyboard */; };
 		2E95C2842691CA0100A2801A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2832691CA0100A2801A /* main.m */; };
-		2E95C2962691CFEE00A2801A /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C2952691CFEE00A2801A /* Classes */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
+		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
+		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,9 +33,12 @@
 		2E95C2802691CA0100A2801A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E95C2822691CA0100A2801A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E95C2832691CA0100A2801A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2E95C2952691CFEE00A2801A /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Classes; sourceTree = "<group>"; };
 		862E7400B3374E118EDD226F /* Pods-DBXKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.debug.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+dbx_modelValue.m"; sourceTree = "<group>"; };
+		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
+		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
+		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +74,7 @@
 		2E95C2702691C9FD00A2801A /* DBXKit */ = {
 			isa = PBXGroup;
 			children = (
-				2E95C2952691CFEE00A2801A /* Classes */,
+				C881792A26958BC900656441 /* Classes */,
 				2E95C2712691C9FD00A2801A /* AppDelegate.h */,
 				2E95C2722691C9FD00A2801A /* AppDelegate.m */,
 				2E95C2742691C9FD00A2801A /* SceneDelegate.h */,
@@ -93,6 +97,25 @@
 				1713F4135C3BA6C761A8A128 /* Pods-DBXKit.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C881792A26958BC900656441 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C881792B26958BC900656441 /* Catetorys */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		C881792B26958BC900656441 /* Catetorys */ = {
+			isa = PBXGroup;
+			children = (
+				C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */,
+				C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */,
+				C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */,
+				C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */,
+			);
+			path = Catetorys;
 			sourceTree = "<group>";
 		};
 		D9777371862E77321C63E740 /* Frameworks */ = {
@@ -164,7 +187,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E95C2812691CA0100A2801A /* LaunchScreen.storyboard in Resources */,
-				2E95C2962691CFEE00A2801A /* Classes in Resources */,
 				2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */,
 				2E95C27C2691C9FD00A2801A /* Main.storyboard in Resources */,
 			);
@@ -219,9 +241,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
+				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

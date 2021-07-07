@@ -7,13 +7,13 @@
 //
 
 
-#import "NSDictionary+valuePath.h"
+#import "NSDictionary+dbx_valuePath.h"
 
 // 取字典更深层次的值
-@implementation NSDictionary (valuePath)
+@implementation NSDictionary (dbx_valuePath)
 
 
-- (id)valueForKeyPath:(NSString *)keyPath
+- (id)dbx_valueForKeyPath:(NSString *)keyPath
 {
     if (![keyPath isKindOfClass:[NSString class]]) {
         return nil;

@@ -6,52 +6,52 @@
 //  Copyright © 2020 diaobaoxia. All rights reserved.
 //
 
-#import "NSObject+modelValue.h"
+#import "NSObject+dbx_modelValue.h"
 #import <objc/runtime.h>
 
-@implementation NSObject (modelValue)
+@implementation NSObject (dbx_modelValue)
 
 /*
  配置数组属性的元素类型
  如：有属性名为subViews，类型是NSArray，元素类名为UIView，需要配置 @{@"subViews" : @"UIView"}
  需要在子类重写此方法，没有重写则数组属性的值均为nil
  */
-+ (NSDictionary *)arrayPropertyConfig
++ (NSDictionary *)dbx_arrayPropertyConfig
 {
     return nil;
 }
 
 // NSDictionarys -> Models
-+ (NSArray *)modelArrayWithKeyValues:(NSArray *)keyValuesArray
++ (NSArray *)dbx_modelArrayWithKeyValues:(NSArray *)keyValuesArray
 {
     NSMutableArray *tempArr = [NSMutableArray array];
     for (NSDictionary *modelDic in keyValuesArray) {
-        id model = [self modelWithKeyValues:modelDic];
+        id model = [self dbx_modelWithKeyValues:modelDic];
         [tempArr addObject:model];
     }
     return [tempArr copy];
 }
 
 // NSDictionary -> Model
-+ (instancetype)modelWithKeyValues:(NSDictionary *)keyValues
++ (instancetype)dbx_modelWithKeyValues:(NSDictionary *)keyValues
 {
-    return [self modelWithKeyValues:keyValues arraysClassConfig:[self arrayPropertyConfig]];
+    return [self dbx_modelWithKeyValues:keyValues arraysClassConfig:[self dbx_arrayPropertyConfig]];
 }
 
 // 给self填充value，数据来源自NSDictionary
-- (instancetype)setValuesFromKeyValues:(NSDictionary *)keyValues
+- (instancetype)dbx_setValuesFromKeyValues:(NSDictionary *)keyValues
 {
-    return [self setValuesFromKeyValues:keyValues arraysClassConfig:[self.class arrayPropertyConfig]];
+    return [self dbx_setValuesFromKeyValues:keyValues arraysClassConfig:[self.class dbx_arrayPropertyConfig]];
 }
 
-+ (instancetype)modelWithKeyValues:(NSDictionary *)keyValues arraysClassConfig:(NSDictionary *)classConfig
++ (instancetype)dbx_modelWithKeyValues:(NSDictionary *)keyValues arraysClassConfig:(NSDictionary *)classConfig
 {
     id model = [[self alloc] init];
-    [model setValuesFromKeyValues:keyValues arraysClassConfig:classConfig];
+    [model dbx_setValuesFromKeyValues:keyValues arraysClassConfig:classConfig];
     return model;
 }
 
-- (instancetype)setValuesFromKeyValues:(NSDictionary *)keyValues arraysClassConfig:(NSDictionary *)classConfig
+- (instancetype)dbx_setValuesFromKeyValues:(NSDictionary *)keyValues arraysClassConfig:(NSDictionary *)classConfig
 {
     if (![keyValues isKindOfClass:[NSDictionary class]]) {
         NSAssert(NO, @"%s__parmes须是NSDictrionary",__func__);
@@ -87,7 +87,7 @@
             NSMutableArray *valueList = [NSMutableArray array];
             NSArray *array = (NSArray *)value;
             for (int j = 0; j < array.count; j++) {
-                id model = [cls modelWithKeyValues:array[j]];
+                id model = [cls dbx_modelWithKeyValues:array[j]];
                 if (model && [model isKindOfClass:cls]) {
                     [valueList addObject:model];
                 }
