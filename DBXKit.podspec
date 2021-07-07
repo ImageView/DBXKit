@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
   spec.author             = { "调包侠" => "526951107@qq.com" }
 
   spec.platform     = :ios, "9.0"
-  spec.source       = { :git => "https://git.woa.com/asherluo/DBXKit.git", :tag => "spec.version" }
+  spec.source       = { :git => "https://git.woa.com/asherluo/DBXKit.git", :tag => spec.version }
 
   spec.source_files  = "Classes", "DBXKit/Classes/**/*.{h,m}"
   spec.exclude_files = "DBXKit/Classes/Exclude"
