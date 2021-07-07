@@ -1,0 +1,6 @@
+framework module Pods_DBXKit {
+  umbrella header "Pods-DBXKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
