@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DBXKit"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.4"
   spec.summary      = "A short description of DBXKit."
 
   spec.homepage     = "https://github.com/ImageView/"
@@ -13,7 +13,7 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, "9.0"
   spec.source       = { :git => "https://git.woa.com/asherluo/DBXKit.git", :tag => spec.version }
 
-  spec.source_files  = "Classes", "DBXKit/Classes/**/*.{h,m}"
+  spec.source_files  = "Classes", "DBXKit/Classes/**/*"
   spec.exclude_files = "DBXKit/Classes/Exclude"
 
   # spec.public_header_files = "DBXKit/Classes/**/*.h"
