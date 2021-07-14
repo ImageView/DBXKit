@@ -16,7 +16,7 @@
 		2E95C2842691CA0100A2801A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2832691CA0100A2801A /* main.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
-		C8767EE4269E87B6005C0B2C /* MnaTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE2269E87B6005C0B2C /* MnaTextCollectionViewCell.m */; };
+		C8767EE7269E898E005C0B2C /* MnaTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* MnaTextCollectionViewCell.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 /* End PBXBuildFile section */
@@ -39,8 +39,8 @@
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8767EDE269E869B005C0B2C /* MnaLabelsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaLabelsView.m; sourceTree = "<group>"; };
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
-		C8767EE2269E87B6005C0B2C /* MnaTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTextCollectionViewCell.m; sourceTree = "<group>"; };
-		C8767EE3269E87B6005C0B2C /* MnaTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTextCollectionViewCell.h; sourceTree = "<group>"; };
+		C8767EE5269E898E005C0B2C /* MnaTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTextCollectionViewCell.h; sourceTree = "<group>"; };
+		C8767EE6269E898E005C0B2C /* MnaTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTextCollectionViewCell.m; sourceTree = "<group>"; };
 		C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+dbx_modelValue.m"; sourceTree = "<group>"; };
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
@@ -118,8 +118,8 @@
 			children = (
 				C8767EDF269E869B005C0B2C /* MnaLabelsView.h */,
 				C8767EDE269E869B005C0B2C /* MnaLabelsView.m */,
-				C8767EE3269E87B6005C0B2C /* MnaTextCollectionViewCell.h */,
-				C8767EE2269E87B6005C0B2C /* MnaTextCollectionViewCell.m */,
+				C8767EE5269E898E005C0B2C /* MnaTextCollectionViewCell.h */,
+				C8767EE6269E898E005C0B2C /* MnaTextCollectionViewCell.m */,
 			);
 			path = labels;
 			sourceTree = "<group>";
@@ -273,7 +273,7 @@
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
-				C8767EE4269E87B6005C0B2C /* MnaTextCollectionViewCell.m in Sources */,
+				C8767EE7269E898E005C0B2C /* MnaTextCollectionViewCell.m in Sources */,
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
