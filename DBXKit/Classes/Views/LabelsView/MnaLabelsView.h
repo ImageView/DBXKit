@@ -2,7 +2,7 @@
 //  MnaLabelsView.h
 //  MnaGameDetailModule
 //
-//  Created by 罗俊宇 on 2020/11/2.
+//  Created by 调包侠 on 2020/11/2.
 //  Copyright © 2021 Mna. All rights reserved.
 //
 

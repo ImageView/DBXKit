@@ -108,12 +108,12 @@
 		C8767EDD269E868F005C0B2C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C8767EE1269E87A6005C0B2C /* labels */,
+				C8767EE1269E87A6005C0B2C /* LabelsView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		C8767EE1269E87A6005C0B2C /* labels */ = {
+		C8767EE1269E87A6005C0B2C /* LabelsView */ = {
 			isa = PBXGroup;
 			children = (
 				C8767EDF269E869B005C0B2C /* MnaLabelsView.h */,
@@ -121,19 +121,19 @@
 				C8767EE5269E898E005C0B2C /* MnaTextCollectionViewCell.h */,
 				C8767EE6269E898E005C0B2C /* MnaTextCollectionViewCell.m */,
 			);
-			path = labels;
+			path = LabelsView;
 			sourceTree = "<group>";
 		};
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				C8767EDD269E868F005C0B2C /* Views */,
-				C881792B26958BC900656441 /* Catetorys */,
+				C881792B26958BC900656441 /* Extension */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		C881792B26958BC900656441 /* Catetorys */ = {
+		C881792B26958BC900656441 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */,
@@ -141,7 +141,7 @@
 				C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */,
 				C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */,
 			);
-			path = Catetorys;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		D9777371862E77321C63E740 /* Frameworks */ = {

@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DBXKit"
-  spec.version      = "0.0.4"
+  spec.version      = "0.0.5"
   spec.summary      = "A short description of DBXKit."
 
   spec.homepage     = "https://github.com/ImageView/"
@@ -13,19 +13,13 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, "9.0"
   spec.source       = { :git => "https://git.woa.com/asherluo/DBXKit.git", :tag => spec.version }
 
-  spec.source_files  = "Classes", "DBXKit/Classes/**/*"
-  spec.exclude_files = "DBXKit/Classes/Exclude"
+  #spec.source_files  = "Classes", "DBXKit/Classes/**/*"
+  #spec.exclude_files = "DBXKit/Classes/Exclude"
 
-  # spec.public_header_files = "DBXKit/Classes/**/*.h"
-
-  # spec.resource  = "icon.png"
-  # spec.resources = "DBXKit/Resources/*.png"
-
-  # spec.preserve_paths = "FilesToSave", "MoreFilesToSave"
-
-  # spec.requires_arc = true
-
-  # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # spec.dependency "JSONKit", "~> 1.4"
-
+  spec.subspec 'LabelsView' do |labels|
+       labels.source_files = 'DBXKit/Classes/Views/LabelsView/**/*'
+  end
+  spec.subspec 'Extension' do |ext|
+         ext.source_files = 'DBXKit/Classes/Extension/**/*'
+  end
 end
