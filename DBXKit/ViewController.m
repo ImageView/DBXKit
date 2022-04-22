@@ -8,7 +8,12 @@
 #import "ViewController.h"
 #import "NSDictionary+dbx_valuePath.h"
 #import "NSObject+dbx_modelValue.h"
+#import "MnaLabelsView.h"
+#import <QMUIKit/QMUIKit.h>
+
 @interface ViewController ()
+
+@property (nonatomic, strong) MnaLabelsView *labelsView;
 
 @end
 
@@ -17,7 +22,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.view addSubview:self.labelsView];
+    self.labelsView.frame = CGRectMake(20, 50, 200, 40);
+    self.labelsView.labelsArray = @[@"texticon",@"texticon1"];
+    self.labelsView.imageSetter = ^(UIImageView * _Nonnull imageView, NSString * _Nonnull imgContent) {
+        imageView.image = [UIImage imageNamed:imgContent];
+    };
 }
 
+#pragma mark - MnaLabelsViewUIDelegate
+- (void)labelsView:(MnaLabelsView *)labelsView itemCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index {
+    cell.backgroundColor = [UIColor qmui_colorWithHexString:@"#11444F"];
+//    [cell setValue:RGBHex(0x52B4BB) forKeyPath:@"textColor"];
 
+    cell.layer.masksToBounds = YES;
+    cell.layer.cornerRadius = 20;
+}
+
+- (MnaLabelsView *)labelsView {
+    if (!_labelsView) {
+        _labelsView = [[MnaLabelsView alloc] initWithStyle:MnaLabelsStyleImage];
+        _labelsView.itemTextColor = [UIColor qmui_colorWithHexString:@"#00B6BD"];//RGBHex(0x00B6BD);
+//        _labelsView.textFont = [UIFont systemFontOfSize:11];
+//        _labelsView.delegate = self;
+//        _labelsView.UIDelegate = self;
+        _labelsView.userInteractionEnabled = YES;
+        _labelsView.itemSize = CGSizeMake(20, 40);
+    }
+    return _labelsView;
+}
 @end

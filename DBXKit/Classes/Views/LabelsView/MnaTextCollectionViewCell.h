@@ -1,5 +1,5 @@
 //
-//  MnaTextCollectionViewCell.h
+//  DBXTextCollectionViewCell.h
 //  MnamatrixVideo
 //
 //  Created by 调包侠 on 2020/9/2.
@@ -10,19 +10,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-typedef NS_ENUM(NSInteger, MnaTextCollectionViewCellBorderType) {
-    MnaTextCollectionViewCellBorderTypeNone,
-    MnaTextCollectionViewCellBorderTypeCorner
-};
-
 // 纯文本的cell
-@interface MnaTextCollectionViewCell : UICollectionViewCell
+@interface DBXTextCollectionViewCell : UICollectionViewCell
 
 // cell文本组件
 @property (nonatomic, strong) UILabel *titleLabel;
 // 文本颜色
 @property(nonatomic, strong) UIColor *textColor;
+
+@end
+
+// 纯图片的cell
+@interface DBXImageCollectionViewCell : UICollectionViewCell
+
+// cell图片组件
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 

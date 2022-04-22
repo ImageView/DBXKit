@@ -1,5 +1,5 @@
 //
-//  MnaTextCollectionViewCell.m
+//  DBXTextCollectionViewCell.m
 //  MnamatrixVideo
 //
 //  Created by 调包侠 on 2020/9/2.
@@ -9,7 +9,7 @@
 #import "MnaTextCollectionViewCell.h"
 
 // 纯文本的cell
-@implementation MnaTextCollectionViewCell
+@implementation DBXTextCollectionViewCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -47,6 +47,40 @@
         _titleLabel.backgroundColor = [UIColor clearColor];
     }
     return _titleLabel;
+}
+
+@end
+
+
+// 纯图片的cell
+@implementation DBXImageCollectionViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initialSubViews];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _imageView.frame = self.bounds;
+}
+
+- (void)initialSubViews {
+    [self addSubview:self.imageView];
+}
+
+#pragma mark - Setter
+
+#pragma mark - Getter
+
+- (UIImageView *)imageView {
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] init];
+    }
+    return _imageView;
 }
 
 @end

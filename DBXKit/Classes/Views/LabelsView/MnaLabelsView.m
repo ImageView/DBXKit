@@ -10,11 +10,12 @@
 //#import <Masonry/Masonry.h>
 #import "MnaTextCollectionViewCell.h"
 
-static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
+static NSString *gLabelsTextCellIdentifi = @"kDBXTextCollectionViewCellCellKey";
+static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey";
 
 @interface MnaLabelsView ()
 
-
+@property(nonatomic, assign) MnaLabelsStyle style;
 // Data
 @property (nonatomic, strong) NSMutableDictionary *itemWidthCache; //宽度缓存
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -23,17 +24,22 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
 
 // 多标签类
 @implementation MnaLabelsView
+
 - (instancetype)init {
+    return [self initWithStyle:MnaLabelsStyleText];
+}
+
+- (instancetype)initWithStyle:(MnaLabelsStyle)style {
     self = [super init];
     if (self) {
+        _style = style;
         self.userInteractionEnabled = NO;
-        _itemWidthCache = [NSMutableDictionary dictionary];
+        if (style == MnaLabelsStyleText) {
+            _itemWidthCache = [NSMutableDictionary dictionary];
+        }
         _dataSource = [NSMutableArray array];
         _scrollDirection = UICollectionViewScrollDirectionHorizontal;
         [self addSubview:self.collectionView];
-//        [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.equalTo(self);
-//        }];
         _xSpace = 7;
         _ySpace = 5;
     }
@@ -76,7 +82,6 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
 - (void)setLabelsArray:(NSArray *)labelsArray {
     _labelsArray = labelsArray;
     self.dataSource = [NSMutableArray arrayWithArray:labelsArray];
-//    [self reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -90,18 +95,16 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.style == MnaLabelsStyleImage) {
+//        NSAssert(YES, @"请设置itemSize");
+        return self.itemSize;
+    }
     NSString *text = _dataSource[indexPath.row];
     CGFloat itemWidth = self.itemSize.width > 0 ? self.itemSize.width : [self storeItemWidthForText:text];
     CGFloat itemHeight = self.itemSize.height > 0
     ? self.itemSize.height
     : MIN(self.textFont.pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
     return CGSizeMake(itemWidth, itemHeight);
-//    BOOL itemSizeValid = self.itemSize.width > 0 && self.itemSize.height > 0;
-//    if (itemSizeValid) {
-//        return self.itemSize;
-//    } else {
-//        return CGSizeMake([self storeItemWidthForText:text], MIN(self.textFont.pointSize + self.ySpace * 2, CGRectGetHeight(self.frame)));
-//    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -109,15 +112,30 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MnaTextCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsCellIdentifi forIndexPath:indexPath];
-    cell.textColor = _itemTextColor ?: [UIColor whiteColor];
-    cell.titleLabel.font = self.textFont;
-    cell.titleLabel.text = _dataSource[indexPath.row];
-    if ([_UIDelegate respondsToSelector:@selector(labelsView:itemCell:atIndex:)]) {
-        [_UIDelegate labelsView:self itemCell:cell atIndex:indexPath.row];
+    if (self.style == MnaLabelsStyleImage) {
+        DBXImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsImageCellIdentifi forIndexPath:indexPath];
+        NSString *imgName = _dataSource[indexPath.row];
+        if (self.imageSetter) {
+            self.imageSetter(cell.imageView, imgName);
+        } else {
+            cell.imageView.image = [UIImage imageNamed:imgName];
+        }
+        if ([_UIDelegate respondsToSelector:@selector(labelsView:itemCell:atIndex:)]) {
+            [_UIDelegate labelsView:self itemCell:cell atIndex:indexPath.row];
+        }
+        return cell;
+    } else {
+        DBXTextCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsTextCellIdentifi forIndexPath:indexPath];
+        cell.textColor = _itemTextColor ?: [UIColor whiteColor];
+        cell.titleLabel.font = self.textFont;
+        cell.titleLabel.text = _dataSource[indexPath.row];
+        if ([_UIDelegate respondsToSelector:@selector(labelsView:itemCell:atIndex:)]) {
+            [_UIDelegate labelsView:self itemCell:cell atIndex:indexPath.row];
+        }
+        [self storeItemWidthForText:cell.titleLabel.text];
+        return cell;
     }
-    [self storeItemWidthForText:cell.titleLabel.text];
-    return cell;
+    
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -132,7 +150,7 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
 - (void)setScrollDirection:(UICollectionViewScrollDirection)scrollDirection
 {
     _scrollDirection = scrollDirection;
-    UICollectionViewFlowLayout *layout = self.collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     layout.scrollDirection = scrollDirection;
 }
 
@@ -146,7 +164,8 @@ static NSString *gLabelsCellIdentifi = @"324235456fdwwccg";
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        [_collectionView registerClass:[MnaTextCollectionViewCell class] forCellWithReuseIdentifier:gLabelsCellIdentifi];
+        [_collectionView registerClass:[DBXTextCollectionViewCell class] forCellWithReuseIdentifier:gLabelsTextCellIdentifi];
+        [_collectionView registerClass:[DBXImageCollectionViewCell class] forCellWithReuseIdentifier:gLabelsImageCellIdentifi];
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = [UIColor clearColor];
     }
