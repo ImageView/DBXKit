@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 @protocol MnaLabelsViewUIDelegate <NSObject>
 
 - (void)labelsView:(MnaLabelsView *)labelsView itemCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index;
+// 返回item大小
+- (CGSize)labelsView:(MnaLabelsView *)labelsView sizeForItemAtIndex:(NSInteger)index;
 
 @end
 
@@ -59,6 +61,7 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 /// 固定item大小
 /// MnaLabelsStyleText下，不设置则使用计算的，itemsize的width和height分别计算，可以设置单项为0
 /// MnaLabelsStyleImage下必须设置值
+/// 实现代理方法（labelsView:sizeForItemAtIndex:）的话此属性无效
 @property(nonatomic, assign) CGSize itemSize;
 //标签数组
 @property (nonatomic, copy) NSArray *labelsArray;

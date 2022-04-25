@@ -95,6 +95,10 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 如果实现了代理，则直接使用代理
+    if ([self.UIDelegate respondsToSelector:@selector(labelsView:sizeForItemAtIndex:)]) {
+        return [self.UIDelegate labelsView:self sizeForItemAtIndex:indexPath.row];
+    }
     if (self.style == MnaLabelsStyleImage) {
 //        NSAssert(YES, @"请设置itemSize");
         return self.itemSize;
