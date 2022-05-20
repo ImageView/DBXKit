@@ -55,7 +55,9 @@
         }
     };
     NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
-    NSLog(@"a = %@", a);
+    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
+
+    NSLog(@"a = %@, b = %@", a, b);
 }
 
 - (MnaLabelsView *)labelsView {

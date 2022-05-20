@@ -28,10 +28,10 @@
             reslut = [(NSDictionary *)reslut objectForKey:key];
         }
     }
-    if (cls && [reslut isKindOfClass:cls]) {
-        return reslut;
+    if (cls && ![reslut isKindOfClass:cls]) {
+        return nil;
     }
-    return nil;
+    return reslut;
 }
 
 @end
