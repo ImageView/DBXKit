@@ -12,9 +12,11 @@
 // 取字典更深层次的值
 @implementation NSDictionary (dbx_valuePath)
 
+- (id)dbx_valueForKeyPath:(NSString *)keyPath {
+    return [self dbx_valueForKeyPath:keyPath limitedClass:nil];
+}
 
-- (id)dbx_valueForKeyPath:(NSString *)keyPath
-{
+- (id)dbx_valueForKeyPath:(NSString *)keyPath limitedClass:(Class _Nullable)cls {
     if (![keyPath isKindOfClass:[NSString class]]) {
         return nil;
     }
@@ -26,7 +28,10 @@
             reslut = [(NSDictionary *)reslut objectForKey:key];
         }
     }
-    return reslut;
+    if (cls && [reslut isKindOfClass:cls]) {
+        return reslut;
+    }
+    return nil;
 }
 
 @end

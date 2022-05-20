@@ -11,7 +11,7 @@
 #import "MnaLabelsView.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface ViewController ()
+@interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate>
 
 @property (nonatomic, strong) MnaLabelsView *labelsView;
 
@@ -48,12 +48,22 @@
     }
 }
 
+- (void)labelsView:(MnaLabelsView *)labelsView didSelectItemAtIndex:(NSInteger)index {
+    NSDictionary *textDic = @{
+        @"11" : @{
+            @"22" : @"啊哈哈哈",
+        }
+    };
+    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
+    NSLog(@"a = %@", a);
+}
+
 - (MnaLabelsView *)labelsView {
     if (!_labelsView) {
         _labelsView = [[MnaLabelsView alloc] initWithStyle:MnaLabelsStyleImage];
         _labelsView.itemTextColor = [UIColor qmui_colorWithHexString:@"#00B6BD"];//RGBHex(0x00B6BD);
 //        _labelsView.textFont = [UIFont systemFontOfSize:11];
-//        _labelsView.delegate = self;
+        _labelsView.delegate = self;
         _labelsView.UIDelegate = self;
         _labelsView.userInteractionEnabled = YES;
         _labelsView.itemSize = CGSizeMake(32, 14);
