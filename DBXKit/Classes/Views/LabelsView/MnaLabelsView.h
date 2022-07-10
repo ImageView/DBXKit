@@ -10,6 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
+    MnaLabelsStyleText,
+    MnaLabelsStyleImage
+};
+
 @class MnaLabelsView;
 @protocol MnaLabelsViewDelegate <NSObject>
 
@@ -20,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MnaLabelsViewUIDelegate <NSObject>
 
 - (void)labelsView:(MnaLabelsView *)labelsView itemCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index;
+// 返回item大小
+- (CGSize)labelsView:(MnaLabelsView *)labelsView sizeForItemAtIndex:(NSInteger)index;
 
 @end
 
@@ -34,21 +41,32 @@ NS_ASSUME_NONNULL_BEGIN
 // UI
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-// 文字字体
-@property (nonatomic, strong) UIFont *textFont;
-// 文字颜色
-@property (nonatomic, strong) UIColor *itemTextColor;
-
 // default is UICollectionViewScrollDirectionVertical
 @property (nonatomic) UICollectionViewScrollDirection scrollDirection;
 //文字到边框的x轴的间距
 @property(nonatomic, assign) NSInteger xSpace;
 //文字到边框的y轴的间距
 @property(nonatomic, assign) NSInteger ySpace;
-//固定item大小，不设置则使用计算的
+
+/// ---for MnaLabelsStyleText
+// 文字字体
+@property (nonatomic, strong) UIFont *textFont;
+// 文字颜色
+@property (nonatomic, strong) UIColor *itemTextColor;
+
+/// ---for MnaLabelsStyleImage
+// 用于给ImageView设置img，主要是设置图片的url
+@property(nonatomic, copy) void (^imageSetter)(UIImageView *imageView, NSString *imgContent);
+
+/// 固定item大小
+/// MnaLabelsStyleText下，不设置则使用计算的，itemsize的width和height分别计算，可以设置单项为0
+/// MnaLabelsStyleImage下必须设置值
+/// 实现代理方法（labelsView:sizeForItemAtIndex:）的话此属性无效
 @property(nonatomic, assign) CGSize itemSize;
 //标签数组
 @property (nonatomic, copy) NSArray *labelsArray;
+
+- (instancetype)initWithStyle:(MnaLabelsStyle)style;
 
 - (void)reloadData;
 

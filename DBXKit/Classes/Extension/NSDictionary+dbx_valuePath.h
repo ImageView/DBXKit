@@ -14,7 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 // 取字典更深层次的值
 @interface NSDictionary (dbx_valuePath)
 
-// keypath以.隔开
+/// 解析多层字典
+/// @param keyPath key路径，以.隔开
+/// @param cls 限定返回Class，传nil表示不限定
+- (id)dbx_valueForKeyPath:(NSString *)keyPath limitedClass:(Class _Nullable)cls;
+
+/// 解析多层字典
+/// @param keyPath key路径，以.隔开
 - (id)dbx_valueForKeyPath:(NSString *)keyPath;
 
 @end
