@@ -6,7 +6,7 @@
 //  Copyright © 2020 Tecent. All rights reserved.
 //
 
-#import "MnaTextCollectionViewCell.h"
+#import "DBXTextCollectionViewCell.h"
 
 // 纯文本的cell
 @implementation DBXTextCollectionViewCell

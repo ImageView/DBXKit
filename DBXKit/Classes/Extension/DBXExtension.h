@@ -1,19 +1,15 @@
 //
-//  DBXKit.h
+//  DBXExtension.h
 //  DBXKit
 //
 //  Created by asherluo on 2022/7/10.
 //  Copyright © 2022 调包侠. All rights reserved.
 //
 
-#ifndef DBXKit_h
-#define DBXKit_h
+#ifndef DBXExtension_h
+#define DBXExtension_h
 
-
-#import "MnaLabelsView.h"
-
-// Extension
 #import "NSDictionary+dbx_valuePath.h"
+#import "NSObject+dbx_modelValue.h"
 
-
-#endif /* DBXKit_h */
+#endif /* DBXExtension_h */
