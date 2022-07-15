@@ -21,6 +21,8 @@
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
+		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
+		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,10 @@
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
 		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
+		C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBXRuntime.h"; sourceTree = "<group>"; };
+		C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBXRuntime.m"; sourceTree = "<group>"; };
+		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAutoReport.h"; sourceTree = "<group>"; };
+		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAutoReport.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,8 @@
 			children = (
 				2EF739A6287AC793007B2A95 /* UIView+DBXInteract.h */,
 				2EF739A7287AC793007B2A95 /* UIView+DBXInteract.m */,
+				C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */,
+				C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -117,6 +125,8 @@
 			children = (
 				2EF739AA287AD405007B2A95 /* DBXAutoReportManager.h */,
 				2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */,
+				C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.h */,
+				C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */,
 			);
 			path = SmartReport;
 			sourceTree = "<group>";
@@ -295,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXInteract.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
@@ -305,6 +316,7 @@
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
+				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

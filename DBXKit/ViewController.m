@@ -10,6 +10,7 @@
 #import "NSObject+dbx_modelValue.h"
 #import "MnaLabelsView.h"
 #import <QMUIKit/QMUIKit.h>
+#import "DBXAutoReportManager.h"
 
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate>
 
@@ -29,6 +30,20 @@
     self.labelsView.imageSetter = ^(UIImageView * _Nonnull imageView, NSString * _Nonnull imgContent) {
         imageView.image = [UIImage imageNamed:imgContent];
     };
+    
+    [[DBXAutoReportManager sharedInstance] enableAutoReport];
+    
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.backgroundColor = [UIColor redColor];
+    [button addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(50, 100, 50, 50);
+    [self.view addSubview:button];
+}
+
+- (void)clickedButton:(UIButton *)sender
+{
+    
 }
 
 #pragma mark - MnaLabelsViewUIDelegate

@@ -7,6 +7,9 @@
 //
 
 #import "DBXAutoReportManager.h"
+#import "NSObject+DBXRuntime.h"
+#import <UIKit/UIKit.h>
+#import "UIApplication+DBXAutoReport.h"
 
 @implementation DBXAutoReportManager
 
@@ -24,7 +27,12 @@
 }
 
 - (void)enableAutoReport {
-    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [UIApplication dbx_swizzleMethod:@selector(sendAction:to:from:forEvent:)
+                               newMethod:@selector(dbx_sendAction:to:from:forEvent:)
+                                  error:nil];
+    });
 }
 
 @end
