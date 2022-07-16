@@ -6,14 +6,14 @@
 //  Copyright © 2022 调包侠. All rights reserved.
 //
 
-#import "UIApplication+DBXAutoReport.h"
+#import "UIApplication+DBXAR.h"
 #import "DBXAutoReportManager.h"
 
-@implementation UIApplication (DBXAutoReport)
+@implementation UIApplication (DBXAR)
 
 - (BOOL)dbx_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
     BOOL ret = [self dbx_sendAction:action to:target from:sender forEvent:event];
-    NSLog(@"%s点击了%@",__func__,sender);
+    [[DBXAutoReportManager sharedInstance] report:sender];
     return ret;
 }
 

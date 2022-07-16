@@ -7,15 +7,29 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+@protocol DBXAutoReportImpl <NSObject>
+
+- (void)clickedView:(UIView *_Nonnull)view reportParams:(NSDictionary *_Nonnull)params;
+
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 
 // 自动上报管理类
 @interface DBXAutoReportManager : NSObject
 
+@property(nonatomic, weak) id <DBXAutoReportImpl> impl;
+
 + (instancetype)sharedInstance;
 
 - (void)enableAutoReport;
+
+// 设置需要上报的id以及对应的参数
+- (void)setReportConfig:(NSDictionary *)configDic;
+
+- (void)report:(UIView *)sender;
 
 @end
 

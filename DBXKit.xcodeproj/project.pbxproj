@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482C42882597500C69D08 /* DBXARUtils.m */; };
+		2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482C7288259D200C69D08 /* UIView+DBXAR.m */; };
+		2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */; };
 		2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2722691C9FD00A2801A /* AppDelegate.m */; };
 		2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2752691C9FD00A2801A /* SceneDelegate.m */; };
 		2E95C2792691C9FD00A2801A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2782691C9FD00A2801A /* ViewController.m */; };
@@ -22,11 +25,18 @@
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
-		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */; };
+		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1713F4135C3BA6C761A8A128 /* Pods-DBXKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.release.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.release.xcconfig"; sourceTree = "<group>"; };
+		2E0482C32882597500C69D08 /* DBXARUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXARUtils.h; sourceTree = "<group>"; };
+		2E0482C42882597500C69D08 /* DBXARUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXARUtils.m; sourceTree = "<group>"; };
+		2E0482C6288259D200C69D08 /* UIView+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DBXAR.h"; sourceTree = "<group>"; };
+		2E0482C7288259D200C69D08 /* UIView+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+DBXAR.m"; sourceTree = "<group>"; };
+		2E0482C92882BD2600C69D08 /* DBXAutoReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXAutoReport.h; sourceTree = "<group>"; };
+		2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextAutoReportImpl.h; sourceTree = "<group>"; };
+		2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextAutoReportImpl.m; sourceTree = "<group>"; };
 		2E0E8FF9287B035500E12B42 /* DBXExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXExtension.h; sourceTree = "<group>"; };
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -56,8 +66,8 @@
 		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
 		C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBXRuntime.h"; sourceTree = "<group>"; };
 		C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBXRuntime.m"; sourceTree = "<group>"; };
-		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAutoReport.h"; sourceTree = "<group>"; };
-		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAutoReport.m"; sourceTree = "<group>"; };
+		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAR.h"; sourceTree = "<group>"; };
+		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAR.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +110,8 @@
 				2E95C2752691C9FD00A2801A /* SceneDelegate.m */,
 				2E95C2772691C9FD00A2801A /* ViewController.h */,
 				2E95C2782691C9FD00A2801A /* ViewController.m */,
+				2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */,
+				2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */,
 				2E95C27A2691C9FD00A2801A /* Main.storyboard */,
 				2E95C27D2691CA0100A2801A /* Assets.xcassets */,
 				2E95C27F2691CA0100A2801A /* LaunchScreen.storyboard */,
@@ -120,15 +132,20 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		2EF739A9287AD1EE007B2A95 /* SmartReport */ = {
+		2EF739A9287AD1EE007B2A95 /* AutoReport */ = {
 			isa = PBXGroup;
 			children = (
 				2EF739AA287AD405007B2A95 /* DBXAutoReportManager.h */,
 				2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */,
-				C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.h */,
-				C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m */,
+				C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */,
+				C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */,
+				2E0482C32882597500C69D08 /* DBXARUtils.h */,
+				2E0482C42882597500C69D08 /* DBXARUtils.m */,
+				2E0482C6288259D200C69D08 /* UIView+DBXAR.h */,
+				2E0482C7288259D200C69D08 /* UIView+DBXAR.m */,
+				2E0482C92882BD2600C69D08 /* DBXAutoReport.h */,
 			);
-			path = SmartReport;
+			path = AutoReport;
 			sourceTree = "<group>";
 		};
 		6242A63C8703A64C33D98BFB /* Pods */ = {
@@ -162,7 +179,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2EF739A9287AD1EE007B2A95 /* SmartReport */,
+				2EF739A9287AD1EE007B2A95 /* AutoReport */,
 				2EF739A4287AC21C007B2A95 /* Core */,
 				C8767EDD269E868F005C0B2C /* Views */,
 				C881792B26958BC900656441 /* Extension */,
@@ -305,17 +322,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAutoReport.m in Sources */,
+				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
+				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXInteract.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
+				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
+				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

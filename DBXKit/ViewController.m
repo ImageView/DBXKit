@@ -10,12 +10,19 @@
 #import "NSObject+dbx_modelValue.h"
 #import "MnaLabelsView.h"
 #import <QMUIKit/QMUIKit.h>
-#import "DBXAutoReportManager.h"
+#import "DBXAutoReport.h"
+#import "TextAutoReportImpl.h"
 
-@interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate>
+@interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (nonatomic, strong) MnaLabelsView *labelsView;
+@property (weak, nonatomic) IBOutlet UIButton *button2;
+@property (weak, nonatomic) IBOutlet UIButton *butView;
 
+
+@property(nonatomic, strong) TextAutoReportImpl *impl;
 @end
 
 @implementation ViewController
@@ -32,18 +39,35 @@
     };
     
     [[DBXAutoReportManager sharedInstance] enableAutoReport];
+    [[DBXAutoReportManager sharedInstance] setReportConfig:@{
+        @"ViewController/UIView/UIView[0]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+    }];
+    [DBXAutoReportManager sharedInstance].impl = self.impl;
     
+    self.button1.dbx_reportID = @"2341";
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor redColor];
-    [button addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake(50, 100, 50, 50);
-    [self.view addSubview:button];
+    [self.button1 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.button2 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.butView addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.button2.superview bringSubviewToFront:self.button2];
+    
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
 }
 
 - (void)clickedButton:(UIButton *)sender
 {
     
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"abc" forIndexPath:indexPath];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
+    return cell;
 }
 
 #pragma mark - MnaLabelsViewUIDelegate
@@ -90,5 +114,12 @@
         }
     }
     return _labelsView;
+}
+
+- (TextAutoReportImpl *)impl {
+    if (!_impl) {
+        _impl = [[TextAutoReportImpl alloc] init];
+    }
+    return _impl;
 }
 @end

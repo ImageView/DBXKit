@@ -8,8 +8,15 @@
 
 #import "DBXAutoReportManager.h"
 #import "NSObject+DBXRuntime.h"
-#import <UIKit/UIKit.h>
-#import "UIApplication+DBXAutoReport.h"
+#import "UIApplication+DBXAR.h"
+#import "UIView+DBXAR.h"
+#import "DBXARUtils.h"
+
+@interface DBXAutoReportManager ()
+
+// 存储配置
+@property(nonatomic, copy) NSDictionary *configsStore;
+@end
 
 @implementation DBXAutoReportManager
 
@@ -33,6 +40,26 @@
                                newMethod:@selector(dbx_sendAction:to:from:forEvent:)
                                   error:nil];
     });
+}
+
+- (void)setReportConfig:(NSDictionary *)configDic {
+    self.configsStore = configDic;
+}
+
+- (void)report:(UIView *)sender {
+    NSDictionary *params = [self reportParamsOfView:sender];
+    NSLog(@"你点击了：%@, params:%@", sender.dbx_reportID, params);
+
+    if (!params) {
+        return;
+    }
+    if ([self.impl respondsToSelector:@selector(clickedView:reportParams:)]) {
+        [self.impl clickedView:sender reportParams:params];
+    }
+}
+
+- (NSDictionary *)reportParamsOfView:(UIView *)view {
+    return [self.configsStore objectForKey:view.dbx_reportID];
 }
 
 @end
