@@ -21,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)dbx_nodeOfView:(UIView *)view;
 
 // view在vc里的路径
-+ (NSString *)dbx_indexPathInCurrViewControllerOfView:(UIView *)view ;
++ (NSString *)dbx_indexPathInCurrViewControllerOfView:(UIView *)view;
+
++ (NSString *)dbx_targetActionOfView:(UIView *)view;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (DBXAR)
 
+
 // 上报的id，dbx_customReportID赋值的话使用dbx_customReportID，否者使用view的路径
 @property(nonatomic, copy) NSString *dbx_reportID;
 

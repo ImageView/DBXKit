@@ -20,6 +20,7 @@
 @property (nonatomic, strong) MnaLabelsView *labelsView;
 @property (weak, nonatomic) IBOutlet UIButton *button2;
 @property (weak, nonatomic) IBOutlet UIButton *butView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 
 @property(nonatomic, strong) TextAutoReportImpl *impl;
@@ -40,7 +41,8 @@
     
     [[DBXAutoReportManager sharedInstance] enableAutoReport];
     [[DBXAutoReportManager sharedInstance] setReportConfig:@{
-        @"ViewController/UIView/UIView[0]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+        @"ViewController_clickedButton:" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+//        @"ViewController/UIView/UIView[01]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
     }];
     [DBXAutoReportManager sharedInstance].impl = self.impl;
     
@@ -52,10 +54,24 @@
     [self.button2.superview bringSubviewToFront:self.button2];
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
+    
+    self.imageView.userInteractionEnabled = YES;
+    [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
+}
+- (IBAction)clickedButton2:(id)sender {
 }
 
 - (void)clickedButton:(UIButton *)sender
 {
+    
+}
+
+- (void)clickedButtonInCell:(UIButton *)sender
+{
+    
+}
+
+- (void)clickedImageView:(UITapGestureRecognizer *)tapGes {
     
 }
 
@@ -66,6 +82,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"abc" forIndexPath:indexPath];
     
+    UIButton *button = [cell viewWithTag:101];
+    if (!button) {
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.backgroundColor = [UIColor systemPinkColor];
+        [button addTarget:self action:@selector(clickedButtonInCell:) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = CGRectMake(200, 0, 50, 40);
+        [cell addSubview:button];
+    }
     cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
     return cell;
 }

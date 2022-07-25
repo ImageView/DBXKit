@@ -8,6 +8,9 @@
 
 #import "DBXARUtils.h"
 #import "UIView+DBXAR.h"
+#import "DBXViewUtils.h"
+#import "UIView+DBXCore.h"
+#import <objc/runtime.h>
 
 @implementation DBXARUtils
 
@@ -45,7 +48,7 @@
 
 + (NSString *)dbx_indexPathInCurrViewControllerOfView:(UIView *)view {
     NSMutableArray *pathList = [NSMutableArray array];
-    UIViewController *vc = [self getViewController:view];
+    UIViewController *vc = [DBXViewUtils dbx_getViewController:view];
     
     while ([view isKindOfClass:[UIView class]]) {
         [pathList addObject:[self dbx_nodeOfView:view]];
@@ -82,15 +85,40 @@
     return nil;
 }
 
-// 获取view所在的viewController
-+ (UIViewController *)getViewController:(UIView *)view {
-    UIResponder *responder = view;
-    while ((responder = responder.nextResponder)) {
-        if ([responder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController *)responder;
++ (NSString *)dbx_targetActionOfView:(UIView *)view {
+    if ([view isKindOfClass:[UIControl class]]) {
+        UIControl *control = (UIControl *)view;
+        
+        if (!control.allTargets.count) {
+            return nil;
         }
+        // 优先找当前VC，没找到则任选一个
+        id findTarget = nil;
+        for (id target in control.allTargets) {
+            if (target == control.dbx_vc) {
+                findTarget = target;
+                break;
+            }
+        }
+        if (!findTarget) {
+            findTarget = control.allTargets.anyObject;
+        }
+        NSArray *actions = [control actionsForTarget:findTarget forControlEvent:UIControlEventTouchUpInside];
+        
+        NSString *findAction = nil;
+        for (NSString *action in actions) {
+            if ([findTarget respondsToSelector:NSSelectorFromString(action)]) {
+                findAction = action;
+                break;
+            }
+        }
+        NSString *targetClassName = NSStringFromClass([findTarget class]);
+        NSLog(@"targetClassName:%@ action:%@",targetClassName,findAction);
+        return [NSString stringWithFormat:@"%@_%@", targetClassName, findAction];
     }
-    return nil;
+    return @"34";
 }
+
+//#pragma mark - Private
 
 @end

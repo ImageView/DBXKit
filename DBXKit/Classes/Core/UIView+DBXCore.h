@@ -1,5 +1,5 @@
 //
-//  UIView+DBXInteract.h
+//  UIView+DBXCore.h
 //  DBXKit
 //
 //  Created by asherluo on 2022/7/10.
@@ -10,8 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (DBXInteract)
+@interface UIView (DBXCore)
 
+// 所在的VC，使用频率较高，加个属性是为了缓存下来
+@property(nonatomic, strong) UIViewController *dbx_vc;
 // 允许连续点击的最低间隔，默认0
 @property(nonatomic, assign) NSTimeInterval dbx_minTimeIntervalAfterLastClick;
 // 上次点击的时间

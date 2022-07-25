@@ -13,23 +13,33 @@
 
 @implementation UIView (DBXAR)
 
-//static char kAssociatedObjectKey_dbx_customIdentifier;
-//- (void)setDbx_customIdentifier:(NSString *)dbx_customIdentifier {
-//    objc_setAssociatedObject(self, &kAssociatedObjectKey_dbx_customIdentifier, dbx_customIdentifier, OBJC_ASSOCIATION_COPY);
+//static char kAssociatedObjectKey_dbx_vc;
+//- (void)setDbx_vc:(UIViewController *)dbx_vc {
+//    objc_setAssociatedObject(self, &kAssociatedObjectKey_dbx_vc, dbx_vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 //}
 //
-//- (NSString *)dbx_customIdentifier {
-//    return objc_getAssociatedObject(self, &kAssociatedObjectKey_dbx_customIdentifier);
+//- (UIViewController *)dbx_vc {
+//    UIViewController *vc = objc_getAssociatedObject(self, &kAssociatedObjectKey_dbx_vc);
+//    if (!vc) {
+//        vc = [DBXARUtils dbx_getViewController:self];
+//        self.dbx_vc = vc;
+//    }
+//    return vc;
 //}
 
 static char kAssociatedObjectKey_dbx_reportID;
 - (void)setDbx_reportID:(NSString *)dbx_reportID {
-    objc_setAssociatedObject(self, &kAssociatedObjectKey_dbx_reportID, dbx_reportID, OBJC_ASSOCIATION_COPY);
+    objc_setAssociatedObject(self, &kAssociatedObjectKey_dbx_reportID, dbx_reportID, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (NSString *)dbx_reportID {
     NSString *reportID = objc_getAssociatedObject(self, &kAssociatedObjectKey_dbx_reportID);
-    return reportID ? : [DBXARUtils dbx_indexPathInCurrViewControllerOfView:self];
+    if (!reportID) {
+        reportID = [DBXARUtils dbx_targetActionOfView:self];
+        self.dbx_reportID = reportID;
+        //    defaultID = [DBXARUtils dbx_indexPathInCurrViewControllerOfView:self]
+    }
+    return reportID;
 }
 
 @end

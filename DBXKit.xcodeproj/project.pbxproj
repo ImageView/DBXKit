@@ -10,6 +10,7 @@
 		2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482C42882597500C69D08 /* DBXARUtils.m */; };
 		2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482C7288259D200C69D08 /* UIView+DBXAR.m */; };
 		2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */; };
+		2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */; };
 		2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2722691C9FD00A2801A /* AppDelegate.m */; };
 		2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2752691C9FD00A2801A /* SceneDelegate.m */; };
 		2E95C2792691C9FD00A2801A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2782691C9FD00A2801A /* ViewController.m */; };
@@ -17,7 +18,7 @@
 		2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27D2691CA0100A2801A /* Assets.xcassets */; };
 		2E95C2812691CA0100A2801A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27F2691CA0100A2801A /* LaunchScreen.storyboard */; };
 		2E95C2842691CA0100A2801A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2832691CA0100A2801A /* main.m */; };
-		2EF739A8287AC793007B2A95 /* UIView+DBXInteract.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739A7287AC793007B2A95 /* UIView+DBXInteract.m */; };
+		2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */; };
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
@@ -37,6 +38,8 @@
 		2E0482C92882BD2600C69D08 /* DBXAutoReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXAutoReport.h; sourceTree = "<group>"; };
 		2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextAutoReportImpl.h; sourceTree = "<group>"; };
 		2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextAutoReportImpl.m; sourceTree = "<group>"; };
+		2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXViewUtils.h; sourceTree = "<group>"; };
+		2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXViewUtils.m; sourceTree = "<group>"; };
 		2E0E8FF9287B035500E12B42 /* DBXExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXExtension.h; sourceTree = "<group>"; };
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -50,8 +53,8 @@
 		2E95C2802691CA0100A2801A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E95C2822691CA0100A2801A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E95C2832691CA0100A2801A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2EF739A6287AC793007B2A95 /* UIView+DBXInteract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DBXInteract.h"; sourceTree = "<group>"; };
-		2EF739A7287AC793007B2A95 /* UIView+DBXInteract.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+DBXInteract.m"; sourceTree = "<group>"; };
+		2EF739A6287AC793007B2A95 /* UIView+DBXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DBXCore.h"; sourceTree = "<group>"; };
+		2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+DBXCore.m"; sourceTree = "<group>"; };
 		2EF739AA287AD405007B2A95 /* DBXAutoReportManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXAutoReportManager.h; sourceTree = "<group>"; };
 		2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXAutoReportManager.m; sourceTree = "<group>"; };
 		862E7400B3374E118EDD226F /* Pods-DBXKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.debug.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,10 +127,12 @@
 		2EF739A4287AC21C007B2A95 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2EF739A6287AC793007B2A95 /* UIView+DBXInteract.h */,
-				2EF739A7287AC793007B2A95 /* UIView+DBXInteract.m */,
+				2EF739A6287AC793007B2A95 /* UIView+DBXCore.h */,
+				2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */,
 				C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */,
 				C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */,
+				2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */,
+				2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -325,7 +330,8 @@
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
-				2EF739A8287AC793007B2A95 /* UIView+DBXInteract.m in Sources */,
+				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
+				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
