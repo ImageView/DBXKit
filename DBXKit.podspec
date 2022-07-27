@@ -16,10 +16,10 @@ Pod::Spec.new do |spec|
   #spec.source_files  = "Classes", "DBXKit/Classes/**/*"
   #spec.exclude_files = "DBXKit/Classes/Exclude"
 
-  spec.default_subspecs = 'Core','Extension'
+  #spec.default_subspecs = 'Core','Extension'
 
   spec.subspec 'Core' do |ss|
-       ss.source_files = 'DBXKit/Classes/Views/Core/**/*'
+       ss.source_files = 'DBXKit/Classes/Core/**/*'
   end
   
   spec.subspec 'LabelsView' do |ss|
@@ -32,9 +32,9 @@ Pod::Spec.new do |spec|
        #ss.dependency 'DBXKit/Core'
   end
   
-  spec.subspec 'SmartReport' do |ss|
-        ss.source_files = 'DBXKit/Classes/SmartReport/**/*'
-        ss.dependency 'DBXKit/SmartReport'
+  spec.subspec 'AutoReport' do |ss|
+        ss.source_files = 'DBXKit/Classes/AutoReport/**/*'
+        ss.dependency 'DBXKit/Core'
   end
   
 end
