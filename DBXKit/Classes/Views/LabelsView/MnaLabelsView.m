@@ -105,6 +105,10 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
     }
     NSString *text = _dataSource[indexPath.row];
     CGFloat itemWidth = self.itemSize.width > 0 ? self.itemSize.width : [self storeItemWidthForText:text];
+    if (self.accessoryPadding) {
+        UIImage *accessImg = self.accessoryPadding(indexPath.row);
+        itemWidth += accessImg.size.width;
+    }
     CGFloat itemHeight = self.itemSize.height > 0
     ? self.itemSize.height
     : MIN(self.textFont.pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
@@ -133,6 +137,9 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         cell.textColor = _itemTextColor ?: [UIColor whiteColor];
         cell.titleLabel.font = self.textFont;
         cell.titleLabel.text = _dataSource[indexPath.row];
+        if (self.accessoryPadding) {
+            cell.accessoryView.image = self.accessoryPadding(indexPath.row);
+        }
         if ([_UIDelegate respondsToSelector:@selector(labelsView:itemCell:atIndex:)]) {
             [_UIDelegate labelsView:self itemCell:cell atIndex:indexPath.row];
         }

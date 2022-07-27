@@ -53,6 +53,8 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 @property (nonatomic, strong) UIFont *textFont;
 // 文字颜色
 @property (nonatomic, strong) UIColor *itemTextColor;
+// 文本内容的附件头,返回附件头的size
+@property (nonatomic, copy) UIImage * (^accessoryPadding)(NSInteger index);
 
 /// ---for MnaLabelsStyleImage
 // 用于给ImageView设置img，主要是设置图片的url

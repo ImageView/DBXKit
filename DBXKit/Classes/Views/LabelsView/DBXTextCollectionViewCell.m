@@ -21,11 +21,14 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _titleLabel.frame = self.bounds;
+    if (_accessoryView) {
+        _accessoryView.frame = CGRectMake(5, 0, _accessoryView.image.size.width, CGRectGetHeight(self.contentView.frame));
+    }
+    _titleLabel.frame = CGRectMake(CGRectGetMaxX(_accessoryView.frame), 0, CGRectGetWidth(self.contentView.frame) - CGRectGetMaxX(_accessoryView.frame), CGRectGetHeight(self.contentView.frame));
 }
 
 - (void)initialSubViews {
-    [self addSubview:self.titleLabel];
+    [self.contentView addSubview:self.titleLabel];
 }
 
 #pragma mark - Setter
@@ -47,6 +50,15 @@
         _titleLabel.backgroundColor = [UIColor clearColor];
     }
     return _titleLabel;
+}
+
+- (UIImageView *)accessoryView {
+    if (!_accessoryView) {
+        _accessoryView = [[UIImageView alloc] init];
+        _accessoryView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.contentView addSubview:_accessoryView];
+    }
+    return _accessoryView;
 }
 
 @end

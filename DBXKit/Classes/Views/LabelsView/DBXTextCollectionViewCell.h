@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 纯文本的cell
 @interface DBXTextCollectionViewCell : UICollectionViewCell
 
+// accessory视图
+@property (nonatomic, strong) UIImageView *accessoryView;
 // cell文本组件
 @property (nonatomic, strong) UILabel *titleLabel;
 // 文本颜色
