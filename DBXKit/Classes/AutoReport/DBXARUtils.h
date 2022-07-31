@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXARUtils : NSObject
 
++ (NSString *)dbx_reportIDOfView:(UIView *)view;
 
 // 获取responder基于同类型在父视图的index
 + (NSInteger)dbx_itemIndexForResponder:(UIResponder *)responder;
@@ -25,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)dbx_targetActionOfView:(UIView *)view;
 
++ (NSString *)reportIDByTarget:(id)target actionString:(NSString *)action;
 @end
 
 NS_ASSUME_NONNULL_END

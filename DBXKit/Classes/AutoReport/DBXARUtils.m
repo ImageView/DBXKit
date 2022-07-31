@@ -14,6 +14,13 @@
 
 @implementation DBXARUtils
 
++ (NSString *)dbx_reportIDOfView:(UIView *)view {
+    if ([view isKindOfClass:[UIControl class]]) {
+        return [self dbx_targetActionOfView:view];
+    }
+    return [self dbx_indexPathInCurrViewControllerOfView:view];
+}
+
 + (NSInteger)dbx_itemIndexForResponder:(UIResponder *)responder {
     NSString *classString = NSStringFromClass(responder.class);
 
@@ -112,11 +119,16 @@
                 break;
             }
         }
-        NSString *targetClassName = NSStringFromClass([findTarget class]);
-        NSLog(@"targetClassName:%@ action:%@",targetClassName,findAction);
-        return [NSString stringWithFormat:@"%@_%@", targetClassName, findAction];
+        return [self reportIDByTarget:findTarget actionString:findAction];
     }
-    return @"34";
+    return nil;
+}
+
++ (NSString *)reportIDByTarget:(id)target actionString:(NSString *)action {
+    NSString *targetClassName = NSStringFromClass([target class]);
+    
+    NSLog(@"targetClassName:%@ action:%@",targetClassName,action);
+    return [NSString stringWithFormat:@"%@_%@", targetClassName, action];
 }
 
 //#pragma mark - Private

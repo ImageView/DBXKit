@@ -14,6 +14,6 @@
 #import "DBXARUtils.h"
 #import "UIApplication+DBXAR.h"
 #import "DBXAutoReportManager.h"
-
+#import "UIGestureRecognizer+DBXAR.h"
 
 #endif /* DBXAutoReport_h */

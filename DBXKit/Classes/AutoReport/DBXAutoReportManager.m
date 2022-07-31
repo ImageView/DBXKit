@@ -39,6 +39,16 @@
         [UIApplication dbx_swizzleMethod:@selector(sendAction:to:from:forEvent:)
                                newMethod:@selector(dbx_sendAction:to:from:forEvent:)
                                   error:nil];
+        
+        [UIGestureRecognizer dbx_swizzleMethod:@selector(initWithTarget:action:)
+                                     newMethod:@selector(dbx_initWithTarget:action:)
+                                        error:nil];
+        [UIGestureRecognizer dbx_swizzleMethod:@selector(addTarget:action:)
+                                     newMethod:@selector(dbx_addTarget:action:)
+                                        error:nil];
+        [UIGestureRecognizer dbx_swizzleMethod:@selector(removeTarget:action:)
+                                     newMethod:@selector(dbx_removeTarget:action:)
+                                        error:nil];
     });
 }
 

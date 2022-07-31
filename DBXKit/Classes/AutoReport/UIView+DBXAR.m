@@ -35,9 +35,8 @@ static char kAssociatedObjectKey_dbx_reportID;
 - (NSString *)dbx_reportID {
     NSString *reportID = objc_getAssociatedObject(self, &kAssociatedObjectKey_dbx_reportID);
     if (!reportID) {
-        reportID = [DBXARUtils dbx_targetActionOfView:self];
+        reportID = [DBXARUtils dbx_reportIDOfView:self];
         self.dbx_reportID = reportID;
-        //    defaultID = [DBXARUtils dbx_indexPathInCurrViewControllerOfView:self]
     }
     return reportID;
 }

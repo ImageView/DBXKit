@@ -44,8 +44,10 @@
     
     [[DBXAutoReportManager sharedInstance] enableAutoReport];
     [[DBXAutoReportManager sharedInstance] setReportConfig:@{
-        @"ViewController_clickedButton:" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+        @"ViewController_clickedButton:" : @{@"title" : @"234",@"icon" : @"abc.jpg"},
 //        @"ViewController/UIView/UIView[01]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+        @"ViewController_clickedImageView:" : @{@"title": @"点击了绿色图片"},
+        @"ViewController_clickedButtonInCell:":@{@"111" : @"123"}
     }];
     [DBXAutoReportManager sharedInstance].impl = self.impl;
     
@@ -71,11 +73,11 @@
 
 - (void)clickedButtonInCell:(UIButton *)sender
 {
-    
+    NSLog(@"%s", __func__);
 }
 
 - (void)clickedImageView:(UITapGestureRecognizer *)tapGes {
-    
+    NSLog(@"%s", __func__);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -11,6 +11,8 @@
 		2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482C7288259D200C69D08 /* UIView+DBXAR.m */; };
 		2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */; };
 		2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */; };
+		2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E67BF63289688280024839C /* UIGestureRecognizer+DBXAR.m */; };
+		2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E67BF6628968CD40024839C /* DBXGestureTarget.m */; };
 		2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2722691C9FD00A2801A /* AppDelegate.m */; };
 		2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2752691C9FD00A2801A /* SceneDelegate.m */; };
 		2E95C2792691C9FD00A2801A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2782691C9FD00A2801A /* ViewController.m */; };
@@ -41,6 +43,10 @@
 		2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXViewUtils.h; sourceTree = "<group>"; };
 		2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXViewUtils.m; sourceTree = "<group>"; };
 		2E0E8FF9287B035500E12B42 /* DBXExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXExtension.h; sourceTree = "<group>"; };
+		2E67BF62289688280024839C /* UIGestureRecognizer+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+DBXAR.h"; sourceTree = "<group>"; };
+		2E67BF63289688280024839C /* UIGestureRecognizer+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+DBXAR.m"; sourceTree = "<group>"; };
+		2E67BF6528968CD40024839C /* DBXGestureTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXGestureTarget.h; sourceTree = "<group>"; };
+		2E67BF6628968CD40024839C /* DBXGestureTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGestureTarget.m; sourceTree = "<group>"; };
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2E95C2722691C9FD00A2801A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -148,6 +154,10 @@
 				2E0482C42882597500C69D08 /* DBXARUtils.m */,
 				2E0482C6288259D200C69D08 /* UIView+DBXAR.h */,
 				2E0482C7288259D200C69D08 /* UIView+DBXAR.m */,
+				2E67BF62289688280024839C /* UIGestureRecognizer+DBXAR.h */,
+				2E67BF63289688280024839C /* UIGestureRecognizer+DBXAR.m */,
+				2E67BF6528968CD40024839C /* DBXGestureTarget.h */,
+				2E67BF6628968CD40024839C /* DBXGestureTarget.m */,
 				2E0482C92882BD2600C69D08 /* DBXAutoReport.h */,
 			);
 			path = AutoReport;
@@ -330,6 +340,7 @@
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
+				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
 				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
@@ -337,6 +348,7 @@
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
+				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
