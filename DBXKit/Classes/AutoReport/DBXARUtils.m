@@ -67,7 +67,7 @@
         if ([next isKindOfClass:UIView.class]) {
             NSArray<UIView *> *subViews = [(UIView *)next subviews];
             if ([next isKindOfClass:UISegmentedControl.class]) {
-                // UISegmentedControl 点击之后，subviews 顺序会变化，需要根据坐标排序才能得到准确序号
+                // UISegmentedControl subviews顺序会变化，需要用坐标排序固定顺序
                 NSArray<UIView *> *brothers = [subViews sortedArrayUsingComparator:^NSComparisonResult (UIView *obj1, UIView *obj2) {
                     if (obj1.frame.origin.x > obj2.frame.origin.x) {
                         return NSOrderedDescending;
