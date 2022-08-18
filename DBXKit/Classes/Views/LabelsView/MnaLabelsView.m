@@ -68,7 +68,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
     NSNumber *tempNum = [_itemWidthCache objectForKey:text];
     CGFloat width = tempNum.floatValue;
     if (!tempNum) {
-        width = [text boundingRectWithSize:CGSizeMake(100, 22)
+        width = [text boundingRectWithSize:CGSizeMake(200, 22)
                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                 attributes:@{
                                     NSFontAttributeName : self.textFont

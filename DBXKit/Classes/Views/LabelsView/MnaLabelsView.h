@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 // UI
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-// default is UICollectionViewScrollDirectionVertical
+// default is UICollectionViewScrollDirectionHorizontal
 @property (nonatomic) UICollectionViewScrollDirection scrollDirection;
 //文字到边框的x轴的间距
 @property(nonatomic, assign) NSInteger xSpace;
