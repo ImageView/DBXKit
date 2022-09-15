@@ -3,7 +3,7 @@
 //  DBXKit
 //
 //  Created by asherluo on 2022/7/10.
-//  Copyright © 2022 调包侠. All rights reserved.
+//  Copyright © 2022 DBX. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
