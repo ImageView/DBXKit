@@ -83,6 +83,7 @@
 		C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTaskTimerManager.h; sourceTree = "<group>"; };
 		C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaIMMessageQueueManager.m; sourceTree = "<group>"; };
 		C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaIMMessageQueueManager.h; sourceTree = "<group>"; };
+		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +229,7 @@
 				C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */,
 				C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */,
 				C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */,
+				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
