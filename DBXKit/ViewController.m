@@ -12,6 +12,7 @@
 #import <QMUIKit/QMUIKit.h>
 #import "DBXAutoReport.h"
 #import "TextAutoReportImpl.h"
+#import "MnaTaskTimerManager.h"
 
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -62,7 +63,16 @@
     
     self.imageView.userInteractionEnabled = YES;
     [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
+    
+    [self testTaskManager];
 }
+
+- (void)testTaskManager {
+    [[MnaTaskTimerManager sharedInstance] addCycleTask:^{
+        NSLog(@"testTaskManager");
+    } timeInterval:3 runCount:10 threadMode:MnaThreadModeMain];
+}
+
 - (IBAction)clickedButton2:(id)sender {
 }
 

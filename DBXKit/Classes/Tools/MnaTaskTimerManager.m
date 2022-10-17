@@ -68,9 +68,34 @@
         _cycleThread = [[NSThread alloc] initWithTarget:self selector:@selector(initialTimer) object:nil];
         _cycleThread.name = @"mna-CycleQueue-thread";
         [_cycleThread start];
-
+        
+        [self addNotifications];
     }
     return self;
+}
+
+- (void)addNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    if (self.cycleTimer) {
+        [self.cycleTimer setFireDate:[NSDate distantPast]];
+    }
+}
+    
+- (void)applicationDidEnterBackground:(NSNotification *)nofication {
+    if (self.cycleTimer) {
+        [self.cycleTimer setFireDate:[NSDate distantFuture]];
+    }
 }
 
 #pragma mark - Public
@@ -108,7 +133,7 @@
         // 如果还没有到执行时间,就跳过
         NSDate * currentDate = [NSDate date];
         if (obj.isPause || [obj.nextRunDate compare:currentDate] != NSOrderedAscending) {
-            return ;
+            return;
         }
         
         switch (obj.mode) {
