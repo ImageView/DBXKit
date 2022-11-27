@@ -40,4 +40,7 @@ Pod::Spec.new do |spec|
   spec.subspec 'Tools' do |ss|
        ss.source_files = 'DBXKit/Classes/Tools/**/*'
   end
+  spec.subspec 'Chain' do |ss|
+       ss.source_files = 'DBXKit/Classes/Chain/**/*'
+  end
 end

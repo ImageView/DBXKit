@@ -13,6 +13,7 @@
 #import "DBXAutoReport.h"
 #import "TextAutoReportImpl.h"
 #import "MnaTaskTimerManager.h"
+#import "DBXChainTask.h"
 
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -64,7 +65,7 @@
     self.imageView.userInteractionEnabled = YES;
     [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
     
-    [self testTaskManager];
+//    [self testTaskManager];
 }
 
 - (void)testTaskManager {
@@ -73,7 +74,43 @@
     } timeInterval:3 runCount:10 threadMode:MnaThreadModeMain];
 }
 
+- (void)testChain {
+    
+}
+
+- (void)testChainTask {
+    [[[[self createTaskWithName:@"1111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        DBXChainTask *next = [self createTaskWithName:@"222"];
+        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
+        return next;
+    }] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        DBXChainTask *next = [self createTaskWithName:@"333"];
+        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
+        return next;
+    }] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        DBXChainTask *next = [self createTaskWithName:@"444"];
+        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
+        return next;
+    }];
+}
+
+- (DBXChainTask *)createTaskWithName:(NSString *)name {
+    DBXChainTask *task = [DBXChainTask chainTask];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        sleep(1);
+        bool isSuc = YES;
+        NSLog(@"任务%@结束,详情：%@", name, task);
+        if (isSuc) {
+            [task setResult:@{@"res":@"succ"}];
+        } else {
+            [task setResult:@{@"res":@"failed"}];
+        }
+    });
+    return task;
+}
+
 - (IBAction)clickedButton2:(id)sender {
+    [self testChainTask];
 }
 
 - (void)clickedButton:(UIButton *)sender

@@ -13,6 +13,7 @@
 		2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */; };
 		2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E67BF63289688280024839C /* UIGestureRecognizer+DBXAR.m */; };
 		2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E67BF6628968CD40024839C /* DBXGestureTarget.m */; };
+		2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E70D2C52933165F00ED8B9E /* DBXChainTask.m */; };
 		2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2722691C9FD00A2801A /* AppDelegate.m */; };
 		2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2752691C9FD00A2801A /* SceneDelegate.m */; };
 		2E95C2792691C9FD00A2801A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2782691C9FD00A2801A /* ViewController.m */; };
@@ -49,6 +50,8 @@
 		2E67BF63289688280024839C /* UIGestureRecognizer+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+DBXAR.m"; sourceTree = "<group>"; };
 		2E67BF6528968CD40024839C /* DBXGestureTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXGestureTarget.h; sourceTree = "<group>"; };
 		2E67BF6628968CD40024839C /* DBXGestureTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGestureTarget.m; sourceTree = "<group>"; };
+		2E70D2C42933165F00ED8B9E /* DBXChainTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainTask.h; sourceTree = "<group>"; };
+		2E70D2C52933165F00ED8B9E /* DBXChainTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainTask.m; sourceTree = "<group>"; };
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2E95C2722691C9FD00A2801A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -98,6 +101,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E70D2C32933154500ED8B9E /* Chain */ = {
+			isa = PBXGroup;
+			children = (
+				2E70D2C42933165F00ED8B9E /* DBXChainTask.h */,
+				2E70D2C52933165F00ED8B9E /* DBXChainTask.m */,
+			);
+			path = Chain;
+			sourceTree = "<group>";
+		};
 		2E95C2652691C9FD00A2801A = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +213,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2E70D2C32933154500ED8B9E /* Chain */,
 				2EF739A4287AC21C007B2A95 /* Core */,
 				C8DD74A328D3046F00E08AA1 /* Tools */,
 				2EF739A9287AD1EE007B2A95 /* AutoReport */,
@@ -371,6 +384,7 @@
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
+				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
