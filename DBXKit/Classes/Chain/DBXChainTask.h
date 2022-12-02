@@ -19,6 +19,9 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
 @property(nonatomic, copy) DBXChainThenBlock ThenBlock;
 
+// 用于做些标识，非必要
+@property(nonatomic, copy) NSString *taskName;
+
 // 标记是否任务完成
 @property(nonatomic, assign, readonly, getter=isCompleted) BOOL isCompleted;
 
@@ -29,6 +32,8 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 @property(nonatomic, strong) id result;
 
 + (instancetype)chainTask;
+
++ (instancetype)groupTasksWithArray:(NSArray<DBXChainTask *> *)tasks;
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block;
 

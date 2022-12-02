@@ -30,6 +30,7 @@
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
+		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
 		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,8 @@
 		C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBXRuntime.m"; sourceTree = "<group>"; };
 		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAR.h"; sourceTree = "<group>"; };
 		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAR.m"; sourceTree = "<group>"; };
+		C8DB31CD293A26F500090C61 /* DBXOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXOperate.h; sourceTree = "<group>"; };
+		C8DB31CE293A26F500090C61 /* DBXOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXOperate.m; sourceTree = "<group>"; };
 		C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTaskTimerManager.m; sourceTree = "<group>"; };
 		C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTaskTimerManager.h; sourceTree = "<group>"; };
 		C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaIMMessageQueueManager.m; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 			children = (
 				2E70D2C42933165F00ED8B9E /* DBXChainTask.h */,
 				2E70D2C52933165F00ED8B9E /* DBXChainTask.m */,
+				C8DB31CD293A26F500090C61 /* DBXOperate.h */,
+				C8DB31CE293A26F500090C61 /* DBXOperate.m */,
 			);
 			path = Chain;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
+				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
 			);

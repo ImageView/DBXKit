@@ -8,6 +8,9 @@
 
 #import "DBXChainTask.h"
 
+NSString *const DBXChainTaskErrorDomain = @"GroupTasks error";
+NSInteger const kBFMultipleErrorsError = 20180306;
+
 @interface DBXChainTask ()
 
 // 存储没有立即执行的block
@@ -35,38 +38,46 @@
     return self;
 }
 
-- (void)setError:(NSError *)error {
-    [self.lock lock];
-    if (self.isCompleted) {
-        [self.lock unlock];
-        return;
++ (instancetype)groupTasksWithArray:(NSArray<DBXChainTask *> *)tasks {
+    DBXChainTask *tempTask = [self chainTask];
+    if (!tasks || tasks.count == 0) {
+        [tempTask setResult:nil];
+        return tempTask;
     }
-    _error = error;
-    self.completed = YES;
-    [self finishTask];
-    [self.lock unlock];
-}
-
-- (void)setResult:(id)result {
-    [self.lock lock];
-    if (self.isCompleted) {
-        [self.lock unlock];
-        return;
+    
+    __block NSInteger resultCount = tasks.count;
+    __block int completed = 0;
+    
+    NSLock *lock = [[NSLock alloc] init];
+    NSMutableDictionary *errorDic = [NSMutableDictionary dictionary];
+    for (DBXChainTask *oneTask in tasks) {
+        [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+            [lock lock];
+            if (task.error) {
+                [errorDic setObject:task.error forKey:task];
+            } else {
+                if (completed == 0) {
+                    completed = 1;
+                    [tempTask setResult:task.result];
+                }
+            }
+            
+            resultCount--;
+            
+            if (resultCount == 0) {
+                // 全部出错的话走到这里
+                if (completed == 0) {
+                    completed = 1;
+                    if (errorDic.count > 0) {
+                        [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic.copy]];
+                    }
+                }
+            }
+            [lock unlock];
+            return nil;
+        }];
     }
-    _result = result;
-    self.completed = YES;
-    [self finishTask];
-    [self.lock unlock];
-}
-
-// 执行剩余的所有回调，并清空
-- (void)finishTask {
-    [self.lock lock];
-    for (void (^executBlock)(void) in self.thenExecutBlocks) {
-        executBlock();
-    }
-    [self.thenExecutBlocks removeAllObjects];
-    [self.lock unlock];
+    return tempTask;
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block {
@@ -113,6 +124,40 @@
         executBlock();
     }
     return tempTask;
+}
+
+- (void)setError:(NSError *)error {
+    [self.lock lock];
+    if (self.isCompleted) {
+        [self.lock unlock];
+        return;
+    }
+    _error = error;
+    self.completed = YES;
+    [self finishTask];
+    [self.lock unlock];
+}
+
+- (void)setResult:(id)result {
+    [self.lock lock];
+    if (self.isCompleted) {
+        [self.lock unlock];
+        return;
+    }
+    _result = result;
+    self.completed = YES;
+    [self finishTask];
+    [self.lock unlock];
+}
+
+// 执行剩余的所有回调，并清空
+- (void)finishTask {
+    [self.lock lock];
+    for (void (^executBlock)(void) in self.thenExecutBlocks) {
+        executBlock();
+    }
+    [self.thenExecutBlocks removeAllObjects];
+    [self.lock unlock];
 }
 
 @end

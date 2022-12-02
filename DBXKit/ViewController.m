@@ -94,10 +94,21 @@
     }];
 }
 
+- (void)testGroupChainTask {
+    [[DBXChainTask groupTasksWithArray:@[[self createTaskWithName:@"1111" sleep:2], [self createTaskWithName:@"2222"], [self createTaskWithName:@"3333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        NSLog(@"并行任务完成, task=%@", task);
+        return nil;
+    }];
+}
+
 - (DBXChainTask *)createTaskWithName:(NSString *)name {
+    return [self createTaskWithName:name sleep:1];
+}
+
+- (DBXChainTask *)createTaskWithName:(NSString *)name sleep:(int)s {
     DBXChainTask *task = [DBXChainTask chainTask];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        sleep(1);
+        sleep(s);
         bool isSuc = YES;
         NSLog(@"任务%@结束,详情：%@", name, task);
         if (isSuc) {
@@ -115,7 +126,7 @@
 
 - (void)clickedButton:(UIButton *)sender
 {
-    
+    [self testGroupChainTask];
 }
 
 - (void)clickedButtonInCell:(UIButton *)sender
