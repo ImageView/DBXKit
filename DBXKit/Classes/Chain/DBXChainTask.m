@@ -8,6 +8,7 @@
 
 #import "DBXChainTask.h"
 #import <stdatomic.h>
+#import "DBXOperate.h"
 
 NSString *const DBXChainTaskErrorDomain = @"GroupTasks error";
 NSInteger const kBFMultipleErrorsError = 20180306;
@@ -86,6 +87,10 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block {
+    return [self thenWithBlock:block operate:[DBXOperate new]];
+}
+
+- (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block operate:(DBXOperate *)operate {
     /**
      表面是  task1 >> task2 >> task3 >> ...
      真实是  task1 >> tempTask >> task2 >> tempTask >> task3 >> ...
@@ -94,6 +99,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     DBXChainTask *tempTask = [DBXChainTask chainTask];
     
     void (^executBlock)(void) = ^() {
+        NSLog(@"当前线程：%@", [NSThread currentThread]);
         id result = block(self);
         
         // 如果返回值是Task类型，则链条继续
@@ -121,12 +127,15 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     // 任务未完成时，先将thenBlock包装后丢到数组中存起来，等任务完成后再执行
     complete = self.isCompleted;
     if (!complete) {
-        [self.thenExecutBlocks addObject:executBlock];
+        void (^tempBlock)(void) = ^() {
+            [operate operateBlock:executBlock];
+        };
+        [self.thenExecutBlocks addObject:tempBlock];
     }
     [self.lock unlock];
     
     if (complete) {
-        executBlock();
+        [operate operateBlock:executBlock];
     }
     return tempTask;
 }

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @class DBXChainTask;
+@class DBXOperate;
 
 typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
@@ -37,6 +38,7 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block;
 
+- (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block operate:(DBXOperate *)operate;
 @end
 
 NS_ASSUME_NONNULL_END

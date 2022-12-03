@@ -14,6 +14,7 @@
 #import "TextAutoReportImpl.h"
 #import "MnaTaskTimerManager.h"
 #import "DBXChainTask.h"
+#import "DBXOperate.h"
 
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -79,15 +80,17 @@
 }
 
 - (void)testChainTask {
+    dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
+    
     [[[[self createTaskWithName:@"1111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"222"];
         NSLog(@"%@完成了任务，下一个任务是%@",task, next);
         return next;
-    }] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    } operate:[[DBXCustomThreadOperate alloc] initWithQueue:queue]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"333"];
         NSLog(@"%@完成了任务，下一个任务是%@",task, next);
         return next;
-    }] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    } operate:[DBXMainThreadOperate new]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"444"];
         NSLog(@"%@完成了任务，下一个任务是%@",task, next);
         return next;
