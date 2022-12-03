@@ -95,7 +95,7 @@
 }
 
 - (void)testGroupChainTask {
-    [[DBXChainTask groupTasksWithArray:@[[self createTaskWithName:@"1111" sleep:2], [self createTaskWithName:@"2222"], [self createTaskWithName:@"3333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"1111" sleep:1], [self createTaskWithName:@"2222"], [self createTaskWithName:@"3333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         NSLog(@"并行任务完成, task=%@", task);
         return nil;
     }];

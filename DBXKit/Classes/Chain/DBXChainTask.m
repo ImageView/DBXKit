@@ -38,7 +38,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     return self;
 }
 
-+ (instancetype)groupTasksWithArray:(NSArray<DBXChainTask *> *)tasks {
++ (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks {
     DBXChainTask *tempTask = [self chainTask];
     if (!tasks || tasks.count == 0) {
         [tempTask setResult:nil];
@@ -46,34 +46,31 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     }
     
     __block NSInteger resultCount = tasks.count;
-    __block int completed = 0;
     
     NSLock *lock = [[NSLock alloc] init];
     NSMutableDictionary *errorDic = [NSMutableDictionary dictionary];
     for (DBXChainTask *oneTask in tasks) {
         [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+            NSLog(@"%@任务完成  lock前",task );
             [lock lock];
             if (task.error) {
                 [errorDic setObject:task.error forKey:task];
-            } else {
-                if (completed == 0) {
-                    completed = 1;
-                    [tempTask setResult:task.result];
-                }
             }
             
             resultCount--;
-            
+            NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
+            [lock unlock];
+            NSLog(@"%@任务完成  lock后",task );
+
             if (resultCount == 0) {
-                // 全部出错的话走到这里
-                if (completed == 0) {
-                    completed = 1;
-                    if (errorDic.count > 0) {
-                        [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic.copy]];
-                    }
+                // 任务全部结束后到了这里
+                if (errorDic.count > 0) {
+                    [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic.copy]];
+                } else {
+                    [tempTask setResult:nil];
                 }
             }
-            [lock unlock];
+
             return nil;
         }];
     }

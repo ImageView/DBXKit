@@ -33,7 +33,7 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
 + (instancetype)chainTask;
 
-+ (instancetype)groupTasksWithArray:(NSArray<DBXChainTask *> *)tasks;
++ (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks;
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block;
 
