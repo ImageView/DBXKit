@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
-@interface DBXChainTask: NSObject
+@interface DBXChainTask: NSObject<NSCopying>
 
 @property(nonatomic, copy) DBXChainThenBlock ThenBlock;
 
@@ -29,7 +29,7 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 @property(nonatomic, strong) NSError *error;
 
 // 任务执行后的结果
-@property(nonatomic, strong) id result;
+@property(nonatomic, strong, nullable) id result;
 
 + (instancetype)chainTask;
 

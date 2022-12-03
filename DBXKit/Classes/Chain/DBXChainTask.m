@@ -7,6 +7,7 @@
 //
 
 #import "DBXChainTask.h"
+#import <stdatomic.h>
 
 NSString *const DBXChainTaskErrorDomain = @"GroupTasks error";
 NSInteger const kBFMultipleErrorsError = 20180306;
@@ -24,6 +25,16 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 @end
 
 @implementation DBXChainTask
+
+- (id)copyWithZone:(NSZone *)zone {
+    DBXChainTask *task = [[self class] allocWithZone:zone];
+    task.taskName = self.taskName;
+    task.result = self.result;
+    task.completed = self.completed;
+    task.error = self.error;
+    
+    return task;
+}
 
 + (instancetype)chainTask {
     return [[self alloc] init];
@@ -45,27 +56,24 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         return tempTask;
     }
     
-    __block NSInteger resultCount = tasks.count;
+    __block atomic_int resultCount = (int)tasks.count;
     
     NSLock *lock = [[NSLock alloc] init];
     NSMutableDictionary *errorDic = [NSMutableDictionary dictionary];
     for (DBXChainTask *oneTask in tasks) {
         [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
             NSLog(@"%@任务完成  lock前",task );
-            [lock lock];
             if (task.error) {
+                [lock lock];
                 [errorDic setObject:task.error forKey:task];
+                [lock unlock];
             }
-            
-            resultCount--;
             NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
-            [lock unlock];
-            NSLog(@"%@任务完成  lock后",task );
-
-            if (resultCount == 0) {
+            if (atomic_fetch_sub(&resultCount, 1) == 1) {
+                NSLog(@"最后一个任务完成%@",task);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
-                    [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic.copy]];
+                    [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
                 } else {
                     [tempTask setResult:nil];
                 }
