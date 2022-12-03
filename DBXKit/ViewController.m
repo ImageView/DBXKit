@@ -82,7 +82,7 @@
 - (void)testChainTask {
     dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
     
-    [[[[self createTaskWithName:@"1111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"222"];
         NSLog(@"%@完成了任务，下一个任务是%@",task, next);
         return next;
@@ -98,7 +98,7 @@
 }
 
 - (void)testGroupChainTask {
-    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"1111" sleep:1], [self createTaskWithName:@"2222"], [self createTaskWithName:@"3333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], [self createTaskWithName:@"222"], [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         NSLog(@"并行任务完成, task=%@", task);
         return nil;
     }];
@@ -110,14 +110,18 @@
 
 - (DBXChainTask *)createTaskWithName:(NSString *)name sleep:(int)s {
     DBXChainTask *task = [DBXChainTask chainTask];
+    task.taskName = name;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         sleep(s);
         bool isSuc = YES;
-        NSLog(@"任务%@结束,详情：%@", name, task);
+        if ([task.taskName isEqualToString:@"222"]) {
+            isSuc = NO;
+        }
+        NSLog(@"任务%@结束,详情：%@", name, @(task.hash));
         if (isSuc) {
             [task setResult:@{@"res":@"succ"}];
         } else {
-            [task setResult:@{@"res":@"failed"}];
+            [task setError:[NSError errorWithDomain:[NSString stringWithFormat:@"%@ failed",task.taskName ] code:-1 userInfo:nil]];
         }
     });
     return task;

@@ -63,10 +63,10 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     NSMutableDictionary *errorDic = [NSMutableDictionary dictionary];
     for (DBXChainTask *oneTask in tasks) {
         [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
-            NSLog(@"%@任务完成  lock前",task );
+            NSLog(@"%@,%@任务完成  lock前",task.taskName ,task);
             if (task.error) {
                 [lock lock];
-                [errorDic setObject:task.error forKey:task];
+                [errorDic setObject:task.error forKey:@(task.hash)];
                 [lock unlock];
             }
             NSLog(@"%@任务完成  lock中，count%d",task, resultCount);

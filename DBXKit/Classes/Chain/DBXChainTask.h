@@ -24,7 +24,7 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 @property(nonatomic, copy) NSString *taskName;
 
 // 标记是否任务完成
-@property(nonatomic, assign, readonly, getter=isCompleted) BOOL isCompleted;
+@property(nonatomic, assign, readonly, getter=isCompleted) BOOL completed;
 
 // 任务执行出错的错误信息
 @property(nonatomic, strong) NSError *error;
@@ -32,8 +32,11 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 // 任务执行后的结果
 @property(nonatomic, strong, nullable) id result;
 
+//- (NSUInteger)hash;
+
 + (instancetype)chainTask;
 
+// group执行的任务，取对应task时要用hask值取
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks;
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block;
