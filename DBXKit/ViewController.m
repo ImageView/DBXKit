@@ -98,8 +98,10 @@
 }
 
 - (void)testGroupChainTask {
-    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], [self createTaskWithName:@"222"], [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
-        NSLog(@"并行任务完成, task=%@", task);
+    DBXChainTask *task2 = [self createTaskWithName:@"222"];
+    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        NSError *error = [DBXChainTask errorOfTask:task2 fromGroupError:task.error];
+        NSLog(@"并行任务完成, task=%@,error=%@", task, error);
         return nil;
     }];
 }

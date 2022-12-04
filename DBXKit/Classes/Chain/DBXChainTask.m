@@ -51,6 +51,10 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 }
 
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks {
+    return [self executGroupTasks:tasks operate:[DBXOperate new]];
+}
+
++ (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks operate:(DBXOperate *)operate {
     DBXChainTask *tempTask = [self chainTask];
     if (!tasks || tasks.count == 0) {
         [tempTask setResult:nil];
@@ -81,9 +85,16 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             }
 
             return nil;
-        }];
+        } operate:operate];
     }
     return tempTask;
+}
+
++ (NSError *)errorOfTask:(DBXChainTask *)task fromGroupError:(NSError *)error {
+    if (error.code != kBFMultipleErrorsError) {
+        return nil;
+    }
+    return [error.userInfo objectForKey:@(task.hash)];
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block {
@@ -91,6 +102,10 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block operate:(DBXOperate *)operate {
+    if (!operate) {
+        operate = [DBXOperate new];
+    }
+    
     /**
      表面是  task1 >> task2 >> task3 >> ...
      真实是  task1 >> tempTask >> task2 >> tempTask >> task3 >> ...
