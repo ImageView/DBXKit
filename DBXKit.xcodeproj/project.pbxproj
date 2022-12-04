@@ -53,6 +53,7 @@
 		2E67BF6628968CD40024839C /* DBXGestureTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGestureTarget.m; sourceTree = "<group>"; };
 		2E70D2C42933165F00ED8B9E /* DBXChainTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainTask.h; sourceTree = "<group>"; };
 		2E70D2C52933165F00ED8B9E /* DBXChainTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainTask.m; sourceTree = "<group>"; };
+		2E804AEB293CA7E80012628E /* DBXChain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChain.h; sourceTree = "<group>"; };
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2E95C2722691C9FD00A2801A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 				2E70D2C52933165F00ED8B9E /* DBXChainTask.m */,
 				C8DB31CD293A26F500090C61 /* DBXOperate.h */,
 				C8DB31CE293A26F500090C61 /* DBXOperate.m */,
+				2E804AEB293CA7E80012628E /* DBXChain.h */,
 			);
 			path = Chain;
 			sourceTree = "<group>";
