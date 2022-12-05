@@ -84,15 +84,16 @@
     
     [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"222"];
-        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
+        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
     } operate:[[DBXCustomThreadOperate alloc] initWithQueue:queue]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"333"];
-        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
-        return next;
+        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
+//        return next;
+        return nil;
     } operate:[DBXMainThreadOperate new]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"444"];
-        NSLog(@"%@完成了任务，下一个任务是%@",task, next);
+        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
     }];
 }

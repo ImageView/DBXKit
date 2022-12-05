@@ -114,7 +114,6 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     DBXChainTask *tempTask = [DBXChainTask chainTask];
     
     void (^executBlock)(void) = ^() {
-        NSLog(@"当前线程：%@", [NSThread currentThread]);
         id result = block(self);
         
         // 如果返回值是Task类型，则链条继续
@@ -134,6 +133,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             } else {
                 [nextTask thenWithBlock:tempThenBlock];
             }
+        } else {
+            [tempTask setResult:result];
         }
     };
     
