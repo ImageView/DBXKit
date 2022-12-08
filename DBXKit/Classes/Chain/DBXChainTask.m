@@ -119,6 +119,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         // 如果返回值是Task类型，则链条继续
         if ([result isKindOfClass:[DBXChainTask class]]) {
             DBXChainThenBlock tempThenBlock = ^id (DBXChainTask *task) {
+                tempTask.taskName = task.taskName;
                 if (task.error) {
                     tempTask.error = task.error;
                 } else {

@@ -92,7 +92,7 @@
 //        return next;
         return nil;
     } operate:[DBXMainThreadOperate new]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
-        DBXChainTask *next = [self createTaskWithName:@"444"];
+        DBXChainTask *next = [self createTaskWithName:@"444" sleep:0];
         NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
     }];
