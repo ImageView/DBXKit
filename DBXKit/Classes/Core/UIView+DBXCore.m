@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import "DBXViewUtils.h"
 
+// view相关功能
 @implementation UIView (DBXCore)
 
 static char kAssociatedObjectKey_dbx_vc;

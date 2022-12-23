@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+// 上报的代理
 @protocol DBXAutoReportImpl <NSObject>
 
 - (void)clickedView:(UIView *_Nonnull)view reportParams:(NSDictionary *_Nonnull)params;
@@ -20,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 自动上报管理类
 @interface DBXAutoReportManager : NSObject
 
+// 上报的实现代理
 @property(nonatomic, weak) id <DBXAutoReportImpl> impl;
 
 + (instancetype)sharedInstance;

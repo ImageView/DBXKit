@@ -18,6 +18,7 @@
 @property(nonatomic, copy) NSDictionary *configsStore;
 @end
 
+// 自动上报管理类
 @implementation DBXAutoReportManager
 
 + (instancetype)sharedInstance {

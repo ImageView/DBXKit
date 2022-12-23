@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 手势model
 @interface DBXGestureTarget : NSObject
 
 // 上报id，用于点击时传递给view层

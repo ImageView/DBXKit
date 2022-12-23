@@ -10,7 +10,7 @@
 #import "DBXARUtils.h"
 #import <objc/runtime.h>
 
-
+// 给UIView扩展一个id
 @implementation UIView (DBXAR)
 
 //static char kAssociatedObjectKey_dbx_vc;

@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 手势的扩展
 @interface UIGestureRecognizer (DBXAR)
 // 额外的点击事件
 @property (nonatomic, strong) DBXGestureTarget *dbx_gestureTarget;

@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 给UIView扩展一个id
 @interface UIView (DBXAR)
 
 

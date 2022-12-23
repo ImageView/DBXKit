@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 方法交换
 @interface NSObject (DBXRuntime)
 
 + (BOOL)dbx_swizzleMethod:(SEL)_originSelector newMethod:(SEL)_newSelector error:(NSError **)error;

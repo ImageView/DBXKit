@@ -9,7 +9,7 @@
 #import "DBXGestureTarget.h"
 #import "DBXAutoReportManager.h"
 #import "UIView+DBXAR.h"
-
+// 手势model
 @implementation DBXGestureTarget
 
 + (instancetype)gesTureTargetWithGesture:(UIGestureRecognizer *)gesture

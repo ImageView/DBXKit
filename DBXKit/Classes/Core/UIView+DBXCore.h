@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// view相关功能
 @interface UIView (DBXCore)
 
 // 所在的VC，使用频率较高，加个属性是为了缓存下来

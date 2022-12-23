@@ -10,8 +10,7 @@
 #import <objc/runtime.h>
 #import "DBXARUtils.h"
 
-
-
+// 手势的扩展
 @implementation UIGestureRecognizer (DBXAR)
 
 - (instancetype)dbx_initWithTarget:(id)target action:(SEL)action {
@@ -22,7 +21,6 @@
 }
 
 - (void)dbx_addTarget:(id)target action:(SEL)action {
-//    NSLog(@"UIGestureRecognizer addTarget");
     if (!self.dbx_gestureTarget) {
         self.dbx_gestureTarget = [DBXGestureTarget gesTureTargetWithGesture:self];
         self.dbx_gestureTarget.reportID = [DBXARUtils reportIDByTarget:target actionString:NSStringFromSelector(action)];

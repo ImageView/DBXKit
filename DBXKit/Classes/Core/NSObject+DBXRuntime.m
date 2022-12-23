@@ -9,6 +9,7 @@
 #import "NSObject+DBXRuntime.h"
 #import <objc/runtime.h>
 
+// 方法交换
 @implementation NSObject (DBXRuntime)
 
 + (BOOL)dbx_swizzleMethod:(SEL)_originSelector newMethod:(SEL)_newSelector error:(NSError **)error {

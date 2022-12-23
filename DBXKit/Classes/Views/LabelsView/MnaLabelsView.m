@@ -18,6 +18,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
 @property(nonatomic, assign) MnaLabelsStyle style;
 // Data
 @property (nonatomic, strong) NSMutableDictionary *itemWidthCache; //宽度缓存
+// 数据源
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
 @end

@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 工具类
 @interface DBXARUtils : NSObject
 
 + (NSString *)dbx_reportIDOfView:(UIView *)view;
