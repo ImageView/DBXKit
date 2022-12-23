@@ -73,9 +73,9 @@ NSInteger const kBFMultipleErrorsError = 20180306;
                 [errorDic setObject:task.error forKey:@(task.hash)];
                 [lock unlock];
             }
-            NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
+//            NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
             if (atomic_fetch_sub(&resultCount, 1) == 1) {
-                NSLog(@"最后一个任务完成%@",task);
+//                NSLog(@"最后一个任务完成%@",task);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
                     [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
@@ -107,8 +107,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     }
     
     /**
-     表面是  task1 >> task2 >> task3 >> ...
-     真实是  task1 >> tempTask >> task2 >> tempTask >> task3 >> ...
+     任务实际链接方式  task1 >> tempTask >> task2 >> tempTask >> task3 >> ...
      由于要保持可持续链接下去，返回值必须是一个task，而由于task2是异步获取的，因此需要创建一个临时的task过渡，作为虚拟的下一链子，代替还未获取到的task2，并同步task2的结果
      */
     DBXChainTask *tempTask = [DBXChainTask chainTask];
