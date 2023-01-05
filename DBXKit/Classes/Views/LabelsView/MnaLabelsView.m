@@ -69,12 +69,19 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
     NSNumber *tempNum = [_itemWidthCache objectForKey:text];
     CGFloat width = tempNum.floatValue;
     if (!tempNum) {
-        width = [text boundingRectWithSize:CGSizeMake(200, 22)
-                                   options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                attributes:@{
-                                    NSFontAttributeName : self.textFont
-                                } context:nil]
-                    .size.width + self.xSpace * 2; // 14为增加的间距 左右各7
+        CGSize maxSize = CGSizeMake(200, 22);
+        CGRect textFrame;
+        if ([text isKindOfClass:[NSAttributedString class]]) {
+            NSAttributedString *attText = (NSAttributedString *)text;
+            textFrame = [attText boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        } else {
+            textFrame = [text boundingRectWithSize:CGSizeMake(200, 22)
+                                       options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                    attributes:@{
+                                        NSFontAttributeName : self.textFont
+                                    } context:nil];
+        }
+        width = textFrame.size.width + self.xSpace * 2;// 14为增加的间距 左右各7
         [_itemWidthCache setObject:@(width) forKey:text];
     }
     return width;
@@ -110,9 +117,23 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         UIImage *accessImg = self.accessoryPadding(indexPath.row);
         itemWidth += accessImg.size.width;
     }
+    
+    CGFloat pointSize = 0;
+    if ([text isKindOfClass:[NSAttributedString class]]) {
+        NSAttributedString *attText = (NSAttributedString *)text;
+        NSRange range = NSMakeRange(0, attText.length);
+        NSDictionary *textAtt = [attText attributesAtIndex:0 effectiveRange:&range];
+        UIFont *font = textAtt[NSFontAttributeName];
+        if (font) {
+            pointSize = font.pointSize;
+        }
+    }
+    if (pointSize == 0) {
+        pointSize = self.textFont.pointSize;
+    }
     CGFloat itemHeight = self.itemSize.height > 0
     ? self.itemSize.height
-    : MIN(self.textFont.pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
+    : MIN(pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
     return CGSizeMake(itemWidth, itemHeight);
 }
 
@@ -137,14 +158,19 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         DBXTextCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsTextCellIdentifi forIndexPath:indexPath];
         cell.textColor = _itemTextColor ?: [UIColor whiteColor];
         cell.titleLabel.font = self.textFont;
-        cell.titleLabel.text = _dataSource[indexPath.row];
+        NSString *text = _dataSource[indexPath.row];
+        if ([text isKindOfClass:[NSAttributedString class]]) {
+            cell.titleLabel.attributedText = (NSAttributedString *)text;
+        } else {
+            cell.titleLabel.text = text;
+        }
         if (self.accessoryPadding) {
             cell.accessoryView.image = self.accessoryPadding(indexPath.row);
         }
         if ([_UIDelegate respondsToSelector:@selector(labelsView:itemCell:atIndex:)]) {
             [_UIDelegate labelsView:self itemCell:cell atIndex:indexPath.row];
         }
-        [self storeItemWidthForText:cell.titleLabel.text];
+        [self storeItemWidthForText:text];
         return cell;
     }
     

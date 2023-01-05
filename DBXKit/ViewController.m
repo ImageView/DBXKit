@@ -36,7 +36,7 @@
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.labelsView];
-    self.labelsView.frame = CGRectMake(20, 50, 200, 20);
+    self.labelsView.frame = CGRectMake(20, 50, 200, 40);
     self.labelsView.labelsArray = @[@"texticonbig",@"texticon",@"texticon1"];
     self.labelsView.accessoryPadding = ^UIImage * _Nonnull(NSInteger index) {
         return [UIImage imageNamed:@"tag_master"];
@@ -44,6 +44,13 @@
     self.labelsView.imageSetter = ^(UIImageView * _Nonnull imageView, NSString * _Nonnull imgContent) {
         imageView.image = [UIImage imageNamed:imgContent];
     };
+//    NSMutableArray *arr = [NSMutableArray array];
+//    for (int i = 0; i<3; i++) {
+//        NSAttributedString *att = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"哈哈%d",i] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:40], NSForegroundColorAttributeName : [UIColor redColor]}];
+//        [arr addObject:att];
+//    }
+//    self.labelsView.labelsArray = arr;
+    
     
     [[DBXAutoReportManager sharedInstance] enableAutoReport];
     [[DBXAutoReportManager sharedInstance] setReportConfig:@{
