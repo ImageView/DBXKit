@@ -69,13 +69,14 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
     NSNumber *tempNum = [_itemWidthCache objectForKey:text];
     CGFloat width = tempNum.floatValue;
     if (!tempNum) {
-        CGSize maxSize = CGSizeMake(200, 22);
+        CGFloat itemHeight = [self itemHeightWithText:text];
+        CGSize maxSize = CGSizeMake(200, itemHeight);
         CGRect textFrame;
         if ([text isKindOfClass:[NSAttributedString class]]) {
             NSAttributedString *attText = (NSAttributedString *)text;
             textFrame = [attText boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         } else {
-            textFrame = [text boundingRectWithSize:CGSizeMake(200, 22)
+            textFrame = [text boundingRectWithSize:maxSize
                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                     attributes:@{
                                         NSFontAttributeName : self.textFont
@@ -85,6 +86,40 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         [_itemWidthCache setObject:@(width) forKey:text];
     }
     return width;
+}
+
+- (CGFloat)itemHeightWithText:(NSString *)text {
+    BOOL containLineBreak = NO;
+    // 包含换行符的时候按最大高度计算
+    if ([text isKindOfClass:[NSAttributedString class]]) {
+        NSAttributedString *att = (NSAttributedString *)text;
+        containLineBreak = [att.string containsString:@"\n"];
+    } else {
+        containLineBreak = [text containsString:@"\n"];
+    }
+    CGFloat defaultHeight = 0;
+    if (containLineBreak) {
+        defaultHeight = CGRectGetHeight(self.frame);
+    } else {
+        CGFloat pointSize = 0;
+        if ([text isKindOfClass:[NSAttributedString class]]) {
+            NSAttributedString *attText = (NSAttributedString *)text;
+            NSRange range = NSMakeRange(0, attText.length);
+            NSDictionary *textAtt = [attText attributesAtIndex:0 effectiveRange:&range];
+            UIFont *font = textAtt[NSFontAttributeName];
+            if (font) {
+                pointSize = font.pointSize;
+            }
+        }
+        if (pointSize == 0) {
+            pointSize = self.textFont.pointSize;
+        }
+        defaultHeight = MIN(pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
+    }
+    CGFloat itemHeight = self.itemSize.height > 0
+    ? self.itemSize.height
+    : defaultHeight;
+    return itemHeight;
 }
 
 - (void)setLabelsArray:(NSArray *)labelsArray {
@@ -108,7 +143,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         return [self.UIDelegate labelsView:self sizeForItemAtIndex:indexPath.row];
     }
     if (self.style == MnaLabelsStyleImage) {
-//        NSAssert(YES, @"请设置itemSize");
+//        NSAssert(YES, @"请设置图片大小，即itemSize");
         return self.itemSize;
     }
     NSString *text = _dataSource[indexPath.row];
@@ -118,22 +153,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         itemWidth += accessImg.size.width;
     }
     
-    CGFloat pointSize = 0;
-    if ([text isKindOfClass:[NSAttributedString class]]) {
-        NSAttributedString *attText = (NSAttributedString *)text;
-        NSRange range = NSMakeRange(0, attText.length);
-        NSDictionary *textAtt = [attText attributesAtIndex:0 effectiveRange:&range];
-        UIFont *font = textAtt[NSFontAttributeName];
-        if (font) {
-            pointSize = font.pointSize;
-        }
-    }
-    if (pointSize == 0) {
-        pointSize = self.textFont.pointSize;
-    }
-    CGFloat itemHeight = self.itemSize.height > 0
-    ? self.itemSize.height
-    : MIN(pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
+    CGFloat itemHeight = [self itemHeightWithText:text];
     return CGSizeMake(itemWidth, itemHeight);
 }
 
