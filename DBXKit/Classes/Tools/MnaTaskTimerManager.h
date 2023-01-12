@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, MnaThreadMode) {
 @interface MnaQueueItem : NSObject
 
 /// 任务描述
-@property (nonatomic,assign) NSString *name;
+@property (nonatomic,copy) NSString *name;
 /// 任务回调
 @property (nonatomic,copy) dispatch_block_t callBack;
 /// 任务执行模式

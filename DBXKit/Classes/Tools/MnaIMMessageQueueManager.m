@@ -29,6 +29,7 @@
     self = [super init];
     if (self) {
         [self addNotifications];
+        self.taskStart = YES;
     }
     return self;
 }
@@ -96,6 +97,9 @@
 
 // synchCount 支持同步执行的数量
 - (void)performTaskOfIdentifier:(NSString *)identifier synchCount:(NSInteger)synchCount {
+    if (self.taskStart) {
+        return;
+    }
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
     // 进到后台后不执行任务
     if (self.isBackground) {
@@ -165,6 +169,11 @@
     count = count + one;
     [self.taskCountDictionary setObject:@(count) forKey:identifier];
     return count;
+}
+
+- (BOOL)tasksHadFinishOfIdentifier:(NSString *)identifier {
+    NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
+    return taskQueue.count > 0;
 }
 
 #pragma mark - Getter
