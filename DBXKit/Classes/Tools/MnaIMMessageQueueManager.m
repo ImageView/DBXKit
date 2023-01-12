@@ -97,7 +97,7 @@
 
 // synchCount 支持同步执行的数量
 - (void)performTaskOfIdentifier:(NSString *)identifier synchCount:(NSInteger)synchCount {
-    if (self.taskStart) {
+    if (!self.taskStart) {
         return;
     }
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
