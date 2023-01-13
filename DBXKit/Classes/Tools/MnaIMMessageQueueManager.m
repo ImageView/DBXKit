@@ -18,6 +18,8 @@
 @property(nonatomic, strong) NSMutableDictionary *taskCountDictionary;
 // 是否进入到了后台
 @property(nonatomic, assign) BOOL isBackground;
+// 存储task对应队列的状态，是否暂停
+@property(nonatomic, strong) NSMutableDictionary *stateDictionary;
 
 @end
 
@@ -29,7 +31,6 @@
     self = [super init];
     if (self) {
         [self addNotifications];
-        self.taskStart = YES;
     }
     return self;
 }
@@ -97,7 +98,7 @@
 
 // synchCount 支持同步执行的数量
 - (void)performTaskOfIdentifier:(NSString *)identifier synchCount:(NSInteger)synchCount {
-    if (!self.taskStart) {
+    if ([self taskIsPauseOfIdentifier:identifier]) {
         return;
     }
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
@@ -146,6 +147,13 @@
     [taskQueue removeAllObjects];
 }
 
+- (void)taskOfIdentifier:(NSString *)identifier pause:(BOOL)pause {
+    [self.stateDictionary setObject:@(pause) forKey:identifier];
+}
+
+- (BOOL)taskIsPauseOfIdentifier:(NSString *)identifier {
+    return [self.stateDictionary[identifier] boolValue];
+}
 // 根据类获取队列
 - (NSMutableArray *)currentTaskQueueOfIdentifier:(NSString *)identifier {
     NSMutableArray *queue = [self.queueDictionary objectForKey:identifier];
@@ -201,5 +209,10 @@
     return _taskCountDictionary;
 }
 
-
+- (NSMutableDictionary *)stateDictionary {
+    if (!_stateDictionary) {
+        _stateDictionary = [NSMutableDictionary dictionary];
+    }
+    return _stateDictionary;
+}
 @end
