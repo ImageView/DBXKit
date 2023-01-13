@@ -180,7 +180,7 @@
 }
 
 - (BOOL)tasksHadFinishOfIdentifier:(NSString *)identifier {
-    if (!self.taskStart) {
+    if ([self taskIsPauseOfIdentifier:identifier]) {
         return NO;
     }
     NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
