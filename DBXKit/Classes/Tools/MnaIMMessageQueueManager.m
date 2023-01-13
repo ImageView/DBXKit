@@ -172,6 +172,9 @@
 }
 
 - (BOOL)tasksHadFinishOfIdentifier:(NSString *)identifier {
+    if (!self.taskStart) {
+        return NO;
+    }
     NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
     return taskQueue.count > 0;
 }
