@@ -184,7 +184,7 @@
         return NO;
     }
     NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
-    return taskQueue.count > 0;
+    return taskQueue.count <= 0;
 }
 
 #pragma mark - Getter
