@@ -64,15 +64,22 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     __block atomic_int resultCount = (int)tasks.count;
     
     NSLock *lock = [[NSLock alloc] init];
+    // 存放所有任务的错误信息
     NSMutableDictionary *errorDic = [NSMutableDictionary dictionary];
+    // 存放所有任务的结果信息
+    NSMutableDictionary *resultDic = [NSMutableDictionary dictionary];
+
     for (DBXChainTask *oneTask in tasks) {
         [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
             NSLog(@"%@,%@任务完成  lock前",task.taskName ,task);
+            [lock lock];
             if (task.error) {
-                [lock lock];
-                [errorDic setObject:task.error forKey:@(task.hash)];
-                [lock unlock];
+                [errorDic setObject:task.error forKey:[task resultKey]];
+            } else if (task.result) {
+                [resultDic setObject:task.result forKey:[task resultKey]];
             }
+            
+            [lock unlock];
 //            NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
             if (atomic_fetch_sub(&resultCount, 1) == 1) {
 //                NSLog(@"最后一个任务完成%@",task);
@@ -80,7 +87,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
                 if (errorDic.count > 0) {
                     [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
                 } else {
-                    [tempTask setResult:nil];
+                    [tempTask setResult:resultDic];
                 }
             }
 
@@ -94,7 +101,11 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     if (error.code != kBFMultipleErrorsError) {
         return nil;
     }
-    return [error.userInfo objectForKey:@(task.hash)];
+    return [error.userInfo objectForKey:[task resultKey]];
+}
+
+- (id)resultKey {
+    return @(self.hash);
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block {
@@ -133,6 +144,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             } else {
                 [nextTask thenWithBlock:tempThenBlock];
             }
+        } else if ([result isKindOfClass:[NSError class]]) {
+            [tempTask setError:result];
         } else {
             [tempTask setResult:result];
         }

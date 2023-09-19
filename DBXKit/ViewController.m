@@ -90,14 +90,18 @@
     dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
     
     [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        
         DBXChainTask *next = [self createTaskWithName:@"222"];
         NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
     } operate:[[DBXCustomThreadOperate alloc] initWithQueue:queue]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        if (task.error) {
+            return task.error;
+        }
         DBXChainTask *next = [self createTaskWithName:@"333"];
         NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
-//        return next;
-        return nil;
+        return next;
+//        return nil;
     } operate:[DBXMainThreadOperate new]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"444" sleep:0];
         NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
@@ -106,10 +110,11 @@
 }
 
 - (void)testGroupChainTask {
-    DBXChainTask *task2 = [self createTaskWithName:@"222"];
+    DBXChainTask *task2 = [self createTaskWithName:@"2222"];
     [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         NSError *error = [DBXChainTask errorOfTask:task2 fromGroupError:task.error];
-        NSLog(@"并行任务完成, task=%@,error=%@", task, error);
+        NSDictionary *resultDic = task.result;
+        NSLog(@"并行任务完成, task=%@,error=%@,result222=%@", task, error,resultDic[[task2 resultKey]]);
         return nil;
     }];
 }

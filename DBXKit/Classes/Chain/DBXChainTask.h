@@ -33,6 +33,9 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 /// 任务执行后的结果
 @property(nonatomic, strong, nullable) id result;
 
+// 用语grouptask，获取当前任务的key
+- (id)resultKey;
+
 + (instancetype)chainTask;
 
 // group执行的任务，取对应task时要用hask值取
