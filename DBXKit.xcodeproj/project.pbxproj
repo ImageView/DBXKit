@@ -24,6 +24,7 @@
 		2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */; };
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
+		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
@@ -72,6 +73,8 @@
 		2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXAutoReportManager.m; sourceTree = "<group>"; };
 		862E7400B3374E118EDD226F /* Pods-DBXKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.debug.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
+		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
 		C8767EDE269E869B005C0B2C /* MnaLabelsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaLabelsView.m; sourceTree = "<group>"; };
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
@@ -233,11 +236,13 @@
 		C881792B26958BC900656441 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2E0E8FF9287B035500E12B42 /* DBXExtension.h */,
 				C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */,
 				C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */,
 				C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */,
 				C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */,
-				2E0E8FF9287B035500E12B42 /* DBXExtension.h */,
+				C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */,
+				C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -292,7 +297,7 @@
 			attributes = {
 				CLASSPREFIX = DBX;
 				LastUpgradeCheck = 1250;
-				ORGANIZATIONNAME = "调包侠";
+				ORGANIZATIONNAME = DBX;
 				TargetAttributes = {
 					2E95C26D2691C9FD00A2801A = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -399,6 +404,7 @@
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
+				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

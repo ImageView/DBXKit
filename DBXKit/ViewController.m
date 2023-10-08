@@ -6,8 +6,7 @@
 //
 
 #import "ViewController.h"
-#import "NSDictionary+dbx_valuePath.h"
-#import "NSObject+dbx_modelValue.h"
+#import "DBXExtension.h"
 #import "MnaLabelsView.h"
 #import <QMUIKit/QMUIKit.h>
 #import "DBXAutoReport.h"
@@ -18,6 +17,7 @@
 
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (nonatomic, strong) MnaLabelsView *labelsView;
@@ -73,6 +73,11 @@
     self.imageView.userInteractionEnabled = YES;
     [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
     
+    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"你好%@科二里%@得瑟我%@看了%@屌丝", @"a".beginDelimiter, @"a".endDelimiter, @"b".beginDelimiter, @"b".endDelimiter]];
+    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.redColor} delimiter:@"a"];
+    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.blueColor} delimiter:@"b"];
+
+    self.textLabel.attributedText = attStr;
 //    [self testTaskManager];
 }
 
