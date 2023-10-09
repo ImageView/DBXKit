@@ -21,12 +21,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGFloat space = 0;
+    CGFloat textLeft = self.contentInsets.left;
     if (_accessoryView) {
         _accessoryView.frame = CGRectMake(self.contentInsets.left, 0, _accessoryView.image.size.width, CGRectGetHeight(self.contentView.frame));
-        space = self.accessorySpace;
+        textLeft = CGRectGetMaxX(_accessoryView.frame) + self.accessorySpace;
     }
-    _titleLabel.frame = CGRectMake(CGRectGetMaxX(_accessoryView.frame) + space, 0, CGRectGetWidth(self.contentView.frame) - CGRectGetMaxX(_accessoryView.frame) - space - self.contentInsets.right, CGRectGetHeight(self.contentView.frame));
+    _titleLabel.frame = CGRectMake(textLeft, 0, CGRectGetWidth(self.contentView.frame) - textLeft - self.contentInsets.right, CGRectGetHeight(self.contentView.frame));
 }
 
 - (void)initialSubViews {
