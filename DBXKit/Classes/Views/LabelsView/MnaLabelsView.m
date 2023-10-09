@@ -149,10 +149,16 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         return self.itemSize;
     }
     NSString *text = _dataSource[indexPath.row];
-    CGFloat itemWidth = self.itemSize.width > 0 ? self.itemSize.width : [self storeItemWidthForText:text];
-    if (self.accessoryPadding) {
-        UIImage *accessImg = self.accessoryPadding(indexPath.row);
-        itemWidth += (accessImg.size.width + self.accessorySpace);
+    
+    CGFloat itemWidth = 0;
+    if (self.itemSize.width > 0) {
+        itemWidth = self.itemSize.width;
+    } else {
+        itemWidth = [self storeItemWidthForText:text];
+        if (self.accessoryPadding) {
+            UIImage *accessImg = self.accessoryPadding(indexPath.row);
+            itemWidth += (accessImg.size.width + self.accessorySpace);
+        }
     }
     
     CGFloat itemHeight = [self itemHeightWithText:text];
