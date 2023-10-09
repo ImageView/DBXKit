@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 // 纯文本的cell
 @interface DBXTextCollectionViewCell : UICollectionViewCell
 
+/// 内容内边距
+@property(nonatomic, assign) UIEdgeInsets contentInsets;
+/// 附件头和文本的间距，默认4
+@property(nonatomic, assign) CGFloat accessorySpace;
 // accessory视图
 @property (nonatomic, strong) UIImageView *accessoryView;
 // cell文本组件
@@ -25,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 纯图片的cell
 @interface DBXImageCollectionViewCell : UICollectionViewCell
 
+/// 内容内边距
+@property(nonatomic, assign) UIEdgeInsets contentInsets;
 // cell图片组件
 @property (nonatomic, strong) UIImageView *imageView;
 

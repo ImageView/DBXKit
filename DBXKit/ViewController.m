@@ -37,19 +37,29 @@
     
     [self.view addSubview:self.labelsView];
     self.labelsView.frame = CGRectMake(20, 50, 200, 90);
-//    self.labelsView.labelsArray = @[@"texticonbig",@"texticon",@"texticon1"];
+    self.labelsView.labelsArray = @[@"texticonbig",@"texticon",@"texticon1"];
+
+    
+    /// 测试带图标的文字
+//    self.labelsView.itemInsets = UIEdgeInsetsMake(0, 20, 0, 90);
+//    self.labelsView.accessorySpace = 20;
 //    self.labelsView.accessoryPadding = ^UIImage * _Nonnull(NSInteger index) {
 //        return [UIImage imageNamed:@"tag_master"];
 //    };
-//    self.labelsView.imageSetter = ^(UIImageView * _Nonnull imageView, NSString * _Nonnull imgContent) {
-//        imageView.image = [UIImage imageNamed:imgContent];
-//    };
-    NSMutableArray *arr = [NSMutableArray array];
-    for (int i = 0; i<3; i++) {
-        NSAttributedString *att = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"哈哈%d\n123",i] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:30], NSForegroundColorAttributeName : [UIColor redColor]}];
-        [arr addObject:att];
-    }
-    self.labelsView.labelsArray = arr;
+    
+    /// 测试纯图片
+    self.labelsView.itemSize = CGSizeMake(50, 30);
+    self.labelsView.imageSetter = ^(UIImageView * _Nonnull imageView, NSString * _Nonnull imgContent) {
+        imageView.image = [UIImage imageNamed:imgContent];
+    };
+    self.labelsView.itemInsets = UIEdgeInsetsMake(10, 20, 0, 2);
+    /// 测试富文本
+//    NSMutableArray *arr = [NSMutableArray array];
+//    for (int i = 0; i<3; i++) {
+//        NSAttributedString *att = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"哈哈%d\n123",i] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:30], NSForegroundColorAttributeName : [UIColor redColor]}];
+//        [arr addObject:att];
+//    }
+//    self.labelsView.labelsArray = arr;
     
     
     [[DBXAutoReportManager sharedInstance] enableAutoReport];
@@ -215,13 +225,13 @@
 
 - (MnaLabelsView *)labelsView {
     if (!_labelsView) {
-        _labelsView = [[MnaLabelsView alloc] initWithStyle:MnaLabelsStyleText];
+        _labelsView = [[MnaLabelsView alloc] initWithStyle:MnaLabelsStyleImage];
         _labelsView.itemTextColor = [UIColor qmui_colorWithHexString:@"#00B6BD"];
         _labelsView.textFont = [UIFont systemFontOfSize:11];
         _labelsView.delegate = self;
         _labelsView.UIDelegate = self;
         _labelsView.userInteractionEnabled = YES;
-//        _labelsView.itemSize = CGSizeMake(32, 14);
+        
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)_labelsView.collectionView.collectionViewLayout;
         if ([layout isKindOfClass:[UICollectionViewFlowLayout class]]) {
             layout.minimumLineSpacing = 4;

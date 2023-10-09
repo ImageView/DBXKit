@@ -43,20 +43,20 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 
 // default is UICollectionViewScrollDirectionHorizontal
 @property (nonatomic) UICollectionViewScrollDirection scrollDirection;
-//文字到边框的x轴的间距
-@property(nonatomic, assign) NSInteger xSpace;
-//文字到边框的y轴的间距
-@property(nonatomic, assign) NSInteger ySpace;
 
-/// ---for MnaLabelsStyleText
+/// 单个item的内容内边距
+@property(nonatomic, assign) UIEdgeInsets itemInsets;   // 默认为(5, 7, 5, 7)
+
+#pragma mark - 以下属性 for MnaLabelsStyleText
 // 文字字体
 @property (nonatomic, strong) UIFont *textFont;
 // 文字颜色
 @property (nonatomic, strong) UIColor *itemTextColor;
-// 文本内容的附件头,返回附件头的size
+// 文本内容的附件头,返回附件头的图片
 @property (nonatomic, copy) UIImage * (^accessoryPadding)(NSInteger index);
-
-/// ---for MnaLabelsStyleImage
+/// 附件头和文本的间距，默认4
+@property(nonatomic, assign) CGFloat accessorySpace;
+#pragma mark - 以下属性 for MnaLabelsStyleImage
 // 用于给ImageView设置img，主要是设置图片的url
 @property(nonatomic, copy) void (^imageSetter)(UIImageView *imageView, NSString *imgContent);
 

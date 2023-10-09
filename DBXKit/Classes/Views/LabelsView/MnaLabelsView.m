@@ -41,8 +41,10 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         _dataSource = [NSMutableArray array];
         _scrollDirection = UICollectionViewScrollDirectionHorizontal;
         [self addSubview:self.collectionView];
-        _xSpace = 7;
-        _ySpace = 5;
+//        _xSpace = 7;
+//        _ySpace = 5;
+        _itemInsets = UIEdgeInsetsMake(5, 7, 5, 7);
+        _accessorySpace = 4;
     }
     return self;
 }
@@ -82,7 +84,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
                                         NSFontAttributeName : self.textFont
                                     } context:nil];
         }
-        width = textFrame.size.width + self.xSpace * 2;// 14为增加的间距 左右各7
+        width = textFrame.size.width + self.itemInsets.left + self.itemInsets.right;
         [_itemWidthCache setObject:@(width) forKey:text];
     }
     return width;
@@ -103,6 +105,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
     } else {
         CGFloat pointSize = 0;
         if ([text isKindOfClass:[NSAttributedString class]]) {
+            // 从NSAttributedString里获取字体font
             NSAttributedString *attText = (NSAttributedString *)text;
             NSRange range = NSMakeRange(0, attText.length);
             NSDictionary *textAtt = [attText attributesAtIndex:0 effectiveRange:&range];
@@ -114,7 +117,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         if (pointSize == 0) {
             pointSize = self.textFont.pointSize;
         }
-        defaultHeight = MIN(pointSize + self.ySpace * 2, CGRectGetHeight(self.frame));
+        defaultHeight = MIN(pointSize + self.itemInsets.top + self.itemInsets.bottom, CGRectGetHeight(self.frame));
     }
     CGFloat itemHeight = self.itemSize.height > 0
     ? self.itemSize.height
@@ -143,14 +146,13 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         return [self.UIDelegate labelsView:self sizeForItemAtIndex:indexPath.row];
     }
     if (self.style == MnaLabelsStyleImage) {
-//        NSAssert(YES, @"请设置图片大小，即itemSize");
         return self.itemSize;
     }
     NSString *text = _dataSource[indexPath.row];
     CGFloat itemWidth = self.itemSize.width > 0 ? self.itemSize.width : [self storeItemWidthForText:text];
     if (self.accessoryPadding) {
         UIImage *accessImg = self.accessoryPadding(indexPath.row);
-        itemWidth += accessImg.size.width;
+        itemWidth += (accessImg.size.width + self.accessorySpace);
     }
     
     CGFloat itemHeight = [self itemHeightWithText:text];
@@ -164,6 +166,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.style == MnaLabelsStyleImage) {
         DBXImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsImageCellIdentifi forIndexPath:indexPath];
+        cell.contentInsets = self.itemInsets;
         NSString *imgName = _dataSource[indexPath.row];
         if (self.imageSetter) {
             self.imageSetter(cell.imageView, imgName);
@@ -178,6 +181,8 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         DBXTextCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsTextCellIdentifi forIndexPath:indexPath];
         cell.textColor = _itemTextColor ?: [UIColor whiteColor];
         cell.titleLabel.font = self.textFont;
+        cell.contentInsets = self.itemInsets;
+        cell.accessorySpace = self.accessorySpace;
         NSString *text = _dataSource[indexPath.row];
         if ([text isKindOfClass:[NSAttributedString class]]) {
             cell.titleLabel.attributedText = (NSAttributedString *)text;
