@@ -12,5 +12,6 @@
 #import "NSDictionary+dbx_valuePath.h"
 #import "NSObject+dbx_modelValue.h"
 #import "NSAttributedString+dbx.h"
+#import "NSObject+PropertyObserver.h"
 
 #endif /* DBXExtension_h */
