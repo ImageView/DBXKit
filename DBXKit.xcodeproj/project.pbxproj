@@ -29,6 +29,8 @@
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
+		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
+		C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
@@ -83,6 +85,10 @@
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
 		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
+		C8A5A7F42AD4EAA600643495 /* NSObject+PropertyObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+PropertyObserver.h"; sourceTree = "<group>"; };
+		C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertyObserver.m"; sourceTree = "<group>"; };
+		C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTextModel.h; sourceTree = "<group>"; };
+		C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTextModel.m; sourceTree = "<group>"; };
 		C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBXRuntime.h"; sourceTree = "<group>"; };
 		C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBXRuntime.m"; sourceTree = "<group>"; };
 		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAR.h"; sourceTree = "<group>"; };
@@ -150,6 +156,8 @@
 				2E95C2782691C9FD00A2801A /* ViewController.m */,
 				2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */,
 				2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */,
+				C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */,
+				C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */,
 				2E95C27A2691C9FD00A2801A /* Main.storyboard */,
 				2E95C27D2691CA0100A2801A /* Assets.xcassets */,
 				2E95C27F2691CA0100A2801A /* LaunchScreen.storyboard */,
@@ -243,6 +251,8 @@
 				C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */,
 				C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */,
 				C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */,
+				C8A5A7F42AD4EAA600643495 /* NSObject+PropertyObserver.h */,
+				C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -391,6 +401,7 @@
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
+				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
@@ -404,6 +415,7 @@
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
+				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

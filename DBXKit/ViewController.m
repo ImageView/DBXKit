@@ -14,7 +14,8 @@
 #import "MnaTaskTimerManager.h"
 #import "DBXChainTask.h"
 #import "DBXOperate.h"
-
+#import "DBXTextModel.h"
+#import "NSObject+PropertyObserver.h"
 @interface ViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
@@ -91,6 +92,7 @@
 
     self.textLabel.attributedText = attStr;
 //    [self testTaskManager];
+    [self testObserver];
 }
 
 - (void)testTaskManager {
@@ -175,6 +177,28 @@
 
 - (void)clickedImageView:(UITapGestureRecognizer *)tapGes {
     NSLog(@"%s", __func__);
+}
+
+- (void)testObserver {
+    DBXTextModel *model = [[DBXTextModel alloc] init];
+    [model dbx_addObserverForKeyPath:@"name" valueChange:^(id _Nonnull value) {
+        NSLog(@"%s name=%@",__func__, value);
+    }];
+    [model dbx_addObserverForKeyPath:@"age" valueChange:^(id _Nonnull value) {
+        NSLog(@"%s age=%@",__func__, value);
+    }];
+    
+    model.name = @"asherluo";
+    model.age = 18;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        model.name = @"asherluo1";
+        model.age = 19;
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [model dbx_removeObserverForKeyPath:@"age"];
+        model.name = @"asherluo2";
+        model.age = 20;
+    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
