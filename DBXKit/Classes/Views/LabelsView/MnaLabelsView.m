@@ -172,7 +172,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.style == MnaLabelsStyleImage) {
         DBXImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsImageCellIdentifi forIndexPath:indexPath];
-        cell.contentInsets = self.itemInsets;
+        cell.contentInsets = UIEdgeInsetsZero;//self.itemInsets;
         NSString *imgName = _dataSource[indexPath.row];
         if (self.imageSetter) {
             self.imageSetter(cell.imageView, imgName);
