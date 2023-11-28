@@ -43,7 +43,11 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
         [self addSubview:self.collectionView];
 //        _xSpace = 7;
 //        _ySpace = 5;
-        _itemInsets = UIEdgeInsetsMake(5, 7, 5, 7);
+        if (style == MnaLabelsStyleText) {
+            _itemInsets = UIEdgeInsetsMake(5, 7, 5, 7);
+        } else {
+            _itemInsets = UIEdgeInsetsZero;
+        }
         _accessorySpace = 4;
     }
     return self;
@@ -172,7 +176,7 @@ static NSString *gLabelsImageCellIdentifi = @"kDBXImageCollectionViewCellCellKey
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.style == MnaLabelsStyleImage) {
         DBXImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:gLabelsImageCellIdentifi forIndexPath:indexPath];
-        cell.contentInsets = UIEdgeInsetsZero;//self.itemInsets;
+        cell.contentInsets = self.itemInsets;
         NSString *imgName = _dataSource[indexPath.row];
         if (self.imageSetter) {
             self.imageSetter(cell.imageView, imgName);

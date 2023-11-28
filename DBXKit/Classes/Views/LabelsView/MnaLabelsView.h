@@ -45,7 +45,8 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 @property (nonatomic) UICollectionViewScrollDirection scrollDirection;
 
 /// 单个item的内容内边距
-@property(nonatomic, assign) UIEdgeInsets itemInsets;   // 默认为(5, 7, 5, 7)
+/// 文本时默认为(5, 7, 5, 7)，图片默认(0, 0, 0, 0)
+@property(nonatomic, assign) UIEdgeInsets itemInsets;
 
 #pragma mark - 以下属性 for MnaLabelsStyleText
 // 文字字体
