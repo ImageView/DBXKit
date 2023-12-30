@@ -5,6 +5,8 @@
 	<key>testvc</key>
 	<array>
 		<dict>
+			<key>xib</key>
+			<string>DBXChainVC</string>
 			<key>title</key>
 			<string>测试Chain</string>
 			<key>class</key>

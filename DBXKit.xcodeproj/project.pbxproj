@@ -38,6 +38,7 @@
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
+		C8F3016C2B4074E100524BEE /* DBXChainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8F3016B2B4074E100524BEE /* DBXChainVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		C8F301612B40656E00524BEE /* testConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = testConfig.plist; sourceTree = "<group>"; };
 		C8F301662B40704800524BEE /* DBXBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXBaseViewController.h; sourceTree = "<group>"; };
 		C8F301672B40704800524BEE /* DBXBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXBaseViewController.m; sourceTree = "<group>"; };
+		C8F3016B2B4074E100524BEE /* DBXChainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DBXChainVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 				2E95C2782691C9FD00A2801A /* ViewController.m */,
 				C8F3015E2B40616C00524BEE /* DBXChainViewController.h */,
 				C8F3015F2B40616C00524BEE /* DBXChainViewController.m */,
+				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
 			path = TestViewControllers;
@@ -355,6 +358,7 @@
 			files = (
 				C8F301622B40656E00524BEE /* testConfig.plist in Resources */,
 				2E95C2812691CA0100A2801A /* LaunchScreen.storyboard in Resources */,
+				C8F3016C2B4074E100524BEE /* DBXChainVC.xib in Resources */,
 				2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */,
 				2E95C27C2691C9FD00A2801A /* Main.storyboard in Resources */,
 			);

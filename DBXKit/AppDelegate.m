@@ -28,10 +28,13 @@
         NSString *vcClassName = vcDic[@"class"];
         Class cls = NSClassFromString(vcClassName);
         NSString *sb = vcDic[@"storyboard"];
+        NSString *xib = vcDic[@"xib"];
         UIViewController *vc;
         if (sb) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:sb bundle:nil];
             vc = [storyboard instantiateViewControllerWithIdentifier:@"vc1"];
+        } else if (xib) {
+            vc = [[cls alloc] initWithNibName:xib bundle:nil];
         } else {
             vc = [[cls alloc] init];
         }
