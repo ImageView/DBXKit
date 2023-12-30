@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,7 @@
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
 		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */; };
+		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,8 @@
 		C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaIMMessageQueueManager.m; sourceTree = "<group>"; };
 		C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaIMMessageQueueManager.h; sourceTree = "<group>"; };
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
+		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
+		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +157,7 @@
 				2E95C2752691C9FD00A2801A /* SceneDelegate.m */,
 				2E95C2772691C9FD00A2801A /* ViewController.h */,
 				2E95C2782691C9FD00A2801A /* ViewController.m */,
+				C8F3015D2B40614500524BEE /* TestViewControllers */,
 				2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */,
 				2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */,
 				C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */,
@@ -267,6 +271,15 @@
 				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		C8F3015D2B40614500524BEE /* TestViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C8F3015E2B40616C00524BEE /* DBXChainViewController.h */,
+				C8F3015F2B40616C00524BEE /* DBXChainViewController.m */,
+			);
+			path = TestViewControllers;
 			sourceTree = "<group>";
 		};
 		D9777371862E77321C63E740 /* Frameworks */ = {
@@ -397,6 +410,7 @@
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
 				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
+				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
