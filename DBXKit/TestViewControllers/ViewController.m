@@ -8,7 +8,6 @@
 #import "ViewController.h"
 #import "DBXExtension.h"
 #import "MnaLabelsView.h"
-#import <QMUIKit/QMUIKit.h>
 #import "DBXAutoReport.h"
 #import "TextAutoReportImpl.h"
 #import "MnaTaskTimerManager.h"

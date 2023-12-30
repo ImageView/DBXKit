@@ -15,7 +15,6 @@
 		2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E67BF6628968CD40024839C /* DBXGestureTarget.m */; };
 		2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E70D2C52933165F00ED8B9E /* DBXChainTask.m */; };
 		2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2722691C9FD00A2801A /* AppDelegate.m */; };
-		2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2752691C9FD00A2801A /* SceneDelegate.m */; };
 		2E95C2792691C9FD00A2801A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95C2782691C9FD00A2801A /* ViewController.m */; };
 		2E95C27C2691C9FD00A2801A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27A2691C9FD00A2801A /* Main.storyboard */; };
 		2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E95C27D2691CA0100A2801A /* Assets.xcassets */; };
@@ -37,6 +36,8 @@
 		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
+		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
+		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,8 +62,6 @@
 		2E95C26E2691C9FD00A2801A /* DBXKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBXKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E95C2712691C9FD00A2801A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2E95C2722691C9FD00A2801A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2E95C2742691C9FD00A2801A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		2E95C2752691C9FD00A2801A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		2E95C2772691C9FD00A2801A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		2E95C2782691C9FD00A2801A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2E95C27B2691C9FD00A2801A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,6 +102,9 @@
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
 		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
 		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
+		C8F301612B40656E00524BEE /* testConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = testConfig.plist; sourceTree = "<group>"; };
+		C8F301662B40704800524BEE /* DBXBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXBaseViewController.h; sourceTree = "<group>"; };
+		C8F301672B40704800524BEE /* DBXBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXBaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,10 +155,8 @@
 				C881792A26958BC900656441 /* Classes */,
 				2E95C2712691C9FD00A2801A /* AppDelegate.h */,
 				2E95C2722691C9FD00A2801A /* AppDelegate.m */,
-				2E95C2742691C9FD00A2801A /* SceneDelegate.h */,
-				2E95C2752691C9FD00A2801A /* SceneDelegate.m */,
-				2E95C2772691C9FD00A2801A /* ViewController.h */,
-				2E95C2782691C9FD00A2801A /* ViewController.m */,
+				C8F301662B40704800524BEE /* DBXBaseViewController.h */,
+				C8F301672B40704800524BEE /* DBXBaseViewController.m */,
 				C8F3015D2B40614500524BEE /* TestViewControllers */,
 				2E0482CA2882C13100C69D08 /* TextAutoReportImpl.h */,
 				2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */,
@@ -276,8 +276,11 @@
 		C8F3015D2B40614500524BEE /* TestViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2E95C2772691C9FD00A2801A /* ViewController.h */,
+				2E95C2782691C9FD00A2801A /* ViewController.m */,
 				C8F3015E2B40616C00524BEE /* DBXChainViewController.h */,
 				C8F3015F2B40616C00524BEE /* DBXChainViewController.m */,
+				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
 			path = TestViewControllers;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8F301622B40656E00524BEE /* testConfig.plist in Resources */,
 				2E95C2812691CA0100A2801A /* LaunchScreen.storyboard in Resources */,
 				2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */,
 				2E95C27C2691C9FD00A2801A /* Main.storyboard in Resources */,
@@ -411,6 +415,7 @@
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
 				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
 				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,
+				C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
@@ -423,7 +428,6 @@
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
-				2E95C2762691C9FD00A2801A /* SceneDelegate.m in Sources */,
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,

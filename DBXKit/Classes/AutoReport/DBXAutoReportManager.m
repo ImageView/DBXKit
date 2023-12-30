@@ -58,6 +58,9 @@
 }
 
 - (void)report:(UIView *)sender {
+    if (![sender isKindOfClass:[UIView class]]) {
+        return;
+    }
     NSDictionary *params = [self reportParamsOfView:sender];
     NSLog(@"你点击了：%@, params:%@", sender.dbx_reportID, params);
 

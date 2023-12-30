@@ -6,6 +6,8 @@
 //
 
 #import "AppDelegate.h"
+//#import "ViewController.h"
+#import "DBXChainViewController.h"
 
 @interface AppDelegate ()
 
@@ -15,25 +17,34 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    _window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"testConfig" ofType:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *vclist = dict[@"testvc"];
+    NSMutableArray *vcInstance = [NSMutableArray array];
+    
+    for (NSDictionary *vcDic in vclist) {
+        NSString *vcClassName = vcDic[@"class"];
+        Class cls = NSClassFromString(vcClassName);
+        NSString *sb = vcDic[@"storyboard"];
+        UIViewController *vc;
+        if (sb) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:sb bundle:nil];
+            vc = [storyboard instantiateViewControllerWithIdentifier:@"vc1"];
+        } else {
+            vc = [[cls alloc] init];
+        }
+        vc.title = vcDic[@"title"];
+        [vcInstance addObject:[[UINavigationController alloc] initWithRootViewController:vc]];
+    }
+    UITabBarController *tabCon = [[UITabBarController alloc] init];
+    
+    [tabCon setViewControllers:vcInstance.copy];
+    _window.rootViewController = tabCon;
+    [_window makeKeyAndVisible];
+
     return YES;
-}
-
-
-#pragma mark - UISceneSession lifecycle
-
-
-- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
-}
-
-
-- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 }
 
 

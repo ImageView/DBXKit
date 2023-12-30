@@ -42,3 +42,21 @@ static char kAssociatedObjectKey_dbx_reportID;
 }
 
 @end
+
+
+@implementation UIBarItem (DBXAR)
+static char kAssociatedObjectKey_dbx_item_reportID;
+- (void)setDbx_reportID:(NSString *)dbx_reportID {
+    objc_setAssociatedObject(self, &kAssociatedObjectKey_dbx_item_reportID, dbx_reportID, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (NSString *)dbx_reportID {
+    NSString *reportID = objc_getAssociatedObject(self, &kAssociatedObjectKey_dbx_item_reportID);
+    if (!reportID) {
+        reportID = [DBXARUtils dbx_reportIDOfView:self];
+        self.dbx_reportID = reportID;
+    }
+    return reportID;
+}
+
+@end

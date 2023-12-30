@@ -9,6 +9,7 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-
+/// 窗口
+@property (nonatomic, strong) UIWindow *window;
 @end
 
