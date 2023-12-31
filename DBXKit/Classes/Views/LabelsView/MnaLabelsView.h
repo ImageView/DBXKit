@@ -18,12 +18,14 @@ typedef NS_ENUM(NSInteger, MnaLabelsStyle) {
 @class MnaLabelsView;
 @protocol MnaLabelsViewDelegate <NSObject>
 
+@optional
 - (void)labelsView:(MnaLabelsView *)labelsView didSelectItemAtIndex:(NSInteger)index;
 
 @end
 
 @protocol MnaLabelsViewUIDelegate <NSObject>
 
+@optional
 - (void)labelsView:(MnaLabelsView *)labelsView itemCell:(UICollectionViewCell *)cell atIndex:(NSInteger)index;
 // 返回item大小
 - (CGSize)labelsView:(MnaLabelsView *)labelsView sizeForItemAtIndex:(NSInteger)index;

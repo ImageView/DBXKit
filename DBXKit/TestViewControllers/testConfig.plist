@@ -14,6 +14,12 @@
 		</dict>
 		<dict>
 			<key>title</key>
+			<string>测试Labels</string>
+			<key>class</key>
+			<string>DBXLabelsTestViewController</string>
+		</dict>
+		<dict>
+			<key>title</key>
 			<string>测试</string>
 			<key>storyboard</key>
 			<string>Main</string>

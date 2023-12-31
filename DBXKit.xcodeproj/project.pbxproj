@@ -39,6 +39,7 @@
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
 		C8F3016C2B4074E100524BEE /* DBXChainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8F3016B2B4074E100524BEE /* DBXChainVC.xib */; };
+		C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,8 @@
 		C8F301662B40704800524BEE /* DBXBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXBaseViewController.h; sourceTree = "<group>"; };
 		C8F301672B40704800524BEE /* DBXBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXBaseViewController.m; sourceTree = "<group>"; };
 		C8F3016B2B4074E100524BEE /* DBXChainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DBXChainVC.xib; sourceTree = "<group>"; };
+		C8F3016D2B41690F00524BEE /* DBXLabelsTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXLabelsTestViewController.h; sourceTree = "<group>"; };
+		C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXLabelsTestViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +285,8 @@
 				2E95C2782691C9FD00A2801A /* ViewController.m */,
 				C8F3015E2B40616C00524BEE /* DBXChainViewController.h */,
 				C8F3015F2B40616C00524BEE /* DBXChainViewController.m */,
+				C8F3016D2B41690F00524BEE /* DBXLabelsTestViewController.h */,
+				C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
@@ -435,6 +440,7 @@
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
+				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
