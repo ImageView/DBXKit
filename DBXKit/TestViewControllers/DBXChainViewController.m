@@ -21,6 +21,18 @@
     
 }
 
+- (IBAction)testTimeoutTask:(id)sender {
+    DBXChainTask *task = [self createTaskWithName:@"abc" sleep:5];
+    task.timeOutInterval = 3;
+    [task thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        if (task.error) {
+            NSLog(@"%@%@",task.taskName,task.error.localizedDescription);
+            return task.error;
+        }
+        return [self createTaskWithName:@"def"];
+    }];
+}
+
 - (IBAction)testChainTask:(id)sender {
     dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
     

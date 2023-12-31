@@ -19,10 +19,9 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 @property(nonatomic, strong) NSMutableArray *thenExecutBlocks;
 // 线程锁
 @property(nonatomic, strong) NSLock *lock;
-
 // 标记是否任务完成
 @property(nonatomic, assign, getter=isCompleted) BOOL completed;
-
+@property(nonatomic, strong) NSTimer *timeOutTimer;
 @end
 
 @implementation DBXChainTask
@@ -80,9 +79,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             }
             
             [lock unlock];
-//            NSLog(@"%@任务完成  lock中，count%d",task, resultCount);
             if (atomic_fetch_sub(&resultCount, 1) == 1) {
-//                NSLog(@"最后一个任务完成%@",task);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
                     [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
@@ -160,6 +157,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             [operate operateBlock:executBlock];
         };
         [self.thenExecutBlocks addObject:tempBlock];
+        [self tryTimeout];
     }
     [self.lock unlock];
     
@@ -167,6 +165,36 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         [operate operateBlock:executBlock];
     }
     return tempTask;
+}
+
+// 开启超时任务
+- (void)tryTimeout {
+    if (self.timeOutInterval <= 0) {
+        [self closeTimer];
+        return;
+    }
+    if (!_timeOutTimer) {
+        _timeOutTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeOutInterval target:self selector:@selector(timeOutAction) userInfo:nil repeats:NO];
+    }
+}
+
+// 已超时
+- (void)timeOutAction {
+    if (self.error || self.result) {
+        [self closeTimer];
+        return;
+    }
+    self.error = [NSError errorWithDomain:@"DBXChainTask" code:-6666 userInfo:@{
+        NSLocalizedDescriptionKey : @"任务已超时"
+    }];
+}
+
+- (void)closeTimer {
+    if (!_timeOutTimer) {
+        return;
+    }
+    [_timeOutTimer invalidate];
+    _timeOutTimer = nil;
 }
 
 - (void)setError:(NSError *)error {
@@ -200,6 +228,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         executBlock();
     }
     [self.thenExecutBlocks removeAllObjects];
+    [self closeTimer];
     [self.lock unlock];
 }
 

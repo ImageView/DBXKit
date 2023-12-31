@@ -24,6 +24,9 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 /// 用于做些标识，非必要
 @property(nonatomic, copy) NSString *taskName;
 
+/// 超时，默认不超时
+@property(nonatomic, assign) NSTimeInterval timeOutInterval;
+
 /// 标记是否任务完成
 @property(nonatomic, assign, readonly, getter=isCompleted) BOOL completed;
 
@@ -33,12 +36,12 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 /// 任务执行后的结果
 @property(nonatomic, strong, nullable) id result;
 
-// 用语grouptask，获取当前任务的key
+// 用于grouptask，获取当前任务的key
 - (id)resultKey;
 
 + (instancetype)chainTask;
 
-// group执行的任务，取对应task时要用hask值取
+// group执行的任务，取对应task时要用resultKey取
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks;
 
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks operate:(DBXOperate *)operate;

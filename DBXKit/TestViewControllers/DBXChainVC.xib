@@ -19,6 +19,15 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tB-zX-uVF">
+                    <rect key="frame" x="73" y="260" width="120" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="测试chain"/>
+                    <connections>
+                        <action selector="testChainTask:" destination="-1" eventType="touchUpInside" id="CxN-32-Ql9"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tws-ye-YSm">
                     <rect key="frame" x="241" y="260" width="120" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -29,13 +38,13 @@
                         <action selector="testGroup:" destination="-1" eventType="touchUpInside" id="kVT-SR-OKX"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tB-zX-uVF">
-                    <rect key="frame" x="73" y="260" width="120" height="80"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGG-vD-fie">
+                    <rect key="frame" x="73" y="386" width="120" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="测试chain"/>
+                    <buttonConfiguration key="configuration" style="plain" title="测试超时"/>
                     <connections>
-                        <action selector="testChainTask:" destination="-1" eventType="touchUpInside" id="CxN-32-Ql9"/>
+                        <action selector="testTimeoutTask:" destination="-1" eventType="touchUpInside" id="ikA-t3-VEV"/>
                     </connections>
                 </button>
             </subviews>
