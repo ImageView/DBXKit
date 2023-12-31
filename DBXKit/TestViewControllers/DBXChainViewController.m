@@ -21,7 +21,7 @@
     
 }
 
-- (void)testChainTask {
+- (IBAction)testChainTask:(id)sender {
     dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
     
     [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
@@ -44,7 +44,8 @@
     }];
 }
 
-- (void)testGroupChainTask {
+- (IBAction)testGroup:(id)sender {
+
     DBXChainTask *task2 = [self createTaskWithName:@"2222"];
     [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         NSError *error = [DBXChainTask errorOfTask:task2 fromGroupError:task.error];
