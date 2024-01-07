@@ -40,6 +40,13 @@
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
 		C8F3016C2B4074E100524BEE /* DBXChainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8F3016B2B4074E100524BEE /* DBXChainVC.xib */; };
 		C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */; };
+		C8F301802B4A9CDB00524BEE /* DBXSyringeInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301712B4A9CDB00524BEE /* DBXSyringeInterface.m */; };
+		C8F301812B4A9CDB00524BEE /* DBXSyringeInject.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301722B4A9CDB00524BEE /* DBXSyringeInject.m */; };
+		C8F301822B4A9CDB00524BEE /* DBXSyringeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301742B4A9CDB00524BEE /* DBXSyringeFactory.m */; };
+		C8F301832B4A9CDB00524BEE /* DBXSyringeTmpArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301752B4A9CDB00524BEE /* DBXSyringeTmpArgument.m */; };
+		C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */; };
+		C8F301852B4A9CDB00524BEE /* DBXSyringeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */; };
+		C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +117,21 @@
 		C8F3016B2B4074E100524BEE /* DBXChainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DBXChainVC.xib; sourceTree = "<group>"; };
 		C8F3016D2B41690F00524BEE /* DBXLabelsTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXLabelsTestViewController.h; sourceTree = "<group>"; };
 		C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXLabelsTestViewController.m; sourceTree = "<group>"; };
+		C8F301712B4A9CDB00524BEE /* DBXSyringeInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeInterface.m; sourceTree = "<group>"; };
+		C8F301722B4A9CDB00524BEE /* DBXSyringeInject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeInject.m; sourceTree = "<group>"; };
+		C8F301732B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBXSyringeInterface+DBXSy.h"; sourceTree = "<group>"; };
+		C8F301742B4A9CDB00524BEE /* DBXSyringeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeFactory.m; sourceTree = "<group>"; };
+		C8F301752B4A9CDB00524BEE /* DBXSyringeTmpArgument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeTmpArgument.m; sourceTree = "<group>"; };
+		C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeMethod.m; sourceTree = "<group>"; };
+		C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXSyringeUtils.m; sourceTree = "<group>"; };
+		C8F301782B4A9CDB00524BEE /* DBXSyringe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringe.h; sourceTree = "<group>"; };
+		C8F301792B4A9CDB00524BEE /* DBXSyringeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeFactory.h; sourceTree = "<group>"; };
+		C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBXSyringeInterface+DBXSy.m"; sourceTree = "<group>"; };
+		C8F3017B2B4A9CDB00524BEE /* DBXSyringeInject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeInject.h; sourceTree = "<group>"; };
+		C8F3017C2B4A9CDB00524BEE /* DBXSyringeInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeInterface.h; sourceTree = "<group>"; };
+		C8F3017D2B4A9CDB00524BEE /* DBXSyringeTmpArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeTmpArgument.h; sourceTree = "<group>"; };
+		C8F3017E2B4A9CDB00524BEE /* DBXSyringeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeUtils.h; sourceTree = "<group>"; };
+		C8F3017F2B4A9CDB00524BEE /* DBXSyringeMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeMethod.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +262,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C8F301702B4A9CDB00524BEE /* Syringe */,
 				2E70D2C32933154500ED8B9E /* Chain */,
 				2EF739A4287AC21C007B2A95 /* Core */,
 				C8DD74A328D3046F00E08AA1 /* Tools */,
@@ -291,6 +314,28 @@
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
 			path = TestViewControllers;
+			sourceTree = "<group>";
+		};
+		C8F301702B4A9CDB00524BEE /* Syringe */ = {
+			isa = PBXGroup;
+			children = (
+				C8F301712B4A9CDB00524BEE /* DBXSyringeInterface.m */,
+				C8F301722B4A9CDB00524BEE /* DBXSyringeInject.m */,
+				C8F301732B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.h */,
+				C8F301742B4A9CDB00524BEE /* DBXSyringeFactory.m */,
+				C8F301752B4A9CDB00524BEE /* DBXSyringeTmpArgument.m */,
+				C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */,
+				C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */,
+				C8F301782B4A9CDB00524BEE /* DBXSyringe.h */,
+				C8F301792B4A9CDB00524BEE /* DBXSyringeFactory.h */,
+				C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */,
+				C8F3017B2B4A9CDB00524BEE /* DBXSyringeInject.h */,
+				C8F3017C2B4A9CDB00524BEE /* DBXSyringeInterface.h */,
+				C8F3017D2B4A9CDB00524BEE /* DBXSyringeTmpArgument.h */,
+				C8F3017E2B4A9CDB00524BEE /* DBXSyringeUtils.h */,
+				C8F3017F2B4A9CDB00524BEE /* DBXSyringeMethod.h */,
+			);
+			path = Syringe;
 			sourceTree = "<group>";
 		};
 		D9777371862E77321C63E740 /* Frameworks */ = {
@@ -422,7 +467,9 @@
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
+				C8F301852B4A9CDB00524BEE /* DBXSyringeUtils.m in Sources */,
 				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
+				C8F301812B4A9CDB00524BEE /* DBXSyringeInject.m in Sources */,
 				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,
 				C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
@@ -430,7 +477,11 @@
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
+				C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */,
+				C8F301802B4A9CDB00524BEE /* DBXSyringeInterface.m in Sources */,
+				C8F301832B4A9CDB00524BEE /* DBXSyringeTmpArgument.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
+				C8F301822B4A9CDB00524BEE /* DBXSyringeFactory.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
@@ -445,6 +496,7 @@
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
+				C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
