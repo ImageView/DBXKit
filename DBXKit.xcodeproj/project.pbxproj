@@ -24,6 +24,10 @@
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
+		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
+		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
+		C864D8F42B53B88A007D11E8 /* People.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F22B53B88A007D11E8 /* People.m */; };
+		C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F52B53B8AF007D11E8 /* Animal.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
@@ -86,6 +90,14 @@
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
 		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
+		C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXSyringViewController.h; sourceTree = "<group>"; };
+		C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXSyringViewController.m; sourceTree = "<group>"; };
+		C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySyringInterface.m; sourceTree = "<group>"; };
+		C864D8F02B53B85A007D11E8 /* MySyringInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySyringInterface.h; sourceTree = "<group>"; };
+		C864D8F22B53B88A007D11E8 /* People.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = People.m; sourceTree = "<group>"; };
+		C864D8F32B53B88A007D11E8 /* People.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = People.h; sourceTree = "<group>"; };
+		C864D8F52B53B8AF007D11E8 /* Animal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animal.m; sourceTree = "<group>"; };
+		C864D8F62B53B8AF007D11E8 /* Animal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animal.h; sourceTree = "<group>"; };
 		C8767EDE269E869B005C0B2C /* MnaLabelsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaLabelsView.m; sourceTree = "<group>"; };
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
@@ -189,6 +201,12 @@
 				2E0482CB2882C13100C69D08 /* TextAutoReportImpl.m */,
 				C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */,
 				C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */,
+				C864D8F02B53B85A007D11E8 /* MySyringInterface.h */,
+				C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */,
+				C864D8F62B53B8AF007D11E8 /* Animal.h */,
+				C864D8F52B53B8AF007D11E8 /* Animal.m */,
+				C864D8F32B53B88A007D11E8 /* People.h */,
+				C864D8F22B53B88A007D11E8 /* People.m */,
 				2E95C27A2691C9FD00A2801A /* Main.storyboard */,
 				2E95C27D2691CA0100A2801A /* Assets.xcassets */,
 				2E95C27F2691CA0100A2801A /* LaunchScreen.storyboard */,
@@ -310,6 +328,8 @@
 				C8F3015F2B40616C00524BEE /* DBXChainViewController.m */,
 				C8F3016D2B41690F00524BEE /* DBXLabelsTestViewController.h */,
 				C8F3016E2B41690F00524BEE /* DBXLabelsTestViewController.m */,
+				C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */,
+				C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
@@ -319,21 +339,21 @@
 		C8F301702B4A9CDB00524BEE /* Syringe */ = {
 			isa = PBXGroup;
 			children = (
+				C8F301782B4A9CDB00524BEE /* DBXSyringe.h */,
+				C8F3017C2B4A9CDB00524BEE /* DBXSyringeInterface.h */,
 				C8F301712B4A9CDB00524BEE /* DBXSyringeInterface.m */,
+				C8F3017B2B4A9CDB00524BEE /* DBXSyringeInject.h */,
 				C8F301722B4A9CDB00524BEE /* DBXSyringeInject.m */,
 				C8F301732B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.h */,
-				C8F301742B4A9CDB00524BEE /* DBXSyringeFactory.m */,
-				C8F301752B4A9CDB00524BEE /* DBXSyringeTmpArgument.m */,
-				C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */,
-				C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */,
-				C8F301782B4A9CDB00524BEE /* DBXSyringe.h */,
-				C8F301792B4A9CDB00524BEE /* DBXSyringeFactory.h */,
 				C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */,
-				C8F3017B2B4A9CDB00524BEE /* DBXSyringeInject.h */,
-				C8F3017C2B4A9CDB00524BEE /* DBXSyringeInterface.h */,
+				C8F301792B4A9CDB00524BEE /* DBXSyringeFactory.h */,
+				C8F301742B4A9CDB00524BEE /* DBXSyringeFactory.m */,
 				C8F3017D2B4A9CDB00524BEE /* DBXSyringeTmpArgument.h */,
-				C8F3017E2B4A9CDB00524BEE /* DBXSyringeUtils.h */,
+				C8F301752B4A9CDB00524BEE /* DBXSyringeTmpArgument.m */,
 				C8F3017F2B4A9CDB00524BEE /* DBXSyringeMethod.h */,
+				C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */,
+				C8F3017E2B4A9CDB00524BEE /* DBXSyringeUtils.h */,
+				C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */,
 			);
 			path = Syringe;
 			sourceTree = "<group>";
@@ -464,6 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
+				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
@@ -489,6 +510,7 @@
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
+				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
@@ -496,6 +518,8 @@
 				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
+				C864D8F42B53B88A007D11E8 /* People.m in Sources */,
+				C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */,
 				C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
