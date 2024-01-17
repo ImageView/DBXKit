@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DBXKit"
-  spec.version      = "0.3.1"
+  spec.version      = "0.3.2"
   spec.summary      = "A short description of DBXKit."
 
   spec.homepage     = "https://github.com/ImageView/"
@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #spec.source_files  = "Classes", "DBXKit/Classes/**/*"
   #spec.exclude_files = "DBXKit/Classes/Exclude"
 
-  spec.default_subspecs = 'Core','Extension','LabelsView','Tools','Chain'
+  #spec.default_subspecs = 'Core','Extension','LabelsView','Tools','Chain'
 
   spec.subspec 'Core' do |ss|
        ss.source_files = 'DBXKit/Classes/Core/**/*'
