@@ -31,7 +31,7 @@
     People *p1 = [interface people];
     People *p2 = [interface peopleName:@"asherluo" age:@(18)];
     Animal *dog = p2.pet;
-    [dog run];
+//    [dog run];
     
     People *p3 = [interface peopleWithName:@"111"];
     NSLog(@"p1 = %@, p2 = %@  p3=%@", p1,p2,p3);

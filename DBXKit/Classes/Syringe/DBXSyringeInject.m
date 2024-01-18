@@ -9,6 +9,7 @@
 #import "DBXSyringeInject.h"
 #import "DBXSyringeMethod.h"
 #import "DBXSyringeTmpArgument.h"
+#import <objc/runtime.h>
 
 @interface DBXSyringeInject ()
 
@@ -56,6 +57,7 @@
     [self.injectPropertys setValue:value forKey:NSStringFromSelector(selector)];
 }
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (id)initInstanceWithArgs:(NSArray *)args {
     if (self.outPutInitializer && self.outPutClass) {
         NSInvocation *invocation = [self.outPutInitializer createInvocationWithArgums:args ofClass:self.outPutClass];
@@ -74,7 +76,13 @@
                 id oneArgum = args[tmpArgum.index];
                 [returnIntance setValue:oneArgum forKey:propertyName];
             } else {
-                [returnIntance setValue:obj forKey:propertyName];
+                NSObject *instanceObject = returnIntance;
+                SEL sel = NSSelectorFromString(propertyName);
+                if (classHasProperty(instanceObject.class, propertyName)){
+                    [returnIntance setValue:obj forKey:propertyName];
+                } else if (classHasMethod(instanceObject.class, sel)) {
+                    [instanceObject performSelector:sel withObject:obj];
+                }
             }
         }
         
@@ -97,5 +105,16 @@
         _outPutInitializer = [[DBXSyringeMethod alloc] initWithSelector:@selector(init)];
     }
     return _outPutInitializer;
+}
+
+
+BOOL classHasMethod(Class class, SEL selector) {
+    Method method = class_getInstanceMethod(class, selector);
+    return (method != NULL);
+}
+
+BOOL classHasProperty(Class class, NSString *propertyName) {
+    objc_property_t property = class_getProperty(class, propertyName.UTF8String);
+    return (property != NULL);
 }
 @end

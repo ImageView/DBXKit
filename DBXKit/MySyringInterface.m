@@ -19,7 +19,8 @@
 
 - (People *)people {
     return [DBXSyringeInject injectWithClass:[People class] configuration:^(DBXSyringeInject * _Nonnull inject) {
-        
+        [inject addPropertyValue:@"aaa" to:@selector(test:)];
+        [inject addPropertyValue:@"asher" to:@selector(name)];
     }];
 }
 
