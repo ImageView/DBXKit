@@ -30,6 +30,7 @@
 		C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F52B53B8AF007D11E8 /* Animal.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
+		C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6242B5EC298008C9C36 /* DBXDebounce.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
@@ -102,6 +103,8 @@
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
 		C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTextCollectionViewCell.m; sourceTree = "<group>"; };
+		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
+		C880A6242B5EC298008C9C36 /* DBXDebounce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebounce.m; sourceTree = "<group>"; };
 		C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+dbx_modelValue.m"; sourceTree = "<group>"; };
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
@@ -277,9 +280,19 @@
 			path = LabelsView;
 			sourceTree = "<group>";
 		};
+		C880A6222B5EC260008C9C36 /* Debounce */ = {
+			isa = PBXGroup;
+			children = (
+				C880A6232B5EC298008C9C36 /* DBXDebounce.h */,
+				C880A6242B5EC298008C9C36 /* DBXDebounce.m */,
+			);
+			path = Debounce;
+			sourceTree = "<group>";
+		};
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C880A6222B5EC260008C9C36 /* Debounce */,
 				C8F301702B4A9CDB00524BEE /* Syringe */,
 				2E70D2C32933154500ED8B9E /* Chain */,
 				2EF739A4287AC21C007B2A95 /* Core */,
@@ -512,6 +525,7 @@
 				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
+				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
