@@ -31,6 +31,7 @@
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6242B5EC298008C9C36 /* DBXDebounce.m */; };
+		C880A6282B616105008C9C36 /* DBXDebRule.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6272B616105008C9C36 /* DBXDebRule.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
@@ -105,6 +106,8 @@
 		C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTextCollectionViewCell.m; sourceTree = "<group>"; };
 		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
 		C880A6242B5EC298008C9C36 /* DBXDebounce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebounce.m; sourceTree = "<group>"; };
+		C880A6262B616105008C9C36 /* DBXDebRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebRule.h; sourceTree = "<group>"; };
+		C880A6272B616105008C9C36 /* DBXDebRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebRule.m; sourceTree = "<group>"; };
 		C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+dbx_modelValue.m"; sourceTree = "<group>"; };
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
@@ -285,6 +288,8 @@
 			children = (
 				C880A6232B5EC298008C9C36 /* DBXDebounce.h */,
 				C880A6242B5EC298008C9C36 /* DBXDebounce.m */,
+				C880A6262B616105008C9C36 /* DBXDebRule.h */,
+				C880A6272B616105008C9C36 /* DBXDebRule.m */,
 			);
 			path = Debounce;
 			sourceTree = "<group>";
@@ -496,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C880A6282B616105008C9C36 /* DBXDebRule.m in Sources */,
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
