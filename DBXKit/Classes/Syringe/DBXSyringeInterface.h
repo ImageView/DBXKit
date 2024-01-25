@@ -14,9 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 // 注入接口
 @interface DBXSyringeInterface : NSObject
 
-- (instancetype)activated;
+// 返回已激活的实例
++ (instancetype)activatedInterface;
 
-- (void)prepare;
+- (instancetype)activated;
 
 - (DBXSyringeInject *)injectOfSelector:(SEL)selector;
 

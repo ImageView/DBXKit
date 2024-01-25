@@ -8,6 +8,12 @@
 
 #import "People.h"
 
+@interface People ()
+
+@property(nonatomic, strong) NSString *name;
+
+@end
+
 @implementation People
 
 - (void)run {
@@ -63,6 +69,9 @@
 }
 
 
+- (void)test:(NSString *)test {
+    NSLog(test);
+}
 
 - (instancetype)initWithNum:(NSNumber *)num
 {
