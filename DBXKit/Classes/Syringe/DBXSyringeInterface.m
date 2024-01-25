@@ -42,6 +42,11 @@
     
 }
 
++ (instancetype)activatedInterface {
+    id instance = [[self alloc] init];
+    return [instance activated];
+}
+
 - (instancetype)activated {
     if (self.factory) {
         return (id)self.factory;
