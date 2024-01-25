@@ -27,7 +27,7 @@
     
 //    MySyringInterface *interface = [MySyringInterface new];
 //    interface = [interface activated];
-    MySyringInterface *interface = [MySyringInterface activatedInstance];
+    MySyringInterface *interface = [MySyringInterface activatedInterface];
     People *p1 = [interface people];
     People *p2 = [interface peopleName:@"asherluo" age:@(18)];
     Animal *dog = p2.pet;
