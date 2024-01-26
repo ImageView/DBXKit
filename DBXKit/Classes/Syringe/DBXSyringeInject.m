@@ -73,16 +73,14 @@
             id obj = self.injectPropertys[propertyName];
             if ([obj isKindOfClass:[DBXSyringeTmpArgument class]]) {
                 DBXSyringeTmpArgument *tmpArgum = obj;
-                id oneArgum = args[tmpArgum.index];
-                [returnIntance setValue:oneArgum forKey:propertyName];
-            } else {
-                NSObject *instanceObject = returnIntance;
-                SEL sel = NSSelectorFromString(propertyName);
-                if (classHasProperty(instanceObject.class, propertyName)){
-                    [returnIntance setValue:obj forKey:propertyName];
-                } else if (classHasMethod(instanceObject.class, sel)) {
-                    [instanceObject performSelector:sel withObject:obj];
-                }
+                obj = args[tmpArgum.index];
+            }
+            NSObject *instanceObject = returnIntance;
+            SEL sel = NSSelectorFromString(propertyName);
+            if (classHasProperty(instanceObject.class, propertyName)){
+                [returnIntance setValue:obj forKey:propertyName];
+            } else if (classHasMethod(instanceObject.class, sel)) {
+                [instanceObject performSelector:sel withObject:obj];
             }
         }
         
