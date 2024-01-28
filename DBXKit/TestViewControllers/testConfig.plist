@@ -32,6 +32,12 @@
 			<key>class</key>
 			<string>ViewController</string>
 		</dict>
+		<dict>
+			<key>title</key>
+			<string>Debounce</string>
+			<key>class</key>
+			<string>DBXDebounceViewController</string>
+		</dict>
 	</array>
 </dict>
 </plist>
