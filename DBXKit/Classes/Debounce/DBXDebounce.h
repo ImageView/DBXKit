@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, DBXDebounceModel) {
     DBXDebounceModelFirstOnly,  // 只执行第一个，后面的丢掉
     DBXDebounceModelLastOnly,   // 只直行最后一个，前面的丢掉
-    DBXDebounceModelSerialAll   // 串行执行，上一个结束后debounceInterval秒后执行下一个
+    DBXDebounceModelDebounce,
+//    DBXDebounceModelSerialAll   // 串行执行，上一个结束后debounceInterval秒后执行下一个
 };
 
 @class DBXDebounceDealloc;
@@ -27,6 +28,8 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 @property(nonatomic, assign) NSTimeInterval debounceInterval;
 // 防抖模式
 @property(nonatomic, assign) DBXDebounceModel model;
+// 执行队列
+@property (nonatomic) dispatch_queue_t queue;
 // 规则是否生效
 @property(nonatomic, assign, readonly, getter=isActive) BOOL active;
 

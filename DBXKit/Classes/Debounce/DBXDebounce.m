@@ -19,10 +19,23 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 // 给规则加个私有的存放真实selector的属性
 @property (nonatomic, assign) SEL aliasSelector;
 @property(nonatomic, assign, readwrite, getter=isActive) BOOL active;
+// 最后执行的时间
+@property (nonatomic) NSTimeInterval lastTimeInvoke;
+@property (nonatomic) NSInvocation *lastInvocation;
+
 
 @end
 
 @implementation DBXDebounceRule
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _queue = dispatch_get_main_queue();
+    }
+    return self;
+}
 
 - (DBXDebounceDealloc *)deallocObj {
     if (!self.target) {
@@ -31,6 +44,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self.target, self.selector);
     if (!dealloc) {
         dealloc = [[DBXDebounceDealloc alloc] init];
+        dealloc.rule = self;
+        dealloc.cls = object_getClass(self.target);
         objc_setAssociatedObject(self.target, self.selector, dealloc, OBJC_ASSOCIATION_RETAIN);
     }
     return dealloc;
@@ -49,6 +64,15 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"_dbx_%@", NSStringFromSelector(self.selector)]);
     }
     return _aliasSelector;
+}
+
+- (void)invokingLastInvocation {
+    DBXDebounceDealloc *dealloc = [self deallocObj];
+    if (!dealloc) {
+        return;
+    }
+    [self.lastInvocation invoke];
+    self.lastInvocation = nil;
 }
 
 @end
@@ -235,7 +259,88 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 static void dbx_forwardInvocation(id target, SEL selector, NSInvocation *invocation) {
-    NSLog(@"123");
+    DBXDebounceDealloc *deallocObj = nil;
+    if (object_isClass(target)) {
+        deallocObj = objc_getAssociatedObject(object_getClass(invocation.target), invocation.selector);
+    } else {
+        deallocObj = objc_getAssociatedObject(invocation.target, invocation.selector);
+    }
+    BOOL aliasResponds = YES;
+    Class cls = object_getClass(invocation.target);
+    do {
+        if (!deallocObj.rule) {
+            deallocObj = objc_getAssociatedObject(cls, invocation.selector);
+        }
+        if ((aliasResponds = [cls instancesRespondToSelector:deallocObj.rule.aliasSelector])) {
+            break;
+        }
+        deallocObj = nil;
+    } while (!aliasResponds && (cls = class_getSuperclass(cls)));
+    
+    [deallocObj lock];
+    if (aliasResponds) {
+        dbx_handleInvocation(invocation, deallocObj.rule);
+    }
+    [deallocObj unlock];
+}
+
+static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule) {
+    if (!rule.isActive) {
+        [invocation invoke];
+        return;
+    }
+    if (rule.debounceInterval <= 0 ) {
+        invocation.selector = rule.aliasSelector;
+        [invocation invoke];
+        return;
+    }
+    NSLog(@"dbx_handleInvocation");
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    switch (rule.model) {
+        case DBXDebounceModelFirstOnly:
+            {
+                if (now - rule.lastTimeInvoke > rule.debounceInterval) {
+                    invocation.selector = rule.aliasSelector;
+                    [invocation invoke];
+                    rule.lastTimeInvoke = now;
+                    dispatch_async(rule.queue, ^{
+                        rule.lastInvocation = nil;
+                    });
+                }
+            }
+            break;
+        case DBXDebounceModelLastOnly:
+            {
+                invocation.selector = rule.aliasSelector;
+                [invocation retainArguments];
+                dispatch_async(rule.queue, ^{
+                    rule.lastInvocation = invocation;
+                    if (now - rule.lastTimeInvoke > rule.debounceInterval) {
+                        rule.lastTimeInvoke = now;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(rule.debounceInterval * NSEC_PER_SEC)), rule.queue, ^{
+                            [rule invokingLastInvocation];
+                        });
+                    }
+                });
+            }
+            break;
+        case DBXDebounceModelDebounce:
+            {
+                invocation.selector = rule.aliasSelector;
+                [invocation retainArguments];
+                dispatch_async(rule.queue, ^{
+                    rule.lastInvocation = invocation;
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(rule.debounceInterval * NSEC_PER_SEC)), rule.queue, ^{
+                        if (rule.lastInvocation == invocation) {
+                            [rule invokingLastInvocation];
+                        }
+                    });
+                });
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

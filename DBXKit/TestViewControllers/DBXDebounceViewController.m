@@ -21,6 +21,7 @@
     rule.selector = @selector(testA:);
     rule.target = self;
     rule.debounceInterval = 2;
+    rule.model = DBXDebounceModelDebounce;
     [rule apply];
     
     UIButton *button = [[UIButton alloc] init];
@@ -31,6 +32,6 @@
 }
 
 - (void)testA:(NSString *)aa {
-    NSLog(@"%@", aa);
+    NSLog(@"%s", __func__);
 }
 @end

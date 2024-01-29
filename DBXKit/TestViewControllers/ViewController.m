@@ -32,14 +32,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[DBXAutoReportManager sharedInstance] enableAutoReport];
-    [[DBXAutoReportManager sharedInstance] setReportConfig:@{
-        @"ViewController_clickedButton:" : @{@"title" : @"234",@"icon" : @"abc.jpg"},
-//        @"ViewController/UIView/UIView[01]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
-        @"ViewController_clickedImageView:" : @{@"title": @"点击了绿色图片"},
-        @"ViewController_clickedButtonInCell:":@{@"111" : @"123"}
-    }];
-    [DBXAutoReportManager sharedInstance].impl = self.impl;
+//    [[DBXAutoReportManager sharedInstance] enableAutoReport];
+//    [[DBXAutoReportManager sharedInstance] setReportConfig:@{
+//        @"ViewController_clickedButton:" : @{@"title" : @"234",@"icon" : @"abc.jpg"},
+////        @"ViewController/UIView/UIView[01]/UIButton[1]" : @{@"title" : @"234",@"icon" : @"abc.jpg"}
+//        @"ViewController_clickedImageView:" : @{@"title": @"点击了绿色图片"},
+//        @"ViewController_clickedButtonInCell:":@{@"111" : @"123"}
+//    }];
+//    [DBXAutoReportManager sharedInstance].impl = self.impl;
     
     self.button1.dbx_reportID = @"2341";
     

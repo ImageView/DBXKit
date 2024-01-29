@@ -10,8 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class DBXDebounceRule;
 @interface DBXDebounceDealloc : NSObject
 
+@property(nonatomic) DBXDebounceRule *rule;
 @property (nonatomic) Class cls;
 
 - (void)lock;
