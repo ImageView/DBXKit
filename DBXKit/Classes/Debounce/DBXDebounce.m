@@ -61,7 +61,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 - (SEL)aliasSelector {
     if (!_aliasSelector) {
-        _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"_dbx_%@", NSStringFromSelector(self.selector)]);
+        _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"__dbx_%@", NSStringFromSelector(self.selector)]);
     }
     return _aliasSelector;
 }
@@ -91,7 +91,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 {
     self = [super init];
     if (self) {
-        self.targetSelectorsMap = [NSMapTable weakToStrongObjectsMapTable];
+        _targetSelectorsMap = [NSMapTable weakToStrongObjectsMapTable];
+        _classHooked = [NSMutableSet set];
         pthread_mutex_init(&_lock, NULL);
     }
     return self;
@@ -115,7 +116,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return;
     }
     NSMutableSet *selectorsSet = [self.targetSelectorsMap objectForKey:target];
-    if (selectorsSet) {
+    if (!selectorsSet) {
         selectorsSet = [NSMutableSet set];
     }
     [selectorsSet addObject:NSStringFromSelector(selector)];
@@ -218,7 +219,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [rule deallocObj].cls = cls;
     IMP targetOriginalForwardImp = class_getMethodImplementation(cls, @selector(forwardInvocation:));
     if (targetOriginalForwardImp != (IMP)dbx_forwardInvocation) {
-        // 把cls的方法转发的方法转移到当前类里，即mt_forwardInvocation，然后重新加一个方法MTForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
+        // 把cls的方法转发的方法转移到当前类里，即mt_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
         IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
         if (!originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName), originalIMP, "v@:@");
@@ -231,8 +232,10 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     if (targetMethodIMP != _objc_msgForward) {
         // 给cls添加一个新方法aliasSelector，实现为rule的selector
         class_addMethod(cls, rule.aliasSelector, targetMethodIMP, typeEncoding);
+        class_replaceMethod(cls, rule.selector, _objc_msgForward, typeEncoding);
+        [self.classHooked addObject:cls];
     }
-    class_replaceMethod(cls, rule.selector, _objc_msgForward, typeEncoding);
+    
     return YES;
 }
 
@@ -294,7 +297,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    NSLog(@"dbx_handleInvocation");
+    NSLog(@"%s", __func__);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:

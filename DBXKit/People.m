@@ -70,7 +70,7 @@
 
 
 - (void)test:(NSString *)test {
-    NSLog(test);
+    NSLog(@"%@", test);
 }
 
 - (instancetype)initWithNum:(NSNumber *)num
