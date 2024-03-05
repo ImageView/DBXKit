@@ -134,6 +134,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         if ([result isKindOfClass:[DBXChainTask class]]) {
             DBXChainThenBlock tempThenBlock = ^id (DBXChainTask *task) {
                 tempTask.taskName = task.taskName;
+                tempTask.subTasks = task.subTasks;
                 if (task.error) {
                     tempTask.error = task.error;
                 } else {
