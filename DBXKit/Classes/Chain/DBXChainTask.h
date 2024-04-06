@@ -24,6 +24,9 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 /// 用于做些标识，非必要
 @property(nonatomic, copy) NSString *taskName;
 
+/// 用于grouptask，获取当前group里包含的task
+@property(nonatomic, copy, readonly) NSArray *subTasks;
+
 /// 超时，默认不超时
 @property(nonatomic, assign) NSTimeInterval timeOutInterval;
 

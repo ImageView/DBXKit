@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DBXKit"
-  spec.version      = "0.3.5"
+  spec.version      = "0.3.7"
   spec.summary      = "A short description of DBXKit."
 
   spec.homepage     = "https://github.com/ImageView/"

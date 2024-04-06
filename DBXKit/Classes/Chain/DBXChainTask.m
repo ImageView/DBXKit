@@ -21,6 +21,9 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 @property(nonatomic, strong) NSLock *lock;
 // 标记是否任务完成
 @property(nonatomic, assign, getter=isCompleted) BOOL completed;
+// 用于grouptask，获取当前group里包含的task
+@property(nonatomic, copy) NSArray *subTasks;
+// 超时时间
 @property(nonatomic, strong) NSTimer *timeOutTimer;
 @end
 
@@ -32,6 +35,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     task.result = self.result;
     task.completed = self.completed;
     task.error = self.error;
+    task.subTasks = self.subTasks;
+    task.timeOutInterval = self.timeOutInterval;
     
     return task;
 }
@@ -55,6 +60,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks operate:(DBXOperate *)operate {
     DBXChainTask *tempTask = [self chainTask];
+    tempTask.subTasks = tasks;
+    
     if (!tasks || tasks.count == 0) {
         [tempTask setResult:nil];
         return tempTask;
@@ -127,6 +134,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
         if ([result isKindOfClass:[DBXChainTask class]]) {
             DBXChainThenBlock tempThenBlock = ^id (DBXChainTask *task) {
                 tempTask.taskName = task.taskName;
+                tempTask.subTasks = task.subTasks;
                 if (task.error) {
                     tempTask.error = task.error;
                 } else {
