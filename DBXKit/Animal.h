@@ -11,9 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Animal : NSObject
+@property(nonatomic, strong) NSString *name;
 
 - (void)run;
 
+- (void)barking;
 @end
 
 NS_ASSUME_NONNULL_END

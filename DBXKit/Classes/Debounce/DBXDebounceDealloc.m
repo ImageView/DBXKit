@@ -40,7 +40,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%s",__func__);
+//    NSLog(@"%s",__func__);
 //    SEL selector = NSSelectorFromString(@"discardRule:whenTargetDealloc:");
 //    ((void (*)(id, SEL, MTRule *, MTDealloc *))[MTEngine.defaultEngine methodForSelector:selector])(MTEngine.defaultEngine, selector, self.rule, self);
 }

@@ -59,7 +59,7 @@
 
     self.textLabel.attributedText = attStr;
 //    [self testTaskManager];
-    [self testObserver];
+//    [self testObserver];
 }
 
 - (void)testTaskManager {

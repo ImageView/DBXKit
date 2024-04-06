@@ -10,6 +10,10 @@
 
 @implementation Animal
 - (void)run {
-    
+    NSLog(@"%s,%@", __func__, self.name);
+}
+
+- (void)barking {
+    NSLog(@"%s,%@", __func__, self.name);
 }
 @end

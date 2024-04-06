@@ -23,7 +23,6 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 @property (nonatomic) NSTimeInterval lastTimeInvoke;
 @property (nonatomic) NSInvocation *lastInvocation;
 
-
 @end
 
 @implementation DBXDebounceRule
@@ -123,11 +122,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [self.targetSelectorsMap setObject:selectorsSet forKey:target];
 }
 
-- (void)applyRule:(DBXDebounceRule *)rule {
+- (BOOL)applyRule:(DBXDebounceRule *)rule {
     pthread_mutex_lock(&_lock);
-    if (![DBXDebounce checkRuleValid:rule]) {
-        return;
-    }
     BOOL hadApply = objc_getAssociatedObject(rule.target, rule.selector);
     
     DBXDebounceDealloc *dealloc = rule.deallocObj;
@@ -149,7 +145,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
             // 已经应用的规则
             if (target == rule.target) {
                 shouldApplly = NO;
-                continue;;
+                continue;
             }
             // 继承链上的规则
             if (object_isClass(rule.target) && object_isClass(target)) {
@@ -178,6 +174,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     }
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
+    return shouldApplly;
+}
+
+- (BOOL)discardRule:(DBXDebounceRule *)rule {
+    
+    return YES;
 }
 
 - (BOOL)overrideMethod:(DBXDebounceRule *)rule {
@@ -221,7 +223,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     if (targetOriginalForwardImp != (IMP)dbx_forwardInvocation) {
         // 把cls的方法转发的方法转移到当前类里，即mt_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
         IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
-        if (!originalIMP) {
+        if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName), originalIMP, "v@:@");
         }
     }
@@ -237,6 +239,23 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     }
     
     return YES;
+}
+
+static void DBXLog(NSString *log, ...) {
+    if (![DBXDebounce sharedInstance].debug) {
+        return;
+    }
+    NSMutableString *result = [[NSMutableString alloc] initWithFormat:@"%@", log];
+    
+    va_list argumentList;
+    va_start(argumentList, log);
+    id argument;
+    while ((argument = va_arg(argumentList, id))) {
+        [result appendFormat:@"%@", argument];
+    }
+    va_end(argumentList);
+    
+    NSLog(result);
 }
 
 + (BOOL)checkRuleValid:(DBXDebounceRule *)rule {
@@ -272,6 +291,7 @@ static void dbx_forwardInvocation(id target, SEL selector, NSInvocation *invocat
     Class cls = object_getClass(invocation.target);
     do {
         if (!deallocObj.rule) {
+            // 实例中没有关联对象则尝试从类的关联中获取，因为rule可能绑定到类上了
             deallocObj = objc_getAssociatedObject(cls, invocation.selector);
         }
         if ((aliasResponds = [cls instancesRespondToSelector:deallocObj.rule.aliasSelector])) {
@@ -297,7 +317,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    NSLog(@"%s", __func__);
+//    DBXLog(@"%s", __func__);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
