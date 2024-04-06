@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 //#import "ViewController.h"
 #import "DBXChainViewController.h"
+#import "DBXConfig.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     _window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    
+    [DBXConfig sharedInstance].debug = YES;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"testConfig" ofType:@"plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
     NSArray *vclist = dict[@"testvc"];

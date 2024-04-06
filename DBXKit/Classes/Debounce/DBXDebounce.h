@@ -43,8 +43,6 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 
 @interface DBXDebounce : NSObject
 
-@property(nonatomic, assign) BOOL debug;
-
 + (instancetype)sharedInstance;
 
 - (BOOL)applyRule:(DBXDebounceRule *)rule;

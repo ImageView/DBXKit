@@ -11,6 +11,7 @@
 #import <objc/message.h>
 #import "DBXDebounceDealloc.h"
 #import <pthread.h>
+#import "DBXConfig.h"
 
 static NSString *const DBXForwardInvocationSelectorName = @"__dbx_forwardInvocation:";
 static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
@@ -239,19 +240,6 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     }
     
     return YES;
-}
-
-static void DBXLog(NSString *log, ...) {
-    if (![DBXDebounce sharedInstance].debug) {
-        return;
-    }
-    NSString *result = nil;
-    va_list args;
-    va_start(args, log);
-    result = [[NSString alloc] initWithFormat:log arguments:args];
-    va_end(args);
-    
-    NSLog(@"%@", result);
 }
 
 + (BOOL)checkRuleValid:(DBXDebounceRule *)rule {

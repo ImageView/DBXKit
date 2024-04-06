@@ -42,8 +42,6 @@
     button1.frame = CGRectMake(50, 150, 200, 100);
     [self.view addSubview:button1];
     
-    [DBXDebounce sharedInstance].debug = YES;
-    
     self.dog = [[Animal alloc] init];
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
