@@ -12,6 +12,7 @@
 
 @interface DBXDebounceViewController ()
 
+@property(nonatomic, strong) NSArray *list;
 @property(nonatomic, strong) Animal *dog;
 @property(nonatomic, strong) Animal *cat;
 
@@ -21,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
     rule.selector = @selector(run);
     rule.target = [Animal class];
@@ -28,19 +30,7 @@
     rule.model = DBXDebounceModelFirstOnly;
     [rule apply];
     
-    UIButton *button = [[UIButton alloc] init];
-    button.backgroundColor = UIColor.redColor;
-    [button setTitle:@"类防抖测试" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(classTest) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake(50, 50, 200, 100);
-    [self.view addSubview:button];
-    
-    UIButton *button1 = [[UIButton alloc] init];
-    button1.backgroundColor = UIColor.blueColor;
-    [button1 setTitle:@"局部变量防抖测试" forState:UIControlStateNormal];
-    [button1 addTarget:self action:@selector(instanceTest) forControlEvents:UIControlEventTouchUpInside];
-    button1.frame = CGRectMake(50, 150, 200, 100);
-    [self.view addSubview:button1];
+    self.list = @[@"类防抖测试", @"局部变量防抖测试", @"测试反复注册规则"];
     
     self.dog = [[Animal alloc] init];
     self.dog.name = @"狗狗";
@@ -88,7 +78,41 @@
 //    NSLog(@"结束了");
 }
 
-- (void)testC {
+- (void)repeatApply {
+    People *p1 = [[People alloc] init];
+    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
+    rule.selector = @selector(test:);
+    rule.target = p1;
+    rule.debounceInterval = 2;
+    rule.model = DBXDebounceModelFirstOnly;
+    [rule apply];
     
+    DBXDebounceRule *rule1 = [[DBXDebounceRule alloc] init];
+    rule1.selector = @selector(test:);
+    rule1.target = p1;
+    rule1.debounceInterval = 2;
+    rule1.model = DBXDebounceModelFirstOnly;
+    [rule1 apply];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.list.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.textLabel.text = self.list[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *title = self.list[indexPath.row];
+    if ([title isEqualToString:@"类防抖测试"]) {
+        [self classTest];
+    } else if ([title isEqualToString:@"局部变量防抖测试"]) {
+        [self instanceTest];
+    } else if ([title isEqualToString:@"测试反复注册规则"]) {
+        [self repeatApply];
+    }
 }
 @end

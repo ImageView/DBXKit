@@ -6,11 +6,11 @@
 //  Copyright © 2024 DBX. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <QMUIKit/QMUIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBXDebounceViewController : ViewController
+@interface DBXDebounceViewController : QMUICommonTableViewController
 
 @end
 

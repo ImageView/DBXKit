@@ -179,7 +179,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (BOOL)discardRule:(DBXDebounceRule *)rule {
+    pthread_mutex_lock(&_lock);
+    DBXDebounceDealloc *dealloc = rule.deallocObj;
+    [dealloc lock];
     
+    [dealloc unlock];
+    pthread_mutex_unlock(&_lock);
     return YES;
 }
 
