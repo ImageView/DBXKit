@@ -245,17 +245,13 @@ static void DBXLog(NSString *log, ...) {
     if (![DBXDebounce sharedInstance].debug) {
         return;
     }
-    NSMutableString *result = [[NSMutableString alloc] initWithFormat:@"%@", log];
+    NSString *result = nil;
+    va_list args;
+    va_start(args, log);
+    result = [[NSString alloc] initWithFormat:log arguments:args];
+    va_end(args);
     
-    va_list argumentList;
-    va_start(argumentList, log);
-    id argument;
-    while ((argument = va_arg(argumentList, id))) {
-        [result appendFormat:@"%@", argument];
-    }
-    va_end(argumentList);
-    
-    NSLog(result);
+    NSLog(@"%@", result);
 }
 
 + (BOOL)checkRuleValid:(DBXDebounceRule *)rule {
@@ -317,7 +313,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-//    DBXLog(@"%s", __func__);
+    DBXLog(@"%s target:%@, select:%s", __func__, invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
