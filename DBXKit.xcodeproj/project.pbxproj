@@ -41,7 +41,7 @@
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
 		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
-		C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */; };
+		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
@@ -127,8 +127,8 @@
 		C8DB31CE293A26F500090C61 /* DBXOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXOperate.m; sourceTree = "<group>"; };
 		C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTaskTimerManager.m; sourceTree = "<group>"; };
 		C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTaskTimerManager.h; sourceTree = "<group>"; };
-		C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaIMMessageQueueManager.m; sourceTree = "<group>"; };
-		C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaIMMessageQueueManager.h; sourceTree = "<group>"; };
+		C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueManager.m; sourceTree = "<group>"; };
+		C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueManager.h; sourceTree = "<group>"; };
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
 		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
 		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
@@ -333,8 +333,8 @@
 			children = (
 				C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */,
 				C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */,
-				C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */,
-				C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */,
+				C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */,
+				C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */,
 				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
 			);
 			path = Tools;
@@ -534,7 +534,7 @@
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
-				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
+				C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */,
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,

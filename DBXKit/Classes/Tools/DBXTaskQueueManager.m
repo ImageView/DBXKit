@@ -1,14 +1,14 @@
 //
-//  MnaIMMessageQueueManager.m
+//  DBXTaskQueueManager.m
 //  MnaTCloudIM
 //
 //  Created by 罗俊宇 on 2022/1/23.
 //  Copyright © 2022 Tencent. All rights reserved.
 //
 
-#import "MnaIMMessageQueueManager.h"
+#import "DBXTaskQueueManager.h"
 
-@interface MnaIMMessageQueueManager ()
+@interface DBXTaskQueueManager ()
 
 // 存储类对应的队列
 @property(nonatomic, strong) NSMutableDictionary *queueDictionary;
@@ -24,7 +24,7 @@
 @end
 
 // 用于管理IM消息播放队列（礼物、超级推荐等）
-@implementation MnaIMMessageQueueManager
+@implementation DBXTaskQueueManager
 
 - (instancetype)init
 {
@@ -58,7 +58,7 @@
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static MnaIMMessageQueueManager *instance = nil;
+    static DBXTaskQueueManager *instance = nil;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone:NULL] init];
     });
@@ -69,13 +69,17 @@
     return [self sharedInstance];
 }
 
-- (void)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull MnaIMMessageTaskFunc)taskFunc {
-    NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
+- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull MnaIMMessageTaskFunc)taskFunc {
     if (!task) {
-        return;
+        return NO;
+    }
+    NSMutableArray *taskQueue = [self currentTaskQueueOfIdentifier:identifier];
+    if ([taskQueue containsObject:task]) {
+        return NO;
     }
     [taskQueue addObject:task];
     [self.funcDictionary setObject:taskFunc forKey:[self keyOfTask:task identifier:identifier]];
+    return YES;
 }
 
 - (NSString *)keyOfTask:(id)task identifier:(NSString *)identifier {
