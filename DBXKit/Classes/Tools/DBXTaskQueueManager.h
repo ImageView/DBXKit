@@ -14,7 +14,13 @@ typedef void (^MnaIMMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSS
 // 用于管理IM消息播放队列（礼物、超级推荐等）
 @interface DBXTaskQueueManager : NSObject
 
-+ (instancetype)sharedInstance;
+// 标识符
+@property(nonatomic, copy) NSString *identifier;
+// 队列是否暂停
+@property(nonatomic, assign, getter=isPause) BOOL pause;
+
+// 注册一个队列
++ (instancetype)registerQueue:(NSString *)identifier;
 
 /// 将任务添加到队列中，然后调用performTask执行
 /// @param task 传入任务
@@ -36,7 +42,7 @@ typedef void (^MnaIMMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSS
 /// 清理某个类下正在执行的任务数
 - (void)clearTaskCoundOfIdentifier:(NSString *)identifier;
 /// 执行所有identifier的任务
-- (void)performAllTasks;
+//- (void)performAllTasks;
 /// 对应identifier的任务是否全部执行完毕
 - (BOOL)tasksHadFinishOfIdentifier:(NSString *)identifier;
 /// 设置某个队列的任务状态：是否暂停
