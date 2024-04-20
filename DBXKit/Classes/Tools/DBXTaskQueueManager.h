@@ -15,7 +15,6 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 @interface DBXTaskQueue : NSObject
 // 标识符
 @property(nonatomic, copy) NSString *identifier;
-
 // 队列是否暂停
 @property(nonatomic, assign, getter=isPause) BOOL pause;
 
@@ -38,11 +37,9 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 /// 清理某个类下正在执行的任务数
 - (void)clearTaskCount;
 
-/// 执行所有identifier的任务
-//- (void)performAllTasks;
-
 /// 任务是否全部执行完毕
 - (BOOL)tasksHadFinish;
+
 @end
 
 

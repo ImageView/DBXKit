@@ -16,8 +16,7 @@
 @property(nonatomic, strong) NSMutableDictionary *funcDictionary;
 // 存储task正在执行的任务数量
 @property(nonatomic, assign) NSInteger taskingCount;
-// 是否进入到了后台
-@property(nonatomic, assign) BOOL isBackground;
+@property(nonatomic, strong) NSLock *lock;
 
 @end
 
@@ -28,41 +27,7 @@
 
 @implementation DBXTaskQueue
 
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self addNotifications];
-    }
-    return self;
-}
-
-- (void)addNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification {
-    self.isBackground = NO;
-//    [self performAllTasks];
-}
-    
-- (void)applicationDidEnterBackground:(NSNotification *)nofication {
-    self.isBackground = YES;
-}
-
 - (BOOL)addTask:(id<NSCopying>)task taskFunc:(nonnull DBXMessageTaskFunc)taskFunc {
-    if (!task) {
-        return NO;
-    }
     if ([self.taskQueue containsObject:task]) {
         return NO;
     }
@@ -71,49 +36,38 @@
     return YES;
 }
 
-// 执行某个类的任务
+// 执行任务
 - (void)performTask {
     [self performTaskSynchCount:1];
 }
 
-// synchCount 支持同步执行的数量
+// synchCount 支持同时执行的任务的数量
 - (void)performTaskSynchCount:(NSInteger)synchCount {
-    if (self.isPause) {
-        return;
-    }
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
-    // 进到后台后不执行任务
-    if (self.isBackground) {
+    if (self.isPause || self.taskingCount >= synchCount) {
         return;
     }
-    if ([self taskCountAddOne:0] >= synchCount) {
-        return;
-    }
+    
     id task = self.taskQueue.firstObject;
-    if (!task) {
-        return;
-    }
+    if (!task) return;
     
     void (^nextBlock)(NSError *error) = ^void(NSError *inError) {
-        [self taskCountAddOne:-1];
-        dispatch_async(dispatch_get_current_queue(), ^{
-            [self performTaskSynchCount:synchCount];
-        });
+        self.taskingCount --;
+        [self performTaskSynchCount:synchCount];
     };
-    
-    [self.taskQueue removeObjectAtIndex:0];
-    
     DBXMessageTaskFunc func = [self.funcDictionary objectForKey:task];
     if (!func) {
-        // 此处需要执行下一个任务，不然同名task多次插入时，func会在第一个task执行后被清理，后续的task就无法执行了
         nextBlock(nil);
         return;
     }
     
-    
     func(task, nextBlock);
-    [self taskCountAddOne:1];
+    
+    [self.lock lock];
+    self.taskingCount++;
     [self.funcDictionary removeObjectForKey:task];
+    [self.taskQueue removeObject:task];
+    [self.lock unlock];
 }
 
 - (void)clearTaskCount {
@@ -125,17 +79,8 @@
     [self.taskQueue removeAllObjects];
 }
 
-// 读取当前class正在执行的任务数
-- (NSInteger)taskCountAddOne:(NSInteger)one {
-    self.taskingCount = self.taskingCount + one;
-    return self.taskingCount;
-}
-
 - (BOOL)tasksHadFinish {
-    if (self.isPause) {
-        return NO;
-    }
-    return self.taskQueue.count <= 0;
+    return self.taskQueue.count == 0;
 }
 
 #pragma mark - Getter
@@ -153,6 +98,12 @@
     return _funcDictionary;
 }
 
+- (NSLock *)lock {
+    if (!_lock) {
+        _lock = [[NSLock alloc] init];
+    }
+    return _lock;
+}
 
 @end
 
