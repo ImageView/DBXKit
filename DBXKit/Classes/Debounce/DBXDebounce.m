@@ -111,6 +111,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return [self sharedInstance];
 }
 
+/**
+ 记录注册了规则的 target-selector
+
+ @param selector 方法名
+ @param target 对象，类，元类
+ */
 - (void)addSelector:(SEL)selector toTarget:(id)target {
     if (!selector || !target) {
         return;
@@ -120,6 +126,21 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         selectorsSet = [NSMutableSet set];
     }
     [selectorsSet addObject:NSStringFromSelector(selector)];
+    [self.targetSelectorsMap setObject:selectorsSet forKey:target];
+}
+
+/**
+ 移除规则 target-selector
+
+ @param selector 方法名
+ @param target 对象，类，元类
+ */
+- (void)removeSelector:(SEL)selector ofTarget:(id)target {
+    if (!selector || !target) {
+        return;
+    }
+    NSMutableSet *selectorsSet = [self.targetSelectorsMap objectForKey:target];
+    [selectorsSet removeObject:NSStringFromSelector(selector)];
     [self.targetSelectorsMap setObject:selectorsSet forKey:target];
 }
 
@@ -182,6 +203,10 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     pthread_mutex_lock(&_lock);
     DBXDebounceDealloc *dealloc = rule.deallocObj;
     [dealloc lock];
+    if ([DBXDebounce checkRuleValid:rule]) {
+        [self removeSelector:rule.selector ofTarget:rule.target];
+        [self reoverMethod:rule];
+    }
     
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
@@ -243,6 +268,11 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         class_replaceMethod(cls, rule.selector, _objc_msgForward, typeEncoding);
         [self.classHooked addObject:cls];
     }
+    
+    return YES;
+}
+
+- (BOOL)reoverMethod:(DBXDebounceRule *)rule {
     
     return YES;
 }
