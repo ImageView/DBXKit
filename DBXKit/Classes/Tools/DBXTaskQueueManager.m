@@ -8,7 +8,7 @@
 
 #import "DBXTaskQueueManager.h"
 
-@interface DBXTaskQueueManager ()
+@interface DBXTaskQueue ()
 
 // 任务队列
 @property(nonatomic, strong) NSMutableArray *taskQueue;
@@ -21,8 +21,13 @@
 
 @end
 
-// 用于管理IM消息播放队列（礼物、超级推荐等）
-@implementation DBXTaskQueueManager
+@interface DBXTaskQueueManager ()
+
+@end
+
+
+@implementation DBXTaskQueue
+
 
 - (instancetype)init
 {
@@ -54,13 +59,7 @@
     self.isBackground = YES;
 }
 
-+ (instancetype)registerQueue:(NSString *)identifier {
-    DBXTaskQueueManager *instance = [[DBXTaskQueueManager alloc] init];
-    instance.identifier = identifier;
-    return instance;
-}
-
-- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull DBXMessageTaskFunc)taskFunc {
+- (BOOL)addTask:(id<NSCopying>)task taskFunc:(nonnull DBXMessageTaskFunc)taskFunc {
     if (!task) {
         return NO;
     }
@@ -73,13 +72,13 @@
 }
 
 // 执行某个类的任务
-- (void)performTaskOfIdentifier:(NSString *)identifier {
-    [self performTaskOfIdentifier:identifier synchCount:1];
+- (void)performTask {
+    [self performTaskSynchCount:1];
 }
 
 // synchCount 支持同步执行的数量
-- (void)performTaskOfIdentifier:(NSString *)identifier synchCount:(NSInteger)synchCount {
-    if ([self taskIsPauseOfIdentifier:identifier]) {
+- (void)performTaskSynchCount:(NSInteger)synchCount {
+    if (self.isPause) {
         return;
     }
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
@@ -95,10 +94,10 @@
         return;
     }
     
-    void (^nextBlock)(NSString *identifi) = ^void(NSString *inIdentifi) {
+    void (^nextBlock)(NSError *error) = ^void(NSError *inError) {
         [self taskCountAddOne:-1];
         dispatch_async(dispatch_get_current_queue(), ^{
-            [self performTaskOfIdentifier:inIdentifi synchCount:synchCount];
+            [self performTaskSynchCount:synchCount];
         });
     };
     
@@ -107,7 +106,7 @@
     DBXMessageTaskFunc func = [self.funcDictionary objectForKey:task];
     if (!func) {
         // 此处需要执行下一个任务，不然同名task多次插入时，func会在第一个task执行后被清理，后续的task就无法执行了
-        nextBlock(identifier);
+        nextBlock(nil);
         return;
     }
     
@@ -126,22 +125,14 @@
     [self.taskQueue removeAllObjects];
 }
 
-- (void)taskPause:(BOOL)pause {
-    self.pause = pause;
-}
-
-- (BOOL)taskIsPause {
-    return self.isPause;
-}
-
 // 读取当前class正在执行的任务数
 - (NSInteger)taskCountAddOne:(NSInteger)one {
     self.taskingCount = self.taskingCount + one;
     return self.taskingCount;
 }
 
-- (BOOL)tasksHadFinishOfIdentifier:(NSString *)identifier {
-    if ([self taskIsPauseOfIdentifier:identifier]) {
+- (BOOL)tasksHadFinish {
+    if (self.isPause) {
         return NO;
     }
     return self.taskQueue.count <= 0;
@@ -160,6 +151,19 @@
         _funcDictionary = [NSMutableDictionary dictionary];
     }
     return _funcDictionary;
+}
+
+
+@end
+
+// 用于管理IM消息播放队列（礼物、超级推荐等）
+@implementation DBXTaskQueueManager
+
+// 注册一个队列
+- (DBXTaskQueue *)registerQueue:(NSString *)identifier {
+    DBXTaskQueue *instance = [[DBXTaskQueue alloc] init];
+    instance.identifier = identifier;
+    return instance;
 }
 
 @end
