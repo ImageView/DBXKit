@@ -10,6 +10,6 @@
 #define DBXTools_h
 
 #import "DBXTaskQueueManager.h"
-#import "MnaTaskTimerManager.h"
+#import "DBXTaskTimerManager.h"
 
 #endif /* DBXTools_h */

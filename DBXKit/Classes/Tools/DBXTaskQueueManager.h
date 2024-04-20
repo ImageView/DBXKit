@@ -1,6 +1,6 @@
 //
 //  DBXTaskQueueManager.h
-//  MnaTCloudIM
+//   
 //
 //  Created by 罗俊宇 on 2022/1/23.
 //  Copyright © 2022 Tencent. All rights reserved.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void (^MnaIMMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSString *identifier));
+typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSString *identifier));
 
 // 用于管理IM消息播放队列（礼物、超级推荐等）
 @interface DBXTaskQueueManager : NSObject
@@ -27,7 +27,7 @@ typedef void (^MnaIMMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSS
 /// @param identifier 标记任务所属的分类，用以存储及取出任务
 /// @param taskFunc 执行任务的block环境，参数是当前identifier
 /// return 任务是否添加成功，如果任务已经存在会返回NO
-- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull MnaIMMessageTaskFunc)taskFunc;
+- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull DBXMessageTaskFunc)taskFunc;
 
 /// 执行对应identifier的任务
 - (void)performTaskOfIdentifier:(NSString *)identifier;

@@ -9,7 +9,7 @@
 #import "DBXExtension.h"
 #import "DBXAutoReport.h"
 #import "TextAutoReportImpl.h"
-#import "MnaTaskTimerManager.h"
+#import "DBXTaskTimerManager.h"
 #import "DBXTextModel.h"
 #import "NSObject+PropertyObserver.h"
 
@@ -63,9 +63,9 @@
 }
 
 - (void)testTaskManager {
-    [[MnaTaskTimerManager sharedInstance] addCycleTask:^{
+    [[DBXTaskTimerManager sharedInstance] addCycleTask:^{
         NSLog(@"testTaskManager");
-    } timeInterval:3 runCount:10 threadMode:MnaThreadModeMain];
+    } timeInterval:3 runCount:10 threadMode:DBXThreadModeMain];
 }
 
 - (void)testChain {

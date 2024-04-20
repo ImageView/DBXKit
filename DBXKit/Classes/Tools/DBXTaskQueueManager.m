@@ -1,6 +1,6 @@
 //
 //  DBXTaskQueueManager.m
-//  MnaTCloudIM
+//   
 //
 //  Created by 罗俊宇 on 2022/1/23.
 //  Copyright © 2022 Tencent. All rights reserved.
@@ -60,7 +60,7 @@
     return instance;
 }
 
-- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull MnaIMMessageTaskFunc)taskFunc {
+- (BOOL)addTask:(id<NSCopying>)task forIdentifier:(NSString *)identifier taskFunc:(nonnull DBXMessageTaskFunc)taskFunc {
     if (!task) {
         return NO;
     }
@@ -104,7 +104,7 @@
     
     [self.taskQueue removeObjectAtIndex:0];
     
-    MnaIMMessageTaskFunc func = [self.funcDictionary objectForKey:task];
+    DBXMessageTaskFunc func = [self.funcDictionary objectForKey:task];
     if (!func) {
         // 此处需要执行下一个任务，不然同名task多次插入时，func会在第一个task执行后被清理，后续的task就无法执行了
         nextBlock(identifier);

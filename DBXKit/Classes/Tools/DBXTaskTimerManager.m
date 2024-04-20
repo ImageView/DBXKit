@@ -1,20 +1,20 @@
 //
-//  MnaTaskTimerManager.m
-//  MnaTCloudIM
+//  DBXTaskTimerManager.m
+//   
 //
 //  Created by 罗俊宇 on 2022/6/20.
 //  Copyright © 2022 Tencent. All rights reserved.
 //
-#import "MnaTaskTimerManager.h"
+#import "DBXTaskTimerManager.h"
 //  普通任务
-@implementation MnaQueueItem
+@implementation DBXQueueItem
 @end
 //  循环任务
-@implementation MnaCyclesQueueItem
+@implementation DBXCyclesQueueItem
 @end
 
 
-@interface MnaTaskTimerManager ()
+@interface DBXTaskTimerManager ()
 
 // 定时任务队列
 @property (nonatomic,strong) NSMutableDictionary * timerQueueDictionary;
@@ -37,11 +37,11 @@
 @end
 
 // 全局定时任务管理
-@implementation MnaTaskTimerManager
+@implementation DBXTaskTimerManager
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static MnaTaskTimerManager *instance = nil;
+    static DBXTaskTimerManager *instance = nil;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone:NULL] init];
     });
@@ -66,7 +66,7 @@
         }
         
         _cycleThread = [[NSThread alloc] initWithTarget:self selector:@selector(initialTimer) object:nil];
-        _cycleThread.name = @"mna-CycleQueue-thread";
+        _cycleThread.name = @"dbx-CycleQueue-thread";
         [_cycleThread start];
         
         [self addNotifications];
@@ -99,12 +99,12 @@
 }
 
 #pragma mark - Public
-- (MnaCyclesQueueItem*)addCycleTask:(dispatch_block_t)callback
+- (DBXCyclesQueueItem*)addCycleTask:(dispatch_block_t)callback
                        timeInterval:(NSTimeInterval)time
                            runCount:(NSInteger)count
-                         threadMode:(MnaThreadMode)mode {
+                         threadMode:(DBXThreadMode)mode {
     
-    MnaCyclesQueueItem * item = [[MnaCyclesQueueItem alloc] init];
+    DBXCyclesQueueItem * item = [[DBXCyclesQueueItem alloc] init];
     item.callBack = callback;
     item.index = [self popRandIndex];
     item.timeInteval = time;
@@ -129,7 +129,7 @@
 
 - (void)cycleRun {
     [self.lock lock];
-    [self.cycleQueueDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, MnaCyclesQueueItem * obj, BOOL * _Nonnull stop) {
+    [self.cycleQueueDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, DBXCyclesQueueItem * obj, BOOL * _Nonnull stop) {
         // 如果还没有到执行时间,就跳过
         NSDate * currentDate = [NSDate date];
         if (obj.isPause || [obj.nextRunDate compare:currentDate] != NSOrderedAscending) {
@@ -137,7 +137,7 @@
         }
         
         switch (obj.mode) {
-            case MnaThreadModeMain:
+            case DBXThreadModeMain:
                 [self performSelectorOnMainThread:@selector(runBlock:) withObject:obj waitUntilDone:NO];
                 break;
                 
@@ -158,29 +158,29 @@
     [self.lock unlock];
 }
 
-- (void)runBlock:(MnaCyclesQueueItem*)item {
+- (void)runBlock:(DBXCyclesQueueItem*)item {
     if (item.callBack == nil) {
         [self removeTask:item];
-        NSLog(@"MnaTaskTimer-remove:%@",item);
+        NSLog(@"DBXTaskTimer-remove:%@",item);
         return;
     }
     
     @try {
         item.callBack();
     } @catch (NSException *exception) {
-        NSLog(@"MnaTaskTimer-ERROR:%@",exception);
+        NSLog(@"DBXTaskTimer-ERROR:%@",exception);
         [self removeTask:item];
-        NSLog(@"MnaTaskTimer-remove:%@",item);
+        NSLog(@"DBXTaskTimer-remove:%@",item);
     }
 }
 
-- (void)removeTask:(MnaCyclesQueueItem *)item {
-    if (item.class == MnaCyclesQueueItem.class) {
-        [self removeCycleTask:(MnaCyclesQueueItem*)item];
+- (void)removeTask:(DBXCyclesQueueItem *)item {
+    if (item.class == DBXCyclesQueueItem.class) {
+        [self removeCycleTask:(DBXCyclesQueueItem*)item];
     }
 }
 
-- (void)removeCycleTask:(MnaCyclesQueueItem *)item {
+- (void)removeCycleTask:(DBXCyclesQueueItem *)item {
     if (!item) {
         return;
     }

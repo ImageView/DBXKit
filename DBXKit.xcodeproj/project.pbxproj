@@ -40,7 +40,7 @@
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
-		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
+		C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
@@ -125,8 +125,8 @@
 		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAR.m"; sourceTree = "<group>"; };
 		C8DB31CD293A26F500090C61 /* DBXOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXOperate.h; sourceTree = "<group>"; };
 		C8DB31CE293A26F500090C61 /* DBXOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXOperate.m; sourceTree = "<group>"; };
-		C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTaskTimerManager.m; sourceTree = "<group>"; };
-		C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTaskTimerManager.h; sourceTree = "<group>"; };
+		C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskTimerManager.m; sourceTree = "<group>"; };
+		C8DD74A528D30DC000E08AA1 /* DBXTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskTimerManager.h; sourceTree = "<group>"; };
 		C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueManager.m; sourceTree = "<group>"; };
 		C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueManager.h; sourceTree = "<group>"; };
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
@@ -331,8 +331,8 @@
 		C8DD74A328D3046F00E08AA1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */,
-				C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */,
+				C8DD74A528D30DC000E08AA1 /* DBXTaskTimerManager.h */,
+				C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */,
 				C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */,
 				C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */,
 				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
@@ -541,7 +541,7 @@
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
-				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
+				C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
 				C864D8F42B53B88A007D11E8 /* People.m in Sources */,

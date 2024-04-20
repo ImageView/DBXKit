@@ -1,6 +1,6 @@
 //
-//  MnaTaskTimerManager.h
-//  MnaTCloudIM
+//  DBXTaskTimerManager.h
+//   
 //
 //  Created by 罗俊宇 on 2022/6/20.
 //  Copyright © 2022 Tencent. All rights reserved.
@@ -10,27 +10,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, MnaThreadMode) {
-    MnaThreadModeMain,
-    MnaThreadModeBackground,
+typedef NS_ENUM(NSUInteger, DBXThreadMode) {
+    DBXThreadModeMain,
+    DBXThreadModeBackground,
 };
 
 /// 加入的任务
-@interface MnaQueueItem : NSObject
+@interface DBXQueueItem : NSObject
 
 /// 任务描述
 @property (nonatomic,copy) NSString *name;
 /// 任务回调
 @property (nonatomic,copy) dispatch_block_t callBack;
 /// 任务执行模式
-@property (nonatomic,assign) MnaThreadMode mode;
+@property (nonatomic,assign) DBXThreadMode mode;
 /// 任务的随机下标
 @property (nonatomic,assign) NSInteger index;
 
 @end
 
 // 循环任务
-@interface MnaCyclesQueueItem : MnaQueueItem
+@interface DBXCyclesQueueItem : DBXQueueItem
 // 任务循环次数
 @property (nonatomic,assign) NSInteger runCount;
 // 下一次任务执行时间
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, MnaThreadMode) {
 
 
 // 全局定时任务管理
-@interface MnaTaskTimerManager : NSObject
+@interface DBXTaskTimerManager : NSObject
 
 #pragma mark - 循环任务
 
@@ -56,9 +56,9 @@ typedef NS_ENUM(NSUInteger, MnaThreadMode) {
 /// @param time 任务间隔时间
 /// @param count 任务执行次数，若小于0则无限循环
 /// @param mode 任务执行在主/子线程
-- (MnaQueueItem*)addCycleTask:(dispatch_block_t)callback timeInterval:(NSTimeInterval)time runCount:(NSInteger)count threadMode:(MnaThreadMode)mode;
+- (DBXQueueItem*)addCycleTask:(dispatch_block_t)callback timeInterval:(NSTimeInterval)time runCount:(NSInteger)count threadMode:(DBXThreadMode)mode;
 
-- (void)removeTask:(MnaCyclesQueueItem *)item;
+- (void)removeTask:(DBXCyclesQueueItem *)item;
 
 @end
 
