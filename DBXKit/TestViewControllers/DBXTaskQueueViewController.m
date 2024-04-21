@@ -11,7 +11,7 @@
 
 @interface DBXTaskQueueViewController ()
 
-@property(nonatomic, strong) NSMutableArray *dataList;
+@property(nonatomic, strong) NSArray *dataList;
 
 @property(nonatomic, strong) DBXTaskQueue *taskQueue;
 @end
@@ -20,28 +20,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataList = @[@"遛娃", @"散步", @"吃饭", @"打游戏", @"睡觉", @"执行任务",@"暂停任务"].mutableCopy;
+    self.dataList = @[@[@"遛娃", @"散步", @"吃饭", @"打游戏", @"睡觉"], @[@"执行任务",@"执行2个任务",@"暂停任务"]];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.taskQueue = [[DBXTaskQueue alloc] init];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataList.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSArray *array = self.dataList[section];
+    return array.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.textLabel.text = self.dataList[indexPath.row];
+    NSArray *array = self.dataList[indexPath.section];
+    cell.textLabel.text = array[indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *text = self.dataList[indexPath.row];
-    if ([text isEqualToString:@"执行任务"]) {
-        [self.taskQueue performTask];
-    } else if ([text isEqualToString:@"暂停任务"]) {
-        [self.taskQueue suspendTask];
-    } else {
+    NSArray *array = self.dataList[indexPath.section];
+    NSString *text = array[indexPath.row];
+    if (indexPath.section == 0) {
         [self.taskQueue addTask:text taskFunc:^(id  _Nonnull task, void (^ _Nonnull taskFinished)(NSError *)) {
             NSLog(@"开始%@", task);
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -49,7 +52,17 @@
                 taskFinished(nil);
             });
         }];
+    } else {
+        if ([text isEqualToString:@"执行任务"]) {
+            [self.taskQueue performTask];
+        } else if ([text isEqualToString:@"暂停任务"]) {
+            [self.taskQueue suspendTask];
+        } else if ([text isEqualToString:@"执行2个任务"]) {
+            [self.taskQueue performTaskSynchCount:2];
+//            [self.taskQueue performTaskSynchCount:2];
+        }
     }
+    
 }
 
 @end

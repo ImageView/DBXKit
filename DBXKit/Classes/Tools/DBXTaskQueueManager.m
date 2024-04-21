@@ -24,6 +24,9 @@
 
 @interface DBXTaskQueueManager ()
 
+// 队列池
+@property(nonatomic, strong) NSMutableDictionary *queuePool;
+
 @end
 
 
@@ -127,11 +130,32 @@
 // 用于管理IM消息播放队列（礼物、超级推荐等）
 @implementation DBXTaskQueueManager
 
++ (instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    static DBXTaskQueueManager *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[super allocWithZone:NULL] init];
+    });
+    return instance;
+}
+
++ (id)allocWithZone:(struct _NSZone *)zone {
+    return [self sharedInstance];
+}
+
+
 // 注册一个队列
 - (DBXTaskQueue *)registerQueue:(NSString *)identifier {
     DBXTaskQueue *instance = [[DBXTaskQueue alloc] init];
     instance.identifier = identifier;
     return instance;
+}
+
+- (NSMutableDictionary *)queuePool {
+    if (!_queuePool) {
+        _queuePool = [NSMutableDictionary dictionary];
+    }
+    return _queuePool;
 }
 
 @end
