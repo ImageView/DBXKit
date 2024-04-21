@@ -68,7 +68,7 @@
     } timeInterval:3 runCount:10 threadMode:DBXThreadModeMain];
 }
 
-- (void)testChain {
+- (void)testTaskQueue {
     
 }
 

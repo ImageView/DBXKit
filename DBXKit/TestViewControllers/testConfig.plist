@@ -26,11 +26,9 @@
 		</dict>
 		<dict>
 			<key>title</key>
-			<string>测试</string>
-			<key>storyboard</key>
-			<string>Main</string>
+			<string>队列</string>
 			<key>class</key>
-			<string>ViewController</string>
+			<string>DBXTaskQueueViewController</string>
 		</dict>
 		<dict>
 			<key>title</key>

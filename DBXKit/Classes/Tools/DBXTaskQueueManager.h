@@ -15,8 +15,7 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 @interface DBXTaskQueue : NSObject
 // 标识符
 @property(nonatomic, copy) NSString *identifier;
-// 队列是否暂停
-@property(nonatomic, assign, getter=isPause) BOOL pause;
+
 
 /// 将任务添加到队列中，然后调用performTask执行
 /// @param task 传入任务
@@ -31,6 +30,9 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 /// @param synchCount 支持同步执行的任务的数量
 - (void)performTaskSynchCount:(NSInteger)synchCount;
 
+/// 暂停任务队列
+- (void)suspendTask;
+
 /// 清理某个类下所有任务
 - (void)clearTask;
 
@@ -39,6 +41,9 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 
 /// 任务是否全部执行完毕
 - (BOOL)tasksHadFinish;
+
+/// 任务是否已暂停
+- (BOOL)taskIsSuspend;
 
 @end
 

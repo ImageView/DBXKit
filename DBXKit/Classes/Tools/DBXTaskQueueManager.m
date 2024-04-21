@@ -16,6 +16,8 @@
 @property(nonatomic, strong) NSMutableDictionary *funcDictionary;
 // 存储task正在执行的任务数量
 @property(nonatomic, assign) NSInteger taskingCount;
+// 队列是否暂停
+@property(nonatomic, assign, getter=isSuspend) BOOL suspend;
 @property(nonatomic, strong) NSLock *lock;
 
 @end
@@ -44,32 +46,47 @@
 // synchCount 支持同时执行的任务的数量
 - (void)performTaskSynchCount:(NSInteger)synchCount {
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
-    if (self.isPause || self.taskingCount >= synchCount) {
+    self.suspend = NO;
+    if (self.taskingCount >= synchCount) {
         return;
     }
     
     id task = self.taskQueue.firstObject;
-    if (!task) return;
+    if (!task) {
+        NSLog(@"task all finished");
+        return;
+    };
     
-    void (^nextBlock)(NSError *error) = ^void(NSError *inError) {
+    void (^finishBlock)(NSError *error) = ^void(NSError *inError) {
         self.taskingCount --;
+        if (self.isSuspend) {
+            return;
+        }
         [self performTaskSynchCount:synchCount];
     };
     DBXMessageTaskFunc func = [self.funcDictionary objectForKey:task];
     if (!func) {
-        nextBlock(nil);
+        finishBlock(nil);
         return;
     }
     
-    func(task, nextBlock);
-    
+    func(task, finishBlock);
     [self.lock lock];
-    self.taskingCount++;
+    self.taskingCount ++;
     [self.funcDictionary removeObjectForKey:task];
     [self.taskQueue removeObject:task];
     [self.lock unlock];
 }
 
+/// 暂停任务队列
+- (void)suspendTask {
+    self.suspend = YES;
+}
+
+- (BOOL)taskIsSuspend {
+    return self.isSuspend;
+}
+ 
 - (void)clearTaskCount {
     self.taskingCount = 0;
 }
