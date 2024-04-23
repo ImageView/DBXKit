@@ -7,6 +7,7 @@
 //
 
 #import "DBXTaskQueueManager.h"
+#import "DBXLog.h"
 
 @interface DBXTaskQueue ()
 
@@ -49,6 +50,7 @@
 // synchCount 支持同时执行的任务的数量
 - (void)performTaskSynchCount:(NSInteger)synchCount {
 //    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
+    DBXLog(@"队列开始执行，taskQueue:%@,funcDic:%@,taskCount:%@",self.taskQueue, self.funcDictionary, self.taskingCount);
     self.suspend = NO;
     if (self.taskingCount >= synchCount) {
         return;
