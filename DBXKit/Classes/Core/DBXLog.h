@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <stdio.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-//@interface DBXLog : NSObject
-//
-//@end
+@interface DBXLog : NSObject
+
+@end
 
 // 自定义日志打印方法
 void DBXLogInfo(const char *file, const char *function, int line, NSString *format, ...);
