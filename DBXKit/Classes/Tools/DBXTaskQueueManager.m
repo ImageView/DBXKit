@@ -35,8 +35,10 @@
 
 - (BOOL)addTask:(id<NSCopying>)task taskFunc:(nonnull DBXMessageTaskFunc)taskFunc {
     if ([self.taskQueue containsObject:task]) {
+        DBXLog(@"开始添加任务%@，该任务已存在，放弃添加", task);
         return NO;
     }
+    DBXLog(@"开始添加任务%@，任务进入队列", task);
     [self.taskQueue addObject:task];
     [self.funcDictionary setObject:taskFunc forKey:task];
     return YES;
@@ -49,22 +51,24 @@
 
 // synchCount 支持同时执行的任务的数量
 - (void)performTaskSynchCount:(NSInteger)synchCount {
-//    NSLog(@"队列开始执行，queueDic:%@,funcDic:%@,taskDic:%@",self.queueDictionary, self.funcDictionary, self.taskCountDictionary);
-    DBXLog(@"队列开始执行，taskQueue:%@,funcDic:%@,taskCount:%@",self.taskQueue, self.funcDictionary, self.taskingCount);
+    DBXLog(@"启动队列:%@,funcDic:%@,taskCount:(%d/%d)",self.taskQueue, self.funcDictionary, self.taskingCount, synchCount);
     self.suspend = NO;
     if (self.taskingCount >= synchCount) {
+        DBXLog(@"任务已满，等待ing");
         return;
     }
     
     id task = self.taskQueue.firstObject;
     if (!task) {
-        NSLog(@"task all finished");
+        DBXLog(@"队列已空");
         return;
     };
     
     void (^finishBlock)(NSError *error) = ^void(NSError *inError) {
+        DBXLog(@"任务:%@ 完成", task);
         self.taskingCount --;
         if (self.isSuspend) {
+            DBXLog(@"队列暂停");
             return;
         }
         [self performTaskSynchCount:synchCount];
@@ -76,6 +80,7 @@
     }
     
     func(task, finishBlock);
+    DBXLog(@"开始任务:%@", task);
     [self.lock lock];
     self.taskingCount ++;
     [self.funcDictionary removeObjectForKey:task];
@@ -86,6 +91,7 @@
 /// 暂停任务队列
 - (void)suspendTask {
     self.suspend = YES;
+    DBXLog(@"暂停队列，正在执行的任务将继续执行");
 }
 
 - (BOOL)taskIsSuspend {

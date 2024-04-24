@@ -46,9 +46,7 @@
     NSString *text = array[indexPath.row];
     if (indexPath.section == 0) {
         [self.taskQueue addTask:text taskFunc:^(id  _Nonnull task, void (^ _Nonnull taskFinished)(NSError *)) {
-            NSLog(@"开始%@", task);
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                NSLog(@"结束%@", task);
                 taskFinished(nil);
             });
         }];

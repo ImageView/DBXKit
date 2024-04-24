@@ -9,6 +9,7 @@
 #import "DBXChainTask.h"
 #import <stdatomic.h>
 #import "DBXOperate.h"
+#import "DBXLog.h"
 
 NSString *const DBXChainTaskErrorDomain = @"GroupTasks error";
 NSInteger const kBFMultipleErrorsError = 20180306;
@@ -77,7 +78,6 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 
     for (DBXChainTask *oneTask in tasks) {
         [oneTask thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
-            NSLog(@"%@,%@任务完成  lock前",task.taskName ,task);
             [lock lock];
             if (task.error) {
                 [errorDic setObject:task.error forKey:[task resultKey]];
@@ -87,6 +87,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
             
             [lock unlock];
             if (atomic_fetch_sub(&resultCount, 1) == 1) {
+                DBXLog(@"groupTask全部完成%@, 完成结果：%@，出错结果：%@", tempTask, resultDic, errorDic);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
                     [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
@@ -129,7 +130,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     
     void (^executBlock)(void) = ^() {
         id result = block(self);
-        
+        DBXLog(@"task完成，执行结果：%@", result);
+
         // 如果返回值是Task类型，则链条继续
         if ([result isKindOfClass:[DBXChainTask class]]) {
             DBXChainThenBlock tempThenBlock = ^id (DBXChainTask *task) {
