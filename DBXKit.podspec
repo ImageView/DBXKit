@@ -39,9 +39,11 @@ Pod::Spec.new do |spec|
   
   spec.subspec 'Tools' do |ss|
        ss.source_files = 'DBXKit/Classes/Tools/**/*'
+       ss.dependency 'DBXKit/Core'
   end
   
   spec.subspec 'Chain' do |ss|
        ss.source_files = 'DBXKit/Classes/Chain/**/*'
+       ss.dependency 'DBXKit/Core'
   end
 end

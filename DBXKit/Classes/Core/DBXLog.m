@@ -18,6 +18,3 @@ void DBXLogInfo(const char *file, const char *function, int line, NSString *form
     fprintf(stderr, "[DBX](%s:%d) %s %s\n", file, line, function, [log UTF8String]);
 }
 
-@implementation DBXLog
-
-@end
