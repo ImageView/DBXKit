@@ -23,7 +23,7 @@
 		2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */; };
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
-		C820ACFF2BD8AAB900ABA666 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C820ACFE2BD8AAB900ABA666 /* DBXLog.m */; };
+		C820AD022BD8B5A700ABA666 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C820AD002BD8B5A700ABA666 /* DBXLog.m */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
 		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
@@ -93,8 +93,8 @@
 		2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXAutoReportManager.m; sourceTree = "<group>"; };
 		862E7400B3374E118EDD226F /* Pods-DBXKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.debug.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C820ACFD2BD8AAB900ABA666 /* DBXLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXLog.h; sourceTree = "<group>"; };
-		C820ACFE2BD8AAB900ABA666 /* DBXLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
+		C820AD002BD8B5A700ABA666 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
+		C820AD012BD8B5A700ABA666 /* DBXLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXLog.h; sourceTree = "<group>"; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
 		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
 		C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXSyringViewController.h; sourceTree = "<group>"; };
@@ -240,8 +240,8 @@
 				C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */,
 				2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */,
 				2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */,
-				C820ACFD2BD8AAB900ABA666 /* DBXLog.h */,
-				C820ACFE2BD8AAB900ABA666 /* DBXLog.m */,
+				C820AD012BD8B5A700ABA666 /* DBXLog.h */,
+				C820AD002BD8B5A700ABA666 /* DBXLog.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -517,7 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
-				C820ACFF2BD8AAB900ABA666 /* DBXLog.m in Sources */,
+				C820AD022BD8B5A700ABA666 /* DBXLog.m in Sources */,
 				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
