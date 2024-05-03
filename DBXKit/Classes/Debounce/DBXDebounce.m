@@ -11,7 +11,6 @@
 #import <objc/message.h>
 #import "DBXDebounceDealloc.h"
 #import <pthread.h>
-#import "DBXConfig.h"
 
 static NSString *const DBXForwardInvocationSelectorName = @"__dbx_forwardInvocation:";
 static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
@@ -336,7 +335,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    DBXLog(@"%s target:%@, select:%s", __func__, invocation.target, invocation.selector);
+//    DBXLog(@"%s target:%@, select:%s", __func__, invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
