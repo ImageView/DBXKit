@@ -257,14 +257,14 @@ NSInteger const kDBXChainMultipleErrorsCode = 20180306;
 
 @implementation NSError (DBXChain)
 
-- (NSError *)errorWithTaskTag:(NSInteger)tag {
+- (NSError *)dbx_errorWithTaskTag:(NSInteger)tag {
     if (self.code != kDBXChainMultipleErrorsCode) {
         return nil;
     }
     return [self.userInfo objectForKey:@(tag)];
 }
 
-- (NSError *)errorWithTask:(DBXChainTask *)task {
+- (NSError *)dbx_errorWithTask:(DBXChainTask *)task {
     if (self.code != kDBXChainMultipleErrorsCode) {
         return nil;
     }

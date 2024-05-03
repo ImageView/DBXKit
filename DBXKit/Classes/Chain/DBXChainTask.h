@@ -66,9 +66,9 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 @interface NSError (DBXChain)
 
 /// 对应于executGroupTasks，从group task中获取单个task的error
-- (NSError *)errorWithTaskTag:(NSInteger)tag;
+- (NSError *)dbx_errorWithTaskTag:(NSInteger)tag;
 
-- (NSError *)errorWithTask:(DBXChainTask *)task;
+- (NSError *)dbx_errorWithTask:(DBXChainTask *)task;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -63,11 +63,11 @@
     
     [[DBXChainTask executGroupTasks:@[task1, task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         
-        NSError *error = [task.error errorWithTaskTag:110];
-        NSError *error222 = [task.error errorWithTask:task2];
+        NSError *error = [task.error dbx_errorWithTaskTag:110];
+        NSError *error222 = [task.error dbx_errorWithTask:task2];
 
         NSDictionary *resultDic = task.result;
-//        NSLog(@"并行任务完成, task=%@,error=%@,result222=%@", task, error,resultDic[[task2 resultKey]]);
+        NSLog(@"并行任务完成, task=%@,error=%@,result222=%@", task, error,resultDic[[task2 resultKey]]);
         return nil;
     }];
 }
@@ -92,10 +92,6 @@
 //    }]];
 //    [alert showWithAnimated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(s * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-//    });
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        sleep(s);
 //        NSLog(@"任务%@结束,详情：%@", name, @(task.hash));
         if (succ) {
             [task setResult:@{@"res":@"succ"}];
