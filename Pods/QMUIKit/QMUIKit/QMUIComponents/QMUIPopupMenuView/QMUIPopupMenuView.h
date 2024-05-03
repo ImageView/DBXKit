@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  使用方式：
  *  1. 调用 init 方法初始化。
  *  2. 按需设置分隔线、item 高度等样式。
- *  3. 设置完样式后再通过 items 或 itemSections 添加菜单项。
+ *  3. 设置完样式后再通过 items 或 itemSections 添加菜单项，并在 item 点击事件里调用 hideWithAnimated: 隐藏浮层。
  *  4. 通过为 sourceBarItem/sourceView/sourceRect 三者中的一个赋值，来决定浮层布局的位置（参考父类）。
  *  5. 调用 showWithAnimated: 即可显示（参考父类）。
  *
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface QMUIPopupMenuView : QMUIPopupContainerView
 
-/// 是否需要显示每个 item 之间的分隔线，默认为 NO，当为 YES 时，每个 section 除了最后一个 item 外其他 item 底部都会显示分隔线。
+/// 是否需要显示每个 item 之间的分隔线，默认为 NO，当为 YES 时，每个 section 除了最后一个 item 外其他 item 底部都会显示分隔线。分隔线显示在当前 item 上方，不占位。
 @property(nonatomic, assign) BOOL shouldShowItemSeparator UI_APPEARANCE_SELECTOR;
 
 /// item 分隔线的颜色，默认为 UIColorSeparator。
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// item 分隔线的位置偏移，默认为 UIEdgeInsetsZero。item 分隔线的默认布局是 menuView 宽度减去左右 padding，如果你希望分隔线左右贴边则可为这个属性设置一个负值的 left/right。
 @property(nonatomic, assign) UIEdgeInsets itemSeparatorInset UI_APPEARANCE_SELECTOR;
 
-/// 是否显示 section 和 section 之间的分隔线，默认为 NO，当为 YES 时，除了最后一个 section，其他 section 底部都会显示一条分隔线。
+/// 是否显示 section 和 section 之间的分隔线，默认为 NO，当为 YES 时，除了最后一个 section，其他 section 底部都会显示一条分隔线。分隔线会显示在所在的 item 之上，不占位。
 @property(nonatomic, assign) BOOL shouldShowSectionSeparator UI_APPEARANCE_SELECTOR;
 
 /// section 分隔线的颜色，默认为 UIColorSeparator。
@@ -51,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// section 分隔线的位置偏移，默认为 UIEdgeInsetsZero。section 分隔线的默认布局是撑满整个 menuView，如果你不希望分隔线左右贴边则可为这个属性设置一个 left/right 不为 0 的值即可。
 @property(nonatomic, assign) UIEdgeInsets sectionSeparatorInset UI_APPEARANCE_SELECTOR;
+
+/// section 之间的间隔，默认为0，也即贴合到一起。
+@property(nonatomic, assign) CGFloat sectionSpacing UI_APPEARANCE_SELECTOR;
 
 /// item 里文字的字体，默认为 UIFontMake(16)。
 @property(nonatomic, strong, nullable) UIFont *itemTitleFont UI_APPEARANCE_SELECTOR;
@@ -62,10 +65,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) UIEdgeInsets padding UI_APPEARANCE_SELECTOR;
 
 /// 每个 item 的统一高度，默认为 44。如果某个 item 设置了自己的 height，则不受 itemHeight 属性的约束。
+/// 如果将 itemHeight 设置为 QMUIViewSelfSizingHeight 则会以 item sizeThatFits: 返回的结果作为最终的 item 高度。
 @property(nonatomic, assign) CGFloat itemHeight UI_APPEARANCE_SELECTOR;
 
 /// 批量设置 item 的样式
 @property(nonatomic, copy, nullable) void (^itemConfigurationHandler)(QMUIPopupMenuView *aMenuView, __kindof QMUIPopupMenuBaseItem *aItem, NSInteger section, NSInteger index);
+
+/// 如果 items 是 QMUIPopupMenuButtonItem 或其子类，则当任一  item 被点击前，都会先调用这个 block。
+@property(nonatomic, copy, nullable) void (^willHandleButtonItemEventBlock)(QMUIPopupMenuView *aMenuView, __kindof QMUIPopupMenuButtonItem *aItem, NSInteger section, NSInteger index);
 
 /// 设置 item，均处于同一个 section 内
 @property(nonatomic, copy, nullable) NSArray<__kindof QMUIPopupMenuBaseItem *> *items;

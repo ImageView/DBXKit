@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -24,6 +24,7 @@
 #import "CALayer+QMUI.h"
 #import "QMUIKeyboardManager.h"
 #import "QMUIAppearance.h"
+#import "QMUILabel.h"
 
 static NSUInteger alertControllerCount = 0;
 
@@ -76,7 +77,7 @@ static NSUInteger alertControllerCount = 0;
 @implementation QMUIAlertAction
 
 + (nonnull instancetype)actionWithTitle:(nullable NSString *)title style:(QMUIAlertActionStyle)style handler:(void (^)(__kindof QMUIAlertController *, QMUIAlertAction *))handler {
-    QMUIAlertAction *alertAction = [[QMUIAlertAction alloc] init];
+    QMUIAlertAction *alertAction = [[self alloc] init];
     alertAction.title = title;
     alertAction.style = style;
     alertAction.handler = handler;
@@ -144,6 +145,7 @@ static NSUInteger alertControllerCount = 0;
     alertControllerAppearance.alertTextFieldFont = UIFontMake(14);
     alertControllerAppearance.alertTextFieldTextColor = UIColorBlack;
     alertControllerAppearance.alertTextFieldBorderColor = UIColorMake(210, 210, 210);
+    alertControllerAppearance.alertTextFieldTextInsets = UIEdgeInsetsMake(4, 7, 4, 7);
     
     alertControllerAppearance.sheetContentMargin = UIEdgeInsetsMake(10, 10, 10, 10);
     alertControllerAppearance.sheetContentMaximumWidth = [QMUIHelper screenSizeFor55Inch].width - UIEdgeInsetsGetHorizontalValue(alertControllerAppearance.sheetContentMargin);
@@ -186,8 +188,8 @@ static NSUInteger alertControllerCount = 0;
 
 @property(nonatomic, strong) CALayer *extendLayer;
 
-@property(nonatomic, strong) UILabel *titleLabel;
-@property(nonatomic, strong) UILabel *messageLabel;
+@property(nonatomic, strong) QMUILabel *titleLabel;
+@property(nonatomic, strong) QMUILabel *messageLabel;
 @property(nonatomic, strong) QMUIAlertAction *cancelAction;
 
 @property(nonatomic, strong) NSMutableArray<QMUIAlertAction *> *alertActions;
@@ -231,8 +233,13 @@ static NSUInteger alertControllerCount = 0;
 
 - (void)didInitialize {
     [self qmui_applyAppearance];
+    self.alertTextFieldMarginBlock = ^UIEdgeInsets(__kindof QMUIAlertController *aAlertController, NSInteger aTextFieldIndex) {
+        if (aTextFieldIndex == aAlertController.textFields.count - 1) {
+            return UIEdgeInsetsMake(0, 0, 16, 0);
+        }
+        return UIEdgeInsetsZero;
+    };
     self.shouldManageTextFieldsReturnEventAutomatically = YES;
-    self.dismissKeyboardAutomatically = YES;
 }
 
 - (void)setAlertButtonAttributes:(NSDictionary<NSString *,id> *)alertButtonAttributes {
@@ -410,6 +417,20 @@ static NSUInteger alertControllerCount = 0;
     }];
 }
 
+- (void)setAlertTextFieldTextInsets:(UIEdgeInsets)alertTextFieldTextInsets {
+    _alertTextFieldTextInsets = alertTextFieldTextInsets;
+    [self.textFields enumerateObjectsUsingBlock:^(QMUITextField * _Nonnull textField, NSUInteger idx, BOOL * _Nonnull stop) {
+        textField.textInsets = alertTextFieldTextInsets;
+    }];
+}
+
+- (void)setAlertTextFieldMarginBlock:(UIEdgeInsets (^)(__kindof QMUIAlertController * _Nonnull, NSInteger))alertTextFieldMarginBlock {
+    _alertTextFieldMarginBlock = alertTextFieldMarginBlock;
+    if (self.isViewLoaded) {
+        [self.view setNeedsLayout];
+    }
+}
+
 - (void)setMainVisualEffectView:(UIView *)mainVisualEffectView {
     if (!mainVisualEffectView) {
         // 不允许为空
@@ -515,6 +536,7 @@ static NSUInteger alertControllerCount = 0;
     BOOL hasMessage = (self.messageLabel.text.length > 0 && !self.messageLabel.hidden);
     BOOL hasTextField = self.alertTextFields.count > 0;
     BOOL hasCustomView = !!_customView;
+    BOOL shouldShowSeparatorAtTopOfButtonAtFirstLine = hasTitle || hasMessage || hasCustomView;
     CGFloat contentOriginY = 0;
     
     self.maskView.frame = self.view.bounds;
@@ -543,10 +565,17 @@ static NSUInteger alertControllerCount = 0;
         if (hasTextField) {
             for (int i = 0; i < self.alertTextFields.count; i++) {
                 UITextField *textField = self.alertTextFields[i];
-                textField.frame = CGRectMake(contentPaddingLeft, contentOriginY, CGRectGetWidth(self.headerScrollView.bounds) - contentPaddingLeft - contentPaddingRight, 25);
-                contentOriginY = CGRectGetMaxY(textField.frame) - 1;
+                CGRect textFieldFrame = CGRectMake(contentPaddingLeft, contentOriginY, CGRectGetWidth(self.headerScrollView.bounds) - contentPaddingLeft - contentPaddingRight, CGFLOAT_MAX);
+                CGSize textFieldSize = [textField sizeThatFits:textFieldFrame.size];
+                textFieldFrame = CGRectSetHeight(textFieldFrame, textFieldSize.height);
+                UIEdgeInsets margin = UIEdgeInsetsZero;
+                if (self.alertTextFieldMarginBlock) {
+                    margin = self.alertTextFieldMarginBlock(self, i);
+                }
+                textFieldFrame = CGRectMake(CGRectGetMinX(textFieldFrame) + margin.left, CGRectGetMinY(textFieldFrame) + margin.top, CGRectGetWidth(textFieldFrame) - UIEdgeInsetsGetHorizontalValue(margin), CGRectGetHeight(textFieldFrame));
+                contentOriginY = CGRectGetMaxY(textFieldFrame) + margin.bottom - textField.layer.borderWidth;
+                textField.frame = textFieldFrame;
             }
-            contentOriginY += 16;
         }
         // 自定义view的布局 - 自动居中
         if (hasCustomView) {
@@ -578,16 +607,21 @@ static NSUInteger alertControllerCount = 0;
                 // 对齐系统，先 add 的在右边，后 add 的在左边
                 QMUIAlertAction *leftAction = newOrderActions[1];
                 leftAction.button.frame = CGRectMake(0, contentOriginY, CGRectGetWidth(self.buttonScrollView.bounds) / 2, self.alertButtonHeight);
-                leftAction.button.qmui_borderPosition = QMUIViewBorderPositionTop|QMUIViewBorderPositionRight;
+                leftAction.button.qmui_borderPosition = QMUIViewBorderPositionRight;
                 QMUIAlertAction *rightAction = newOrderActions[0];
                 rightAction.button.frame = CGRectMake(CGRectGetMaxX(leftAction.button.frame), contentOriginY, CGRectGetWidth(self.buttonScrollView.bounds) / 2, self.alertButtonHeight);
-                rightAction.button.qmui_borderPosition = QMUIViewBorderPositionTop;
+                if (shouldShowSeparatorAtTopOfButtonAtFirstLine) {
+                    leftAction.button.qmui_borderPosition |= QMUIViewBorderPositionTop;
+                    rightAction.button.qmui_borderPosition = QMUIViewBorderPositionTop;
+                }
                 contentOriginY = CGRectGetMaxY(leftAction.button.frame);
             } else {
                 for (int i = 0; i < newOrderActions.count; i++) {
                     QMUIAlertAction *action = newOrderActions[i];
                     action.button.frame = CGRectMake(0, contentOriginY, CGRectGetWidth(self.containerView.bounds), self.alertButtonHeight);
-                    action.button.qmui_borderPosition = QMUIViewBorderPositionTop;
+                    if (i > 0 || shouldShowSeparatorAtTopOfButtonAtFirstLine) {
+                        action.button.qmui_borderPosition = QMUIViewBorderPositionTop;
+                    }
                     contentOriginY = CGRectGetMaxY(action.button.frame);
                 }
             }
@@ -597,7 +631,7 @@ static NSUInteger alertControllerCount = 0;
         self.buttonScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.buttonScrollView.bounds), contentOriginY);
         // 容器最后布局
         CGFloat contentHeight = CGRectGetHeight(self.headerScrollView.bounds) + CGRectGetHeight(self.buttonScrollView.bounds);
-        CGFloat screenSpaceHeight = CGRectGetHeight(self.view.bounds);
+        CGFloat screenSpaceHeight = CGRectGetHeight(self.view.bounds) - UIEdgeInsetsGetVerticalValue(SafeAreaInsetsConstantForDeviceWithNotch);
         if (contentHeight > screenSpaceHeight - 20) {
             screenSpaceHeight -= 20;
             CGFloat contentH = fmin(CGRectGetHeight(self.headerScrollView.bounds), screenSpaceHeight / 2);
@@ -621,8 +655,7 @@ static NSUInteger alertControllerCount = 0;
         self.scrollWrapView.frame =  CGRectMake(0, 0, CGRectGetWidth(self.scrollWrapView.bounds), contentHeight);
         self.mainVisualEffectView.frame = self.scrollWrapView.bounds;
         
-        CGRect containerRect = CGRectMake((CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.containerView.bounds)) / 2, (screenSpaceHeight - contentHeight - self.keyboardHeight) / 2, CGRectGetWidth(self.containerView.bounds), CGRectGetHeight(self.scrollWrapView.bounds));
-        self.containerView.frame = CGRectFlatted(CGRectApplyAffineTransform(containerRect, self.containerView.transform));
+        self.containerView.qmui_frameApplyTransform = CGRectMake((CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.containerView.frame)) / 2, SafeAreaInsetsConstantForDeviceWithNotch.top + (screenSpaceHeight - contentHeight - self.keyboardHeight) / 2, CGRectGetWidth(self.containerView.frame), CGRectGetHeight(self.scrollWrapView.bounds));
     }
     
     else if (self.preferredStyle == QMUIAlertControllerStyleActionSheet) {
@@ -690,17 +723,25 @@ static NSUInteger alertControllerCount = 0;
                 if (action.style == QMUIAlertActionStyleCancel && i == newOrderActions.count - 1) {
                     continue;
                 } else {
+                    BOOL isFirstLine = floor(i / columnCount) == 0;
+                    BOOL isLastColumn = fmod(i + 1, columnCount) == 0;
+                    BOOL shouldShowSeparatorAtTop = !isFirstLine || shouldShowSeparatorAtTopOfButtonAtFirstLine;
+                    BOOL shouldShowSeparatorAtRight = !isLastColumn;// 单列时全都不用显示右分隔线，多列时最后一列不用显示右分隔线
                     action.button.frame = CGRectMake(alertActionsLayoutX, alertActionsLayoutY, alertActionsWidth, self.sheetButtonHeight);
-                    if (fmodf(i + 1, columnCount) == 0) {
-                        action.button.qmui_borderPosition = QMUIViewBorderPositionTop;
+                    if (isLastColumn) {
                         alertActionsLayoutX = 0;
                         alertActionsLayoutY = CGRectGetMaxY(action.button.frame);
                     } else {
-                        action.button.qmui_borderPosition = QMUIViewBorderPositionTop|QMUIViewBorderPositionRight;
                         alertActionsLayoutX += alertActionsWidth;
                     }
-                    
                     contentOriginY = MAX(contentOriginY, CGRectGetMaxY(action.button.frame));
+                    
+                    if (shouldShowSeparatorAtTop) {
+                        action.button.qmui_borderPosition |= QMUIViewBorderPositionTop;
+                    }
+                    if (shouldShowSeparatorAtRight) {
+                        action.button.qmui_borderPosition |= QMUIViewBorderPositionRight;
+                    }
                 }
             }
         }
@@ -748,8 +789,7 @@ static NSUInteger alertControllerCount = 0;
             contentHeight -= self.sheetContentMargin.top;
         }
         
-        CGRect containerRect = CGRectMake((CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.containerView.bounds)) / 2, screenSpaceHeight - contentHeight - SafeAreaInsetsConstantForDeviceWithNotch.bottom, CGRectGetWidth(self.containerView.bounds), contentHeight + (self.isExtendBottomLayout ? SafeAreaInsetsConstantForDeviceWithNotch.bottom : 0));
-        self.containerView.frame = CGRectFlatted(CGRectApplyAffineTransform(containerRect, self.containerView.transform));
+        self.containerView.qmui_frameApplyTransform = CGRectMake((CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.containerView.frame)) / 2, screenSpaceHeight - contentHeight - SafeAreaInsetsConstantForDeviceWithNotch.bottom, CGRectGetWidth(self.containerView.frame), contentHeight + (self.isExtendBottomLayout ? SafeAreaInsetsConstantForDeviceWithNotch.bottom : 0));
         
         self.extendLayer.frame = CGRectFlatMake(0, CGRectGetHeight(self.containerView.bounds) - SafeAreaInsetsConstantForDeviceWithNotch.bottom - 1, CGRectGetWidth(self.containerView.bounds), SafeAreaInsetsConstantForDeviceWithNotch.bottom + 1);
     }
@@ -858,15 +898,8 @@ static NSUInteger alertControllerCount = 0;
     
     if (self.alertTextFields.count > 0) {
         [self.alertTextFields.firstObject becomeFirstResponder];
-    } else {
-        // iOS 10 及以上的版本在显示 window 时都会自动降下当前 App 的键盘，所以只有 iOS 9 及以下才需要手动处理
-        if (@available(iOS 10.0, *)) {
-        } else {
-            if (self.dismissKeyboardAutomatically && [QMUIKeyboardManager isKeyboardVisible]) {
-                [UIApplication.sharedApplication sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
-            }
-        }
     }
+    
     if (_needsUpdateAction) {
         [self updateAction];
     }
@@ -994,6 +1027,7 @@ static NSUInteger alertControllerCount = 0;
     textField.textColor = self.alertTextFieldTextColor;
     textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.textInsets = self.alertTextFieldTextInsets;
     textField.layer.borderColor = self.alertTextFieldBorderColor.CGColor;
     textField.layer.borderWidth = PixelOne;
     [self.headerScrollView addSubview:textField];
@@ -1019,7 +1053,7 @@ static NSUInteger alertControllerCount = 0;
 - (void)setTitle:(NSString *)title {
     _title = title;
     if (!self.titleLabel) {
-        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel = [[QMUILabel alloc] init];
         self.titleLabel.numberOfLines = 0;
         [self.headerScrollView addSubview:self.titleLabel];
     }
@@ -1045,7 +1079,7 @@ static NSUInteger alertControllerCount = 0;
 - (void)setMessage:(NSString *)message {
     _message = message;
     if (!self.messageLabel) {
-        self.messageLabel = [[UILabel alloc] init];
+        self.messageLabel = [[QMUILabel alloc] init];
         self.messageLabel.numberOfLines = 0;
         [self.headerScrollView addSubview:self.messageLabel];
     }
@@ -1168,9 +1202,7 @@ static NSUInteger alertControllerCount = 0;
     if (!_headerScrollView) {
         _headerScrollView = [[UIScrollView alloc] init];
         _headerScrollView.scrollsToTop = NO;
-        if (@available(iOS 11, *)) {
-            _headerScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
+        _headerScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         [self updateHeaderBackgrondColor];
     }
     return _headerScrollView;
@@ -1180,9 +1212,7 @@ static NSUInteger alertControllerCount = 0;
     if (!_buttonScrollView) {
         _buttonScrollView = [[UIScrollView alloc] init];
         _buttonScrollView.scrollsToTop = NO;
-        if (@available(iOS 11, *)) {
-            _buttonScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
+        _buttonScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     return _buttonScrollView;
 }

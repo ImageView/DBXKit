@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -75,7 +75,6 @@
 
 - (void)startAnimation {
     if (!self.displayLink) {
-        NSAssert(NO, @"QMUIDisplayLinkAnimation 使用错误，当前没有 CADisplayLink 对象，请查看头文件再试试。");
         return;
     }
     if (self.displayLink.paused) {
@@ -109,7 +108,6 @@
 
 - (void)handleDisplayLink:(CADisplayLink *)displayLink {
     if (!self.animation && !self.animations) {
-        NSAssert(NO, @"没有动画Block");
         return;
     }
     NSTimeInterval oneFrame = 1.0 / [self preferredFramesPerSecond];
@@ -163,16 +161,11 @@
 }
 
 - (NSInteger)preferredFramesPerSecond {
-    if (@available(iOS 10, *)) {
-        if (self.displayLink.preferredFramesPerSecond == 0) {
-            return 60;
-        }
-        return self.displayLink.preferredFramesPerSecond;
+    if (self.displayLink.preferredFramesPerSecond == 0) {
+        // 不能写死60，而要拿当前设备支持的最大帧率来计算。根据 CADisplayLink 的官方文档，如果返回一个超过当前设备实际帧率的数字，实际依然会用设备实际帧率来计算，所以不用担心设备降频导致帧率降低后动画时长是否有问题。
+        return UIScreen.mainScreen.maximumFramesPerSecond;
     }
-    if (self.displayLink.frameInterval == 0) {
-        return 60;
-    }
-    return 60 / self.displayLink.frameInterval;
+    return self.displayLink.preferredFramesPerSecond;
 }
 
 @end
@@ -227,7 +220,7 @@
                           animation:(void (^)(id curValue))animation
                        createdBlock:(void (^)(QMUIDisplayLinkAnimation *animation))createdBlock
                        didStopBlock:(void (^)(QMUIDisplayLinkAnimation *animation))didStopBlock {
-    QMUIDisplayLinkAnimation *displayLinkAnimation = [[QMUIDisplayLinkAnimation alloc] initWithDuration:duration
+    QMUIDisplayLinkAnimation *displayLinkAnimation = [[self alloc] initWithDuration:duration
                                                                                                  easing:easing
                                                                                               fromValue:fromValue
                                                                                                 toValue:toValue
@@ -278,7 +271,7 @@
                          animations:(void (^)(QMUIDisplayLinkAnimation *animation, CGFloat curTime))animations
                        createdBlock:(void (^)(QMUIDisplayLinkAnimation *animation))createdBlock
                        didStopBlock:(void (^)(QMUIDisplayLinkAnimation *animation))didStopBlock {
-    QMUIDisplayLinkAnimation *displayLinkAnimation = [[QMUIDisplayLinkAnimation alloc] initWithDuration:duration
+    QMUIDisplayLinkAnimation *displayLinkAnimation = [[self alloc] initWithDuration:duration
                                                                                                  easing:easing
                                                                                              animations:animations];
     if (createdBlock) {

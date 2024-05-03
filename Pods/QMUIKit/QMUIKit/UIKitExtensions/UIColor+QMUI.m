@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -17,6 +17,7 @@
 #import "QMUICore.h"
 #import "NSString+QMUI.h"
 #import "NSObject+QMUI.h"
+#import "NSArray+QMUI.h"
 
 @implementation UIColor (QMUI)
 
@@ -66,7 +67,7 @@
             blue  = [self colorComponentFrom: colorString start: 6 length: 2];
             break;
         default: {
-            NSAssert(NO, @"Color value %@ is invalid. It should be a hex value of the form #RBG, #ARGB, #RRGGBB, or #AARRGGBB", hexString);
+            QMUIAssert(NO, @"UIColor (QMUI)", @"Color value %@ is invalid. It should be a hex value of the form #RBG, #ARGB, #RRGGBB, or #AARRGGBB", hexString);
             return nil;
         }
             break;
@@ -84,6 +85,29 @@
             [self alignColorHexStringLength:[NSString qmui_hexStringWithInteger:red]],
             [self alignColorHexStringLength:[NSString qmui_hexStringWithInteger:green]],
             [self alignColorHexStringLength:[NSString qmui_hexStringWithInteger:blue]]] lowercaseString];
+}
+
++ (UIColor *)qmui_colorWithRGBAString:(NSString *)rgbaString {
+    NSArray<NSString *> *arr = nil;
+    NSCharacterSet *characterSet = nil;
+    if ([rgbaString containsString:@","]) {
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:@","];
+    } else {
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
+    }
+    arr = [[rgbaString componentsSeparatedByCharactersInSet:characterSet] qmui_filterWithBlock:^BOOL(NSString * _Nonnull item) {
+        return item.qmui_trim.length > 0;
+    }];
+    if (arr.count < 3 || arr.count > 4) return nil;
+    return UIColorMakeWithRGBA(arr[0].integerValue, arr[1].integerValue, arr[2].integerValue, (arr.count == 4 ? arr[3].floatValue : 1.0));
+}
+
+- (NSString *)qmui_RGBAString {
+    return [NSString stringWithFormat:@"%.0f,%.0f,%.0f,%.2f",
+            round(self.qmui_red * 255),
+            round(self.qmui_green * 255),
+            round(self.qmui_blue * 255),
+            self.qmui_alpha];
 }
 
 // 对于色值只有单位数的，在前面补一个0，例如“F”会补齐为“0F”
@@ -203,6 +227,35 @@
     return [self isEqual:[UIColor qmui_systemTintColor]];
 }
 
+- (CGFloat)qmui_distanceBetweenColor:(UIColor *)color {
+    if (!color) return CGFLOAT_MAX;
+    
+    UIColor *color1 = self;
+    UIColor *color2 = color;
+    CGFloat R = 100.0;
+    CGFloat angle = 30.0;
+    CGFloat h = R * cos(angle / 180 * M_PI);
+    CGFloat r = R * sin(angle / 180 * M_PI);
+    
+    CGFloat hue1 = color1.qmui_hue * 360;
+    CGFloat saturation1 = color1.qmui_saturation;
+    CGFloat brightness1 = color1.qmui_brightness;
+    CGFloat hue2 = color2.qmui_hue * 360;
+    CGFloat saturation2 = color2.qmui_saturation;
+    CGFloat brightness2 = color2.qmui_brightness;
+    
+    CGFloat x1 = r * brightness1 * saturation1 * cos(hue1 / 180 * M_PI);
+    CGFloat y1 = r * brightness1 * saturation1 * sin(hue1 / 180 * M_PI);
+    CGFloat z1 = h * (1 - brightness1);
+    CGFloat x2 = r * brightness2 * saturation2 * cos(hue2 / 180 * M_PI);
+    CGFloat y2 = r * brightness2 * saturation2 * sin(hue2 / 180 * M_PI);
+    CGFloat z2 = h * (1 - brightness2);
+    CGFloat dx = x1 - x2;
+    CGFloat dy = y1 - y2;
+    CGFloat dz = z1 - z2;
+    return sqrt(dx * dx + dy * dy + dz * dz);
+}
+
 + (UIColor *)qmui_systemTintColor {
     static UIColor *systemTintColor = nil;
     if (!systemTintColor) {
@@ -267,20 +320,32 @@ NSString *const QMUICGColorOriginalColorBindKey = @"QMUICGColorOriginalColorBind
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-#ifdef IOS13_SDK_ALLOWED
         if (@available(iOS 13.0, *)) {
-            ExtendImplementationOfNonVoidMethodWithoutArguments([UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trait) {
+            OverrideImplementation([UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trait) {
                 return [UIColor clearColor];
-            }].class, @selector(CGColor), CGColorRef, ^CGColorRef(UIColor *selfObject, CGColorRef originReturnValue) {
-                if (selfObject.qmui_isDynamicColor) {
-                    UIColor *color = [UIColor colorWithCGColor:originReturnValue];
-                    originReturnValue = color.CGColor;
-                    [(__bridge id)(originReturnValue) qmui_bindObject:selfObject forKey:QMUICGColorOriginalColorBindKey];
-                }
-                return originReturnValue;
+            }].class, @selector(CGColor), ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP (^originalIMPProvider)(void)) {
+                return ^CGColorRef(UIColor *selfObject) {
+                    // call super
+                    CGColorRef (*originSelectorIMP)(id, SEL);
+                    originSelectorIMP = (CGColorRef (*)(id, SEL))originalIMPProvider();
+                    CGColorRef result = originSelectorIMP(selfObject, originCMD);
+                    
+                    if (selfObject.qmui_isDynamicColor) {
+                        
+                        // copy
+                        UIColor *color = [UIColor colorWithCGColor:result];
+                        
+                        // CGColor 必须通过 CGColorCreate 创建。UIColor.CGColor 返回的是一个多对象复用的 CGColor 值（例如，如果 QMUIThemeA.light 值和 UIColorB 的值刚好相同，那么他们的 CGColor 可能也是同一个对象，所以 UIColorB.CGColor 可能会错误地使用了原本仅属于 QMUIThemeColorA 的 bindObject）
+                        // 经测试，qmui_red 系列接口适用于不同的 ColorSpace，应该是能放心使用的😜
+                        // https://github.com/Tencent/QMUI_iOS/issues/1463
+                        result = CGColorCreate(CGColorSpaceCreateDeviceRGB(), (CGFloat[]){color.qmui_red, color.qmui_green, color.qmui_blue, color.qmui_alpha});
+                        
+                        [(__bridge id)(result) qmui_bindObject:selfObject forKey:QMUICGColorOriginalColorBindKey];
+                    }
+                    return result;
+                };
             });
         }
-#endif
     });
 }
 
@@ -295,16 +360,18 @@ NSString *const QMUICGColorOriginalColorBindKey = @"QMUICGColorOriginalColorBind
     return NO;
 }
 
+- (NSString *)qmui_name {
+    return nil;
+}
+
 - (UIColor *)qmui_rawColor {
     if (self.qmui_isDynamicColor) {
-#ifdef IOS13_SDK_ALLOWED
         if (@available(iOS 13.0, *)) {
             if ([self respondsToSelector:@selector(resolvedColorWithTraitCollection:)]) {
                 UIColor *color = [self resolvedColorWithTraitCollection:UITraitCollection.currentTraitCollection];
                 return color.qmui_rawColor;
             }
         }
-#endif
     }
     return self;
 }

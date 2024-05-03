@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// groupError的code
+extern NSInteger const kDBXChainMultipleErrorsCode;
 
 @class DBXChainTask;
 @class DBXOperate;
@@ -20,7 +22,8 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 @interface DBXChainTask: NSObject<NSCopying>
 
 @property(nonatomic, copy) DBXChainThenBlock ThenBlock;
-
+///  用于区分task，默认0
+@property(nonatomic, assign) NSInteger tag;
 /// 用于做些标识，非必要
 @property(nonatomic, copy) NSString *taskName;
 
@@ -49,8 +52,7 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks operate:(DBXOperate *)operate;
 
-/// 对应于executGroupTasks，从group task中获取单个task的error
-+ (NSError *)errorOfTask:(DBXChainTask *)task fromGroupError:(NSError *)error;
+
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block;
 
@@ -59,6 +61,14 @@ typedef id _Nullable (^DBXChainThenBlock)(DBXChainTask *task);
 /// @param operate 执行block的队列类型
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block operate:(DBXOperate *)operate;
 
+@end
+
+@interface NSError (DBXChain)
+
+/// 对应于executGroupTasks，从group task中获取单个task的error
+- (NSError *)dbx_errorWithTaskTag:(NSInteger)tag;
+
+- (NSError *)dbx_errorWithTask:(DBXChainTask *)task;
 @end
 
 NS_ASSUME_NONNULL_END

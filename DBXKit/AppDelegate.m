@@ -9,6 +9,7 @@
 //#import "ViewController.h"
 #import "DBXChainViewController.h"
 #import "DBXConfig.h"
+#import <QMUIKit/QMUIKit.h>
 
 @interface AppDelegate ()
 
@@ -47,7 +48,10 @@
     [tabCon setViewControllers:vcInstance.copy];
     _window.rootViewController = tabCon;
     [_window makeKeyAndVisible];
-
+    QMUICMI.shouldPrintDefaultLog = NO;
+    QMUICMI.shouldPrintInfoLog = NO;
+    QMUICMI.shouldPrintWarnLog = NO;
+    QMUICMI.sendAnalyticsToQMUITeam = NO;
     return YES;
 }
 

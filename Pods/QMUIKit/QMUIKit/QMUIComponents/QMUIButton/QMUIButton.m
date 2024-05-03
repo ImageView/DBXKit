@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -15,9 +15,10 @@
 
 #import "QMUIButton.h"
 #import "QMUICore.h"
-#import "QMUILog.h"
 #import "CALayer+QMUI.h"
 #import "UIButton+QMUI.h"
+
+const CGFloat QMUIButtonCornerRadiusAdjustsBounds = -1;
 
 @interface QMUIButton ()
 
@@ -29,15 +30,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self didInitialize];
-        
         self.tintColor = ButtonTintColor;
-        if (!self.adjustsTitleTintColorAutomatically) {
-            [self setTitleColor:self.tintColor forState:UIControlStateNormal];
-        }
+        [self setTitleColor:self.tintColor forState:UIControlStateNormal];// 初始化时 adjustsTitleTintColorAutomatically 还是 NO，所以这里手动把 titleColor 设置为 tintColor 的值
         
         // iOS7以后的button，sizeToFit后默认会自带一个上下的contentInsets，为了保证按钮大小即为内容大小，这里直接去掉，改为一个最小的值。
         self.contentEdgeInsets = UIEdgeInsetsMake(CGFLOAT_MIN, 0, CGFLOAT_MIN, 0);
+        
+        // 放在后面，让前面的默认值可以被子类重写的 didInitialize 覆盖
+        [self didInitialize];
     }
     return self;
 }
@@ -50,9 +50,6 @@
 }
 
 - (void)didInitialize {
-    self.adjustsTitleTintColorAutomatically = NO;
-    self.adjustsImageTintColorAutomatically = NO;
-    
     // 默认接管highlighted和disabled的表现，去掉系统默认的表现
     self.adjustsImageWhenHighlighted = NO;
     self.adjustsImageWhenDisabled = NO;
@@ -63,9 +60,18 @@
     self.imagePosition = QMUIButtonImagePositionLeft;
 }
 
+// 系统访问 self.imageView 会触发 layout，而私有方法 _imageView 则是简单地访问 imageView，所以在 QMUIButton layoutSubviews 里应该用这个方法
+// https://github.com/Tencent/QMUI_iOS/issues/1051
+- (UIImageView *)_qmui_imageView {
+    BeginIgnorePerformSelectorLeaksWarning
+    return [self performSelector:NSSelectorFromString(@"_imageView")];
+    EndIgnorePerformSelectorLeaksWarning
+}
+
 - (CGSize)sizeThatFits:(CGSize)size {
     // 如果调用 sizeToFit，那么传进来的 size 就是当前按钮的 size，此时的计算不要去限制宽高
-    if (CGSizeEqualToSize(self.bounds.size, size)) {
+    // 系统 UIButton 不管任何时候，对 sizeThatFits:CGSizeZero 都会返回真实的内容大小，这里对齐
+    if (CGSizeEqualToSize(self.bounds.size, size) || CGSizeIsEmpty(size)) {
         size = CGSizeMax;
     }
     
@@ -85,19 +91,19 @@
             if (isImageViewShowing) {
                 CGFloat imageLimitWidth = contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets);
                 CGSize imageSize = self.imageView.image ? [self.imageView sizeThatFits:CGSizeMake(imageLimitWidth, CGFLOAT_MAX)] : self.currentImage.size;
-                imageSize.width = fmin(imageSize.width, imageLimitWidth);
+                imageSize.width = MIN(imageSize.width, imageLimitWidth);// QMUIButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
                 imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
             }
             
             if (isTitleLabelShowing) {
                 CGSize titleLimitSize = CGSizeMake(contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), contentLimitSize.height - imageTotalSize.height - spacingBetweenImageAndTitle - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
                 CGSize titleSize = [self.titleLabel sizeThatFits:titleLimitSize];
-                titleSize.height = fmin(titleSize.height, titleLimitSize.height);
+                titleSize.height = MIN(titleSize.height, titleLimitSize.height);
                 titleTotalSize = CGSizeMake(titleSize.width + UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), titleSize.height + UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
             }
             
             resultSize.width = UIEdgeInsetsGetHorizontalValue(contentEdgeInsets);
-            resultSize.width += fmax(imageTotalSize.width, titleTotalSize.width);
+            resultSize.width += MAX(imageTotalSize.width, titleTotalSize.width);
             resultSize.height = UIEdgeInsetsGetVerticalValue(contentEdgeInsets) + imageTotalSize.height + spacingBetweenImageAndTitle + titleTotalSize.height;
         }
             break;
@@ -110,20 +116,20 @@
             if (isImageViewShowing) {
                 CGFloat imageLimitHeight = contentLimitSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets);
                 CGSize imageSize = self.imageView.image ? [self.imageView sizeThatFits:CGSizeMake(CGFLOAT_MAX, imageLimitHeight)] : self.currentImage.size;
-                imageSize.height = fmin(imageSize.height, imageLimitHeight);
+                imageSize.height = MIN(imageSize.height, imageLimitHeight);// QMUIButton sizeThatFits 时 self._imageView 为 nil 但 self.imageView 有值，而开启了 Bold Text 时，系统的 self.imageView sizeThatFits 返回值会比没开启 BoldText 时多 1pt（不知道为什么文字加粗与否会影响 imageView...），从而保证开启 Bold Text 后文字依然能完整展示出来，所以这里应该用 self.imageView 而不是 self._imageView
                 imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
             }
             
             if (isTitleLabelShowing) {
                 CGSize titleLimitSize = CGSizeMake(contentLimitSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets) - imageTotalSize.width - spacingBetweenImageAndTitle, contentLimitSize.height - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
                 CGSize titleSize = [self.titleLabel sizeThatFits:titleLimitSize];
-                titleSize.height = fmin(titleSize.height, titleLimitSize.height);
+                titleSize.height = MIN(titleSize.height, titleLimitSize.height);
                 titleTotalSize = CGSizeMake(titleSize.width + UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), titleSize.height + UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
             }
             
             resultSize.width = UIEdgeInsetsGetHorizontalValue(contentEdgeInsets) + imageTotalSize.width + spacingBetweenImageAndTitle + titleTotalSize.width;
             resultSize.height = UIEdgeInsetsGetVerticalValue(contentEdgeInsets);
-            resultSize.height += fmax(imageTotalSize.height, titleTotalSize.height);
+            resultSize.height += MAX(imageTotalSize.height, titleTotalSize.height);
         }
             break;
     }
@@ -141,6 +147,10 @@
         return;
     }
     
+    if (self.cornerRadius == QMUIButtonCornerRadiusAdjustsBounds) {
+        self.layer.cornerRadius = CGRectGetHeight(self.bounds) / 2;
+    }
+    
     BOOL isImageViewShowing = !!self.currentImage;
     BOOL isTitleLabelShowing = !!self.currentTitle || !!self.currentAttributedTitle;
     CGSize imageLimitSize = CGSizeZero;
@@ -156,11 +166,27 @@
     // 图片的布局原则都是尽量完整展示，所以不管 imagePosition 的值是什么，这个计算过程都是相同的
     if (isImageViewShowing) {
         imageLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), contentSize.height - UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
-        CGSize imageSize = self.imageView.image ? [self.imageView sizeThatFits:imageLimitSize] : self.currentImage.size;
-        imageSize.width = fmin(imageLimitSize.width, imageSize.width);
-        imageSize.height = fmin(imageLimitSize.height, imageSize.height);
+        CGSize imageSize = self._qmui_imageView.image ? [self._qmui_imageView sizeThatFits:imageLimitSize] : self.currentImage.size;
+        imageSize.width = MIN(imageLimitSize.width, imageSize.width);
+        imageSize.height = MIN(imageLimitSize.height, imageSize.height);
         imageFrame = CGRectMakeWithSize(imageSize);
         imageTotalSize = CGSizeMake(imageSize.width + UIEdgeInsetsGetHorizontalValue(self.imageEdgeInsets), imageSize.height + UIEdgeInsetsGetVerticalValue(self.imageEdgeInsets));
+    }
+    
+    // UIButton 如果本身大小为 (0,0)，此时设置一个 imageEdgeInsets 会让 imageView 的 bounds 错误，导致后续 imageView 的 subviews 布局时会产生偏移，因此这里做一次保护
+    // https://github.com/Tencent/QMUI_iOS/issues/1012
+    void (^makesureBoundsPositive)(UIView *) = ^void(UIView *view) {
+        CGRect bounds = view.bounds;
+        if (CGRectGetMinX(bounds) < 0 || CGRectGetMinY(bounds) < 0) {
+            bounds = CGRectMakeWithSize(bounds.size);
+            view.bounds = bounds;
+        }
+    };
+    if (isImageViewShowing) {
+        makesureBoundsPositive(self._qmui_imageView);
+    }
+    if (isTitleLabelShowing) {
+        makesureBoundsPositive(self.titleLabel);
     }
     
     if (self.imagePosition == QMUIButtonImagePositionTop || self.imagePosition == QMUIButtonImagePositionBottom) {
@@ -168,8 +194,8 @@
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), contentSize.height - imageTotalSize.height - spacingBetweenImageAndTitle - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
             CGSize titleSize = [self.titleLabel sizeThatFits:titleLimitSize];
-            titleSize.width = fmin(titleLimitSize.width, titleSize.width);
-            titleSize.height = fmin(titleLimitSize.height, titleSize.height);
+            titleSize.width = MIN(titleLimitSize.width, titleSize.width);
+            titleSize.height = MIN(titleLimitSize.height, titleSize.height);
             titleFrame = CGRectMakeWithSize(titleSize);
             titleTotalSize = CGSizeMake(titleSize.width + UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), titleSize.height + UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
         }
@@ -274,10 +300,12 @@
         }
         
         if (isImageViewShowing) {
-            self.imageView.frame = CGRectFlatted(imageFrame);
+            imageFrame = CGRectFlatted(imageFrame);
+            self._qmui_imageView.frame = imageFrame;
         }
         if (isTitleLabelShowing) {
-            self.titleLabel.frame = CGRectFlatted(titleFrame);
+            titleFrame = CGRectFlatted(titleFrame);
+            self.titleLabel.frame = titleFrame;
         }
         
     } else if (self.imagePosition == QMUIButtonImagePositionLeft || self.imagePosition == QMUIButtonImagePositionRight) {
@@ -285,8 +313,8 @@
         if (isTitleLabelShowing) {
             titleLimitSize = CGSizeMake(contentSize.width - UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets) - imageTotalSize.width - spacingBetweenImageAndTitle, contentSize.height - UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
             CGSize titleSize = [self.titleLabel sizeThatFits:titleLimitSize];
-            titleSize.width = fmin(titleLimitSize.width, titleSize.width);
-            titleSize.height = fmin(titleLimitSize.height, titleSize.height);
+            titleSize.width = MIN(titleLimitSize.width, titleSize.width);
+            titleSize.height = MIN(titleLimitSize.height, titleSize.height);
             titleFrame = CGRectMakeWithSize(titleSize);
             titleTotalSize = CGSizeMake(titleSize.width + UIEdgeInsetsGetHorizontalValue(self.titleEdgeInsets), titleSize.height + UIEdgeInsetsGetVerticalValue(self.titleEdgeInsets));
         }
@@ -407,10 +435,12 @@
         }
         
         if (isImageViewShowing) {
-            self.imageView.frame = CGRectFlatted(imageFrame);
+            imageFrame = CGRectFlatted(imageFrame);
+            self._qmui_imageView.frame = imageFrame;
         }
         if (isTitleLabelShowing) {
-            self.titleLabel.frame = CGRectFlatted(titleFrame);
+            titleFrame = CGRectFlatted(titleFrame);
+            self.titleLabel.frame = titleFrame;
         }
     }
 }
@@ -487,6 +517,7 @@
         }
         self.highlightedBackgroundLayer.frame = self.bounds;
         self.highlightedBackgroundLayer.cornerRadius = self.layer.cornerRadius;
+        self.highlightedBackgroundLayer.maskedCorners = self.layer.maskedCorners;
         self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : UIColorClear.CGColor;
     }
     
@@ -527,7 +558,10 @@
         for (NSNumber *number in states) {
             UIImage *image = [self imageForState:number.unsignedIntegerValue];
             if (!image) {
-                return;
+                continue;
+            }
+            if (number.unsignedIntegerValue != UIControlStateNormal && image == [self imageForState:UIControlStateNormal]) {
+                continue;
             }
             
             if (self.adjustsImageTintColorAutomatically) {
@@ -566,6 +600,14 @@
         self.adjustsTitleTintColorAutomatically = YES;
         self.adjustsImageTintColorAutomatically = YES;
     }
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    _cornerRadius = cornerRadius;
+    if (cornerRadius != QMUIButtonCornerRadiusAdjustsBounds) {
+        self.layer.cornerRadius = cornerRadius;
+    }
+    [self setNeedsLayout];
 }
 
 @end

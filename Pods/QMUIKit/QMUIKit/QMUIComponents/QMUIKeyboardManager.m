@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -16,8 +16,17 @@
 #import "QMUIKeyboardManager.h"
 #import "QMUICore.h"
 #import "QMUILog.h"
+#import "QMUIAppearance.h"
+#import "QMUIMultipleDelegates.h"
+#import "NSArray+QMUI.h"
 
-@interface QMUIKeyboardManager ()
+@class QMUIKeyboardViewFrameObserver;
+@protocol QMUIKeyboardViewFrameObserverDelegate <NSObject>
+@required
+- (void)keyboardViewFrameDidChange:(UIView *)keyboardView;
+@end
+
+@interface QMUIKeyboardManager () <QMUIKeyboardViewFrameObserverDelegate>
 
 @property(nonatomic, strong) NSMutableArray <NSValue *> *targetResponderValues;
 
@@ -106,7 +115,7 @@ QMUISynthesizeBOOLProperty(keyboardManager_isFirstResponder, setKeyboardManager_
 
 @interface QMUIKeyboardViewFrameObserver : NSObject
 
-@property (nonatomic, copy) void (^keyboardViewChangeFrameBlock)(UIView *keyboardView);
+@property (nonatomic, weak) id <QMUIKeyboardViewFrameObserverDelegate> delegate;
 - (void)addToKeyboardView:(UIView *)keyboardView;
 + (instancetype)observerForView:(UIView *)keyboardView;
 
@@ -177,8 +186,8 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     }
     id newValue = [change objectForKey:NSKeyValueChangeNewKey];
     if (newValue == [NSNull null]) { newValue = nil; }
-    if (self.keyboardViewChangeFrameBlock) {
-        self.keyboardViewChangeFrameBlock(_keyboardView);
+    if (self.delegate) {
+        [self.delegate keyboardViewFrameDidChange:_keyboardView];
     }
 }
 
@@ -201,6 +210,8 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
 @property(nonatomic, assign, readwrite) NSTimeInterval animationDuration;
 @property(nonatomic, assign, readwrite) UIViewAnimationCurve animationCurve;
 @property(nonatomic, assign, readwrite) UIViewAnimationOptions animationOptions;
+
+@property(nonatomic, assign, readwrite) BOOL isFloatingKeyboard;
 
 @end
 
@@ -307,6 +318,10 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
  */
 @implementation QMUIKeyboardManager
 
++ (instancetype)appearance {
+    return [QMUIAppearance appearanceForClass:self];
+}
+
 - (instancetype)init {
     NSAssert(NO, @"请使用initWithDelegate:初始化");
     return [self initWithDelegate:nil];
@@ -323,6 +338,7 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         _delegateEnabled = YES;
         _targetResponderValues = [[NSMutableArray alloc] init];
         [self addKeyboardNotification];
+        [self qmui_applyAppearance];
     }
     return self;
 }
@@ -615,14 +631,10 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
 }
 
 - (BOOL)shouldReceiveShowNotification {
-   
     UIResponder *firstResponder = [self firstResponderInWindows];
-    if (self.currentResponder) {
-         // 这里有 BUG，如果点击了 webview 导致键盘下降，这个时候运行 shouldReceiveHideNotification 就会判断错误，所以如果发现是 nil 或是 WKContentView 则值不变
-        if (firstResponder && ![firstResponder isKindOfClass:NSClassFromString(@"WKContentView")]) {
-            self.currentResponder = firstResponder;
-        }
-    } else {
+    // 如果点击了 webview 导致键盘下降，这个时候运行 shouldReceiveHideNotification 就会判断错误，所以如果发现是 nil 或是 WKContentView 则值不变
+    // WKContentView
+    if (!self.currentResponder || (firstResponder && ![firstResponder isKindOfClass:NSClassFromString([NSString stringWithFormat:@"%@%@", @"WK", @"ContentView"])])) {
         self.currentResponder = firstResponder;
     }
 
@@ -651,16 +663,15 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     if (![self.class keyboardView]) {
         return;
     }
-    __weak __typeof(self)weakSelf = self;
-    QMUIKeyboardViewFrameObserver *observer = [QMUIKeyboardViewFrameObserver observerForView:[self.class keyboardView]];
+    UIView *keyboardView = [self.class keyboardView];
+    QMUIKeyboardViewFrameObserver *observer = [QMUIKeyboardViewFrameObserver observerForView:keyboardView];
     if (!observer) {
         observer = [[QMUIKeyboardViewFrameObserver alloc] init];
-        observer.keyboardViewChangeFrameBlock = ^(UIView *keyboardView) {
-            [weakSelf keyboardDidChangedFrame:keyboardView];
-        };
-        [observer addToKeyboardView:[self.class keyboardView]];
-        [self keyboardDidChangedFrame:[self.class keyboardView]]; // 手动调用第一次
+        observer.qmui_multipleDelegatesEnabled = YES;
+        [observer addToKeyboardView:keyboardView];
     }
+    observer.delegate = self;
+    [self keyboardDidChangedFrame:keyboardView]; // 手动调用第一次
 }
 
 - (void)keyboardDidChangedFrame:(UIView *)keyboardView {
@@ -699,6 +710,7 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         keyboardMoveUserInfo.animationOptions = self.lastUserInfo ? self.lastUserInfo.animationOptions : keyboardMoveUserInfo.animationCurve<<16;
         keyboardMoveUserInfo.beginFrame = self.keyboardMoveBeginRect;
         keyboardMoveUserInfo.endFrame = endFrame;
+        keyboardMoveUserInfo.isFloatingKeyboard = keyboardView ? CGRectGetWidth(keyboardView.bounds) < CGRectGetWidth(UIApplication.sharedApplication.delegate.window.bounds) : NO;
         
         if (self.debug) {
             NSLog(@"keyboardDidMoveNotification - %@\n", self);
@@ -709,7 +721,7 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         self.keyboardMoveBeginRect = endFrame;
         
         if (self.currentResponder) {
-            UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.windows.firstObject;
+            UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.delegate.window;
             if (mainWindow) {
                 CGRect keyboardRect = keyboardMoveUserInfo.endFrame;
                 CGFloat distanceFromBottom = [QMUIKeyboardManager distanceFromMinYToBottomInView:mainWindow keyboardRect:keyboardRect];
@@ -728,6 +740,12 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         }
         
     }
+}
+
+#pragma mark - <QMUIKeyboardViewFrameObserverDelegate>
+
+- (void)keyboardViewFrameDidChange:(UIView *)keyboardView {
+    [self keyboardDidChangedFrame:keyboardView];
 }
 
 #pragma mark - 工具方法
@@ -756,9 +774,12 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
 + (void)handleKeyboardNotificationWithUserInfo:(QMUIKeyboardUserInfo *)keyboardUserInfo showBlock:(void (^)(QMUIKeyboardUserInfo *keyboardUserInfo))showBlock hideBlock:(void (^)(QMUIKeyboardUserInfo *keyboardUserInfo))hideBlock {
     // 专门处理 iPad Pro 在键盘完全不显示的情况（不会调用willShow，所以通过是否focus来判断）
     // iPhoneX Max 这里键盘高度不是0，而是一个很小的值
-    if ([QMUIKeyboardManager visibleKeyboardHeight] <= 0 && !keyboardUserInfo.isTargetResponderFocused) {
-        if (hideBlock) {
-            hideBlock(keyboardUserInfo);
+    if (!keyboardUserInfo.isTargetResponderFocused) {
+        // 先判断 focus，避免 frame 变化但是此时 visibleKeyboardHeight 还不是 0 导致调用了 showBlock
+        if ([QMUIKeyboardManager visibleKeyboardHeight] <= 0) {
+            if (hideBlock) {
+                hideBlock(keyboardUserInfo);
+            }
         }
     } else {
         if (showBlock) {
@@ -767,39 +788,13 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     }
 }
 
-+ (UIWindow *)keyboardWindow {
-    
-    for (UIWindow *window in UIApplication.sharedApplication.windows) {
-        if ([self getKeyboardViewFromWindow:window]) {
-            return window;
-        }
-    }
-    
-    NSMutableArray *kbWindows = nil;
-    
-    for (UIWindow *window in UIApplication.sharedApplication.windows) {
-        NSString *windowName = NSStringFromClass(window.class);
-        if ([windowName isEqualToString:[NSString stringWithFormat:@"UI%@%@", @"Remote", @"KeyboardWindow"]]) {
-            // UIRemoteKeyboardWindow（iOS9 以下 UITextEffectsWindow）
-            if (!kbWindows) kbWindows = [NSMutableArray new];
-            [kbWindows addObject:window];
-        }
-    }
-    
-    if (kbWindows.count == 1) {
-        return kbWindows.firstObject;
-    }
-    
-    return nil;
-}
-
 + (CGRect)convertKeyboardRect:(CGRect)rect toView:(UIView *)view {
     
     if (CGRectIsNull(rect) || CGRectIsInfinite(rect)) {
         return rect;
     }
     
-    UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.windows.firstObject;
+    UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.delegate.window;
     if (!mainWindow) {
         if (view) {
             [view convertRect:rect fromView:nil];
@@ -837,9 +832,29 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     return distance;
 }
 
++ (UIWindow *)keyboardWindow {
+    for (UIWindow *window in UIApplication.sharedApplication.windows) {
+        if ([self positionedKeyboardViewInWindow:window]) {
+            return window;
+        }
+    }
+    
+    UIWindow *window = [UIApplication.sharedApplication.windows qmui_firstMatchWithBlock:^BOOL(__kindof UIWindow * _Nonnull item) {
+        return [NSStringFromClass(item.class) isEqualToString:@"UIRemoteKeyboardWindow"];
+    }];
+    if (window) {
+        return window;
+    }
+    
+    window = [UIApplication.sharedApplication.windows qmui_firstMatchWithBlock:^BOOL(__kindof UIWindow * _Nonnull item) {
+        return [NSStringFromClass(item.class) isEqualToString:@"UITextEffectsWindow"];
+    }];
+    return window;
+}
+
 + (UIView *)keyboardView {
     for (UIWindow *window in UIApplication.sharedApplication.windows) {
-        UIView *view = [self getKeyboardViewFromWindow:window];
+        UIView *view = [self positionedKeyboardViewInWindow:window];
         if (view) {
             return view;
         }
@@ -847,29 +862,50 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     return nil;
 }
 
-+ (UIView *)getKeyboardViewFromWindow:(UIWindow *)window {
+/**
+ 从给定的 window 里寻找代表键盘当前布局位置的 view。
+ iOS 15 及以前（包括用 Xcode 13 编译的 App 运行在 iOS 16 上的场景），键盘的 UI 层级是：
+ |- UIApplication.windows
+    |- UIRemoteKeyboardWindow
+        |- UIInputSetContainerView
+            |- UIInputSetHostView - 键盘及 webView 里的输入工具栏（上下键、Done键）
+                |- _UIKBCompatInputView - 键盘主体按键
+                |- TUISystemInputAssistantView - 键盘顶部的候选词栏、emoji 键盘顶部的搜索框
+                |- _UIRemoteKeyboardPlaceholderView - webView 里的输入工具栏的占位（实际的 view 在 UITextEffectsWindow 里）
+ 
+ iOS 16 及以后（仅限用 Xcode 14 及以上版本编译的 App），UIApplication.windows 里已经不存在 UIRemoteKeyboardWindow 了，所以退而求其次，我们通过 UITextEffectsWindow 里的 UIInputSetHostView 来获取键盘的位置——这两个 window 在布局层面可以理解为镜像关系。
+ |- UIApplication.windows
+    |- UITextEffectsWindow
+        |- UIInputSetContainerView
+            |- UIInputSetHostView - 键盘及 webView 里的输入工具栏（上下键、Done键）
+                |- _UIRemoteKeyboardPlaceholderView - 整个键盘区域，包含顶部候选词栏、emoji 键盘顶部搜索栏（有时候不一定存在）
+                |- UIWebFormAccessory - webView 里的输入工具栏的占位
+                |- TUIInputAssistantHostView - 外接键盘时可能存在，此时不一定有 placeholder
+        |- UIInputSetHostView - 可能存在多个，但只有一个里面有 _UIRemoteKeyboardPlaceholderView
+ 
+ 所以只要找到 UIInputSetHostView 即可，优先从 UIRemoteKeyboardWindow 找，不存在的话则从 UITextEffectsWindow 找。
+ */
++ (UIView *)positionedKeyboardViewInWindow:(UIWindow *)window {
     
     if (!window) return nil;
     
     NSString *windowName = NSStringFromClass(window.class);
-    if (![windowName isEqualToString:@"UIRemoteKeyboardWindow"]) {
-        return nil;
+    if ([windowName isEqualToString:@"UIRemoteKeyboardWindow"]) {
+        UIView *result = [[window.subviews qmui_firstMatchWithBlock:^BOOL(__kindof UIView * _Nonnull subview) {
+            return [NSStringFromClass(subview.class) isEqualToString:@"UIInputSetContainerView"];
+        }].subviews qmui_firstMatchWithBlock:^BOOL(__kindof UIView * _Nonnull subview) {
+            return [NSStringFromClass(subview.class) isEqualToString:@"UIInputSetHostView"];
+        }];
+        return result;
     }
-    
-    for (UIView *view in window.subviews) {
-        NSString *viewName = NSStringFromClass(view.class);
-        if (![viewName isEqualToString:@"UIInputSetContainerView"]) {
-            continue;
-        }
-        for (UIView *subView in view.subviews) {
-            NSString *subViewName = NSStringFromClass(subView.class);
-            if (![subViewName isEqualToString:@"UIInputSetHostView"]) {
-                continue;
-            }
-            return subView;
-        }
+    if ([windowName isEqualToString:@"UITextEffectsWindow"]) {
+        UIView *result = [[window.subviews qmui_firstMatchWithBlock:^BOOL(__kindof UIView * _Nonnull subview) {
+            return [NSStringFromClass(subview.class) isEqualToString:@"UIInputSetContainerView"];
+        }].subviews qmui_firstMatchWithBlock:^BOOL(__kindof UIView * _Nonnull subview) {
+            return [NSStringFromClass(subview.class) isEqualToString:@"UIInputSetHostView"] && subview.subviews.count;
+        }];
+        return result;
     }
-    
     return nil;
 }
 
@@ -905,6 +941,12 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
     if (!keyboardView || !keyboardWindow) {
         return 0;
     } else {
+        // 开启了系统的“设置→辅助功能→动态效果→减弱动态效果→首选交叉淡出过渡效果”后，键盘动画不再是 slide，而是 fade，此时应该用 alpha 来判断
+        // https://github.com/Tencent/QMUI_iOS/issues/1173
+        if (keyboardView.alpha <= 0) {
+            return 0;
+        }
+        
         CGRect visibleRect = CGRectIntersection(CGRectFlatted(keyboardWindow.bounds), CGRectFlatted(keyboardView.frame));
         if (CGRectIsValidated(visibleRect)) {
             return CGRectGetHeight(visibleRect);

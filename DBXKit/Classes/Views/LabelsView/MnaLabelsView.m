@@ -7,7 +7,6 @@
 //
 
 #import "MnaLabelsView.h"
-//#import <Masonry/Masonry.h>
 #import "DBXTextCollectionViewCell.h"
 
 static NSString *gLabelsTextCellIdentifi = @"kDBXTextCollectionViewCellCellKey";

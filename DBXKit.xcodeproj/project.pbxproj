@@ -23,6 +23,7 @@
 		2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */; };
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
+		C820AD052BD8DA9F00ABA666 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C820AD032BD8DA9F00ABA666 /* DBXLog.m */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
 		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
@@ -37,12 +38,12 @@
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
 		C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */; };
-		C8C0114C2BC18CD0004F6EFD /* DBXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C0114B2BC18CD0004F6EFD /* DBXConfig.m */; };
+		C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
-		C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */; };
-		C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */; };
+		C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */; };
+		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
@@ -92,6 +93,8 @@
 		2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXAutoReportManager.m; sourceTree = "<group>"; };
 		862E7400B3374E118EDD226F /* Pods-DBXKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.debug.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C820AD032BD8DA9F00ABA666 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
+		C820AD042BD8DA9F00ABA666 /* DBXLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXLog.h; sourceTree = "<group>"; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
 		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
 		C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXSyringViewController.h; sourceTree = "<group>"; };
@@ -120,18 +123,18 @@
 		C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertyObserver.m"; sourceTree = "<group>"; };
 		C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTextModel.h; sourceTree = "<group>"; };
 		C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTextModel.m; sourceTree = "<group>"; };
-		C8C0114A2BC18CD0004F6EFD /* DBXConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXConfig.h; sourceTree = "<group>"; };
-		C8C0114B2BC18CD0004F6EFD /* DBXConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXConfig.m; sourceTree = "<group>"; };
+		C8BF50672BD49BED0032721C /* DBXTaskQueueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueViewController.h; sourceTree = "<group>"; };
+		C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueViewController.m; sourceTree = "<group>"; };
 		C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBXRuntime.h"; sourceTree = "<group>"; };
 		C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBXRuntime.m"; sourceTree = "<group>"; };
 		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAR.h"; sourceTree = "<group>"; };
 		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAR.m"; sourceTree = "<group>"; };
 		C8DB31CD293A26F500090C61 /* DBXOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXOperate.h; sourceTree = "<group>"; };
 		C8DB31CE293A26F500090C61 /* DBXOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXOperate.m; sourceTree = "<group>"; };
-		C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaTaskTimerManager.m; sourceTree = "<group>"; };
-		C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaTaskTimerManager.h; sourceTree = "<group>"; };
-		C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaIMMessageQueueManager.m; sourceTree = "<group>"; };
-		C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaIMMessageQueueManager.h; sourceTree = "<group>"; };
+		C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskTimerManager.m; sourceTree = "<group>"; };
+		C8DD74A528D30DC000E08AA1 /* DBXTaskTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskTimerManager.h; sourceTree = "<group>"; };
+		C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueManager.m; sourceTree = "<group>"; };
+		C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueManager.h; sourceTree = "<group>"; };
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
 		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
 		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
@@ -237,8 +240,8 @@
 				C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */,
 				2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */,
 				2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */,
-				C8C0114A2BC18CD0004F6EFD /* DBXConfig.h */,
-				C8C0114B2BC18CD0004F6EFD /* DBXConfig.m */,
+				C820AD042BD8DA9F00ABA666 /* DBXLog.h */,
+				C820AD032BD8DA9F00ABA666 /* DBXLog.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -336,10 +339,10 @@
 		C8DD74A328D3046F00E08AA1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				C8DD74A528D30DC000E08AA1 /* MnaTaskTimerManager.h */,
-				C8DD74A428D30DC000E08AA1 /* MnaTaskTimerManager.m */,
-				C8DD74A828D30F1D00E08AA1 /* MnaIMMessageQueueManager.h */,
-				C8DD74A728D30F1D00E08AA1 /* MnaIMMessageQueueManager.m */,
+				C8DD74A528D30DC000E08AA1 /* DBXTaskTimerManager.h */,
+				C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */,
+				C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */,
+				C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */,
 				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
 			);
 			path = Tools;
@@ -358,6 +361,8 @@
 				C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */,
 				C880A62C2B66ADEF008C9C36 /* DBXDebounceViewController.h */,
 				C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */,
+				C8BF50672BD49BED0032721C /* DBXTaskQueueViewController.h */,
+				C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
@@ -512,6 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
+				C820AD052BD8DA9F00ABA666 /* DBXLog.m in Sources */,
 				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
@@ -536,18 +542,18 @@
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
-				C8C0114C2BC18CD0004F6EFD /* DBXConfig.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
-				C8DD74A928D30F1D00E08AA1 /* MnaIMMessageQueueManager.m in Sources */,
+				C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */,
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
+				C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
-				C8DD74A628D30DC000E08AA1 /* MnaTaskTimerManager.m in Sources */,
+				C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
 				C864D8F42B53B88A007D11E8 /* People.m in Sources */,

@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -50,13 +50,20 @@
  *  1. 使用 initWithContentsViewController: 初始化
  *  2. 通过 searchBar 属性得到搜索框的引用并直接使用，例如 `tableHeaderView = searchController.searchBar`
  *  3. 指定 searchResultsDelegate 属性并在其中实现 searchController:updateResultsForSearchString: 方法以更新搜索结果数据集
+ *  4. 如果需要，可通过 @c qmui_preferredStatusBarStyleBlock 来控制搜索状态下的状态栏样式。
  *
  *  @note QMUICommonTableViewController 内部自带 QMUISearchController，只需将属性 shouldShowSearchBar 置为 YES 即可，无需自行初始化 QMUISearchController。
  */
-@interface QMUISearchController : QMUICommonViewController
+@interface QMUISearchController : QMUICommonViewController<UISearchResultsUpdating, UISearchControllerDelegate>
 
 /**
- *  在某个指定的UIViewController上创建一个与其绑定的searchController
+ *  在某个指定的 UIViewController 上创建一个与其绑定的 searchController，并指定结果列表的 style。
+ *  @param viewController 要在哪个viewController上添加搜索功能
+ */
+- (instancetype)initWithContentsViewController:(UIViewController *)viewController resultsTableViewStyle:(UITableViewStyle)resultsTableViewStyle;
+
+/**
+ *  在某个指定的 UIViewController 上创建一个与其绑定的 searchController
  *  @param viewController 要在哪个viewController上添加搜索功能
  */
 - (instancetype)initWithContentsViewController:(UIViewController *)viewController;
@@ -71,6 +78,10 @@
 
 /// 在搜索文字为空时会展示的一个 view，通常用于实现“最近搜索”之类的功能。launchView 最终会被布局为撑满搜索框以下的所有空间。
 @property(nonatomic, strong) UIView *launchView;
+
+/// 升起键盘时的半透明遮罩，nil 表示用系统的，非 nil 则用自己的。默认为 nil。
+/// @note 如果使用了 launchView 则该属性无效。
+@property(nonatomic, strong) UIColor *dimmingColor;
 
 /// 控制以无动画的形式进入/退出搜索状态
 @property(nonatomic, assign, getter=isActive) BOOL active;

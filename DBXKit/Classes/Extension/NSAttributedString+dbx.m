@@ -31,7 +31,7 @@ static NSString const *kDelimiter = @"DBXKit";
         return self;
     }
     
-    NSMutableAttributedString *mutableSelf = self;
+    NSMutableAttributedString *mutableSelf = (NSMutableAttributedString *)self;
     if ([self isKindOfClass:[NSAttributedString class]]) {
         mutableSelf = self.mutableCopy;
     }

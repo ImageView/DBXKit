@@ -9,7 +9,7 @@
 #ifndef DBXTools_h
 #define DBXTools_h
 
-#import "MnaIMMessageQueueManager.h"
-#import "MnaTaskTimerManager.h"
+#import "DBXTaskQueueManager.h"
+#import "DBXTaskTimerManager.h"
 
 #endif /* DBXTools_h */

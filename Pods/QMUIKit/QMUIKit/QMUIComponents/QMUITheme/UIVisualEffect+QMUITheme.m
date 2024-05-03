@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -23,9 +23,14 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     QMUIThemeVisualEffect *effect = [[self class] allocWithZone:zone];
+    effect.name = self.name;
     effect.managerName = self.managerName;
     effect.themeProvider = self.themeProvider;
     return effect;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@,%@qmui_rawEffect = %@", [super description], self.name.length ? [NSString stringWithFormat:@" name = %@, ", self.name] : @" ", self.qmui_rawEffect];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
@@ -81,6 +86,10 @@
 
 #pragma mark - <QMUIDynamicEffectProtocol>
 
+- (NSString *)qmui_name {
+    return self.name;
+}
+
 - (UIVisualEffect *)qmui_rawEffect {
     QMUIThemeManager *manager = [QMUIThemeManagerCenter themeManagerWithName:self.managerName];
     return self.themeProvider(manager, manager.currentThemeIdentifier, manager.currentTheme).qmui_rawEffect;
@@ -95,17 +104,30 @@
 @implementation UIVisualEffect (QMUITheme)
 
 + (UIVisualEffect *)qmui_effectWithThemeProvider:(UIVisualEffect * _Nonnull (^)(__kindof QMUIThemeManager * _Nonnull, __kindof NSObject<NSCopying> * _Nullable, __kindof NSObject * _Nullable))provider {
-    return [UIVisualEffect qmui_effectWithThemeManagerName:QMUIThemeManagerNameDefault provider:provider];
+    return [self qmui_effectWithName:nil themeManagerName:QMUIThemeManagerNameDefault provider:provider];
 }
 
-+ (UIVisualEffect *)qmui_effectWithThemeManagerName:(__kindof NSObject<NSCopying> *)name provider:(UIVisualEffect * _Nonnull (^)(__kindof QMUIThemeManager * _Nonnull, __kindof NSObject<NSCopying> * _Nullable, __kindof NSObject * _Nullable))provider {
++ (UIVisualEffect *)qmui_effectWithName:(NSString *)name themeProvider:(UIVisualEffect * _Nonnull (^)(__kindof QMUIThemeManager * _Nonnull, __kindof NSObject<NSCopying> * _Nullable, __kindof NSObject * _Nullable))provider {
+    return [self qmui_effectWithName:name themeManagerName:QMUIThemeManagerNameDefault provider:provider];
+}
+
++ (UIVisualEffect *)qmui_effectWithThemeManagerName:(__kindof NSObject<NSCopying> *)managerName provider:(UIVisualEffect * _Nonnull (^)(__kindof QMUIThemeManager * _Nonnull, __kindof NSObject<NSCopying> * _Nullable, __kindof NSObject * _Nullable))provider {
+    return [self qmui_effectWithName:nil themeManagerName:managerName provider:provider];
+}
+
++ (UIVisualEffect *)qmui_effectWithName:(NSString *)name themeManagerName:(__kindof NSObject<NSCopying> *)managerName provider:(UIVisualEffect * _Nonnull (^)(__kindof QMUIThemeManager * _Nonnull, __kindof NSObject<NSCopying> * _Nullable, __kindof NSObject * _Nullable))provider {
     QMUIThemeVisualEffect *effect = [[QMUIThemeVisualEffect alloc] init];
-    effect.managerName = name;
+    effect.name = name;
+    effect.managerName = managerName;
     effect.themeProvider = provider;
     return (UIVisualEffect *)effect;
 }
 
 #pragma mark - <QMUIDynamicEffectProtocol>
+
+- (NSString *)qmui_name {
+    return nil;
+}
 
 - (UIVisualEffect *)qmui_rawEffect {
     return self;

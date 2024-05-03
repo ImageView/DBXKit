@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -26,8 +26,8 @@
 
 @implementation QMUIPopupMenuButtonItem
 
-+ (instancetype)itemWithImage:(UIImage *)image title:(NSString *)title handler:(nullable void (^)(QMUIPopupMenuButtonItem *))handler {
-    QMUIPopupMenuButtonItem *item = [[QMUIPopupMenuButtonItem alloc] init];
++ (instancetype)itemWithImage:(UIImage *)image title:(NSString *)title handler:(nullable void (^)(__kindof QMUIPopupMenuButtonItem *))handler {
+    QMUIPopupMenuButtonItem *item = [[self alloc] init];
     item.image = image;
     item.title = title;
     item.handler = handler;
@@ -40,6 +40,7 @@
         
         _button = [[QMUIButton alloc] init];
         self.button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        self.button.tintColor = nil;
         self.button.qmui_automaticallyAdjustTouchHighlightedInScrollView = YES;
         [self.button addTarget:self action:@selector(handleButtonEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.button];
@@ -86,6 +87,23 @@
 }
 
 - (void)handleButtonEvent:(id)sender {
+    if (self.menuView.willHandleButtonItemEventBlock) {
+        BOOL found = NO;
+        for (NSInteger section = 0, sectionCount = self.menuView.itemSections.count; section < sectionCount; section ++) {
+            NSArray<QMUIPopupMenuBaseItem *> *items = self.menuView.itemSections[section];
+            for (NSInteger row = 0, rowCount = items.count; row < rowCount; row ++) {
+                QMUIPopupMenuBaseItem *item = items[row];
+                if (item == self) {
+                    self.menuView.willHandleButtonItemEventBlock(self.menuView, self, section, row);
+                    found = YES;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+    }
     if (self.handler) {
         self.handler(self);
     }
@@ -94,7 +112,10 @@
 - (void)updateAppearance {
     self.button.titleLabel.font = self.menuView.itemTitleFont;
     [self.button setTitleColor:self.menuView.itemTitleColor forState:UIControlStateNormal];
-    self.button.contentEdgeInsets = UIEdgeInsetsMake(0, self.menuView.padding.left, 0, self.menuView.padding.right);
+    UIEdgeInsets contentEdgeInsets = self.button.contentEdgeInsets;
+    contentEdgeInsets.left = self.menuView.padding.left;
+    contentEdgeInsets.right = self.menuView.padding.right;
+    self.button.contentEdgeInsets = contentEdgeInsets;
 }
 
 @end
