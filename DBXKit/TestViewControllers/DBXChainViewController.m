@@ -39,30 +39,35 @@
     [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         
         DBXChainTask *next = [self createTaskWithName:@"222"];
-        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
+//        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
-    } operate:[[DBXCustomThreadOperate alloc] initWithQueue:queue]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    } ] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         if (task.error) {
             return task.error;
         }
         DBXChainTask *next = [self createTaskWithName:@"333"];
-        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
+//        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
 //        return nil;
-    } operate:[DBXMainThreadOperate new]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+    } ] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"444" sleep:0];
-        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
+//        NSLog(@"%@完成了任务，下一个任务是%@",task.taskName, next.taskName);
         return next;
     }];
 }
 
 - (IBAction)testGroup:(id)sender {
+    DBXChainTask *task1 = [self createTaskWithName:@"111" sleep:1 shouldSuccess:NO];
+    task1.tag = 110;
+    DBXChainTask *task2 = [self createTaskWithName:@"2222" sleep:1 shouldSuccess:NO];
+    
+    [[DBXChainTask executGroupTasks:@[task1, task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
+        
+        NSError *error = [task.error errorWithTaskTag:110];
+        NSError *error222 = [task.error errorWithTask:task2];
 
-    DBXChainTask *task2 = [self createTaskWithName:@"2222"];
-    [[DBXChainTask executGroupTasks:@[[self createTaskWithName:@"111" sleep:1], task2, [self createTaskWithName:@"333"]]] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
-        NSError *error = [DBXChainTask errorOfTask:task2 fromGroupError:task.error];
         NSDictionary *resultDic = task.result;
-        NSLog(@"并行任务完成, task=%@,error=%@,result222=%@", task, error,resultDic[[task2 resultKey]]);
+//        NSLog(@"并行任务完成, task=%@,error=%@,result222=%@", task, error,resultDic[[task2 resultKey]]);
         return nil;
     }];
 }
@@ -72,16 +77,27 @@
 }
 
 - (DBXChainTask *)createTaskWithName:(NSString *)name sleep:(int)s {
+    return [self createTaskWithName:name sleep:s shouldSuccess:YES];
+}
+
+- (DBXChainTask *)createTaskWithName:(NSString *)name sleep:(int)s shouldSuccess:(BOOL)succ {
     DBXChainTask *task = [DBXChainTask chainTask];
     task.taskName = name;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        sleep(s);
-        bool isSuc = YES;
-        if ([task.taskName isEqualToString:@"222"]) {
-            isSuc = NO;
-        }
-        NSLog(@"任务%@结束,详情：%@", name, @(task.hash));
-        if (isSuc) {
+//    QMUIAlertController *alert = [QMUIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"任务%@正在执行", name] message:nil preferredStyle:QMUIAlertControllerStyleAlert];
+//    [alert addAction:[QMUIAlertAction actionWithTitle:@"标记成功" style:QMUIAlertActionStyleDefault handler:^(__kindof QMUIAlertController * _Nonnull aAlertController, QMUIAlertAction * _Nonnull action) {
+//        [task setResult:@{@"res":@"succ"}];
+//    }]];
+//    [alert addAction:[QMUIAlertAction actionWithTitle:@"标记失败" style:QMUIAlertActionStyleDefault handler:^(__kindof QMUIAlertController * _Nonnull aAlertController, QMUIAlertAction * _Nonnull action) {
+//        [task setError:[NSError errorWithDomain:[NSString stringWithFormat:@"%@ failed",task.taskName ] code:-1 userInfo:nil]];
+//    }]];
+//    [alert showWithAnimated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(s * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+//    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        sleep(s);
+//        NSLog(@"任务%@结束,详情：%@", name, @(task.hash));
+        if (succ) {
             [task setResult:@{@"res":@"succ"}];
         } else {
             [task setError:[NSError errorWithDomain:[NSString stringWithFormat:@"%@ failed",task.taskName ] code:-1 userInfo:nil]];

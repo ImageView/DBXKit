@@ -12,7 +12,7 @@
 #import "DBXLog.h"
 
 NSString *const DBXChainTaskErrorDomain = @"GroupTasks error";
-NSInteger const kBFMultipleErrorsError = 20180306;
+NSInteger const kDBXChainMultipleErrorsCode = 20180306;
 
 @interface DBXChainTask ()
 
@@ -26,12 +26,15 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 @property(nonatomic, copy) NSArray *subTasks;
 // 超时时间
 @property(nonatomic, strong) NSTimer *timeOutTimer;
+// 标记是否是临时任务
+@property(nonatomic, assign, getter=isTempTask) BOOL tempTask;
 @end
 
 @implementation DBXChainTask
 
 - (id)copyWithZone:(NSZone *)zone {
     DBXChainTask *task = [[self class] allocWithZone:zone];
+    task.tag = self.tag;
     task.taskName = self.taskName;
     task.result = self.result;
     task.completed = self.completed;
@@ -61,6 +64,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
 
 + (instancetype)executGroupTasks:(NSArray<DBXChainTask *> *)tasks operate:(DBXOperate *)operate {
     DBXChainTask *tempTask = [self chainTask];
+    tempTask.tempTask = YES;
     tempTask.subTasks = tasks;
     
     if (!tasks || tasks.count == 0) {
@@ -90,7 +94,7 @@ NSInteger const kBFMultipleErrorsError = 20180306;
                 DBXLog(@"groupTask全部完成%@, 完成结果：%@，出错结果：%@", tempTask, resultDic, errorDic);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
-                    [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kBFMultipleErrorsError userInfo:errorDic]];
+                    [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kDBXChainMultipleErrorsCode userInfo:errorDic]];
                 } else {
                     [tempTask setResult:resultDic];
                 }
@@ -102,15 +106,8 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     return tempTask;
 }
 
-+ (NSError *)errorOfTask:(DBXChainTask *)task fromGroupError:(NSError *)error {
-    if (error.code != kBFMultipleErrorsError) {
-        return nil;
-    }
-    return [error.userInfo objectForKey:[task resultKey]];
-}
-
 - (id)resultKey {
-    return @(self.hash);
+    return self.tag > 0 ? @(self.tag) : @(self.hash);
 }
 
 - (DBXChainTask *)thenWithBlock:(DBXChainThenBlock)block {
@@ -127,16 +124,18 @@ NSInteger const kBFMultipleErrorsError = 20180306;
      由于要保持可持续链接下去，返回值必须是一个task，而由于task2是异步获取的，因此需要创建一个临时的task过渡，作为虚拟的下一链子，代替还未获取到的task2，并同步task2的结果
      */
     DBXChainTask *tempTask = [DBXChainTask chainTask];
+    tempTask.tempTask = YES;
     
     void (^executBlock)(void) = ^() {
         id result = block(self);
-        DBXLog(@"task完成，执行结果：%@", result);
+//        if (self.isTempTask) {
+            DBXLog(@"task:%@完成，执行结果：%@", self, result);
+//        }
 
         // 如果返回值是Task类型，则链条继续
         if ([result isKindOfClass:[DBXChainTask class]]) {
             DBXChainThenBlock tempThenBlock = ^id (DBXChainTask *task) {
-                tempTask.taskName = task.taskName;
-                tempTask.subTasks = task.subTasks;
+                [tempTask copyInfoFrom:task];
                 if (task.error) {
                     tempTask.error = task.error;
                 } else {
@@ -242,4 +241,33 @@ NSInteger const kBFMultipleErrorsError = 20180306;
     [self.lock unlock];
 }
 
+// 复制一个task信息
+- (void)copyInfoFrom:(DBXChainTask *)task {
+    self.taskName = task.taskName;
+    self.subTasks = task.subTasks;
+    self.tag = task.tag;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, taskName=%@, tag=%d, subTasksCount=%lu>", NSStringFromClass(self.class), self, self.taskName, (int)self.tag, (unsigned long)self.subTasks.count];
+}
+
+@end
+
+
+@implementation NSError (DBXChain)
+
+- (NSError *)errorWithTaskTag:(NSInteger)tag {
+    if (self.code != kDBXChainMultipleErrorsCode) {
+        return nil;
+    }
+    return [self.userInfo objectForKey:@(tag)];
+}
+
+- (NSError *)errorWithTask:(DBXChainTask *)task {
+    if (self.code != kDBXChainMultipleErrorsCode) {
+        return nil;
+    }
+    return [self.userInfo objectForKey:[task resultKey]];
+}
 @end

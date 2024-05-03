@@ -1,6 +1,6 @@
 /**
  * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2020 THL A29 Limited, a Tencent company. All rights reserved.
+ * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
@@ -155,9 +155,9 @@ const CGFloat QMUICollectionViewPagingLayoutRotationRadiusAutomatic = -1.0;
     
     if (self.debugLayer) {
         if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
-            self.debugLayer.frame = CGRectFlatMake(0, self.collectionView.qmui_contentInset.top + self.sectionInset.top + _finalItemSize.height / 2, CGRectGetWidth(self.collectionView.bounds), PixelOne);
+            self.debugLayer.frame = CGRectFlatMake(0, self.collectionView.adjustedContentInset.top + self.sectionInset.top + _finalItemSize.height / 2, CGRectGetWidth(self.collectionView.bounds), PixelOne);
         } else {
-            self.debugLayer.frame = CGRectFlatMake(self.collectionView.qmui_contentInset.left + self.sectionInset.left + _finalItemSize.width / 2, 0, PixelOne, CGRectGetHeight(self.collectionView.bounds));
+            self.debugLayer.frame = CGRectFlatMake(self.collectionView.adjustedContentInset.left + self.sectionInset.left + _finalItemSize.width / 2, 0, PixelOne, CGRectGetHeight(self.collectionView.bounds));
         }
     }
 }
@@ -232,7 +232,7 @@ const CGFloat QMUICollectionViewPagingLayoutRotationRadiusAutomatic = -1.0;
     
     CGSize contentSize = self.collectionViewContentSize;
     CGSize frameSize = self.collectionView.bounds.size;
-    UIEdgeInsets contentInset = self.collectionView.qmui_contentInset;
+    UIEdgeInsets contentInset = self.collectionView.adjustedContentInset;
     
     BOOL scrollingToRight = proposedContentOffset.x < self.collectionView.contentOffset.x;// 代表 collectionView 期望的实际滚动方向是向右，但不代表手指拖拽的方向是向右，因为有可能此时已经在左边的尽头，继续往右拖拽，松手的瞬间由于回弹，这里会判断为是想向左滚动，但其实你的手指是向右拖拽
     BOOL scrollingToBottom = proposedContentOffset.y < self.collectionView.contentOffset.y;
@@ -252,11 +252,7 @@ const CGFloat QMUICollectionViewPagingLayoutRotationRadiusAutomatic = -1.0;
         
         // 最顶/最底
         if (proposedContentOffset.y < -contentInset.top || proposedContentOffset.y >= contentSize.height + contentInset.bottom - frameSize.height) {
-            if (IOS_VERSION_NUMBER < 100000) {
-                // iOS 10 及以上的版本，直接返回当前的 contentOffset，系统会自动帮你调整到边界状态，而 iOS 9 及以下的版本需要自己计算
-                // https://github.com/Tencent/QMUI_iOS/issues/499
-                proposedContentOffset.y = MIN(MAX(proposedContentOffset.y, -contentInset.top), contentSize.height + contentInset.bottom - frameSize.height);
-            }
+            // iOS 10 及以上的版本，直接返回当前的 contentOffset，系统会自动帮你调整到边界状态，而 iOS 9 及以下的版本需要自己计算
             return proposedContentOffset;
         }
         
@@ -287,11 +283,7 @@ const CGFloat QMUICollectionViewPagingLayoutRotationRadiusAutomatic = -1.0;
         
         // 最左/最右
         if (proposedContentOffset.x < -contentInset.left || proposedContentOffset.x >= contentSize.width + contentInset.right - frameSize.width) {
-            if (IOS_VERSION_NUMBER < 100000) {
-                // iOS 10 及以上的版本，直接返回当前的 contentOffset，系统会自动帮你调整到边界状态，而 iOS 9 及以下的版本需要自己计算
-                // https://github.com/Tencent/QMUI_iOS/issues/499
-                proposedContentOffset.x = MIN(MAX(proposedContentOffset.x, -contentInset.left), contentSize.width + contentInset.right - frameSize.width);
-            }
+            // iOS 10 及以上的版本，直接返回当前的 contentOffset，系统会自动帮你调整到边界状态，而 iOS 9 及以下的版本需要自己计算
             return proposedContentOffset;
         }
         
