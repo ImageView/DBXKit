@@ -23,6 +23,25 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param keyPath key路径，以.隔开
 - (id)dbx_valueForKeyPath:(NSString *)keyPath;
 
+// 以nil结束
+
+
+///  解析多个字段
+/// @param keyPath key路径
+/// @param values 返回值的指针
+/**
+ @"content" : @{
+    @"name" :  @"asher",
+    @"sex" : @(1),
+    @"playgame":@{
+        @"wangzhe" : @"100",
+        @"heping" : @"99"
+    }
+ }
+ 
+ content.name&sex&playgame.heping
+ */
+- (void)dbx_keyPath:(NSString *)keyPath values:(id _Nullable *_Nullable)values, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 NS_ASSUME_NONNULL_END
