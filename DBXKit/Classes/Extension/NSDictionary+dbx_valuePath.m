@@ -35,8 +35,8 @@
     return result;
 }
 
-// key1.key2.key3&key4
-- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id _Nonnull __autoreleasing *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION {
+// id *需要指定所有权修饰符，否则无法编译，此处指定为__strong
+- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id _Nonnull __strong *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION {
     if (![keyPath isKindOfClass:[NSString class]] || !values) {
         return;
     }
@@ -51,15 +51,13 @@
                 va_list args;
                 va_start(args, values);
                 NSInteger index = 0;
-                id __autoreleasing *currPointer = values;
+                id __strong *currPointer = values;
                 do {
                     NSString *objcKey = objcKeys[index];
                     *currPointer = result[objcKey];
                     index++;
-                    DBXLog(@"currPointer=%p, value=%@", currPointer, *currPointer);
-                    currPointer = va_arg(args, id __autoreleasing *);
+                    currPointer = va_arg(args, id __strong*);
                 } while (currPointer != nil);
-                DBXLog(@"result = %@ address = %p", result, result);
                 va_end(args);
             } else {
                 // 单个对象

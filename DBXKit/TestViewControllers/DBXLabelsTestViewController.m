@@ -77,39 +77,34 @@
 - (void)labelsView:(MnaLabelsView *)labelsView didSelectItemAtIndex:(NSInteger)index {
     NSDictionary  *textDic = @{
         @"11" : @{
-//            @"22" : @"aa",
-//            @"33" : @"bb",
-            @"44" : @"cc",
+            @"22" : @"aa",
+            @"33" : @"bb",
+            @"44" : @"chuuuijiojijiuhjiuhuihjiuhuihuihuihuijuihuuihuhijiuughugvyc",
             @"55" : @"ddd",
             @"66" : @{
                 @"77" : @"fffe"
             }
         }
     };
-//    self.tempDic = textDic;
-    NSLog(@"textDic address = %p", textDic);
-//    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
-//    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
-//    NSLog(@"a = %@, b = %@", a, b);
-//    @autoreleasepool {
-       
-        NSString *c;
-        NSString *d;
-        NSDictionary * dic = nil;
-        [textDic dbx_valuesForkeyPath:@"11.44&55&66" values:&c,&d,&dic,nil];
-    //    [textDic dbx_valuesForKeyPath:@"11.44&55&66" values:&c,&d,&dicc,nil];
-        NSLog(@"c = %@, d = %@, dic = %@ dicaddress=%p", c, d, dic, dic);
-//    }
+
+    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
+    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
+    NSLog(@"a = %@, b = %@", a, b);
     
-    NSLog(@"345");
-//    NSString *e;
-//    [textDic dbx_valuesForkeyPath:@"11.44" values:&e,nil];
-//    NSLog(@"e = %@", e);
-//    
-//    
-//    NSString *f;
-//    [textDic dbx_valuesForkeyPath:@"11.66.77" values:&f,nil];
-//    NSLog(@"f = %@", f);
+    NSString *c;
+    NSString *d;
+    NSDictionary *dic = nil;
+    [textDic dbx_valuesForkeyPath:@"11.44&55&66" values:&c, &d, &dic, nil];
+    NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
+    
+    NSString *e;
+    [textDic dbx_valuesForkeyPath:@"11.44" values:&e,nil];
+    NSLog(@"e = %@", e);
+    
+    
+    NSString *f;
+    [textDic dbx_valuesForkeyPath:@"11.66.77" values:&f,nil];
+    NSLog(@"f = %@", f);
 }
 
 - (MnaLabelsView *)labelsView {
