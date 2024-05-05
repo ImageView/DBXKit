@@ -46,8 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 // NSString *sex;
 // NSDictionary *games;
 // [dictionary dbx_keyPath:@"content.name&sex&playgame" values:&name, &sex, &games];
-- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id *__autoreleasing )values, ... NS_REQUIRES_NIL_TERMINATION;
-//- (void)dbx_valuesForKeyPath:(NSString *)keyPath values:(id *)values, ... NS_REQUIRES_NIL_TERMINATION;
+- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id _Nonnull __autoreleasing *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 NS_ASSUME_NONNULL_END

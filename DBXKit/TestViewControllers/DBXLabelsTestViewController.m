@@ -12,6 +12,7 @@
 
 @interface DBXLabelsTestViewController ()<MnaLabelsViewDelegate, MnaLabelsViewUIDelegate>
 @property (nonatomic, strong) MnaLabelsView *labelsView;
+@property(nonatomic, strong) NSDictionary *tempDic;
 
 @end
 
@@ -74,7 +75,7 @@
 //}
 
 - (void)labelsView:(MnaLabelsView *)labelsView didSelectItemAtIndex:(NSInteger)index {
-    NSDictionary *textDic = @{
+    NSDictionary  *textDic = @{
         @"11" : @{
 //            @"22" : @"aa",
 //            @"33" : @"bb",
@@ -85,18 +86,22 @@
             }
         }
     };
-    NSLog(@"textDic address = %p", &textDic);
+//    self.tempDic = textDic;
+    NSLog(@"textDic address = %p", textDic);
 //    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
 //    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
 //    NSLog(@"a = %@, b = %@", a, b);
-
-    NSString *c;
-    NSString *d;
-    NSDictionary *dic;
-    [textDic dbx_valuesForkeyPath:@"11.44&55&66" values:&c,&d,&dic,nil];
-//    [textDic dbx_valuesForKeyPath:@"11.44&55&66" values:&c,&d,&dicc,nil];
-    NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
+//    @autoreleasepool {
+       
+        NSString *c;
+        NSString *d;
+        NSDictionary * dic = nil;
+        [textDic dbx_valuesForkeyPath:@"11.44&55&66" values:&c,&d,&dic,nil];
+    //    [textDic dbx_valuesForKeyPath:@"11.44&55&66" values:&c,&d,&dicc,nil];
+        NSLog(@"c = %@, d = %@, dic = %@ dicaddress=%p", c, d, dic, dic);
+//    }
     
+    NSLog(@"345");
 //    NSString *e;
 //    [textDic dbx_valuesForkeyPath:@"11.44" values:&e,nil];
 //    NSLog(@"e = %@", e);
