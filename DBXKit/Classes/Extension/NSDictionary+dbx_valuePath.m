@@ -53,8 +53,10 @@
                 NSInteger index = 0;
                 id __strong *currPointer = values;
                 do {
-                    NSString *objcKey = objcKeys[index];
-                    *currPointer = result[objcKey];
+                    if (objcKeys.count > index) {
+                        NSString *objcKey = objcKeys[index];
+                        *currPointer = result[objcKey];
+                    }
                     index++;
                     currPointer = va_arg(args, id __strong*);
                 } while (currPointer != nil);
