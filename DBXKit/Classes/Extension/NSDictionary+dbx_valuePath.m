@@ -55,7 +55,21 @@
                 do {
                     if (objcKeys.count > index) {
                         NSString *objcKey = objcKeys[index];
-                        *currPointer = result[objcKey];
+                        NSString *k = nil;
+                        NSString *cls = nil;
+                        if ([objcKey containsString:@"#"]) {
+                            NSArray *tempKeys = [objcKey componentsSeparatedByString:@"#"];
+                            k = tempKeys.firstObject;
+                            cls = tempKeys[1];
+                        } else {
+                            k = objcKey;
+                        }
+                        id resultValue = result[k];
+                        if (cls && ![resultValue isKindOfClass:NSClassFromString(cls)]) {
+                            *currPointer = nil;
+                        } else {
+                            *currPointer = resultValue;
+                        }
                     }
                     index++;
                     currPointer = va_arg(args, id __strong*);
