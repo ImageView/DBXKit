@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 // NSString *sex;
 // NSDictionary *games;
 // [dictionary dbx_keyPath:@"content.name&sex&playgame" values:&name, &sex, &games];
-// 如果要指定字段类型，在keyPath的字段key后面拼接#以及需要的类，如@"content.name&sex#NSString&playgame#NSDictionary"
+// 如果要指定字段类型，在keyPath的字段key后面拼接@及类名，如@"content.name&sex@NSString&playgame@NSDictionary"
 - (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id _Nonnull __strong *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 

@@ -94,7 +94,7 @@
     NSString *c;
     NSString *d;
     NSDictionary *dic = nil;
-    [textDic dbx_valuesForkeyPath:@"11.44&55#NSString&66#NSDictionary" values:&c, &d, &dic, nil];
+    [textDic dbx_valuesForkeyPath:@"11.44&55@NSNumber&66@NSDictionary" values:&c, &d, &dic, nil];
     NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
     
     NSString *e;

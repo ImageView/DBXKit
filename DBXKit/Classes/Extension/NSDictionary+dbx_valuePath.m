@@ -61,8 +61,8 @@
                         NSString *objcKey = objcKeys[index];
                         NSString *k = nil;
                         NSString *cls = nil;
-                        if ([objcKey containsString:@"#"]) {
-                            NSArray *tempKeys = [objcKey componentsSeparatedByString:@"#"];
+                        if ([objcKey containsString:@"@"]) {
+                            NSArray *tempKeys = [objcKey componentsSeparatedByString:@"@"];
                             k = tempKeys.firstObject;
                             cls = tempKeys[1];
                         } else {
