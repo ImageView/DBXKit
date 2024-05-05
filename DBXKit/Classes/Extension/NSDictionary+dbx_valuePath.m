@@ -43,7 +43,11 @@
     NSArray *keyList = [keyPath componentsSeparatedByString:@"."];
     id result = self;
     for (NSString *key in keyList) {
-        NSAssert([result isKindOfClass:[NSDictionary class]], @"数据结构和keyPath指定的格式不符");
+        BOOL isDictionary = [result isKindOfClass:[NSDictionary class]];
+        NSAssert(isDictionary, @"数据结构和keyPath指定的格式不符");
+        if (!isDictionary) {
+            return;
+        }
         if (key == keyList.lastObject) {
             if ([key containsString:@"&"]) {
                 // 有多个对象
