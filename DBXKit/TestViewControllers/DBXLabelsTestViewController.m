@@ -76,25 +76,35 @@
 - (void)labelsView:(MnaLabelsView *)labelsView didSelectItemAtIndex:(NSInteger)index {
     NSDictionary *textDic = @{
         @"11" : @{
-            @"22" : @"aa",
-            @"33" : @"bb",
+//            @"22" : @"aa",
+//            @"33" : @"bb",
             @"44" : @"cc",
             @"55" : @"ddd",
+            @"66" : @{
+                @"77" : @"fffe"
+            }
         }
     };
-    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
-    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
-    NSLog(@"a = %@, b = %@", a, b);
+    NSLog(@"textDic address = %p", &textDic);
+//    NSString *a = [textDic dbx_valueForKeyPath:@"11.22" limitedClass:[NSNumber class]];
+//    NSString *b = [textDic dbx_valueForKeyPath:@"11.22"];
+//    NSLog(@"a = %@, b = %@", a, b);
 
     NSString *c;
     NSString *d;
-    [textDic dbx_keyPath:@"11.44&55" values:&c,&d,nil];
-    NSLog(@"c = %@, d = %@", c, d);
-    
+    NSDictionary *dic;
+    [textDic dbx_valuesForkeyPath:@"11.44&55&66" values:&c,&d,&dic,nil];
+//    [textDic dbx_valuesForKeyPath:@"11.44&55&66" values:&c,&d,&dicc,nil];
+    NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
     
 //    NSString *e;
-//    [textDic dbx_keyPath:@"11.44" values:&e,nil];
+//    [textDic dbx_valuesForkeyPath:@"11.44" values:&e,nil];
 //    NSLog(@"e = %@", e);
+//    
+//    
+//    NSString *f;
+//    [textDic dbx_valuesForkeyPath:@"11.66.77" values:&f,nil];
+//    NSLog(@"f = %@", f);
 }
 
 - (MnaLabelsView *)labelsView {

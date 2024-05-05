@@ -28,8 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///  解析多个字段
 /// @param keyPath key路径
-/// @param values 返回值的指针
+/// @param values 返回值的指针，调用获取到值后需自行处理数据类型安全
+
 /**
+ 用于取同一个层级下的多个对象，如
  @"content" : @{
     @"name" :  @"asher",
     @"sex" : @(1),
@@ -38,10 +40,14 @@ NS_ASSUME_NONNULL_BEGIN
         @"heping" : @"99"
     }
  }
- 
- content.name&sex&playgame.heping
  */
-- (void)dbx_keyPath:(NSString *)keyPath values:(id _Nullable *_Nullable)values, ... NS_REQUIRES_NIL_TERMINATION;
+// 要取name，sex，playgame，的值，调用方式为
+// NSString *name;
+// NSString *sex;
+// NSDictionary *games;
+// [dictionary dbx_keyPath:@"content.name&sex&playgame" values:&name, &sex, &games];
+- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id *__autoreleasing )values, ... NS_REQUIRES_NIL_TERMINATION;
+//- (void)dbx_valuesForKeyPath:(NSString *)keyPath values:(id *)values, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 NS_ASSUME_NONNULL_END
