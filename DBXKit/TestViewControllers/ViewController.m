@@ -53,9 +53,10 @@
     self.imageView.userInteractionEnabled = YES;
     [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
     
-    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"你好%@科二里%@得瑟我%@看了%@屌丝", @"a".beginDelimiter, @"a".endDelimiter, @"b".beginDelimiter, @"b".endDelimiter]];
-    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.redColor} delimiter:@"a"];
-    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.blueColor} delimiter:@"b"];
+    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"腾讯%@手游%@加速器%@王者荣耀%@%@加速%@", @"a".beginDelimiter, @"a".endDelimiter, @"b".beginDelimiter, @"b".endDelimiter, @"c".beginDelimiter, @"c".endDelimiter]];
+    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.redColor,NSFontAttributeName:[UIFont systemFontOfSize:20]} delimiter:@"a"];
+    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.blueColor,NSFontAttributeName:[UIFont boldSystemFontOfSize:11]} delimiter:@"b"];
+    attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.systemPinkColor,NSFontAttributeName:[UIFont boldSystemFontOfSize:30]} delimiter:@"c"];
 
     self.textLabel.attributedText = attStr;
 //    [self testTaskManager];

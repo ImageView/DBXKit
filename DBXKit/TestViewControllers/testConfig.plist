@@ -20,12 +20,6 @@
 		</dict>
 		<dict>
 			<key>title</key>
-			<string>Syring</string>
-			<key>class</key>
-			<string>DBXSyringViewController</string>
-		</dict>
-		<dict>
-			<key>title</key>
 			<string>队列</string>
 			<key>class</key>
 			<string>DBXTaskQueueViewController</string>
@@ -35,6 +29,20 @@
 			<string>Debounce</string>
 			<key>class</key>
 			<string>DBXDebounceViewController</string>
+		</dict>
+		<dict>
+			<key>storyboard</key>
+			<string>Main</string>
+			<key>title</key>
+			<string>测试Extension</string>
+			<key>class</key>
+			<string>ViewController</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Syring</string>
+			<key>class</key>
+			<string>DBXSyringViewController</string>
 		</dict>
 	</array>
 </dict>
