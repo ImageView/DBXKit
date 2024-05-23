@@ -94,16 +94,16 @@
     NSString *c;
     NSString *d;
     NSDictionary *dic = nil;
-    [textDic dbx_valuesForkeyPath:@"11.44&55@NSNumber&66@NSDictionary" values:&c, &d, &dic, nil];
+    [textDic dbx_valuesForKeyPath:@"11.44&55@NSNumber&66@NSDictionary" values:&c, &d, &dic, nil];
     NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
     
     NSString *e;
-    [textDic dbx_valuesForkeyPath:@"11.44" values:&e,nil];
+    [textDic dbx_valuesForKeyPath:@"11.44" values:&e,nil];
     NSLog(@"e = %@", e);
     
     
     NSString *f;
-    [textDic dbx_valuesForkeyPath:@"11.66.77" values:&f,nil];
+    [textDic dbx_valuesForKeyPath:@"11.66.77" values:&f,nil];
     NSLog(@"f = %@", f);
 }
 

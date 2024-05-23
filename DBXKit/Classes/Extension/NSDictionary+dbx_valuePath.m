@@ -36,7 +36,7 @@
 }
 
 // id *需要指定所有权修饰符，否则无法编译，此处指定为__strong
-- (void)dbx_valuesForkeyPath:(NSString *)keyPath values:(id _Nonnull __strong *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION {
+- (void)dbx_valuesForKeyPath:(NSString *)keyPath values:(id _Nonnull __strong *_Nonnull)values, ... NS_REQUIRES_NIL_TERMINATION {
     if (![keyPath isKindOfClass:[NSString class]] || !values) {
         return;
     }
