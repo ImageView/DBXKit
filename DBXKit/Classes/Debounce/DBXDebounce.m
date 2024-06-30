@@ -81,7 +81,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 @interface DBXDebounce ()
 @property (nonatomic, assign) pthread_mutex_t lock;
+// 记录target中添加了规则的select
 @property (nonatomic) NSMapTable<id, NSMutableSet<NSString *> *> *targetSelectorsMap;
+// 记录被修改了impl的类
 @property (nonatomic) NSMutableSet<Class> *classHooked;
 @end
 
@@ -111,6 +113,19 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return [self sharedInstance];
 }
 
+- (BOOL)containsSelector:(SEL)selector onTarget:(id)target {
+    return [[self.targetSelectorsMap objectForKey:target] containsObject:NSStringFromSelector(selector)];
+}
+
+- (BOOL)containsSelector:(SEL)selector onTargetClass:(Class)cls {
+    for (id target in [self.targetSelectorsMap.keyEnumerator allObjects]) {
+        if (object_getClass(target) == cls &&
+            [[self.targetSelectorsMap objectForKey:target] containsObject:NSStringFromSelector(selector)]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 /**
  记录注册了规则的 target-selector
 
@@ -140,6 +155,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return;
     }
     NSMutableSet *selectorsSet = [self.targetSelectorsMap objectForKey:target];
+    if (!selectorsSet) {
+        selectorsSet = [NSMutableSet set];
+    }
     [selectorsSet removeObject:NSStringFromSelector(selector)];
     [self.targetSelectorsMap setObject:selectorsSet forKey:target];
 }
@@ -203,14 +221,16 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     pthread_mutex_lock(&_lock);
     DBXDebounceDealloc *dealloc = rule.deallocObj;
     [dealloc lock];
+    BOOL shouldDiscard = NO;
     if ([DBXDebounce checkRuleValid:rule]) {
         [self removeSelector:rule.selector ofTarget:rule.target];
-        [self reoverMethod:rule];
+        shouldDiscard = [self reoverMethod:rule];
+        rule.active = NO;
     }
     
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
-    return YES;
+    return shouldDiscard;
 }
 
 - (BOOL)overrideMethod:(DBXDebounceRule *)rule {
@@ -252,7 +272,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [rule deallocObj].cls = cls;
     IMP targetOriginalForwardImp = class_getMethodImplementation(cls, @selector(forwardInvocation:));
     if (targetOriginalForwardImp != (IMP)dbx_forwardInvocation) {
-        // 把cls的方法转发的方法转移到当前类里，即mt_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
+        // 把cls的方法转发的方法转移到当前类里，即dbx_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
         IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
         if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName), originalIMP, "v@:@");
@@ -272,8 +292,17 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return YES;
 }
 
+// 恢复之前修改的impl
 - (BOOL)reoverMethod:(DBXDebounceRule *)rule {
-    
+    Class cls;
+    if (object_isClass(rule.target)) {
+        cls = rule.target;
+        if (![self containsSelector:rule.selector onTargetClass:rule.class]) {
+            return NO;
+        }
+    } else {
+        
+    }
     return YES;
 }
 
@@ -285,7 +314,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return NO;
     }
     NSString *className = NSStringFromClass([rule.target class]);
-    if ([className isEqualToString:@"MTRule"] || [className isEqualToString:@"MTEngine"]) {
+    if ([className isEqualToString:@"DBXDebounceRule"] || [className isEqualToString:@"DBXDebounce"]) {
         return NO;
     }
     return YES;
