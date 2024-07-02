@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 @property(nonatomic, assign, readonly, getter=isActive) BOOL active;
 
 - (void)apply;
+- (void)discard;
 //- (DBXDebounceDealloc *)deallocObj;
 //
 //- (void)clearDeallocObj;

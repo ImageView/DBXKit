@@ -59,6 +59,10 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [[DBXDebounce sharedInstance] applyRule:self];
 }
 
+- (void)discard {
+    [[DBXDebounce sharedInstance] discardRule:self];
+}
+
 - (SEL)aliasSelector {
     if (!_aliasSelector) {
         _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"__dbx_%@", NSStringFromSelector(self.selector)]);
@@ -297,7 +301,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     Class cls;
     if (object_isClass(rule.target)) {
         cls = rule.target;
-        if ([self containsSelector:rule.selector onTargetClass:rule.class]) {
+        if ([self containsSelector:rule.selector onTargetClass:rule.target]) {
             return NO;
         }
     } else {
@@ -315,6 +319,23 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         if ([self containsSelector:rule.selector onTarget:rule.target] || [self containsSelector:rule.selector onTargetClass:rule.class]) {
             return NO;
         }
+    }
+    // 把selector恢复到原本的实现
+    Method targetMethod = class_getInstanceMethod(cls, rule.selector);
+    IMP targetMethodIMP = method_getImplementation(targetMethod);
+    if (targetMethodIMP == _objc_msgForward) {
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+        Method originalMethod = class_getInstanceMethod(cls, rule.aliasSelector);
+        IMP originalIMP = method_getImplementation(originalMethod);
+        class_replaceMethod(cls, rule.selector, originalIMP, typeEncoding);
+    }
+    
+    // 把forward转回去
+    if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) == (IMP)dbx_forwardInvocation) {
+        Method originalForwardMethod = class_getInstanceMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName));
+        Method objectMethod = class_getInstanceMethod(NSObject.class, @selector(forwardInvocation:));
+        class_replaceMethod(cls, @selector(forwardInvocation:), method_getImplementation(originalForwardMethod?:objectMethod), "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
+
     }
     return YES;
 }
@@ -378,7 +399,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    DBXLog(@"target:%@, select:%s", invocation.target, invocation.selector);
+//    DBXLog(@"target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
