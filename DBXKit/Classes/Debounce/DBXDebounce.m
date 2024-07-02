@@ -297,11 +297,24 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     Class cls;
     if (object_isClass(rule.target)) {
         cls = rule.target;
-        if (![self containsSelector:rule.selector onTargetClass:rule.class]) {
+        if ([self containsSelector:rule.selector onTargetClass:rule.class]) {
             return NO;
         }
     } else {
-        
+        // 把target指回原class
+        DBXDebounceDealloc *allocObj = rule.deallocObj;
+        cls = allocObj.cls;
+        NSString *subClass = NSStringFromClass(cls);
+        if ([subClass hasPrefix:DBXSubclassPrefix]) {
+            Class originalClass = NSClassFromString([subClass stringByReplacingOccurrencesOfString:DBXSubclassPrefix withString:@""]);
+            if (originalClass) {
+                object_setClass(rule.target, originalClass);
+            }
+        }
+        // 去除记录
+        if ([self containsSelector:rule.selector onTarget:rule.target] || [self containsSelector:rule.selector onTargetClass:rule.class]) {
+            return NO;
+        }
     }
     return YES;
 }

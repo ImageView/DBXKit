@@ -45,8 +45,14 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 
 + (instancetype)sharedInstance;
 
+
+/// 注册规则
+/// - Parameter rule: 注册具体的规则，返回YES表示注册成功，NO表示之前已经有注册过了
 - (BOOL)applyRule:(DBXDebounceRule *)rule;
 
+
+/// 注销规则
+/// - Parameter rule: 返回YES表示注销成功，NO表示需要保留相关类的hook
 - (BOOL)discardRule:(DBXDebounceRule *)rule;
 @end
 
