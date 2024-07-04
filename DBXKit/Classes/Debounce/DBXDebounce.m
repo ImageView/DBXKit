@@ -72,7 +72,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 - (void)invokingLastInvocation {
     DBXDebounceDealloc *dealloc = [self deallocObj];
-    if (!dealloc) {
+    if (!dealloc || !dealloc.rule.isActive) {
         return;
     }
     [self.lastInvocation invoke];
