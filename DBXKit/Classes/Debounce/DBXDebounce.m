@@ -39,7 +39,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 - (void)setActive:(BOOL)active {
     _active = active;
-    // deallocObj跟target和select绑定，因此如果这两个没变deallocObj就唯一，但是如果新生成一个rule绑定到target和select身上，会出现deallocObj的rule和新的rule不是一个实例的情况，因此要同步两个rule的active字段
+    /**
+     deallocObj跟target和select绑定
+     如果这target和select，deallocObj就唯一，deallocObj里的rule就唯一
+     此时用deallocObj跟target生成一个新的的rule1，就会出现rule != deallocObj.rule的情况（主要是active值）
+     不考虑其他属性的情况下，保持两边的active同步，其他参数一遍也不会变
+     */
     if (self.deallocObj.rule != self && self.deallocObj.rule.active != active) {
         self.deallocObj.rule.active = active;
     }

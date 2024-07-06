@@ -68,13 +68,13 @@
 }
 
 - (void)applyRule {
-    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
-    rule.selector = @selector(run);
-    rule.target = [Animal class];
-    rule.debounceInterval = 2;
-    rule.model = DBXDebounceModelFirstOnly;
-    [rule apply];
-    self.classRule = rule;
+//    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
+//    rule.selector = @selector(run);
+//    rule.target = [Animal class];
+//    rule.debounceInterval = 2;
+//    rule.model = DBXDebounceModelFirstOnly;
+//    [rule apply];
+//    self.classRule = rule;
     
     DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
     rule2.selector = @selector(barking);
