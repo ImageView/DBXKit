@@ -48,6 +48,8 @@
 }
 
 - (void)instanceTest {
+    [self.dog eat:@"骨头"];
+    [self.dog eat:@"水"];
     [self.dog barking];
     [self.cat barking];
 //    NSLog(@"%s", __func__);
@@ -75,6 +77,19 @@
 //    rule.model = DBXDebounceModelFirstOnly;
 //    [rule apply];
 //    self.classRule = rule;
+    
+    DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] init];
+    eatRule.selector = @selector(eat:);
+    eatRule.target = self.dog;
+    eatRule.debounceInterval = 2;
+    eatRule.model = DBXDebounceModelDebounce;
+    eatRule.shouldInvokeImmediatelyBlock = ^BOOL(DBXDebounceRule *rule, NSString *food) {
+        if ([food isEqualToString:@"水"]) {
+            return YES;
+        }
+        return NO;
+    };
+    [eatRule apply];
     
     DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
     rule2.selector = @selector(barking);

@@ -38,8 +38,6 @@
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
 		C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */; };
-		C8A606012C3844A100959C8E /* DBXKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A606002C3844A100959C8E /* DBXKitUITests.m */; };
-		C8A606032C3844A100959C8E /* DBXKitUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A606022C3844A100959C8E /* DBXKitUITestsLaunchTests.m */; };
 		C8A606102C38470F00959C8E /* DBXKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A6060F2C38470F00959C8E /* DBXKitTests.m */; };
 		C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
@@ -144,8 +142,6 @@
 		C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTextModel.h; sourceTree = "<group>"; };
 		C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTextModel.m; sourceTree = "<group>"; };
 		C8A605FE2C3844A000959C8E /* DBXKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBXKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8A606002C3844A100959C8E /* DBXKitUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXKitUITests.m; sourceTree = "<group>"; };
-		C8A606022C3844A100959C8E /* DBXKitUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXKitUITestsLaunchTests.m; sourceTree = "<group>"; };
 		C8A6060D2C38470F00959C8E /* DBXKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBXKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A6060F2C38470F00959C8E /* DBXKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXKitTests.m; sourceTree = "<group>"; };
 		C8BF50672BD49BED0032721C /* DBXTaskQueueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueViewController.h; sourceTree = "<group>"; };
@@ -228,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				2E95C2702691C9FD00A2801A /* DBXKit */,
-				C8A605FF2C3844A000959C8E /* DBXKitUITests */,
 				C8A6060E2C38470F00959C8E /* DBXKitTests */,
 				2E95C26F2691C9FD00A2801A /* Products */,
 				6242A63C8703A64C33D98BFB /* Pods */,
@@ -377,15 +372,6 @@
 				C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		C8A605FF2C3844A000959C8E /* DBXKitUITests */ = {
-			isa = PBXGroup;
-			children = (
-				C8A606002C3844A100959C8E /* DBXKitUITests.m */,
-				C8A606022C3844A100959C8E /* DBXKitUITestsLaunchTests.m */,
-			);
-			path = DBXKitUITests;
 			sourceTree = "<group>";
 		};
 		C8A6060E2C38470F00959C8E /* DBXKitTests */ = {
@@ -686,8 +672,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8A606032C3844A100959C8E /* DBXKitUITestsLaunchTests.m in Sources */,
-				C8A606012C3844A100959C8E /* DBXKitUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

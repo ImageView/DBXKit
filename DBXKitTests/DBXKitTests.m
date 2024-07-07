@@ -7,24 +7,39 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "DBXDebounce.h"
+#import "Animal.h"
 
 @interface DBXKitTests : XCTestCase
+
+@property(nonatomic, strong) Animal *dog;
+@property(nonatomic, strong) Animal *cat;
 
 @end
 
 @implementation DBXKitTests
 
 - (void)setUp {
-    
+    self.dog = [[Animal alloc] init];
+    self.dog.name = @"狗狗";
+    self.cat = [[Animal alloc] init];
+    self.cat.name = @"猫咪";
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testDogRun {
+    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
+    rule2.selector = @selector(run);
+    rule2.target = self.dog;
+    rule2.debounceInterval = 2;
+    rule2.model = DBXDebounceModelFirstOnly;
+    [rule2 apply];
+    
+    [self.dog run];
+    [self.dog run];
 }
 
 - (void)testPerformanceExample {

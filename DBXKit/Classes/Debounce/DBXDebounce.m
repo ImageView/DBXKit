@@ -32,7 +32,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 {
     self = [super init];
     if (self) {
+        _model = DBXDebounceModelDebounce;
         _queue = dispatch_get_main_queue();
+        _lastTimeInvoke = 0;
     }
     return self;
 }
@@ -407,7 +409,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    if (rule.debounceInterval <= 0 ) {
+    if (rule.debounceInterval <= 0 || dbx_invokeFilterBlock(rule, invocation)) {
         invocation.selector = rule.aliasSelector;
         [invocation invoke];
         return;
@@ -442,7 +444,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 });
             }
             break;
-        case DBXDebounceModelDebounce:
+        default:
             {
                 invocation.selector = rule.aliasSelector;
                 [invocation retainArguments];
@@ -456,9 +458,81 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 });
             }
             break;
-        default:
-            break;
     }
+}
+
+static BOOL dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalInvocation) {
+    if (!rule.shouldInvokeImmediatelyBlock || ![rule.shouldInvokeImmediatelyBlock isKindOfClass:NSClassFromString(@"NSBlock")]) {
+        return NO;
+    }
+    NSMethodSignature *filterBlockSignature = [NSMethodSignature signatureWithObjCTypes:dbx_blockMethodSignature(rule.shouldInvokeImmediatelyBlock)];
+    NSInvocation *blockInvocation = [NSInvocation invocationWithMethodSignature:filterBlockSignature];
+    NSUInteger numberOfArguments = filterBlockSignature.numberOfArguments;
+    if (numberOfArguments > originalInvocation.methodSignature.numberOfArguments) {
+        NSLog(@"shouldInvokeImmediatelyBlock block 参数过多");
+        return NO;
+    }
+    
+    if (numberOfArguments > 1) {
+        [blockInvocation setArgument:&rule atIndex:1];
+    }
+    void *argBuf = NULL;
+    for (NSUInteger idx = 2; idx < numberOfArguments; idx++) {
+        const char *type = [originalInvocation.methodSignature getArgumentTypeAtIndex:idx];
+        NSUInteger argSize;
+        NSGetSizeAndAlignment(type, &argSize, NULL);
+        argBuf = realloc(argBuf, argSize);
+        if (!argBuf) {
+            NSLog(@"Block参数初始化失败");
+            return NO;
+        }
+        [originalInvocation getArgument:argBuf atIndex:idx];
+        [blockInvocation setArgument:argBuf atIndex:idx];
+    }
+    
+    [blockInvocation invokeWithTarget:rule.shouldInvokeImmediatelyBlock];
+//    [blockInvocation invoke];
+    BOOL returnValue = NO;
+    [blockInvocation getReturnValue:&returnValue];
+    if (argBuf != NULL) {
+        free(argBuf);
+    }
+    return returnValue;
+}
+
+enum {
+    BLOCK_HAS_COPY_DISPOSE =  (1 << 25),
+    BLOCK_HAS_CTOR =          (1 << 26), // helpers have C++ code
+    BLOCK_IS_GLOBAL =         (1 << 28),
+    BLOCK_HAS_STRET =         (1 << 29), // IFF BLOCK_HAS_SIGNATURE
+    BLOCK_HAS_SIGNATURE =     (1 << 30),
+};
+
+struct _DBXBlockDescriptor {
+    unsigned long reserved;
+    unsigned long size;
+    void *rest[1];
+};
+
+struct _DBXBlock {
+    void *isa;
+    int flags;
+    int reserved;
+    void *invoke;
+    struct _DBXBlockDescriptor *descriptor;
+};
+
+static const char * dbx_blockMethodSignature(id blockObj) {
+    struct _DBXBlock *block = (__bridge void *)blockObj;
+    struct _DBXBlockDescriptor *descriptor = block->descriptor;
+    
+    assert(block->flags & BLOCK_HAS_SIGNATURE);
+    
+    int index = 0;
+    if(block->flags & BLOCK_HAS_COPY_DISPOSE)
+        index += 2;
+    
+    return descriptor->rest[index];
 }
 
 @end

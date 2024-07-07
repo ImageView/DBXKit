@@ -27,6 +27,13 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 @property(nonatomic, assign) NSTimeInterval debounceInterval;
 // 防抖模式
 @property(nonatomic, assign) DBXDebounceModel model;
+/**
+ 是否马上执行消息
+ block 的参数列表可选，返回值为 BOOL 类型。
+ block 传入的第一个参数为 `DBXDebounceRule`，其余参数列表与消息调用的参数列表相同
+ block 如果返回 YES，则消息立即执行
+ */
+@property (nonatomic) id shouldInvokeImmediatelyBlock;
 // 执行队列
 @property (nonatomic) dispatch_queue_t queue;
 // 规则是否生效

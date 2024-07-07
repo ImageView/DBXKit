@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Animal : NSObject
 @property(nonatomic, strong) NSString *name;
 
+- (void)eat:(NSString *)food;
 - (void)run;
 
 - (void)barking;
