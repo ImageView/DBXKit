@@ -9,11 +9,15 @@
 #import "Animal.h"
 
 @implementation Animal
+- (void)eat:(NSString *)food {
+    NSLog(@"吃%@,%s,%@", food, __func__, self.name);
+}
+
 - (void)run {
-    NSLog(@"%s,%@", __func__, self.name);
+    NSLog(@"跑%s,%@", __func__, self.name);
 }
 
 - (void)barking {
-    NSLog(@"%s,%@", __func__, self.name);
+    NSLog(@"叫%s,%@", __func__, self.name);
 }
 @end

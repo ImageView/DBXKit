@@ -38,6 +38,7 @@
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
 		C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */; };
+		C8A606102C38470F00959C8E /* DBXKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A6060F2C38470F00959C8E /* DBXKitTests.m */; };
 		C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */; };
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
@@ -57,6 +58,23 @@
 		C8F301852B4A9CDB00524BEE /* DBXSyringeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */; };
 		C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C8A606042C3844A100959C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E95C2662691C9FD00A2801A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E95C26D2691C9FD00A2801A;
+			remoteInfo = DBXKit;
+		};
+		C8A606112C38470F00959C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E95C2662691C9FD00A2801A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E95C26D2691C9FD00A2801A;
+			remoteInfo = DBXKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1713F4135C3BA6C761A8A128 /* Pods-DBXKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DBXKit.release.xcconfig"; path = "Target Support Files/Pods-DBXKit/Pods-DBXKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +141,9 @@
 		C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertyObserver.m"; sourceTree = "<group>"; };
 		C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTextModel.h; sourceTree = "<group>"; };
 		C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTextModel.m; sourceTree = "<group>"; };
+		C8A605FE2C3844A000959C8E /* DBXKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBXKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A6060D2C38470F00959C8E /* DBXKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBXKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A6060F2C38470F00959C8E /* DBXKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXKitTests.m; sourceTree = "<group>"; };
 		C8BF50672BD49BED0032721C /* DBXTaskQueueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueViewController.h; sourceTree = "<group>"; };
 		C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueViewController.m; sourceTree = "<group>"; };
 		C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBXRuntime.h"; sourceTree = "<group>"; };
@@ -170,6 +191,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C8A605FB2C3844A000959C8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A6060A2C38470F00959C8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -189,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				2E95C2702691C9FD00A2801A /* DBXKit */,
+				C8A6060E2C38470F00959C8E /* DBXKitTests */,
 				2E95C26F2691C9FD00A2801A /* Products */,
 				6242A63C8703A64C33D98BFB /* Pods */,
 				D9777371862E77321C63E740 /* Frameworks */,
@@ -199,6 +235,8 @@
 			isa = PBXGroup;
 			children = (
 				2E95C26E2691C9FD00A2801A /* DBXKit.app */,
+				C8A605FE2C3844A000959C8E /* DBXKitUITests.xctest */,
+				C8A6060D2C38470F00959C8E /* DBXKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -336,6 +374,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		C8A6060E2C38470F00959C8E /* DBXKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				C8A6060F2C38470F00959C8E /* DBXKitTests.m */,
+			);
+			path = DBXKitTests;
+			sourceTree = "<group>";
+		};
 		C8DD74A328D3046F00E08AA1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +467,42 @@
 			productReference = 2E95C26E2691C9FD00A2801A /* DBXKit.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C8A605FD2C3844A000959C8E /* DBXKitUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8A606062C3844A100959C8E /* Build configuration list for PBXNativeTarget "DBXKitUITests" */;
+			buildPhases = (
+				C8A605FA2C3844A000959C8E /* Sources */,
+				C8A605FB2C3844A000959C8E /* Frameworks */,
+				C8A605FC2C3844A000959C8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8A606052C3844A100959C8E /* PBXTargetDependency */,
+			);
+			name = DBXKitUITests;
+			productName = DBXKitUITests;
+			productReference = C8A605FE2C3844A000959C8E /* DBXKitUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		C8A6060C2C38470F00959C8E /* DBXKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8A606132C38471000959C8E /* Build configuration list for PBXNativeTarget "DBXKitTests" */;
+			buildPhases = (
+				C8A606092C38470F00959C8E /* Sources */,
+				C8A6060A2C38470F00959C8E /* Frameworks */,
+				C8A6060B2C38470F00959C8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8A606122C38470F00959C8E /* PBXTargetDependency */,
+			);
+			name = DBXKitTests;
+			productName = DBXKitTests;
+			productReference = C8A6060D2C38470F00959C8E /* DBXKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -433,6 +515,14 @@
 				TargetAttributes = {
 					2E95C26D2691C9FD00A2801A = {
 						CreatedOnToolsVersion = 12.5.1;
+					};
+					C8A605FD2C3844A000959C8E = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 2E95C26D2691C9FD00A2801A;
+					};
+					C8A6060C2C38470F00959C8E = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 2E95C26D2691C9FD00A2801A;
 					};
 				};
 			};
@@ -450,6 +540,8 @@
 			projectRoot = "";
 			targets = (
 				2E95C26D2691C9FD00A2801A /* DBXKit */,
+				C8A605FD2C3844A000959C8E /* DBXKitUITests */,
+				C8A6060C2C38470F00959C8E /* DBXKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -464,6 +556,20 @@
 				C8F3016C2B4074E100524BEE /* DBXChainVC.xib in Resources */,
 				2E95C27E2691CA0100A2801A /* Assets.xcassets in Resources */,
 				2E95C27C2691C9FD00A2801A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A605FC2C3844A000959C8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A6060B2C38470F00959C8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +668,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C8A605FA2C3844A000959C8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A606092C38470F00959C8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8A606102C38470F00959C8E /* DBXKitTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C8A606052C3844A100959C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E95C26D2691C9FD00A2801A /* DBXKit */;
+			targetProxy = C8A606042C3844A100959C8E /* PBXContainerItemProxy */;
+		};
+		C8A606122C38470F00959C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E95C26D2691C9FD00A2801A /* DBXKit */;
+			targetProxy = C8A606112C38470F00959C8E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2E95C27A2691C9FD00A2801A /* Main.storyboard */ = {
@@ -736,6 +870,96 @@
 			};
 			name = Release;
 		};
+		C8A606072C3844A100959C8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28T35BAS7W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = DBX.DBXKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DBXKit;
+			};
+			name = Debug;
+		};
+		C8A606082C3844A100959C8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28T35BAS7W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = DBX.DBXKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DBXKit;
+			};
+			name = Release;
+		};
+		C8A606142C38471000959C8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28T35BAS7W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = DBX.DBXKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBXKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBXKit";
+			};
+			name = Debug;
+		};
+		C8A606152C38471000959C8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 28T35BAS7W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = DBX.DBXKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBXKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBXKit";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -753,6 +977,24 @@
 			buildConfigurations = (
 				2E95C2882691CA0100A2801A /* Debug */,
 				2E95C2892691CA0100A2801A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8A606062C3844A100959C8E /* Build configuration list for PBXNativeTarget "DBXKitUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8A606072C3844A100959C8E /* Debug */,
+				C8A606082C3844A100959C8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8A606132C38471000959C8E /* Build configuration list for PBXNativeTarget "DBXKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8A606142C38471000959C8E /* Debug */,
+				C8A606152C38471000959C8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -32,9 +32,24 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 {
     self = [super init];
     if (self) {
+        _model = DBXDebounceModelDebounce;
         _queue = dispatch_get_main_queue();
+        _lastTimeInvoke = 0;
     }
     return self;
+}
+
+- (void)setActive:(BOOL)active {
+    _active = active;
+    /**
+     deallocObj跟target和select绑定
+     如果这target和select，deallocObj就唯一，deallocObj里的rule就唯一
+     此时用deallocObj跟target生成一个新的的rule1，就会出现rule != deallocObj.rule的情况（主要是active值）
+     不考虑其他属性的情况下，保持两边的active同步，其他参数一遍也不会变
+     */
+    if (self.deallocObj.rule != self && self.deallocObj.rule.active != active) {
+        self.deallocObj.rule.active = active;
+    }
 }
 
 - (DBXDebounceDealloc *)deallocObj {
@@ -59,6 +74,10 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [[DBXDebounce sharedInstance] applyRule:self];
 }
 
+- (void)discard {
+    [[DBXDebounce sharedInstance] discardRule:self];
+}
+
 - (SEL)aliasSelector {
     if (!_aliasSelector) {
         _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"__dbx_%@", NSStringFromSelector(self.selector)]);
@@ -68,7 +87,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 - (void)invokingLastInvocation {
     DBXDebounceDealloc *dealloc = [self deallocObj];
-    if (!dealloc) {
+    if (!dealloc || !dealloc.rule.isActive) {
         return;
     }
     [self.lastInvocation invoke];
@@ -81,7 +100,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 @interface DBXDebounce ()
 @property (nonatomic, assign) pthread_mutex_t lock;
+// 记录target中添加了规则的select
 @property (nonatomic) NSMapTable<id, NSMutableSet<NSString *> *> *targetSelectorsMap;
+// 记录被修改了impl的类
 @property (nonatomic) NSMutableSet<Class> *classHooked;
 @end
 
@@ -111,6 +132,19 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return [self sharedInstance];
 }
 
+- (BOOL)containsSelector:(SEL)selector onTarget:(id)target {
+    return [[self.targetSelectorsMap objectForKey:target] containsObject:NSStringFromSelector(selector)];
+}
+
+- (BOOL)containsSelector:(SEL)selector onTargetClass:(Class)cls {
+    for (id target in [self.targetSelectorsMap.keyEnumerator allObjects]) {
+        if (object_getClass(target) == cls &&
+            [[self.targetSelectorsMap objectForKey:target] containsObject:NSStringFromSelector(selector)]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 /**
  记录注册了规则的 target-selector
 
@@ -140,6 +174,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return;
     }
     NSMutableSet *selectorsSet = [self.targetSelectorsMap objectForKey:target];
+    if (!selectorsSet) {
+        selectorsSet = [NSMutableSet set];
+    }
     [selectorsSet removeObject:NSStringFromSelector(selector)];
     [self.targetSelectorsMap setObject:selectorsSet forKey:target];
 }
@@ -203,14 +240,16 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     pthread_mutex_lock(&_lock);
     DBXDebounceDealloc *dealloc = rule.deallocObj;
     [dealloc lock];
+    BOOL shouldDiscard = NO;
     if ([DBXDebounce checkRuleValid:rule]) {
         [self removeSelector:rule.selector ofTarget:rule.target];
-        [self reoverMethod:rule];
+        shouldDiscard = [self reoverMethod:rule];
+        rule.active = NO;
     }
     
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
-    return YES;
+    return shouldDiscard;
 }
 
 - (BOOL)overrideMethod:(DBXDebounceRule *)rule {
@@ -252,7 +291,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     [rule deallocObj].cls = cls;
     IMP targetOriginalForwardImp = class_getMethodImplementation(cls, @selector(forwardInvocation:));
     if (targetOriginalForwardImp != (IMP)dbx_forwardInvocation) {
-        // 把cls的方法转发的方法转移到当前类里，即mt_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
+        // 把cls的方法转发的方法转移到当前类里，即dbx_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
         IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
         if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName), originalIMP, "v@:@");
@@ -272,8 +311,47 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return YES;
 }
 
+// 恢复之前修改的impl
 - (BOOL)reoverMethod:(DBXDebounceRule *)rule {
+    Class cls;
+    if (object_isClass(rule.target)) {
+        cls = rule.target;
+        if ([self containsSelector:rule.selector onTargetClass:rule.target]) {
+            return NO;
+        }
+    } else {
+        // 把target指回原class
+        DBXDebounceDealloc *allocObj = rule.deallocObj;
+        cls = allocObj.cls;
+        NSString *subClass = NSStringFromClass(cls);
+        if ([subClass hasPrefix:DBXSubclassPrefix]) {
+            Class originalClass = NSClassFromString([subClass stringByReplacingOccurrencesOfString:DBXSubclassPrefix withString:@""]);
+            if (originalClass) {
+                object_setClass(rule.target, originalClass);
+            }
+        }
+        // 去除记录
+        if ([self containsSelector:rule.selector onTarget:rule.target] || [self containsSelector:rule.selector onTargetClass:rule.class]) {
+            return NO;
+        }
+    }
+    // 把selector恢复到原本的实现
+    Method targetMethod = class_getInstanceMethod(cls, rule.selector);
+    IMP targetMethodIMP = method_getImplementation(targetMethod);
+    if (targetMethodIMP == _objc_msgForward) {
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+        Method originalMethod = class_getInstanceMethod(cls, rule.aliasSelector);
+        IMP originalIMP = method_getImplementation(originalMethod);
+        class_replaceMethod(cls, rule.selector, originalIMP, typeEncoding);
+    }
     
+    // 把forward转回去
+    if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) == (IMP)dbx_forwardInvocation) {
+        Method originalForwardMethod = class_getInstanceMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName));
+        Method objectMethod = class_getInstanceMethod(NSObject.class, @selector(forwardInvocation:));
+        class_replaceMethod(cls, @selector(forwardInvocation:), method_getImplementation(originalForwardMethod?:objectMethod), "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
+
+    }
     return YES;
 }
 
@@ -285,7 +363,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return NO;
     }
     NSString *className = NSStringFromClass([rule.target class]);
-    if ([className isEqualToString:@"MTRule"] || [className isEqualToString:@"MTEngine"]) {
+    if ([className isEqualToString:@"DBXDebounceRule"] || [className isEqualToString:@"DBXDebounce"]) {
         return NO;
     }
     return YES;
@@ -331,12 +409,12 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    if (rule.debounceInterval <= 0 ) {
+    if (rule.debounceInterval <= 0 || dbx_invokeFilterBlock(rule, invocation)) {
         invocation.selector = rule.aliasSelector;
         [invocation invoke];
         return;
     }
-    DBXLog(@"target:%@, select:%s", invocation.target, invocation.selector);
+//    DBXLog(@"target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
@@ -366,7 +444,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 });
             }
             break;
-        case DBXDebounceModelDebounce:
+        default:
             {
                 invocation.selector = rule.aliasSelector;
                 [invocation retainArguments];
@@ -380,9 +458,81 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 });
             }
             break;
-        default:
-            break;
     }
+}
+
+static BOOL dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalInvocation) {
+    if (!rule.shouldInvokeImmediatelyBlock || ![rule.shouldInvokeImmediatelyBlock isKindOfClass:NSClassFromString(@"NSBlock")]) {
+        return NO;
+    }
+    NSMethodSignature *filterBlockSignature = [NSMethodSignature signatureWithObjCTypes:dbx_blockMethodSignature(rule.shouldInvokeImmediatelyBlock)];
+    NSInvocation *blockInvocation = [NSInvocation invocationWithMethodSignature:filterBlockSignature];
+    NSUInteger numberOfArguments = filterBlockSignature.numberOfArguments;
+    if (numberOfArguments > originalInvocation.methodSignature.numberOfArguments) {
+        NSLog(@"shouldInvokeImmediatelyBlock block 参数过多");
+        return NO;
+    }
+    
+    if (numberOfArguments > 1) {
+        [blockInvocation setArgument:&rule atIndex:1];
+    }
+    void *argBuf = NULL;
+    for (NSUInteger idx = 2; idx < numberOfArguments; idx++) {
+        const char *type = [originalInvocation.methodSignature getArgumentTypeAtIndex:idx];
+        NSUInteger argSize;
+        NSGetSizeAndAlignment(type, &argSize, NULL);
+        argBuf = realloc(argBuf, argSize);
+        if (!argBuf) {
+            NSLog(@"Block参数初始化失败");
+            return NO;
+        }
+        [originalInvocation getArgument:argBuf atIndex:idx];
+        [blockInvocation setArgument:argBuf atIndex:idx];
+    }
+    
+    [blockInvocation invokeWithTarget:rule.shouldInvokeImmediatelyBlock];
+//    [blockInvocation invoke];
+    BOOL returnValue = NO;
+    [blockInvocation getReturnValue:&returnValue];
+    if (argBuf != NULL) {
+        free(argBuf);
+    }
+    return returnValue;
+}
+
+enum {
+    BLOCK_HAS_COPY_DISPOSE =  (1 << 25),
+    BLOCK_HAS_CTOR =          (1 << 26), // helpers have C++ code
+    BLOCK_IS_GLOBAL =         (1 << 28),
+    BLOCK_HAS_STRET =         (1 << 29), // IFF BLOCK_HAS_SIGNATURE
+    BLOCK_HAS_SIGNATURE =     (1 << 30),
+};
+
+struct _DBXBlockDescriptor {
+    unsigned long reserved;
+    unsigned long size;
+    void *rest[1];
+};
+
+struct _DBXBlock {
+    void *isa;
+    int flags;
+    int reserved;
+    void *invoke;
+    struct _DBXBlockDescriptor *descriptor;
+};
+
+static const char * dbx_blockMethodSignature(id blockObj) {
+    struct _DBXBlock *block = (__bridge void *)blockObj;
+    struct _DBXBlockDescriptor *descriptor = block->descriptor;
+    
+    assert(block->flags & BLOCK_HAS_SIGNATURE);
+    
+    int index = 0;
+    if(block->flags & BLOCK_HAS_COPY_DISPOSE)
+        index += 2;
+    
+    return descriptor->rest[index];
 }
 
 @end

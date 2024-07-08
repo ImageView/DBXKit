@@ -16,6 +16,9 @@
 @property(nonatomic, strong) Animal *dog;
 @property(nonatomic, strong) Animal *cat;
 
+@property(nonatomic, strong) DBXDebounceRule *instanceRule;
+@property(nonatomic, strong) DBXDebounceRule *classRule;
+
 @end
 
 @implementation DBXDebounceViewController
@@ -23,26 +26,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
-    rule.selector = @selector(run);
-    rule.target = [Animal class];
-    rule.debounceInterval = 2;
-    rule.model = DBXDebounceModelFirstOnly;
-    [rule apply];
-    
-    self.list = @[@"类防抖测试", @"局部变量防抖测试", @"测试反复注册规则"];
+    self.list = @[@"注册规则", @"类防抖测试", @"局部变量防抖测试", @"测试反复注册规则", @"注销规则"];
     
     self.dog = [[Animal alloc] init];
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫猫www";
-
-    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
-    rule2.selector = @selector(barking);
-    rule2.target = self.cat;
-    rule2.debounceInterval = 2;
-    rule2.model = DBXDebounceModelDebounce;
-    [rule2 apply];
 }
 
 - (void)classTest {
@@ -59,6 +48,8 @@
 }
 
 - (void)instanceTest {
+    [self.dog eat:@"骨头"];
+    [self.dog eat:@"水"];
     [self.dog barking];
     [self.cat barking];
 //    NSLog(@"%s", __func__);
@@ -76,6 +67,42 @@
 //        [p1 test:[NSString stringWithFormat:@"hahaha%d",i]];
 //    }
 //    NSLog(@"结束了");
+}
+
+- (void)applyRule {
+//    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
+//    rule.selector = @selector(run);
+//    rule.target = [Animal class];
+//    rule.debounceInterval = 2;
+//    rule.model = DBXDebounceModelFirstOnly;
+//    [rule apply];
+//    self.classRule = rule;
+    
+    DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] init];
+    eatRule.selector = @selector(eat:);
+    eatRule.target = self.dog;
+    eatRule.debounceInterval = 2;
+    eatRule.model = DBXDebounceModelDebounce;
+    eatRule.shouldInvokeImmediatelyBlock = ^BOOL(DBXDebounceRule *rule, NSString *food) {
+        if ([food isEqualToString:@"水"]) {
+            return YES;
+        }
+        return NO;
+    };
+    [eatRule apply];
+    
+    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
+    rule2.selector = @selector(barking);
+    rule2.target = self.cat;
+    rule2.debounceInterval = 2;
+    rule2.model = DBXDebounceModelDebounce;
+    [rule2 apply];
+    self.instanceRule = rule2;
+}
+
+- (void)discardRule {
+    [self.classRule discard];
+    [self.instanceRule discard];
 }
 
 - (void)repeatApply {
@@ -113,6 +140,10 @@
         [self instanceTest];
     } else if ([title isEqualToString:@"测试反复注册规则"]) {
         [self repeatApply];
+    } else if ([title isEqualToString:@"注册规则"]) {
+        [self applyRule];
+    } else if ([title isEqualToString:@"注销规则"]) {
+        [self discardRule];
     }
 }
 @end
