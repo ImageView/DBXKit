@@ -548,10 +548,10 @@ static const char * dbx_blockMethodSignature(id blockObj) {
 @implementation NSObject (DBXDebounce)
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
-    return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval queue:dispatch_get_main_queue() mode:DBXDebounceModeDebounce shouldInvokeImmediatelyBlock:nil];
+    return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:DBXDebounceModeDebounce queue:dispatch_get_main_queue() shouldInvokeImmediatelyBlock:nil];
 }
 
-- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval queue:(dispatch_queue_t)queue mode:(DBXDebounceMode)debounceMode shouldInvokeImmediatelyBlock:(id)block {
+- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(id)block {
     DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, selector);
     BOOL isNewRule = NO;
     DBXDebounceRule *rule = dealloc.rule;
@@ -561,8 +561,8 @@ static const char * dbx_blockMethodSignature(id blockObj) {
     }
     rule.model = debounceMode;
     rule.shouldInvokeImmediatelyBlock = block;
-    rule.queue = queue;
-    [rule apply];
+    rule.queue = queue ?: dispatch_get_main_queue();
+    
     if (isNewRule) {
         return [rule apply] ? rule : nil;
     }

@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    self.list = @[@"注册规则", @"类防抖测试", @"局部变量防抖测试", @"测试反复注册规则", @"注销规则"];
+    self.list = @[@"注册规则", @"类防抖测试", @"局部变量防抖测试", @"测试反复注册规则", @"注销规则", @"便捷执行"];
     
     self.dog = [[Animal alloc] init];
     self.dog.name = @"狗狗";
@@ -103,6 +103,23 @@
     [self.instanceRule discard];
 }
 
+- (void)objectRule {
+    Animal *dog = [[Animal alloc] init];
+    [dog dbx_performSelectorDebounce:@selector(eat:) debounceInterval:2 mode:DBXDebounceModeDebounce queue:nil shouldInvokeImmediatelyBlock:^(DBXDebounceRule *rule, NSString *food) {
+        
+        if ([food isEqualToString:@"屎"]) {
+            return DBXDebounceShouldNotInvote;
+        }
+        
+        return DBXDebounceShouldInvoteInRule;
+    }];
+    
+    [dog eat:@"肉"];
+    [dog eat:@"肉"];
+    [dog eat:@"屎"];
+    [dog eat:@"屎"];
+}
+
 - (void)repeatApply {
     People *p1 = [[People alloc] init];
     DBXDebounceRule *rule = [[DBXDebounceRule alloc] initWithTarget:p1 selector:@selector(test:) debounceInterval:2];
@@ -137,6 +154,8 @@
         [self applyRule];
     } else if ([title isEqualToString:@"注销规则"]) {
         [self discardRule];
+    } else if ([title isEqualToString:@"便捷执行"]) {
+        [self objectRule];
     }
 }
 @end
