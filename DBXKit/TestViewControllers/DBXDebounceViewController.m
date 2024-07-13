@@ -43,7 +43,7 @@
 //    rule.selector = @selector(run);
 //    rule.target = [Animal class];
 //    rule.debounceInterval = 2;
-//    rule.model = DBXDebounceModelDebounce;
+//    rule.model = DBXDebounceModeDebounce;
 //    [rule apply];
 }
 
@@ -61,7 +61,7 @@
 //    rule.selector = @selector(test:);
 //    rule.target = p1;
 //    rule.debounceInterval = 2;
-//    rule.model = DBXDebounceModelFirstOnly;
+//    rule.model = DBXDebounceModeFirstOnly;
 //    [rule apply];
 //    
 //    for (int i = 0; i<10; i++) {
@@ -75,12 +75,12 @@
 //    rule.selector = @selector(run);
 //    rule.target = [Animal class];
 //    rule.debounceInterval = 2;
-//    rule.model = DBXDebounceModelFirstOnly;
+//    rule.model = DBXDebounceModeFirstOnly;
 //    [rule apply];
 //    self.classRule = rule;
     
     DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] initWithTarget:self.dog selector:@selector(eat:) debounceInterval:2];
-    eatRule.model = DBXDebounceModelDebounce;
+    eatRule.model = DBXDebounceModeDebounce;
     eatRule.shouldInvokeImmediatelyBlock = ^DBXDebounceShouldInvote (DBXDebounceRule *rule, NSString *food) {
         if ([food isEqualToString:@"水"]) {
             return DBXDebounceShouldInvoteIgnoreRule;
@@ -93,7 +93,7 @@
     [eatRule apply];
     
     DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] initWithTarget:self.cat selector:@selector(barking) debounceInterval:2];
-    rule2.model = DBXDebounceModelDebounce;
+    rule2.model = DBXDebounceModeDebounce;
     [rule2 apply];
     self.instanceRule = rule2;
 }
@@ -106,11 +106,11 @@
 - (void)repeatApply {
     People *p1 = [[People alloc] init];
     DBXDebounceRule *rule = [[DBXDebounceRule alloc] initWithTarget:p1 selector:@selector(test:) debounceInterval:2];
-    rule.model = DBXDebounceModelFirstOnly;
+    rule.model = DBXDebounceModeFirstOnly;
     [rule apply];
     
     DBXDebounceRule *rule1 = [[DBXDebounceRule alloc] initWithTarget:p1 selector:@selector(test:) debounceInterval:2];
-    rule1.model = DBXDebounceModelFirstOnly;
+    rule1.model = DBXDebounceModeFirstOnly;
     [rule1 apply];
 }
 

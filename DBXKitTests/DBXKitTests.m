@@ -35,7 +35,7 @@
     rule2.selector = @selector(run);
     rule2.target = self.dog;
     rule2.debounceInterval = 2;
-    rule2.model = DBXDebounceModelFirstOnly;
+    rule2.model = DBXDebounceModeFirstOnly;
     [rule2 apply];
     
     [self.dog run];

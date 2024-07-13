@@ -34,7 +34,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         _target = target;
         _selector = selector;
         _debounceInterval = debounceInterval;
-        _model = DBXDebounceModelDebounce;
+        _model = DBXDebounceModeDebounce;
         _queue = dispatch_get_main_queue();
         _lastTimeInvoke = 0;
     }
@@ -72,12 +72,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     objc_setAssociatedObject(self.target, self.selector, nil, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (void)apply {
-    [[DBXDebounce sharedInstance] applyRule:self];
+- (BOOL)apply {
+    return [[DBXDebounce sharedInstance] applyRule:self];
 }
 
-- (void)discard {
-    [[DBXDebounce sharedInstance] discardRule:self];
+- (BOOL)discard {
+    return [[DBXDebounce sharedInstance] discardRule:self];
 }
 
 - (SEL)aliasSelector {
@@ -410,7 +410,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
     if (!rule.isActive) {
         [invocation invoke];
         return;
-    }
+    } 
     DBXDebounceShouldInvote shouldInvote = dbx_invokeFilterBlock(rule, invocation);
     if (shouldInvote == DBXDebounceShouldNotInvote) {
         DBXLog(@"不执行 target:%@, select:%s", invocation.target, invocation.selector);
@@ -425,7 +425,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
 //    DBXLog(@"按规则执行 target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
-        case DBXDebounceModelFirstOnly:
+        case DBXDebounceModeFirstOnly:
             {
                 if (now - rule.lastTimeInvoke > rule.debounceInterval) {
                     invocation.selector = rule.aliasSelector;
@@ -437,7 +437,7 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 }
             }
             break;
-        case DBXDebounceModelLastOnly:
+        case DBXDebounceModeLastOnly:
             {
                 invocation.selector = rule.aliasSelector;
                 [invocation retainArguments];
@@ -541,6 +541,32 @@ static const char * dbx_blockMethodSignature(id blockObj) {
         index += 2;
     
     return descriptor->rest[index];
+}
+
+@end
+
+@implementation NSObject (DBXDebounce)
+
+- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
+    return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval queue:dispatch_get_main_queue() mode:DBXDebounceModeDebounce shouldInvokeImmediatelyBlock:nil];
+}
+
+- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval queue:(dispatch_queue_t)queue mode:(DBXDebounceMode)debounceMode shouldInvokeImmediatelyBlock:(id)block {
+    DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, selector);
+    BOOL isNewRule = NO;
+    DBXDebounceRule *rule = dealloc.rule;
+    if (!rule) {
+        rule = [[DBXDebounceRule alloc] initWithTarget:self selector:selector debounceInterval:debounceInterval];
+        isNewRule = YES;
+    }
+    rule.model = debounceMode;
+    rule.shouldInvokeImmediatelyBlock = block;
+    rule.queue = queue;
+    [rule apply];
+    if (isNewRule) {
+        return [rule apply] ? rule : nil;
+    }
+    return rule;
 }
 
 @end
