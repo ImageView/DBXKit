@@ -28,10 +28,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 @implementation DBXDebounceRule
 
-- (instancetype)init
-{
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval {
     self = [super init];
     if (self) {
+        _target = target;
+        _selector = selector;
+        _debounceInterval = debounceInterval;
         _model = DBXDebounceModelDebounce;
         _queue = dispatch_get_main_queue();
         _lastTimeInvoke = 0;
@@ -409,12 +411,18 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
         [invocation invoke];
         return;
     }
-    if (rule.debounceInterval <= 0 || dbx_invokeFilterBlock(rule, invocation)) {
+    DBXDebounceShouldInvote shouldInvote = dbx_invokeFilterBlock(rule, invocation);
+    if (shouldInvote == DBXDebounceShouldNotInvote) {
+        DBXLog(@"不执行 target:%@, select:%s", invocation.target, invocation.selector);
+        return;
+    }
+    if (rule.debounceInterval <= 0 || shouldInvote == DBXDebounceShouldInvoteIgnoreRule) {
+        DBXLog(@"忽略规则，立即执行 target:%@, select:%s", invocation.target, invocation.selector);
         invocation.selector = rule.aliasSelector;
         [invocation invoke];
         return;
     }
-//    DBXLog(@"target:%@, select:%s", invocation.target, invocation.selector);
+//    DBXLog(@"按规则执行 target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModelFirstOnly:
@@ -461,16 +469,16 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
     }
 }
 
-static BOOL dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalInvocation) {
+static DBXDebounceShouldInvote dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalInvocation) {
     if (!rule.shouldInvokeImmediatelyBlock || ![rule.shouldInvokeImmediatelyBlock isKindOfClass:NSClassFromString(@"NSBlock")]) {
-        return NO;
+        return DBXDebounceShouldInvoteInRule;
     }
     NSMethodSignature *filterBlockSignature = [NSMethodSignature signatureWithObjCTypes:dbx_blockMethodSignature(rule.shouldInvokeImmediatelyBlock)];
     NSInvocation *blockInvocation = [NSInvocation invocationWithMethodSignature:filterBlockSignature];
     NSUInteger numberOfArguments = filterBlockSignature.numberOfArguments;
     if (numberOfArguments > originalInvocation.methodSignature.numberOfArguments) {
         NSLog(@"shouldInvokeImmediatelyBlock block 参数过多");
-        return NO;
+        return DBXDebounceShouldInvoteInRule;
     }
     
     if (numberOfArguments > 1) {
@@ -483,8 +491,8 @@ static BOOL dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalI
         NSGetSizeAndAlignment(type, &argSize, NULL);
         argBuf = realloc(argBuf, argSize);
         if (!argBuf) {
-            NSLog(@"Block参数初始化失败");
-            return NO;
+            DBXLog(@"Block参数初始化失败");
+            return DBXDebounceShouldInvoteInRule;
         }
         [originalInvocation getArgument:argBuf atIndex:idx];
         [blockInvocation setArgument:argBuf atIndex:idx];
@@ -492,7 +500,7 @@ static BOOL dbx_invokeFilterBlock(DBXDebounceRule *rule, NSInvocation *originalI
     
     [blockInvocation invokeWithTarget:rule.shouldInvokeImmediatelyBlock];
 //    [blockInvocation invoke];
-    BOOL returnValue = NO;
+    DBXDebounceShouldInvote returnValue = DBXDebounceShouldInvoteInRule;
     [blockInvocation getReturnValue:&returnValue];
     if (argBuf != NULL) {
         free(argBuf);

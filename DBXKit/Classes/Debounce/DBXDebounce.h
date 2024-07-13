@@ -16,6 +16,12 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
     DBXDebounceModelDebounce,   // 发送消息后延迟一段时间执行，如果继续发送消息，会重新计时
 };
 
+typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
+    DBXDebounceShouldInvoteInRule,          // 按规则执行
+    DBXDebounceShouldInvoteIgnoreRule,      // 立即执行，忽略规则
+    DBXDebounceShouldNotInvote              // 不执行
+};
+
 @class DBXDebounceDealloc;
 // 防抖规则
 @interface DBXDebounceRule : NSObject
@@ -29,7 +35,7 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 @property(nonatomic, assign) DBXDebounceModel model;
 /**
  是否马上执行消息
- block 的参数列表可选，返回值为 BOOL 类型。
+ block 的参数列表可选，返回值为 DBXDebounceShouldInvote 类型。
  block 传入的第一个参数为 `DBXDebounceRule`，其余参数列表与消息调用的参数列表相同
  block 如果返回 YES，则消息立即执行
  */
@@ -38,6 +44,9 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 @property (nonatomic) dispatch_queue_t queue;
 // 规则是否生效
 @property(nonatomic, assign, readonly, getter=isActive) BOOL active;
+
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 - (void)apply;
 - (void)discard;
@@ -64,4 +73,7 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 - (BOOL)discardRule:(DBXDebounceRule *)rule;
 @end
 
+//@interface NSObject (<#category name#>)
+//
+//@end
 NS_ASSUME_NONNULL_END

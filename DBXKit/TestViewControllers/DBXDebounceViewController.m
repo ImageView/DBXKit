@@ -50,8 +50,9 @@
 - (void)instanceTest {
     [self.dog eat:@"骨头"];
     [self.dog eat:@"水"];
-    [self.dog barking];
-    [self.cat barking];
+    [self.dog eat:@"屎"];
+//    [self.dog barking];
+//    [self.cat barking];
 //    NSLog(@"%s", __func__);
 //    
 //    People *p1 = [[People alloc] init];
@@ -78,23 +79,20 @@
 //    [rule apply];
 //    self.classRule = rule;
     
-    DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] init];
-    eatRule.selector = @selector(eat:);
-    eatRule.target = self.dog;
-    eatRule.debounceInterval = 2;
+    DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] initWithTarget:self.dog selector:@selector(eat:) debounceInterval:2];
     eatRule.model = DBXDebounceModelDebounce;
-    eatRule.shouldInvokeImmediatelyBlock = ^BOOL(DBXDebounceRule *rule, NSString *food) {
+    eatRule.shouldInvokeImmediatelyBlock = ^DBXDebounceShouldInvote (DBXDebounceRule *rule, NSString *food) {
         if ([food isEqualToString:@"水"]) {
-            return YES;
+            return DBXDebounceShouldInvoteIgnoreRule;
         }
-        return NO;
+        if ([food isEqualToString:@"屎"]) {
+            return DBXDebounceShouldNotInvote;
+        }
+        return DBXDebounceShouldInvoteInRule;
     };
     [eatRule apply];
     
-    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
-    rule2.selector = @selector(barking);
-    rule2.target = self.cat;
-    rule2.debounceInterval = 2;
+    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] initWithTarget:self.cat selector:@selector(barking) debounceInterval:2];
     rule2.model = DBXDebounceModelDebounce;
     [rule2 apply];
     self.instanceRule = rule2;
@@ -107,17 +105,11 @@
 
 - (void)repeatApply {
     People *p1 = [[People alloc] init];
-    DBXDebounceRule *rule = [[DBXDebounceRule alloc] init];
-    rule.selector = @selector(test:);
-    rule.target = p1;
-    rule.debounceInterval = 2;
+    DBXDebounceRule *rule = [[DBXDebounceRule alloc] initWithTarget:p1 selector:@selector(test:) debounceInterval:2];
     rule.model = DBXDebounceModelFirstOnly;
     [rule apply];
     
-    DBXDebounceRule *rule1 = [[DBXDebounceRule alloc] init];
-    rule1.selector = @selector(test:);
-    rule1.target = p1;
-    rule1.debounceInterval = 2;
+    DBXDebounceRule *rule1 = [[DBXDebounceRule alloc] initWithTarget:p1 selector:@selector(test:) debounceInterval:2];
     rule1.model = DBXDebounceModelFirstOnly;
     [rule1 apply];
 }
@@ -133,6 +125,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *title = self.list[indexPath.row];
     if ([title isEqualToString:@"类防抖测试"]) {
         [self classTest];
