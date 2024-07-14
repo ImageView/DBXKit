@@ -30,23 +30,31 @@
     
 }
 
-- (void)testDogRun {
-    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] init];
-    rule2.selector = @selector(run);
-    rule2.target = self.dog;
-    rule2.debounceInterval = 2;
-    rule2.model = DBXDebounceModeFirstOnly;
-    [rule2 apply];
-    
+- (void)testApplyAndDisCardRepeatedly {
+    DBXDebounceRule *rule = [[DBXDebounceRule alloc] initWithTarget:self.dog selector:@selector(run) debounceInterval:2];
+    rule.model = DBXDebounceModeFirstOnly;
+    __block BOOL succ = [rule apply];
+    NSLog(@"step1 注册规则(%@)，执行2次run", succ?@"success":@"fail");
     [self.dog run];
     [self.dog run];
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+    succ = [rule discard];
+    NSLog(@"step2 注销规则(%@)，执行2次run", succ?@"success":@"fail");
+    [self.dog run];
+    [self.dog run];
+    succ = [rule apply];
+    XCTestExpectation *ex = [[XCTestExpectation alloc] initWithDescription:@"yanshi"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"step3 再次注册规则(%@)，开始执行2次run", succ?@"success":@"fail");
+        [self.dog run];
+        [self.dog run];
+        succ = [rule discard];
+        [ex fulfill];
+    });
+    [self waitForExpectations:@[ex]];
+    NSLog(@"step4 再次注销规则(%@)，开始执行2次run", succ?@"success":@"fail");
+    [self.dog run];
+    [self.dog run];
+    NSLog(@"finish");
 }
 
 @end

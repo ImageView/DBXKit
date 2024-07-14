@@ -49,8 +49,8 @@
 
 - (void)instanceTest {
     [self.dog eat:@"骨头"];
-    [self.dog eat:@"水"];
-    [self.dog eat:@"屎"];
+//    [self.dog eat:@"水"];
+//    [self.dog eat:@"屎"];
 //    [self.dog barking];
 //    [self.cat barking];
 //    NSLog(@"%s", __func__);
@@ -78,24 +78,27 @@
 //    rule.model = DBXDebounceModeFirstOnly;
 //    [rule apply];
 //    self.classRule = rule;
-    
-    DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] initWithTarget:self.dog selector:@selector(eat:) debounceInterval:2];
-    eatRule.model = DBXDebounceModeDebounce;
-    eatRule.shouldInvokeImmediatelyBlock = ^DBXDebounceShouldInvote (DBXDebounceRule *rule, NSString *food) {
-        if ([food isEqualToString:@"水"]) {
-            return DBXDebounceShouldInvoteIgnoreRule;
-        }
-        if ([food isEqualToString:@"屎"]) {
-            return DBXDebounceShouldNotInvote;
-        }
-        return DBXDebounceShouldInvoteInRule;
-    };
-    [eatRule apply];
-    
-    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] initWithTarget:self.cat selector:@selector(barking) debounceInterval:2];
-    rule2.model = DBXDebounceModeDebounce;
-    [rule2 apply];
-    self.instanceRule = rule2;
+    if (!self.instanceRule) {
+        DBXDebounceRule *eatRule = [[DBXDebounceRule alloc] initWithTarget:self.dog selector:@selector(eat:) debounceInterval:2];
+        eatRule.model = DBXDebounceModeFirstOnly;
+        self.instanceRule = eatRule;
+    }
+   
+//    eatRule.shouldInvokeImmediatelyBlock = ^DBXDebounceShouldInvote (DBXDebounceRule *rule, NSString *food) {
+//        if ([food isEqualToString:@"水"]) {
+//            return DBXDebounceShouldInvoteIgnoreRule;
+//        }
+//        if ([food isEqualToString:@"屎"]) {
+//            return DBXDebounceShouldNotInvote;
+//        }
+//        return DBXDebounceShouldInvoteInRule;
+//    };
+    [self.instanceRule apply];
+
+//    DBXDebounceRule *rule2 = [[DBXDebounceRule alloc] initWithTarget:self.cat selector:@selector(barking) debounceInterval:2];
+//    rule2.model = DBXDebounceModeDebounce;
+//    [rule2 apply];
+//    self.instanceRule = rule2;
 }
 
 - (void)discardRule {
