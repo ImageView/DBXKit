@@ -548,7 +548,7 @@ static const char * dbx_blockMethodSignature(id blockObj) {
 @implementation NSObject (DBXDebounce)
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
-    return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:DBXDebounceModeDebounce queue:dispatch_get_main_queue() shouldInvokeImmediatelyBlock:nil];
+    return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:dispatch_get_main_queue() shouldInvokeImmediatelyBlock:nil];
 }
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(id)block {
