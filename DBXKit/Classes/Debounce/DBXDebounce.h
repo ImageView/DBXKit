@@ -22,8 +22,8 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
     DBXDebounceShouldNotInvote              // 不执行
 };
 
+#pragma mark - 防抖规则
 @class DBXDebounceDealloc;
-// 防抖规则
 @interface DBXDebounceRule : NSObject
 // 规则生效的对象
 @property(nonatomic, weak) id target;
@@ -48,27 +48,28 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 - (instancetype)initWithTarget:(id)target selector:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
+// 注册规则
 - (BOOL)apply;
+// 注销规则
 - (BOOL)discard;
+
 @end
 
 
-
+#pragma mark - 中心控制类
 @interface DBXDebounce : NSObject
 
 + (instancetype)sharedInstance;
-
-
 /// 注册规则
 /// - Parameter rule: 注册具体的规则，返回YES表示注册成功，NO表示之前已经有注册过了
 - (BOOL)applyRule:(DBXDebounceRule *)rule;
-
-
 /// 注销规则
 /// - Parameter rule: 返回YES表示注销成功，NO表示需要保留相关类的hook
 - (BOOL)discardRule:(DBXDebounceRule *)rule;
 @end
 
+
+#pragma mark - 快捷调用
 @interface NSObject (DBXDebounce)
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode;
@@ -76,4 +77,5 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block;
 
 @end
+
 NS_ASSUME_NONNULL_END
