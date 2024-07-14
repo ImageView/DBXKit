@@ -59,29 +59,38 @@
 - (void)testInstanceApplyAndDisCardRepeatedly {
     Animal *cat = [[Animal alloc] init];
     cat.name = @"局部猫咪";
-    DBXDebounceRule *rule = [cat dbx_performSelectorDebounce:@selector(run) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
+    DBXDebounceRule *rule = [cat dbx_performSelectorDebounce:@selector(addEat:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
     __block BOOL succ = rule ? YES : NO;;
-    NSLog(@"step1 注册规则(%@)，执行2次run,下面应该只有1条run打印", succ?@"success":@"fail");
-    [cat run];
-    [cat run];
+    XCTAssertTrue(succ);
+    [cat addEat:@"food"];
+    [cat addEat:@"food"];
+    int c1 = [cat countOfFood:@"food"];
+    XCTAssertEqual(c1, 1);
+    
     succ = [rule discard];
-    NSLog(@"step2 注销规则(%@)，执行2次run,下面应该有2条run打印", succ?@"success":@"fail");
-    [cat run];
-    [cat run];
+    XCTAssertTrue(succ);
+    [cat addEat:@"food2"];
+    [cat addEat:@"food2"];
+    int c2 = [cat countOfFood:@"food2"];
+    XCTAssertEqual(c2, 2);
+    
     succ = [rule apply];
+    XCTAssertTrue(succ);
     XCTestExpectation *ex = [[XCTestExpectation alloc] initWithDescription:@"等待防抖时效"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSLog(@"step3 再次注册规则(%@)，开始执行2次run,下面应该只有1条run打印", succ?@"success":@"fail");
-        [cat run];
-        [cat run];
+        [cat addEat:@"food3"];
+        [cat addEat:@"food3"];
+        int c3 = [cat countOfFood:@"food3"];
+        XCTAssertEqual(c3, 1);
         succ = [rule discard];
         [ex fulfill];
     });
     [self waitForExpectations:@[ex]];
-    NSLog(@"step4 再次注销规则(%@)，开始执行2次run,下面应该有2条run打印", succ?@"success":@"fail");
-    [cat run];
-    [cat run];
-    NSLog(@"finish");
+    
+    [cat addEat:@"food4"];
+    [cat addEat:@"food4"];
+    int c4 = [cat countOfFood:@"food4"];
+    XCTAssertEqual(c4, 2);
 }
 
 @end
