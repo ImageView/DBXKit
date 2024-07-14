@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "DBXDebounce.h"
 #import "Animal.h"
+#import "People.h"
 
 @interface DBXKitTests : XCTestCase
 
@@ -64,15 +65,13 @@
     XCTAssertTrue(succ);
     [cat addEat:@"food"];
     [cat addEat:@"food"];
-    int c1 = [cat countOfFood:@"food"];
-    XCTAssertEqual(c1, 1);
+    XCTAssertEqual([cat countOfFood:@"food"], 1);
     
     succ = [rule discard];
     XCTAssertTrue(succ);
     [cat addEat:@"food2"];
     [cat addEat:@"food2"];
-    int c2 = [cat countOfFood:@"food2"];
-    XCTAssertEqual(c2, 2);
+    XCTAssertEqual([cat countOfFood:@"food2"], 2);
     
     succ = [rule apply];
     XCTAssertTrue(succ);
@@ -80,8 +79,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [cat addEat:@"food3"];
         [cat addEat:@"food3"];
-        int c3 = [cat countOfFood:@"food3"];
-        XCTAssertEqual(c3, 1);
+        XCTAssertEqual([cat countOfFood:@"food3"], 1);
         succ = [rule discard];
         [ex fulfill];
     });
@@ -89,8 +87,28 @@
     
     [cat addEat:@"food4"];
     [cat addEat:@"food4"];
-    int c4 = [cat countOfFood:@"food4"];
-    XCTAssertEqual(c4, 2);
+    XCTAssertEqual([cat countOfFood:@"food4"], 2);
+}
+
+// 自动注销rule
+- (void)testAutoRelease {
+    // People注册过之后，生成的__debounce_People子类还在，并且方法被被hook了，这里测试target中被release之后规则是否也被自动注销
+    int testCount = 10;
+    {
+        People *p1 = [[People alloc] init];
+        p1.name = @"张三";
+        [p1 dbx_performSelectorDebounce:@selector(addEat:) debounceInterval:0.5 mode:DBXDebounceModeFirstOnly];
+        for (int i = 0; i<testCount; i++) {
+            [p1 addEat:@"饭"];
+        }
+        XCTAssertEqual([p1 countOfFood:@"饭"], 1);
+    }
+    Class subCls = NSClassFromString(@"_DBXDebounce_People");
+    id p2 = [[subCls alloc] init];
+    for (int i = 0; i<testCount; i++) {
+        [p2 addEat:@"饭"];
+    }
+    XCTAssertEqual([p2 countOfFood:@"饭"], testCount, @"rule失效，p2吃”饭”的次数应该跟遍历次数一样才对");
 }
 
 @end

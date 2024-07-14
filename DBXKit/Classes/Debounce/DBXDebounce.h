@@ -50,10 +50,6 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 
 - (BOOL)apply;
 - (BOOL)discard;
-//- (DBXDebounceDealloc *)deallocObj;
-//
-//- (void)clearDeallocObj;
-
 @end
 
 

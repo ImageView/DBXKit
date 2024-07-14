@@ -254,6 +254,21 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     return shouldDiscard;
 }
 
+- (void)discardRule:(DBXDebounceRule *)rule whenTargetDealloc:(DBXDebounceDealloc *)dealloc {
+    if (object_isClass(rule.target)) {
+        return;
+    }
+    pthread_mutex_lock(&_lock);
+    [dealloc lock];
+    if (![self containsSelector:rule.selector onTarget:dealloc.cls]
+        && ![self containsSelector:rule.selector onTargetClass:dealloc.cls]) {
+        [DBXDebounce dbx_revertHook:dealloc.cls rule:rule];
+    }
+    rule.active = NO;
+    [dealloc unlock];
+    pthread_mutex_unlock(&_lock);
+}
+
 - (BOOL)overrideMethod:(DBXDebounceRule *)rule {
     Class isaClass = object_getClass(rule.target);
     Class ocClass = [rule.target class];
@@ -333,10 +348,16 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
             }
         }
         // 去除记录
-        if ([self containsSelector:rule.selector onTarget:rule.target] || [self containsSelector:rule.selector onTargetClass:rule.class]) {
+        if ([self containsSelector:rule.selector onTarget:cls] || [self containsSelector:rule.selector onTargetClass:cls]) {
             return NO;
         }
     }
+    
+    [DBXDebounce dbx_revertHook:cls rule:rule];
+    return YES;
+}
+
++ (void)dbx_revertHook:(Class)cls rule:(DBXDebounceRule *)rule {
     // 把selector恢复到原本的实现
     Method targetMethod = class_getInstanceMethod(cls, rule.selector);
     IMP targetMethodIMP = method_getImplementation(targetMethod);
@@ -352,9 +373,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         Method originalForwardMethod = class_getInstanceMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName));
         Method objectMethod = class_getInstanceMethod(NSObject.class, @selector(forwardInvocation:));
         class_replaceMethod(cls, @selector(forwardInvocation:), method_getImplementation(originalForwardMethod?:objectMethod), "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
-
     }
-    return YES;
 }
 
 + (BOOL)checkRuleValid:(DBXDebounceRule *)rule {
