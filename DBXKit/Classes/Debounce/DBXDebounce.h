@@ -10,14 +10,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, DBXDebounceModel) {
-    DBXDebounceModelFirstOnly,  // 只执行第一个，后面的丢掉
-    DBXDebounceModelLastOnly,   // 只执行最后一个，前面的丢掉
-    DBXDebounceModelDebounce,   // 发送消息后延迟一段时间执行，如果继续发送消息，会重新计时
+typedef NS_ENUM(NSInteger, DBXDebounceMode) {
+    DBXDebounceModeFirstOnly,  // 只执行第一个，后面的丢掉
+    DBXDebounceModeLastOnly,   // 只执行最后一个，前面的丢掉
+    DBXDebounceModeDebounce,   // 发送消息后延迟一段时间执行，如果继续发送消息，会重新计时
 };
 
+typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
+    DBXDebounceShouldInvoteInRule,          // 按规则执行
+    DBXDebounceShouldInvoteIgnoreRule,      // 立即执行，忽略规则
+    DBXDebounceShouldNotInvote              // 不执行
+};
+
+#pragma mark - 防抖规则
 @class DBXDebounceDealloc;
-// 防抖规则
 @interface DBXDebounceRule : NSObject
 // 规则生效的对象
 @property(nonatomic, weak) id target;
@@ -26,10 +32,10 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 // 防抖间隔
 @property(nonatomic, assign) NSTimeInterval debounceInterval;
 // 防抖模式
-@property(nonatomic, assign) DBXDebounceModel model;
+@property(nonatomic, assign) DBXDebounceMode model;
 /**
  是否马上执行消息
- block 的参数列表可选，返回值为 BOOL 类型。
+ block 的参数列表可选，返回值为 DBXDebounceShouldInvote 类型。
  block 传入的第一个参数为 `DBXDebounceRule`，其余参数列表与消息调用的参数列表相同
  block 如果返回 YES，则消息立即执行
  */
@@ -39,29 +45,37 @@ typedef NS_ENUM(NSInteger, DBXDebounceModel) {
 // 规则是否生效
 @property(nonatomic, assign, readonly, getter=isActive) BOOL active;
 
-- (void)apply;
-- (void)discard;
-//- (DBXDebounceDealloc *)deallocObj;
-//
-//- (void)clearDeallocObj;
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
+
+// 注册规则
+- (BOOL)apply;
+// 注销规则
+- (BOOL)discard;
 
 @end
 
 
-
+#pragma mark - 中心控制类
 @interface DBXDebounce : NSObject
 
 + (instancetype)sharedInstance;
-
-
 /// 注册规则
 /// - Parameter rule: 注册具体的规则，返回YES表示注册成功，NO表示之前已经有注册过了
 - (BOOL)applyRule:(DBXDebounceRule *)rule;
-
-
 /// 注销规则
 /// - Parameter rule: 返回YES表示注销成功，NO表示需要保留相关类的hook
 - (BOOL)discardRule:(DBXDebounceRule *)rule;
+@end
+
+
+#pragma mark - 快捷调用
+@interface NSObject (DBXDebounce)
+
+- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode;
+
+- (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block;
+
 @end
 
 NS_ASSUME_NONNULL_END

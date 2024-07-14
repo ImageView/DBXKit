@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Animal : NSObject
 @property(nonatomic, strong) NSString *name;
 
+@property(nonatomic, assign) NSInteger eatCount;
+
+- (void)addEat:(NSString *)food;
+- (int)countOfFood:(NSString *)food;
 - (void)eat:(NSString *)food;
 - (void)run;
 

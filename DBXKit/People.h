@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface People : NSObject
+@interface People : Animal
 
 @property(nonatomic, assign) NSInteger idnum;
 @property(nonatomic, strong) NSString *city;

@@ -10,6 +10,7 @@
 //#import <objc/runtime.h>
 //#import <objc/message.h>
 #import <pthread.h>
+#import "DBXDebounce.h"
 
 @interface DBXDebounceDealloc ()
 
@@ -40,9 +41,8 @@
 }
 
 - (void)dealloc {
-//    NSLog(@"%s",__func__);
-//    SEL selector = NSSelectorFromString(@"discardRule:whenTargetDealloc:");
-//    ((void (*)(id, SEL, MTRule *, MTDealloc *))[MTEngine.defaultEngine methodForSelector:selector])(MTEngine.defaultEngine, selector, self.rule, self);
+    SEL selector = NSSelectorFromString(@"discardRule:whenTargetDealloc:");
+    ((void (*)(id, SEL, DBXDebounceRule *, DBXDebounceDealloc *))[DBXDebounce.sharedInstance methodForSelector:selector])(DBXDebounce.sharedInstance, selector, self.rule, self);
 }
 
 @end
