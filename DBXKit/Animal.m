@@ -7,6 +7,7 @@
 //
 
 #import "Animal.h"
+#import <objc/runtime.h>
 
 @interface Animal ()
 
@@ -26,17 +27,20 @@
     NSLog(@"吃%@,%s,%@", food, __func__, self.name);
 }
 
-- (void)addEat:(NSString *)food {
-    NSLog(@"吃%@,%s,%@", food, __func__, self.name);
-
-    int count = [self countOfFood:food];
-    count ++;
-    [self.countDic setObject:@(count) forKey:food];
+- (void)eatFood:(NSString *)food {
+    @synchronized (self) {
+        NSLog(@"%s,%@(real:%@)吃%@", __func__, self.name, object_getClass(self), food);
+        int count = [self countOfFood:food];
+        count ++;
+        [self.countDic setObject:@(count) forKey:food];
+    }
 }
 
 - (int)countOfFood:(NSString *)food {
-    NSNumber *count = [self.countDic objectForKey:food];
-    return count.intValue;
+    @synchronized (self) {
+        NSNumber *count = [self.countDic objectForKey:food];
+        return count.intValue;
+    }
 }
 
 

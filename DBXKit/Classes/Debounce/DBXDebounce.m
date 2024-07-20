@@ -114,6 +114,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 {
     self = [super init];
     if (self) {
+        // 使用weakToStrong，因为键是target，要弱引用，方便target在被回收后自动释放
         _targetSelectorsMap = [NSMapTable weakToStrongObjectsMapTable];
         _classHooked = [NSMutableSet set];
         pthread_mutex_init(&_lock, NULL);
@@ -251,7 +252,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
-    return shouldDiscard;
+    return shouldDiscard;  
 }
 
 - (void)discardRule:(DBXDebounceRule *)rule whenTargetDealloc:(DBXDebounceDealloc *)dealloc {
@@ -347,8 +348,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
                 object_setClass(rule.target, originalClass);
             }
         }
-        // 去除记录
         if ([self containsSelector:rule.selector onTarget:cls] || [self containsSelector:rule.selector onTargetClass:cls]) {
+            // 如果同一个类下还有其他实例正在运用 规则，就不能恢复hook
             return NO;
         }
     }
@@ -565,6 +566,28 @@ static const char * dbx_blockMethodSignature(id blockObj) {
 @end
 
 @implementation NSObject (DBXDebounce)
+
+- (NSArray <DBXDebounceRule *> *)dbx_allRules {
+    NSMutableSet *instanceSet = [[DBXDebounce sharedInstance].targetSelectorsMap objectForKey:self];
+    NSMutableSet *classSet = [[DBXDebounce sharedInstance].targetSelectorsMap objectForKey:object_getClass(self)];
+    if (instanceSet.count == 0 && classSet.count == 0) {
+        return nil;
+    }
+    NSMutableArray *result = [NSMutableArray array];
+    for (NSString *selectorStr in instanceSet) {
+        DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, NSSelectorFromString(selectorStr));
+        if (dealloc.rule) {
+            [result addObject:dealloc.rule];
+        }
+    }
+    for (NSString *selectorStr in classSet) {
+        DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, NSSelectorFromString(selectorStr));
+        if (dealloc.rule) {
+            [result addObject:dealloc.rule];
+        }
+    }
+    return result;
+}
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
     return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:dispatch_get_main_queue() shouldInvokeImmediatelyBlock:nil];
