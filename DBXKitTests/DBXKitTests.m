@@ -10,6 +10,7 @@
 #import "DBXDebounce.h"
 #import "Animal.h"
 #import "People.h"
+#import <objc/runtime.h>
 
 @interface DBXKitTests : XCTestCase
 
@@ -107,7 +108,7 @@
         }
         XCTAssertEqual([p1 countOfFood:@"饭"], 1);
     }
-    Class subCls = NSClassFromString(@"_DBXDebounce_People");
+    Class subCls = objc_getClass("_DBXDebounce_People");
     id p2 = [[subCls alloc] init];
     for (int i = 0; i<testCount; i++) {
         [p2 eatFood:@"饭"];
@@ -141,4 +142,12 @@
     [rule2 discard];
 }
 
+- (void)testClassRule {
+    DBXDebounceRule *rule = [People dbx_performClassSelectorDebounce:@selector(contry) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
+    
+    int testCount = 5;
+    for (int i = 0; i< testCount; i++) {
+        [People contry];
+    }
+}
 @end

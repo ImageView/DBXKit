@@ -95,4 +95,7 @@
     
 }
 
++ (void)contry {
+    NSLog(@"%s 中国", __func__);
+}
 @end

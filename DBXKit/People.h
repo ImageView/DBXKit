@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)test:(NSString *)test;
 
++ (void)contry;
 @end
 
 NS_ASSUME_NONNULL_END

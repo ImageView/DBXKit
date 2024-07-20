@@ -318,10 +318,15 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     
     Method targetMethod = class_getInstanceMethod(cls, rule.selector);
     IMP targetMethodIMP = method_getImplementation(targetMethod);
-    const char *typeEncoding = method_getTypeEncoding(targetMethod);
     if (targetMethodIMP != _objc_msgForward) {
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+        
         // 给cls添加一个新方法aliasSelector，实现为rule的selector
-        class_addMethod(cls, rule.aliasSelector, targetMethodIMP, typeEncoding);
+        Method aliMethod = class_getInstanceMethod(cls, rule.aliasSelector);
+        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), rule.aliasSelector);
+        if (![cls instanceMethodForSelector:rule.aliasSelector] || aliMethod == superAliMethod) {
+            class_addMethod(cls, rule.aliasSelector, targetMethodIMP, typeEncoding);
+        }
         class_replaceMethod(cls, rule.selector, _objc_msgForward, typeEncoding);
         [self.classHooked addObject:cls];
     }
@@ -611,4 +616,20 @@ static const char * dbx_blockMethodSignature(id blockObj) {
     return rule;
 }
 
+// 用于静态方法
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
+    Class cls = self;
+    if (!class_isMetaClass(self)) {
+        cls = object_getClass(self);
+    }
+    return [cls dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode];
+}
+
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block {
+    Class cls = self;
+    if (!class_isMetaClass(self)) {
+        cls = object_getClass(self);
+    }
+    return [cls dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:queue shouldInvokeImmediatelyBlock:block];
+}
 @end
