@@ -433,21 +433,21 @@ static void dbx_forwardInvocation(id target, SEL selector, NSInvocation *invocat
 
 static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule) {
     if (!rule.isActive) {
+        DBXpLog(@"rule失效，直接执行[%@ %s]", invocation.target, invocation.selector);
         [invocation invoke];
         return;
     } 
     DBXDebounceShouldInvote shouldInvote = dbx_invokeFilterBlock(rule, invocation);
     if (shouldInvote == DBXDebounceShouldNotInvote) {
-        DBXLog(@"不执行 target:%@, select:%s", invocation.target, invocation.selector);
+        DBXpLog(@"不执行任务[%@ %s]", invocation.target, invocation.selector);
         return;
     }
     if (rule.debounceInterval <= 0 || shouldInvote == DBXDebounceShouldInvoteIgnoreRule) {
-        DBXLog(@"忽略规则，立即执行 target:%@, select:%s", invocation.target, invocation.selector);
+        DBXpLog(@"忽略rule，立即执行[%@ %s]", invocation.target, invocation.selector);
         invocation.selector = rule.aliasSelector;
         [invocation invoke];
         return;
     }
-//    DBXLog(@"按规则执行 target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModeFirstOnly:
@@ -455,10 +455,13 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 if (now - rule.lastTimeInvoke > rule.debounceInterval) {
                     invocation.selector = rule.aliasSelector;
                     [invocation invoke];
+                    DBXpLog(@"调用[%@ %s]，FirstOnly，执行", invocation.target, invocation.selector);
                     rule.lastTimeInvoke = now;
                     dispatch_async(rule.queue, ^{
                         rule.lastInvocation = nil;
                     });
+                } else {
+                    DBXpLog(@"调用[%@ %s]，FirstOnly，冷却期，不执行", invocation.target, invocation.selector);
                 }
             }
             break;
@@ -472,7 +475,10 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                         rule.lastTimeInvoke = now;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(rule.debounceInterval * NSEC_PER_SEC)), rule.queue, ^{
                             [rule invokingLastInvocation];
+                            DBXpLog(@"调用[%@ %s]，LastOnly，执行", invocation.target, invocation.selector);
                         });
+                    } else {
+                        DBXpLog(@"调用[%@ %s]，LastOnly，冷却期，不执行", invocation.target, invocation.selector);
                     }
                 });
             }
@@ -516,7 +522,7 @@ static DBXDebounceShouldInvote dbx_invokeFilterBlock(DBXDebounceRule *rule, NSIn
         NSGetSizeAndAlignment(type, &argSize, NULL);
         argBuf = realloc(argBuf, argSize);
         if (!argBuf) {
-            DBXLog(@"Block参数初始化失败");
+            DBXpLog(@"Block参数初始化失败");
             return DBXDebounceShouldInvoteInRule;
         }
         [originalInvocation getArgument:argBuf atIndex:idx];

@@ -91,7 +91,7 @@ NSInteger const kDBXChainMultipleErrorsCode = 20180306;
             
             [lock unlock];
             if (atomic_fetch_sub(&resultCount, 1) == 1) {
-                DBXLog(@"groupTask全部完成%@, 完成结果：%@，出错结果：%@", tempTask, resultDic, errorDic);
+                DBXpLog(@"groupTask全部完成%@, 完成结果：%@，出错结果：%@", tempTask, resultDic, errorDic);
                 // 任务全部结束后到了这里
                 if (errorDic.count > 0) {
                     [tempTask setError:[NSError errorWithDomain:DBXChainTaskErrorDomain code:kDBXChainMultipleErrorsCode userInfo:errorDic]];
@@ -129,7 +129,7 @@ NSInteger const kDBXChainMultipleErrorsCode = 20180306;
     void (^executBlock)(void) = ^() {
         id result = block(self);
 //        if (self.isTempTask) {
-            DBXLog(@"task:%@完成，执行结果：%@", self, result);
+            DBXpLog(@"task:%@完成，执行结果：%@", self, result);
 //        }
 
         // 如果返回值是Task类型，则链条继续

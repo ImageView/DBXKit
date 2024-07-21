@@ -11,6 +11,7 @@
 #import "Animal.h"
 #import "People.h"
 #import <objc/runtime.h>
+#import "DBXLog.h"
 
 @interface DBXKitTests : XCTestCase
 
@@ -26,6 +27,8 @@
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫咪";
+    [DBXLogConfig logFormat:DBXLogFormatLogFile];
+    DBXLog(@"测试日志");
 }
 
 - (void)tearDown {
@@ -116,6 +119,7 @@
     XCTAssertEqual([p2 countOfFood:@"饭"], testCount, @"rule失效，p2吃”饭”的次数应该跟遍历次数一样才对");
 }
 
+// 测试一个类的不同实例对同一个方法添加rule
 - (void)testTwoSameRule {
     DBXDebounceRule *rule1 = [self.cat dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
     Animal *jinmao = [[Animal alloc] init];
@@ -149,5 +153,9 @@
     for (int i = 0; i< testCount; i++) {
         [People contry];
     }
+    NSArray *rules = [object_getClass(People.class) dbx_allRules];
+    
+    [rule discard];
 }
+
 @end
