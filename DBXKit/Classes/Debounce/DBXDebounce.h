@@ -72,10 +72,17 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 #pragma mark - 快捷调用
 @interface NSObject (DBXDebounce)
 
+// 当前对象相关的rule
+- (NSArray <DBXDebounceRule *> *)dbx_allRules;
+
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode;
 
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block;
 
+// 用于静态方法加防抖规则
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode;
+
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block;
 @end
 
 NS_ASSUME_NONNULL_END

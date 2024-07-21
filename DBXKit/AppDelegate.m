@@ -9,6 +9,7 @@
 //#import "ViewController.h"
 #import "DBXChainViewController.h"
 #import <QMUIKit/QMUIKit.h>
+#import "DBXLog.h"
 
 @interface AppDelegate ()
 
@@ -50,6 +51,8 @@
     QMUICMI.shouldPrintInfoLog = NO;
     QMUICMI.shouldPrintWarnLog = NO;
     QMUICMI.sendAnalyticsToQMUITeam = NO;
+    
+    [DBXLogConfig debugLogFormat:DBXLogFormatBasic];
     return YES;
 }
 

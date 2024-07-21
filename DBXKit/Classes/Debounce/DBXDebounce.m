@@ -114,6 +114,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 {
     self = [super init];
     if (self) {
+        // 使用weakToStrong，因为键是target，要弱引用，方便target在被回收后自动释放
         _targetSelectorsMap = [NSMapTable weakToStrongObjectsMapTable];
         _classHooked = [NSMutableSet set];
         pthread_mutex_init(&_lock, NULL);
@@ -251,7 +252,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     
     [dealloc unlock];
     pthread_mutex_unlock(&_lock);
-    return shouldDiscard;
+    return shouldDiscard;  
 }
 
 - (void)discardRule:(DBXDebounceRule *)rule whenTargetDealloc:(DBXDebounceDealloc *)dealloc {
@@ -317,10 +318,15 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     
     Method targetMethod = class_getInstanceMethod(cls, rule.selector);
     IMP targetMethodIMP = method_getImplementation(targetMethod);
-    const char *typeEncoding = method_getTypeEncoding(targetMethod);
     if (targetMethodIMP != _objc_msgForward) {
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+        
         // 给cls添加一个新方法aliasSelector，实现为rule的selector
-        class_addMethod(cls, rule.aliasSelector, targetMethodIMP, typeEncoding);
+        Method aliMethod = class_getInstanceMethod(cls, rule.aliasSelector);
+        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), rule.aliasSelector);
+        if (![cls instanceMethodForSelector:rule.aliasSelector] || aliMethod == superAliMethod) {
+            class_addMethod(cls, rule.aliasSelector, targetMethodIMP, typeEncoding);
+        }
         class_replaceMethod(cls, rule.selector, _objc_msgForward, typeEncoding);
         [self.classHooked addObject:cls];
     }
@@ -347,8 +353,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
                 object_setClass(rule.target, originalClass);
             }
         }
-        // 去除记录
         if ([self containsSelector:rule.selector onTarget:cls] || [self containsSelector:rule.selector onTargetClass:cls]) {
+            // 如果同一个类下还有其他实例正在运用 规则，就不能恢复hook
             return NO;
         }
     }
@@ -427,21 +433,21 @@ static void dbx_forwardInvocation(id target, SEL selector, NSInvocation *invocat
 
 static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule) {
     if (!rule.isActive) {
+        DBXpLog(@"rule失效，直接执行[%@ %s]", invocation.target, invocation.selector);
         [invocation invoke];
         return;
     } 
     DBXDebounceShouldInvote shouldInvote = dbx_invokeFilterBlock(rule, invocation);
     if (shouldInvote == DBXDebounceShouldNotInvote) {
-        DBXLog(@"不执行 target:%@, select:%s", invocation.target, invocation.selector);
+        DBXpLog(@"不执行任务[%@ %s]", invocation.target, invocation.selector);
         return;
     }
     if (rule.debounceInterval <= 0 || shouldInvote == DBXDebounceShouldInvoteIgnoreRule) {
-        DBXLog(@"忽略规则，立即执行 target:%@, select:%s", invocation.target, invocation.selector);
+        DBXpLog(@"忽略rule，立即执行[%@ %s]", invocation.target, invocation.selector);
         invocation.selector = rule.aliasSelector;
         [invocation invoke];
         return;
     }
-//    DBXLog(@"按规则执行 target:%@, select:%s", invocation.target, invocation.selector);
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     switch (rule.model) {
         case DBXDebounceModeFirstOnly:
@@ -449,10 +455,13 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                 if (now - rule.lastTimeInvoke > rule.debounceInterval) {
                     invocation.selector = rule.aliasSelector;
                     [invocation invoke];
+                    DBXpLog(@"调用[%@ %s]，FirstOnly，执行", invocation.target, invocation.selector);
                     rule.lastTimeInvoke = now;
                     dispatch_async(rule.queue, ^{
                         rule.lastInvocation = nil;
                     });
+                } else {
+                    DBXpLog(@"调用[%@ %s]，FirstOnly，冷却期，不执行", invocation.target, invocation.selector);
                 }
             }
             break;
@@ -466,7 +475,10 @@ static void dbx_handleInvocation(NSInvocation *invocation, DBXDebounceRule *rule
                         rule.lastTimeInvoke = now;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(rule.debounceInterval * NSEC_PER_SEC)), rule.queue, ^{
                             [rule invokingLastInvocation];
+                            DBXpLog(@"调用[%@ %s]，LastOnly，执行", invocation.target, invocation.selector);
                         });
+                    } else {
+                        DBXpLog(@"调用[%@ %s]，LastOnly，冷却期，不执行", invocation.target, invocation.selector);
                     }
                 });
             }
@@ -510,7 +522,7 @@ static DBXDebounceShouldInvote dbx_invokeFilterBlock(DBXDebounceRule *rule, NSIn
         NSGetSizeAndAlignment(type, &argSize, NULL);
         argBuf = realloc(argBuf, argSize);
         if (!argBuf) {
-            DBXLog(@"Block参数初始化失败");
+            DBXpLog(@"Block参数初始化失败");
             return DBXDebounceShouldInvoteInRule;
         }
         [originalInvocation getArgument:argBuf atIndex:idx];
@@ -566,6 +578,28 @@ static const char * dbx_blockMethodSignature(id blockObj) {
 
 @implementation NSObject (DBXDebounce)
 
+- (NSArray <DBXDebounceRule *> *)dbx_allRules {
+    NSMutableSet *instanceSet = [[DBXDebounce sharedInstance].targetSelectorsMap objectForKey:self];
+    NSMutableSet *classSet = [[DBXDebounce sharedInstance].targetSelectorsMap objectForKey:object_getClass(self)];
+    if (instanceSet.count == 0 && classSet.count == 0) {
+        return nil;
+    }
+    NSMutableArray *result = [NSMutableArray array];
+    for (NSString *selectorStr in instanceSet) {
+        DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, NSSelectorFromString(selectorStr));
+        if (dealloc.rule) {
+            [result addObject:dealloc.rule];
+        }
+    }
+    for (NSString *selectorStr in classSet) {
+        DBXDebounceDealloc *dealloc = objc_getAssociatedObject(self, NSSelectorFromString(selectorStr));
+        if (dealloc.rule) {
+            [result addObject:dealloc.rule];
+        }
+    }
+    return result;
+}
+
 - (DBXDebounceRule *)dbx_performSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
     return [self dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:dispatch_get_main_queue() shouldInvokeImmediatelyBlock:nil];
 }
@@ -588,4 +622,20 @@ static const char * dbx_blockMethodSignature(id blockObj) {
     return rule;
 }
 
+// 用于静态方法
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode {
+    Class cls = self;
+    if (!class_isMetaClass(self)) {
+        cls = object_getClass(self);
+    }
+    return [cls dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode];
+}
+
++ (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block {
+    Class cls = self;
+    if (!class_isMetaClass(self)) {
+        cls = object_getClass(self);
+    }
+    return [cls dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:queue shouldInvokeImmediatelyBlock:block];
+}
 @end

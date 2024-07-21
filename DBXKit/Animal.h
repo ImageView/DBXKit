@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) NSInteger eatCount;
 
-- (void)addEat:(NSString *)food;
+- (void)eatFood:(NSString *)food;
 - (int)countOfFood:(NSString *)food;
 - (void)eat:(NSString *)food;
 - (void)run;
