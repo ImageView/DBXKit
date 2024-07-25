@@ -9,8 +9,8 @@
 #import "DBXLog.h"
 #include <stdio.h>
 
-static DBXLogFormat gDBXLogFormatValue = DBXLogFormatDisable;
-static DBXLogFormat gDBXDebugLogFormatValue = DBXLogFormatBasic;
+static DBXLogFormat gDBXLogFormatValue = DBXLogFormatBasic;
+static DBXLogFormat gDBXDebugLogFormatValue = DBXLogFormatDisable;
 
 void DBXLogInfo(const char *prefix, const char *file, const char *function, int line, NSString *format, ...) {
     DBXLogFormat logFormate = prefix ? gDBXDebugLogFormatValue : gDBXLogFormatValue;
