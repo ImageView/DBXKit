@@ -25,7 +25,7 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
         prefix = "";
     }
     if (logFormate == DBXLogFormatAll) {
-        fprintf(stderr, "%s(%s:%d) %s %s\n", prefix, file, line, function, [log UTF8String]);
+        NSLog( @"%s(%s:%d) %s %s\n", prefix, file, line, function, [log UTF8String]);
     } else {
         NSMutableString *output = [NSMutableString stringWithCString:prefix encoding:NSUTF8StringEncoding];
         if (logFormate & DBXLogFormatLogFile) {
@@ -35,7 +35,7 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
             [output appendFormat:@" %s", function];
         }
         [output appendString:log];
-        fprintf(stderr, "%s\n", [output UTF8String]);
+        NSLog( @"%s\n", [output UTF8String]);
     }
 }
 
