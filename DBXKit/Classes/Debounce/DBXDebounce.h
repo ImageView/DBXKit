@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 /**
  是否马上执行消息
  block 的参数列表可选，返回值为 DBXDebounceShouldInvote 类型。
- block 传入的第一个参数为 `DBXDebounceRule`，其余参数列表与消息调用的参数列表相同
+ block 传入的第一个参数为 `DBXDebounceInvocation`，其余参数列表与消息调用的参数列表相同
  block 如果返回 YES，则消息立即执行
  */
 @property (nonatomic) id shouldInvokeImmediatelyBlock;
@@ -83,6 +83,16 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 + (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode;
 
 + (DBXDebounceRule *)dbx_performClassSelectorDebounce:(SEL)selector debounceInterval:(NSTimeInterval)debounceInterval mode:(DBXDebounceMode)debounceMode queue:(_Nullable dispatch_queue_t)queue shouldInvokeImmediatelyBlock:(_Nullable id)block;
+@end
+
+
+#pragma mark - 防抖invocation
+@interface DBXDebounceInvocation : NSObject
+// 函数原invacation
+@property (nonatomic, weak, readonly) NSInvocation *invocation;
+// 当前的规则
+@property (nonatomic, weak, readonly) DBXDebounceRule *rule;
+
 @end
 
 NS_ASSUME_NONNULL_END

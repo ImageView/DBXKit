@@ -108,12 +108,10 @@
 
 - (void)objectRule {
     Animal *dog = [[Animal alloc] init];
-    [dog dbx_performSelectorDebounce:@selector(eat:) debounceInterval:2 mode:DBXDebounceModeDebounce queue:nil shouldInvokeImmediatelyBlock:^(DBXDebounceRule *rule, NSString *food) {
-        
+    [dog dbx_performSelectorDebounce:@selector(eat:) debounceInterval:2 mode:DBXDebounceModeDebounce queue:nil shouldInvokeImmediatelyBlock:^(DBXDebounceInvocation *invocation, NSString *food) {
         if ([food isEqualToString:@"屎"]) {
             return DBXDebounceShouldNotInvote;
         }
-        
         return DBXDebounceShouldInvoteInRule;
     }];
     

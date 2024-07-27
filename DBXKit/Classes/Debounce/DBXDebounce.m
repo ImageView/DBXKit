@@ -98,7 +98,12 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 @end
 
-
+@interface DBXDebounceInvocation ()
+@property (nonatomic, weak, readwrite) NSInvocation *invocation;
+@property (nonatomic, weak, readwrite) DBXDebounceRule *rule;
+@end
+@implementation DBXDebounceInvocation
+@end
 
 @interface DBXDebounce ()
 @property (nonatomic, assign) pthread_mutex_t lock;
@@ -512,8 +517,12 @@ static DBXDebounceShouldInvote dbx_invokeFilterBlock(DBXDebounceRule *rule, NSIn
         return DBXDebounceShouldInvoteInRule;
     }
     
+    DBXDebounceInvocation *invocation = nil;
     if (numberOfArguments > 1) {
-        [blockInvocation setArgument:&rule atIndex:1];
+        invocation = [[DBXDebounceInvocation alloc] init];
+        invocation.invocation = originalInvocation;
+        invocation.rule = rule;
+        [blockInvocation setArgument:&invocation atIndex:1];
     }
     void *argBuf = NULL;
     for (NSUInteger idx = 2; idx < numberOfArguments; idx++) {
@@ -639,3 +648,5 @@ static const char * dbx_blockMethodSignature(id blockObj) {
     return [cls dbx_performSelectorDebounce:selector debounceInterval:debounceInterval mode:debounceMode queue:queue shouldInvokeImmediatelyBlock:block];
 }
 @end
+
+

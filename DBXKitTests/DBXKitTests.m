@@ -37,7 +37,7 @@
 
 // 测试DBXDebounceShouldInvote功能
 - (void)testShouldInvokeImmediatelyBlock {
-    DBXDebounceRule *rule = [self.dog dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.2 mode:DBXDebounceModeFirstOnly queue:dispatch_get_global_queue(0, 0) shouldInvokeImmediatelyBlock:^(DBXDebounceRule *rule, NSString *food) {
+    DBXDebounceRule *rule = [self.dog dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.2 mode:DBXDebounceModeFirstOnly queue:dispatch_get_global_queue(0, 0) shouldInvokeImmediatelyBlock:^(DBXDebounceInvocation *invocation, NSString *food) {
         if ([food isEqualToString:@"屎"]) {
             return DBXDebounceShouldNotInvote;
         }
@@ -155,6 +155,19 @@
     }
     NSArray *rules = [object_getClass(People.class) dbx_allRules];
     
+    [rule discard];
+}
+
+- (void)testChangeInvocation {
+    DBXDebounceRule *rule = [self.dog dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.2 mode:DBXDebounceModeFirstOnly queue:dispatch_get_global_queue(0, 0) shouldInvokeImmediatelyBlock:^(DBXDebounceInvocation *invocation, NSString *food) {
+        NSString *newFood = @"蔬菜";
+        [invocation.invocation setArgument:&newFood atIndex:2];
+        return DBXDebounceShouldInvoteInRule;
+    }];
+    
+    [self.dog eatFood:@"肉"];
+    XCTAssertEqual([self.dog countOfFood:@"肉"], 0, @"肉换成蔬菜了");
+    XCTAssertEqual([self.dog countOfFood:@"蔬菜"], 1, @"肉换成蔬菜了");
     [rule discard];
 }
 
