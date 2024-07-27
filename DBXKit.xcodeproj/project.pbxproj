@@ -24,6 +24,7 @@
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
 		C820AD052BD8DA9F00ABA666 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C820AD032BD8DA9F00ABA666 /* DBXLog.m */; };
+		C85BBF3E2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.M in Sources */ = {isa = PBXBuildFile; fileRef = C85BBF3C2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.M */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
 		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
@@ -113,6 +114,8 @@
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C820AD032BD8DA9F00ABA666 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
 		C820AD042BD8DA9F00ABA666 /* DBXLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXLog.h; sourceTree = "<group>"; };
+		C85BBF3C2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.M */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIButton+dbx_clickedArea.M"; sourceTree = "<group>"; };
+		C85BBF3D2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+dbx_clickedArea.h"; sourceTree = "<group>"; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
 		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
 		C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXSyringViewController.h; sourceTree = "<group>"; };
@@ -370,6 +373,8 @@
 				C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */,
 				C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */,
 				C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */,
+				C85BBF3D2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.h */,
+				C85BBF3C2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.M */,
 				C8A5A7F42AD4EAA600643495 /* NSObject+PropertyObserver.h */,
 				C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */,
 			);
@@ -650,6 +655,7 @@
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
+				C85BBF3E2C553F1D0061D9A6 /* UIButton+dbx_clickedArea.M in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
