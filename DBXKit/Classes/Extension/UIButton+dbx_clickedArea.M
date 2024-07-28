@@ -18,11 +18,11 @@ static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
 
 @implementation UIButton (ClickedArea)
 
-static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kMNAClickedAreaEdgeInsets";
+static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
 
 - (UIEdgeInsets)dbx_clickedAreaEdgeInsets {
     NSValue *value = objc_getAssociatedObject(self, &KEY_CLICKED_AREA_EDGE_INSETS);
-    return [value UIEdgeInsetsValue];
+    return value ? [value UIEdgeInsetsValue] : UIEdgeInsetsZero;
 }
 
 - (void)setDbx_clickedAreaEdgeInsets:(UIEdgeInsets)dbx_clickedAreaEdgeInsets {
@@ -62,8 +62,8 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kMNAClickedAreaEdgeInset
             
             Method originalMethod = class_getInstanceMethod(subClass, @selector(pointInside:withEvent:));
             IMP orignalIMP = method_getImplementation(originalMethod);
-            if (orignalIMP != (IMP)mna_extenedPointHittest) {
-                class_replaceMethod(subClass, @selector(pointInside:withEvent:), (IMP)mna_extenedPointHittest, "B@:@{CGPoint=dd}@");
+            if (orignalIMP != (IMP)dbx_extenedPointHittest) {
+                class_replaceMethod(subClass, @selector(pointInside:withEvent:), (IMP)dbx_extenedPointHittest, "B@:@{CGPoint=dd}@");
             }
         }
     }
@@ -84,7 +84,7 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kMNAClickedAreaEdgeInset
     }
 //    Method method = class_getInstanceMethod(isaClass, @selector(pointInside:withEvent:));
 //    IMP methodIMP = method_getImplementation(method);
-//    if (methodIMP != (IMP)mna_extenedPointHittest) {
+//    if (methodIMP != (IMP)dbx_extenedPointHittest) {
 //        return;
 //    }
 //    IMP origmalIMP = (IMP)[self.orignalIMPStorage pointerValue];
@@ -92,7 +92,7 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kMNAClickedAreaEdgeInset
 //    self.orignalIMPStorage = nil;
 }
 
-static BOOL mna_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
+static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
     if (![target isKindOfClass:[UIButton class]]) {
         return CGRectContainsPoint(((UIView *)target).bounds, point);;
     }

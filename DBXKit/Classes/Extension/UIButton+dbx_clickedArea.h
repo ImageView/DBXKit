@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 点击区域扩展范围
 @property (nonatomic, assign) UIEdgeInsets dbx_clickedAreaEdgeInsets;
 /// 设置点击区域，并且直接生肖
-/// 等同于clickedAreaEdgeInsets + mna_enableExtendedClickedArea
+/// 等同于clickedAreaEdgeInsets + dbx_enableExtendedClickedArea
 - (void)dbx_setAndEnableClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets;
 /// 扩展点击区域生效
 - (void)dbx_enableExtendedClickedArea;
