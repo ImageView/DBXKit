@@ -1,4 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
+source 'https://git.woa.com/MNA-iOS/MnaSpec.git' #Mna私有库地址
+
 workspace 'DBXKit.xcworkspace'
 project 'DBXKit.xcodeproj'
 platform :ios, '11.0'
@@ -13,6 +15,7 @@ target 'DBXKit' do
       pod 'MJRefresh'
       pod 'IQKeyboardManager'
       pod 'QMUIKit'
+      pod 'MnaDebuggingOnLine'
 
 end
 

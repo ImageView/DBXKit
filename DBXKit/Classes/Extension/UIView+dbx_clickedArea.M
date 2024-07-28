@@ -1,23 +1,23 @@
 //
-//  UIButton+dbx_clickedArea.m
+//  UIView+dbx_clickedArea.m
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2024/07/27.
 //  Copyright © 2024 DBX. All rights reserved.
 //
 
-#import "UIButton+dbx_clickedArea.h"
+#import "UIView+dbx_clickedArea.h"
 #import <objc/runtime.h>
 #import "DBXCore.h"
 
 static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
 
-@interface UIButton ()
+@interface UIView ()
 // 存储原始IMP
 //@property (nonatomic, strong) NSValue *orignalIMPStorage;
 @end
 
-@implementation UIButton (ClickedArea)
+@implementation UIView (ClickedArea)
 
 static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
 
@@ -39,7 +39,7 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
 //    return objc_getAssociatedObject(self, @selector(orignalIMPStorage));
 //}
 
-- (void)dbx_setAndEnableClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
+- (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
     self.dbx_clickedAreaEdgeInsets = clickedAreaEdgeInsets;
     [self dbx_enableExtendedClickedArea];
 }
@@ -100,12 +100,9 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
 }
 
 static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
-    if (![target isKindOfClass:[UIButton class]]) {
-        return CGRectContainsPoint(((UIView *)target).bounds, point);;
-    }
-    UIButton *button = target;
-    UIEdgeInsets insets = button.dbx_clickedAreaEdgeInsets;
-    CGRect expandedRect = UIEdgeInsetsInsetRect(button.bounds, insets);
+    UIView *view = target;
+    UIEdgeInsets insets = view.dbx_clickedAreaEdgeInsets;
+    CGRect expandedRect = UIEdgeInsetsInsetRect(view.bounds, insets);
     return CGRectContainsPoint(expandedRect, point);
 }
 

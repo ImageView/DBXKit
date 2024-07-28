@@ -2,5 +2,6 @@ ${PODS_ROOT}/Target Support Files/Pods-DBXKit/Pods-DBXKit-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/MnaDebuggingOnLine/MnaDebuggingOnLine.framework
 ${BUILT_PRODUCTS_DIR}/QMUIKit/QMUIKit.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework

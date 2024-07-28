@@ -42,7 +42,9 @@
 //    [DBXAutoReportManager sharedInstance].impl = self.impl;
     
     self.button1.dbx_reportID = @"2341";
-    
+    [self.button1 dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-40, -40, -30, 30)];
+    [self.button1.superview dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-0, -40, 0, 30)];
+
     [self.button1 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.button2 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.butView addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -74,12 +76,12 @@
 }
 
 - (IBAction)clickedButton2:(id)sender {
-    
+    [self.button1.superview dbx_disableExtendedClickedArea];
 }
 
 - (void)clickedButton:(UIButton *)sender
 {
-    
+    NSLog(@"点击按钮button1");
 }
 
 - (void)clickedButtonInCell:(UIButton *)sender

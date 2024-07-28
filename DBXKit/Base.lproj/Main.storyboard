@@ -52,11 +52,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="awY-1y-MtH">
-                                        <rect key="frame" x="127" y="46" width="79" height="37"/>
+                                        <rect key="frame" x="124" y="46" width="85" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="button2"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="button4"/>
                                         <connections>
                                             <action selector="clickedButton2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7SD-Ui-Ims"/>
                                         </connections>
@@ -66,7 +66,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="button1"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="button3"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>

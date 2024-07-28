@@ -13,6 +13,6 @@
 #import "NSObject+dbx_modelValue.h"
 #import "NSAttributedString+dbx.h"
 #import "NSObject+PropertyObserver.h"
-#import "UIButton+dbx_clickedArea.h"
+#import "UIView+dbx_clickedArea.h"
 
 #endif /* DBXExtension_h */

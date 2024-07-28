@@ -1,5 +1,5 @@
 //
-//  UIButton+dbx_clickedArea.h
+//  UIView+dbx_clickedArea.h
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2024/07/27.
@@ -10,13 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIButton (dbx_clickedArea)
+@interface UIView (dbx_clickedArea)
 
 /// 点击区域扩展范围
 @property (nonatomic, assign) UIEdgeInsets dbx_clickedAreaEdgeInsets;
 /// 设置点击区域，并且直接生肖
 /// 等同于clickedAreaEdgeInsets + dbx_enableExtendedClickedArea
-- (void)dbx_setAndEnableClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets;
+- (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets;
 /// 扩展点击区域生效
 - (void)dbx_enableExtendedClickedArea;
 /// 扩展点击区域失效
