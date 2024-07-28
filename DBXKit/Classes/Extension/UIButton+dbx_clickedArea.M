@@ -8,6 +8,7 @@
 
 #import "UIButton+dbx_clickedArea.h"
 #import <objc/runtime.h>
+#import "DBXCore.h"
 
 static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
 
@@ -44,6 +45,9 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
 }
 
 - (void)dbx_enableExtendedClickedArea {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return;
+    }
     Class isaClass = object_getClass(self);
     NSString *isaClassName = NSStringFromClass(isaClass);
     if ([isaClassName hasPrefix:DBXButtonSubclassPrefix]) {
@@ -73,6 +77,9 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
 }
 
 - (void)dbx_disableExtendedClickedArea {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return;
+    }
     Class isaClass = object_getClass(self);
     NSString *isaClassName = NSStringFromClass(isaClass);
     if (![isaClassName hasPrefix:DBXButtonSubclassPrefix]) {

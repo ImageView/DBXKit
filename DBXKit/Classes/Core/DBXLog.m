@@ -8,12 +8,10 @@
 
 #import "DBXLog.h"
 #include <stdio.h>
-
-static DBXLogFormat gDBXLogFormatValue = DBXLogFormatBasic;
-static DBXLogFormat gDBXDebugLogFormatValue = DBXLogFormatDisable;
+#import "DBXConfig.h"
 
 void DBXLogInfo(const char *prefix, const char *file, const char *function, int line, NSString *format, ...) {
-    DBXLogFormat logFormate = prefix ? gDBXDebugLogFormatValue : gDBXLogFormatValue;
+    DBXLogFormat logFormate = prefix ? [DBXCenter sharedConfig].debugLogFormat : [DBXCenter sharedConfig].logFormat;
     if (logFormate == DBXLogFormatDisable) {
         return;
     }
@@ -39,15 +37,3 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
     }
 }
 
-@implementation DBXLogConfig
-
-+ (void)logFormat:(DBXLogFormat)format {
-    gDBXLogFormatValue = format;
-}
-
-/// 内部的调试日志配置，默认关闭
-+ (void)debugLogFormat:(DBXLogFormat)format {
-    gDBXDebugLogFormatValue = format;
-}
-
-@end

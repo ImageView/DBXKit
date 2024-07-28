@@ -58,6 +58,7 @@
 		C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301762B4A9CDB00524BEE /* DBXSyringeMethod.m */; };
 		C8F301852B4A9CDB00524BEE /* DBXSyringeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301772B4A9CDB00524BEE /* DBXSyringeUtils.m */; };
 		C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3017A2B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m */; };
+		C8F569902C55EDDC008100D7 /* DBXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F5698F2C55EDDC008100D7 /* DBXConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +185,8 @@
 		C8F3017D2B4A9CDB00524BEE /* DBXSyringeTmpArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeTmpArgument.h; sourceTree = "<group>"; };
 		C8F3017E2B4A9CDB00524BEE /* DBXSyringeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeUtils.h; sourceTree = "<group>"; };
 		C8F3017F2B4A9CDB00524BEE /* DBXSyringeMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXSyringeMethod.h; sourceTree = "<group>"; };
+		C8F5698E2C55EDDC008100D7 /* DBXConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXConfig.h; sourceTree = "<group>"; };
+		C8F5698F2C55EDDC008100D7 /* DBXConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +279,9 @@
 		2EF739A4287AC21C007B2A95 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C8D7843C2C4CFFCC00E9682C /* DBXCore.h */,
+				C8F5698E2C55EDDC008100D7 /* DBXConfig.h */,
+				C8F5698F2C55EDDC008100D7 /* DBXConfig.m */,
 				2EF739A6287AC793007B2A95 /* UIView+DBXCore.h */,
 				2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */,
 				C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */,
@@ -284,7 +290,6 @@
 				2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */,
 				C820AD042BD8DA9F00ABA666 /* DBXLog.h */,
 				C820AD032BD8DA9F00ABA666 /* DBXLog.m */,
-				C8D7843C2C4CFFCC00E9682C /* DBXCore.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -645,6 +650,7 @@
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */,
+				C8F569902C55EDDC008100D7 /* DBXConfig.m in Sources */,
 				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
 				C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */,
 				C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */,

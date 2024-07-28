@@ -11,7 +11,7 @@
 #import <objc/message.h>
 #import "DBXDebounceDealloc.h"
 #import <pthread.h>
-#import "DBXLog.h"
+#import "DBXCore.h"
 
 static NSString *const DBXForwardInvocationSelectorName = @"__dbx_forwardInvocation:";
 static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
@@ -190,6 +190,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (BOOL)applyRule:(DBXDebounceRule *)rule {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return NO;
+    }
     pthread_mutex_lock(&_lock);
     BOOL hadApply = objc_getAssociatedObject(rule.target, rule.selector);
     
@@ -245,6 +248,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (BOOL)discardRule:(DBXDebounceRule *)rule {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return NO;
+    }
     pthread_mutex_lock(&_lock);
     DBXDebounceDealloc *dealloc = rule.deallocObj;
     [dealloc lock];
@@ -261,6 +267,9 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (void)discardRule:(DBXDebounceRule *)rule whenTargetDealloc:(DBXDebounceDealloc *)dealloc {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return;
+    }
     if (object_isClass(rule.target)) {
         return;
     }

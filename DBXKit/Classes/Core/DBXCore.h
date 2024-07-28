@@ -13,5 +13,6 @@
 #import "DBXViewUtils.h"
 #import "UIView+DBXCore.h"
 #import "NSObject+DBXRuntime.h"
+#import "DBXConfig.h"
 
 #endif /* DBXCore_h */

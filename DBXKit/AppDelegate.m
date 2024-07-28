@@ -52,7 +52,6 @@
     QMUICMI.shouldPrintWarnLog = NO;
     QMUICMI.sendAnalyticsToQMUITeam = NO;
     
-    [DBXLogConfig debugLogFormat:DBXLogFormatBasic];
     return YES;
 }
 
