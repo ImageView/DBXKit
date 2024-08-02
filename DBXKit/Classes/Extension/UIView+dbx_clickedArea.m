@@ -12,7 +12,13 @@
 
 static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
 static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
+static const NSString *KEY_CLICKED_AUTO_FIX_SIZE = @"kDBXClickedAutoFixMinSize";
 static const NSLock *createClassLock = nil;
+
+@interface UIView ()
+
+
+@end
 
 @implementation UIView (ClickedArea)
 
@@ -27,8 +33,23 @@ static const NSLock *createClassLock = nil;
     objc_setAssociatedObject(self, &KEY_CLICKED_AREA_EDGE_INSETS, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (CGSize)dbx_autoFixMinSize {
+    NSValue *value = objc_getAssociatedObject(self, &KEY_CLICKED_AUTO_FIX_SIZE);
+    return value ? [value CGSizeValue] : CGSizeZero;
+}
+
+- (void)setDbx_autoFixMinSize:(CGSize)dbx_autoFixMinSize {
+    NSValue *value = [NSValue valueWithCGSize:dbx_autoFixMinSize];
+    objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_FIX_SIZE, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
     self.dbx_clickedAreaEdgeInsets = clickedAreaEdgeInsets;
+    [self dbx_enableExtendedClickedArea];
+}
+
+- (void)dbx_clickedAreaAutoFitMinSize:(CGSize)minSize {
+    self.dbx_autoFixMinSize = minSize;
     [self dbx_enableExtendedClickedArea];
 }
 
@@ -71,6 +92,25 @@ static const NSLock *createClassLock = nil;
     }
 }
 
+- (CGRect)dbx_extendedClikedArea {
+    CGRect expandedRect;
+    UIEdgeInsets insets = self.dbx_clickedAreaEdgeInsets;
+    if (!UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsZero)) {
+        expandedRect = UIEdgeInsetsInsetRect(self.bounds, insets);
+    } else if (!CGSizeEqualToSize(self.dbx_autoFixMinSize, CGSizeZero)) {
+        CGSize size = self.dbx_autoFixMinSize;
+        CGFloat newWidth = MAX(self.frame.size.width, size.width);
+        CGFloat newHeight = MAX(self.frame.size.height, size.height);
+        expandedRect = CGRectMake((self.frame.size.width - newWidth) / 2.0,
+                                  (self.frame.size.height - newHeight) / 2.0,
+                                  newWidth,
+                                  newHeight);
+    } else {
+        expandedRect = self.bounds;
+    }
+    return expandedRect;
+}
+
 - (void)dbx_disableExtendedClickedArea {
     if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
         return;
@@ -88,9 +128,7 @@ static const NSLock *createClassLock = nil;
 
 static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
     UIView *view = target;
-    UIEdgeInsets insets = view.dbx_clickedAreaEdgeInsets;
-    CGRect expandedRect = UIEdgeInsetsInsetRect(view.bounds, insets);
-    return CGRectContainsPoint(expandedRect, point);
+    return CGRectContainsPoint([view dbx_extendedClikedArea], point);
 }
 
 static void hookClassFrom(Class originalClass, Class newClass) {

@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import "UIViewController+DB.h"
 #import "UIView+DB.h"
+#import "MnaDBUIPropertyModel.h"
 
 #define MnaObjectTableBortherViewsKey @"MnaBrotherViews"
 #define MnaObjectTableViewControllerKey @"所属viewController"
@@ -71,11 +72,34 @@
                 [temp addObject:[NSString stringWithFormat:@"%@", obj.description]];
             }
         } else {
-            [temp addObjectsFromArray:[MnaDBHelper getIvarList:objClass]];
-            [temp addObjectsFromArray:[MnaDBHelper getProperties:objClass]];
-            [temp sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                return [[obj1 lowercaseString] compare:[obj2 lowercaseString]];
+            // 属性名列表
+            NSMutableArray *propertiesList = [NSMutableArray array];
+            NSArray *propertiesNames = [MnaDBHelper getProperties:objClass];
+            for (NSString *propertie in propertiesNames) {
+                MnaDBUIPropertyModel *propertyModel = [[MnaDBUIPropertyModel alloc] initWithPropertyName:propertie objectCls:objClass];
+                if ([self.targetObject respondsToSelector:NSSelectorFromString(propertyModel.name)]) {
+                    id object = [self.targetObject valueForKey:propertyModel.name];
+                    propertyModel.info = [NSString stringWithFormat:@"%@➡️%@", propertyModel.info, object];
+                    [propertiesList addObject:propertyModel];
+                }
+            }
+            [propertiesList sortUsingComparator:^NSComparisonResult(MnaDBUIPropertyModel  * obj1, MnaDBUIPropertyModel * obj2) {
+                return [[obj1.name lowercaseString] compare:[obj2.name lowercaseString]];
             }];
+            [temp addObjectsFromArray:propertiesList];
+            
+            // ivar列表
+            NSMutableArray *ivarList = [NSMutableArray array];
+            NSArray *ivarNames = [MnaDBHelper getIvarList:objClass];
+            for (NSString *ivar in ivarNames) {
+                NSArray *tempList = [ivar componentsSeparatedByString:@"##"];
+                MnaDBUIPropertyModel *ivarModel = [[MnaDBUIPropertyModel alloc] initWithIvarName :tempList.firstObject ivarClasssName:tempList.count > 1 ? tempList[1] : nil];
+                [ivarList addObject:ivarModel];
+            }
+            [ivarList sortUsingComparator:^NSComparisonResult(MnaDBUIPropertyModel  * obj1, MnaDBUIPropertyModel * obj2) {
+                return [[obj1.name lowercaseString] compare:[obj2.name lowercaseString]];
+            }];
+            [temp addObjectsFromArray:ivarList];
             
             if ([self.targetObject isKindOfClass:[UIView class]]) {
                 [temp insertObject:MnaObjectTableViewControllerKey atIndex:0];
@@ -106,16 +130,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MnaAdjustsTextTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MnaDBLookViewDetailInfoViewController" forIndexPath:indexPath];
-    cell.txtLabel.text = [self.dataSource objectAtIndex:indexPath.row];
+    id model = [self.dataSource objectAtIndex:indexPath.row];
+    if ([model isKindOfClass:[MnaDBUIPropertyModel class]]) {
+        cell.txtLabel.text = ((MnaDBUIPropertyModel *) model).info;
+    } else {
+        cell.txtLabel.text = model;
+    }
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 60.;
+    return 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 30;
+    return 45;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -140,10 +170,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *pptString = [self.dataSource objectAtIndex:indexPath.row];
-    NSArray *subStrs = [pptString componentsSeparatedByString:@"<"];
-    NSString *pptName = [[subStrs.firstObject stringByReplacingOccurrencesOfString:@"@p" withString:@""]
-                         stringByReplacingOccurrencesOfString:@"@i" withString:@""];
+    NSString *pptName = [self.dataSource objectAtIndex:indexPath.row];
+    if ([pptName isKindOfClass:[MnaDBUIPropertyModel class]]) {
+        MnaDBUIPropertyModel *model = (MnaDBUIPropertyModel *)pptName;
+        pptName = model.name;
+    }
     id object = nil;
     Class objClass = nil;
     if ([self.targetObject isKindOfClass:[NSArray class]]) {
@@ -203,16 +234,6 @@
     return obj.description;
 }
 
-//- (UIViewController *)getViewController:(UIView *)view {
-//    UIResponder *responder = view;
-//    while ((responder = responder.nextResponder)) {
-//        if ([responder isKindOfClass:[UIViewController class]]) {
-//            return (UIViewController *)responder;
-//        }
-//    }
-//    return nil;
-//}
-
 @end
 
 // UI检查工具详细信息Cell
@@ -245,10 +266,10 @@
 - (UILabel *)txtLabel {
     if (!_txtLabel) {
         _txtLabel = [UILabel new];
-        _txtLabel.font = [UIFont systemFontOfSize:12.];
+        _txtLabel.font = [UIFont systemFontOfSize:13];
         _txtLabel.backgroundColor = [UIColor clearColor];
         _txtLabel.textColor = [UIColor blackColor];
-        _txtLabel.minimumScaleFactor = 0.3;
+        _txtLabel.minimumScaleFactor = 0.4;
         _txtLabel.adjustsFontSizeToFitWidth = YES;
         _txtLabel.numberOfLines = 0;
     }

@@ -22,7 +22,7 @@
     return image;
 }
 
-// name<pptClass>@i
+// name##pptClass
 + (NSArray *)getIvarList:(Class)cls {
     unsigned int count = 0;
     Ivar *ivars = nil;
@@ -35,16 +35,16 @@
         const char *cType = ivar_getTypeEncoding(ivar);
         NSString *name = [NSString stringWithCString:cName encoding:NSUTF8StringEncoding];
         NSString *type = [[[NSString stringWithCString:cType encoding:NSUTF8StringEncoding]
-                           stringByReplacingOccurrencesOfString:@""
-                           withString:@"@"]
+                           stringByReplacingOccurrencesOfString:@"@"
+                           withString:@""]
                           stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-        [varsAry addObject:[NSString stringWithFormat:@"%@<%@>@i", name, type]];
+        [varsAry addObject:[NSString stringWithFormat:@"%@##%@", name, type]];
     }
     free(ivars);
     return varsAry;
 }
 
-// name<pptClass>@p
+// name
 + (NSArray *)getProperties:(Class)cls {
     unsigned int count = 0;
     objc_property_t *properties = nil;
@@ -57,17 +57,8 @@
         NSString *name = [NSString stringWithCString:cName encoding:NSUTF8StringEncoding];
         [pptArray addObject:name];
     }
-    NSMutableArray *retAry = [NSMutableArray array];
-    for (NSString *pptName in pptArray) {
-        NSString *className = [self getPropertyClass:pptName inClass:cls];
-        if (className.length) {
-            [retAry addObject:[NSString stringWithFormat:@"%@<%@>@p", pptName, className]];
-        } else {
-            [retAry addObject:[NSString stringWithFormat:@"%@@p", pptName]];
-        }
-    }
     free(properties);
-    return retAry;
+    return pptArray;
 }
 
 + (NSString *)getPropertyClass:(NSString *)property inClass:(Class)class {

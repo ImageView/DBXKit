@@ -41,9 +41,11 @@
 //    }];
 //    [DBXAutoReportManager sharedInstance].impl = self.impl;
     
-    self.button1.dbx_reportID = @"2341";
+//    self.button1.dbx_reportID = @"2341";
     [self.button1 dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-40, -40, -30, 30)];
     [self.button1.superview dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-0, -40, 0, 30)];
+
+    [self.button2 dbx_clickedAreaAutoFitMinSize:CGSizeMake(8,70)];
 
     [self.button1 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.button2 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -81,7 +83,11 @@
 
 - (void)clickedButton:(UIButton *)sender
 {
-    NSLog(@"点击按钮button1");
+    if (sender == self.button1) {
+        NSLog(@"点击按钮button1");
+    } else if (sender == self.button2) {
+        NSLog(@"点击按钮button2");
+    }
 }
 
 - (void)clickedButtonInCell:(UIButton *)sender

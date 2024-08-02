@@ -26,6 +26,7 @@
 #import "MnaDashedRectView.h"
 #import "MnaDBLookViewDetailInfoViewController.h"
 #import "MnaDBUILookViewController.h"
+#import "MnaDBUIPropertyModel.h"
 #import "MnaDBUserDefaultListViewController.h"
 
 FOUNDATION_EXPORT double MnaDebuggingOnLineVersionNumber;
