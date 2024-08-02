@@ -11,15 +11,11 @@
 #import "DBXCore.h"
 
 static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
-
-@interface UIView ()
-// 存储原始IMP
-//@property (nonatomic, strong) NSValue *orignalIMPStorage;
-@end
+static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
+static const NSLock *createClassLock = nil;
 
 @implementation UIView (ClickedArea)
 
-static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
 
 - (UIEdgeInsets)dbx_clickedAreaEdgeInsets {
     NSValue *value = objc_getAssociatedObject(self, &KEY_CLICKED_AREA_EDGE_INSETS);
@@ -30,14 +26,6 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
     NSValue *value = [NSValue valueWithUIEdgeInsets:dbx_clickedAreaEdgeInsets];
     objc_setAssociatedObject(self, &KEY_CLICKED_AREA_EDGE_INSETS, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
-//- (void)setOrignalIMPStorage:(NSValue *)orignalIMPStorage {
-//    objc_setAssociatedObject(self, @selector(orignalIMPStorage), orignalIMPStorage, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
-//
-//- (NSValue *)orignalIMPStorage {
-//    return objc_getAssociatedObject(self, @selector(orignalIMPStorage));
-//}
 
 - (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
     self.dbx_clickedAreaEdgeInsets = clickedAreaEdgeInsets;
@@ -56,6 +44,12 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
     // 创建个动态类，并指向它
     Class ocClass = [self class];
     const char *subClassName = [DBXButtonSubclassPrefix stringByAppendingString:isaClassName].UTF8String;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        createClassLock = [[NSLock alloc] init];
+    });
+    [createClassLock lock];
     Class subClass = objc_getClass(subClassName);
     if (!subClass) {
         subClass = objc_allocateClassPair(ocClass, subClassName, 0);
@@ -71,9 +65,10 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
             }
         }
     }
-    
-//    self.orignalIMPStorage = [NSValue valueWithPointer:orignalIMP];
-    object_setClass(self, subClass);
+    [createClassLock unlock];
+    if (subClass) {
+        object_setClass(self, subClass);
+    }
 }
 
 - (void)dbx_disableExtendedClickedArea {
@@ -89,14 +84,6 @@ static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInset
     if (originalClass) {
         object_setClass(self, originalClass);
     }
-//    Method method = class_getInstanceMethod(isaClass, @selector(pointInside:withEvent:));
-//    IMP methodIMP = method_getImplementation(method);
-//    if (methodIMP != (IMP)dbx_extenedPointHittest) {
-//        return;
-//    }
-//    IMP origmalIMP = (IMP)[self.orignalIMPStorage pointerValue];
-//    class_replaceMethod(isaClass, @selector(pointInside:withEvent:), origmalIMP, "B@:@{CGPoint=dd}@");
-//    self.orignalIMPStorage = nil;
 }
 
 static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
@@ -113,7 +100,5 @@ static void hookClassFrom(Class originalClass, Class newClass) {
     const char *methodType = method_getTypeEncoding(class_getInstanceMethod(originalClass, @selector(class)));
     class_replaceMethod(originalClass, @selector(class), newIMP, methodType);
 }
-
-
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "DBXLog.h"
-#include <stdio.h>
+//#include <stdio.h>
 #import "DBXConfig.h"
 
 void DBXLogInfo(const char *prefix, const char *file, const char *function, int line, NSString *format, ...) {
@@ -22,18 +22,39 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
     if (!prefix) {
         prefix = "";
     }
-    if (logFormate == DBXLogFormatAll) {
-        NSLog( @"%s(%s:%d) %s %s\n", prefix, file, line, function, [log UTF8String]);
-    } else {
-        NSMutableString *output = [NSMutableString stringWithCString:prefix encoding:NSUTF8StringEncoding];
-        if (logFormate & DBXLogFormatLogFile) {
-            [output appendFormat:@"(%s:%d)",file, line];
-        }
-        if (logFormate & DBXLogFormatLogFunction) {
-            [output appendFormat:@" %s", function];
-        }
-        [output appendString:log];
-        NSLog( @"%s\n", [output UTF8String]);
+    NSMutableString *output = [NSMutableString stringWithCString:prefix encoding:NSUTF8StringEncoding];
+    if (logFormate & DBXLogFormatLogFile) {
+        [output appendFormat:@"(%s:%d)",file, line];
     }
+    if (logFormate & DBXLogFormatLogFunction) {
+        [output appendFormat:@" %s", function];
+    }
+    if (logFormate & DBXLogFormatLogThread) {
+        NSThread *currentThread = [NSThread currentThread];
+        NSString *threadInfo = nil;
+        if ([currentThread isMainThread]) {
+            threadInfo = @"(Thread Main)";
+        } else {
+            NSError *error = nil;
+            NSString *threadDescription = [currentThread description];
+            NSString *threadNumber = nil;
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"number = (\\d+)" options:0 error:&error];
+            if (!error) {
+                NSTextCheckingResult *match = [regex firstMatchInString:threadDescription options:0 range:NSMakeRange(0, [threadDescription length])];
+                if (match) {
+                    // 提取并打印线程编号
+                    threadNumber = [threadDescription substringWithRange:[match rangeAtIndex:1]];
+                }
+            }
+            if ([currentThread.name isKindOfClass:[NSString class]] && currentThread.name.length > 0) {
+                threadInfo = [NSString stringWithFormat:@"(Thread %@ %@)", threadNumber, currentThread.name];
+            } else {
+                threadInfo = [NSString stringWithFormat:@"(Thread %@)", threadNumber];
+            }
+        }
+        [output appendString:threadInfo];
+    }
+    [output appendString:log];
+    NSLog( @"%s\n", [output UTF8String]);
 }
 

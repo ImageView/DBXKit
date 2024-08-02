@@ -11,7 +11,8 @@
 #import "Animal.h"
 #import "People.h"
 #import <objc/runtime.h>
-#import "DBXLog.h"
+#import "DBXCore.h"
+#import "UIView+dbx_clickedArea.h"
 
 @interface DBXKitTests : XCTestCase
 
@@ -27,7 +28,11 @@
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫咪";
-    [DBXLogConfig logFormat:DBXLogFormatLogFile];
+    DBXConfig *config = [[DBXConfig alloc] init];
+    config.debugLogFormat = DBXLogFormatLogFunction | DBXLogFormatLogThread;
+    config.logFormat = DBXLogFormatLogFile;
+    config.closeUnsafeFeatures = NO;
+    [DBXCenter initWithConfig:config];
     DBXLog(@"测试日志");
 }
 
@@ -171,4 +176,25 @@
     [rule discard];
 }
 
+// 测试Deboucne线程安全
+- (void)testDeboucneThreadSafe {
+    for (int i = 0; i<100; i++) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSObject *obj = [[NSObject alloc] init];
+            [obj dbx_performSelectorDebounce:@selector(description) debounceInterval:1 mode:DBXDebounceModeFirstOnly];
+        });
+    }
+    
+}
+
+// 测试创建派生类的线程安全问题，由于线程问题比较随机，这里在线程不安全时也需要反复多次调用才可能出现一次crash
+- (void)testViewHitTestThreadSafe {
+    for (int i = 0; i<300; i++) {
+        UIView *view = [[UIView alloc] init];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [view dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
+        });
+    }
+    
+}
 @end

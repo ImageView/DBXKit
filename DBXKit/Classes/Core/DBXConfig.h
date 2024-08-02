@@ -15,7 +15,8 @@ typedef NS_ENUM(NSInteger, DBXLogFormat) {
     DBXLogFormatBasic = 1 << 0,                                         // 基本内容，只有日志信息本身
     DBXLogFormatLogFile = (1 << 1),                                     // 包含打印日志的文件名和所在行
     DBXLogFormatLogFunction = (1 << 2),                                 // 包含打印日志的函数名
-    DBXLogFormatAll = DBXLogFormatLogFile | DBXLogFormatLogFunction     // 全部包含
+    DBXLogFormatLogThread = (1 << 3),                                   // 包含打印日志所在的线程
+    DBXLogFormatAll = DBXLogFormatLogFile | DBXLogFormatLogFunction | DBXLogFormatLogThread     // 全部包含
 };
 
 // 初始化配置
