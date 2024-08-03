@@ -45,7 +45,7 @@
     [self.button1 dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-40, -40, -30, 30)];
     [self.button1.superview dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-0, -40, 0, 30)];
 
-    [self.button2 dbx_clickedAreaAutoFitMinSize:CGSizeMake(8,70)];
+    [self.button2 dbx_enableExtendedClickedAreaFix44x44];
 
     [self.button1 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.button2 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];

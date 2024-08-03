@@ -48,9 +48,13 @@ static const NSLock *createClassLock = nil;
     [self dbx_enableExtendedClickedArea];
 }
 
-- (void)dbx_clickedAreaAutoFitMinSize:(CGSize)minSize {
+- (void)dbx_enableExtendedClickedAreaFixMinSize:(CGSize)minSize {
     self.dbx_autoFixMinSize = minSize;
     [self dbx_enableExtendedClickedArea];
+}
+
+- (void)dbx_enableExtendedClickedAreaFix44x44 {
+    [self dbx_enableExtendedClickedAreaFixMinSize:CGSizeMake(44, 44)];
 }
 
 - (void)dbx_enableExtendedClickedArea {

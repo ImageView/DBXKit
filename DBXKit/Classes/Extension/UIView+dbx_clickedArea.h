@@ -29,8 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///  交互区域的最小尺寸
 @property (nonatomic, assign) CGSize dbx_autoFixMinSize;
 /// 等同于dbx_autoFixMinSize + dbx_enableExtendedClickedArea
-- (void)dbx_clickedAreaAutoFitMinSize:(CGSize)minSize;
-
+- (void)dbx_enableExtendedClickedAreaFixMinSize:(CGSize)minSize;
+/// 使点击区域不小于44x44
+- (void)dbx_enableExtendedClickedAreaFix44x44;
 @end
 
 NS_ASSUME_NONNULL_END
