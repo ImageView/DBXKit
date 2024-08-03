@@ -11,8 +11,8 @@
 #import "DBXConfig.h"
 
 void DBXLogInfo(const char *prefix, const char *file, const char *function, int line, NSString *format, ...) {
-    DBXLogFormat logFormate = prefix ? [DBXCenter sharedConfig].debugLogFormat : [DBXCenter sharedConfig].logFormat;
-    if (logFormate == DBXLogFormatDisable) {
+    DBXLogOption logOption = prefix ? [DBXCenter sharedConfig].debugLogOption : [DBXCenter sharedConfig].logOption;
+    if (logOption == DBXLogOptionDisable) {
         return;
     }
     va_list args;
@@ -23,13 +23,13 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
         prefix = "";
     }
     NSMutableString *output = [NSMutableString stringWithCString:prefix encoding:NSUTF8StringEncoding];
-    if (logFormate & DBXLogFormatLogFile) {
+    if (logOption & DBXLogOptionLogFile) {
         [output appendFormat:@"(%s:%d)",file, line];
     }
-    if (logFormate & DBXLogFormatLogFunction) {
+    if (logOption & DBXLogOptionLogFunction) {
         [output appendFormat:@" %s", function];
     }
-    if (logFormate & DBXLogFormatLogThread) {
+    if (logOption & DBXLogOptionLogThread) {
         NSThread *currentThread = [NSThread currentThread];
         NSString *threadInfo = nil;
         if ([currentThread isMainThread]) {

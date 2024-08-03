@@ -29,8 +29,8 @@
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫咪";
     DBXConfig *config = [[DBXConfig alloc] init];
-    config.debugLogFormat = DBXLogFormatLogFunction | DBXLogFormatLogThread;
-    config.logFormat = DBXLogFormatLogFile;
+    config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
+    config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
     config.closeUnsafeFeatures = NO;
     [DBXCenter initWithConfig:config];
     DBXLog(@"测试日志");

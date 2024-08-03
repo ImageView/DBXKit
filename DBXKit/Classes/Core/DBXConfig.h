@@ -10,22 +10,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, DBXLogFormat) {
-    DBXLogFormatDisable = 0,                                            // 关闭日志
-    DBXLogFormatBasic = 1 << 0,                                         // 基本内容，只有日志信息本身
-    DBXLogFormatLogFile = (1 << 1),                                     // 包含打印日志的文件名和所在行
-    DBXLogFormatLogFunction = (1 << 2),                                 // 包含打印日志的函数名
-    DBXLogFormatLogThread = (1 << 3),                                   // 包含打印日志所在的线程
-    DBXLogFormatAll = DBXLogFormatLogFile | DBXLogFormatLogFunction | DBXLogFormatLogThread     // 全部包含
+typedef NS_OPTIONS(NSInteger, DBXLogOption) {
+    DBXLogOptionDisable = 0,                                            // 关闭日志
+    DBXLogOptionBasic = 1 << 0,                                         // 基本内容，只有日志信息本身
+    DBXLogOptionLogFile = (1 << 1),                                     // 包含打印日志的文件名和所在行
+    DBXLogOptionLogFunction = (1 << 2),                                 // 包含打印日志的函数名
+    DBXLogOptionLogThread = (1 << 3),                                   // 包含打印日志所在的线程
+    DBXLogOptionAll = DBXLogOptionLogFile | DBXLogOptionLogFunction | DBXLogOptionLogThread     // 全部包含
 };
 
 // 初始化配置
 @interface DBXConfig : NSObject
 
 /// 日志配置，默认basic
-@property(nonatomic, assign) DBXLogFormat logFormat;
+@property(nonatomic, assign) DBXLogOption logOption;
 /// 内部的调试日志配置，默认关闭
-@property(nonatomic, assign) DBXLogFormat debugLogFormat;
+@property(nonatomic, assign) DBXLogOption debugLogOption;
 /// 是否关闭暂时部分灰度功能，默认NO
 @property(nonatomic, assign) BOOL closeUnsafeFeatures;
 

@@ -38,8 +38,8 @@
     self = [super init];
     if (self) {
         DBXConfig *config = [[DBXConfig alloc] init];
-        config.debugLogFormat = DBXLogFormatDisable;
-        config.logFormat = DBXLogFormatBasic;
+        config.debugLogOption = DBXLogOptionDisable;
+        config.logOption = DBXLogOptionBasic;
         config.closeUnsafeFeatures = NO;
         self.config = config;
     }
