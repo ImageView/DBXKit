@@ -45,6 +45,8 @@
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
 		C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
+		C8EA514C2C64E5D900CACE45 /* DBXTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA514B2C64E5D900CACE45 /* DBXTrack.m */; };
+		C8EA514F2C64EF2700CACE45 /* DBXTrackTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA514E2C64EF2700CACE45 /* DBXTrackTarget.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
@@ -161,6 +163,10 @@
 		C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTaskQueueManager.m; sourceTree = "<group>"; };
 		C8DD74A828D30F1D00E08AA1 /* DBXTaskQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTaskQueueManager.h; sourceTree = "<group>"; };
 		C8DD74B128D3430600E08AA1 /* DBXTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTools.h; sourceTree = "<group>"; };
+		C8EA514A2C64E5D900CACE45 /* DBXTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTrack.h; sourceTree = "<group>"; };
+		C8EA514B2C64E5D900CACE45 /* DBXTrack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTrack.m; sourceTree = "<group>"; };
+		C8EA514D2C64EF2700CACE45 /* DBXTrackTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTrackTarget.h; sourceTree = "<group>"; };
+		C8EA514E2C64EF2700CACE45 /* DBXTrackTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTrackTarget.m; sourceTree = "<group>"; };
 		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
 		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
 		C8F301612B40656E00524BEE /* testConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = testConfig.plist; sourceTree = "<group>"; };
@@ -357,6 +363,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C8EA51492C64E56C00CACE45 /* Track */,
 				C880A6222B5EC260008C9C36 /* Debounce */,
 				C8F301702B4A9CDB00524BEE /* Syringe */,
 				2E70D2C32933154500ED8B9E /* Chain */,
@@ -405,6 +412,17 @@
 				C8DD74B128D3430600E08AA1 /* DBXTools.h */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		C8EA51492C64E56C00CACE45 /* Track */ = {
+			isa = PBXGroup;
+			children = (
+				C8EA514A2C64E5D900CACE45 /* DBXTrack.h */,
+				C8EA514B2C64E5D900CACE45 /* DBXTrack.m */,
+				C8EA514D2C64EF2700CACE45 /* DBXTrackTarget.h */,
+				C8EA514E2C64EF2700CACE45 /* DBXTrackTarget.m */,
+			);
+			path = Track;
 			sourceTree = "<group>";
 		};
 		C8F3015D2B40614500524BEE /* TestViewControllers */ = {
@@ -637,6 +655,7 @@
 			files = (
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
+				C8EA514C2C64E5D900CACE45 /* DBXTrack.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
@@ -670,6 +689,7 @@
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
+				C8EA514F2C64EF2700CACE45 /* DBXTrackTarget.m in Sources */,
 				C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */,
 				C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */,
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
