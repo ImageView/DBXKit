@@ -7,7 +7,6 @@
 //
 
 #import "DBXLog.h"
-//#include <stdio.h>
 #import "DBXConfig.h"
 
 void DBXLogInfo(const char *prefix, const char *file, const char *function, int line, NSString *format, ...) {
@@ -55,6 +54,6 @@ void DBXLogInfo(const char *prefix, const char *file, const char *function, int 
         [output appendString:threadInfo];
     }
     [output appendString:log];
-    NSLog( @"%s\n", [output UTF8String]);
+    NSLog(@"%@", output);
 }
 

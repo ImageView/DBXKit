@@ -9,7 +9,7 @@
 //#import "ViewController.h"
 #import "DBXChainViewController.h"
 #import <QMUIKit/QMUIKit.h>
-#import "DBXLog.h"
+#import "DBXCore.h"
 #import <MnaDebuggingOnLine/MnaDebugging.h>
 
 @interface AppDelegate ()
@@ -25,6 +25,12 @@
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
     NSArray *vclist = dict[@"testvc"];
     NSMutableArray *vcInstance = [NSMutableArray array];
+    
+    DBXConfig *config = [[DBXConfig alloc] init];
+    config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
+    config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
+    config.closeUnsafeFeatures = NO;
+    [DBXCenter initWithConfig:config];
     
     for (NSDictionary *vcDic in vclist) {
         NSString *vcClassName = vcDic[@"class"];
