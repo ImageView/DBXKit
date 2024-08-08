@@ -8,7 +8,6 @@
 
 #import "DBXTrack.h"
 #import <objc/runtime.h>
-#import "DBXTrackTarget.h"
 #import <objc/message.h>
 
 static NSString *const DBXTrackForwardInvocationSelectorName = @"__dbx_track_forwardInvocation:";
@@ -65,40 +64,72 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
         }
     }
     
+    dbx_trackClass(cls);
+    dbx_trackClass(object_getClass(cls));
+    return YES;
+}
+
+void dbx_trackClass(Class cls) {
     unsigned int outCount;
     Method *methods = class_copyMethodList(cls, &outCount);
     
     for (int i = 0; i < outCount; i ++) {
         Method tempMethod = *(methods + i);
         SEL selector = method_getName(tempMethod);
+        if (dbx_isInBlackList(NSStringFromSelector(selector))) {
+            continue;
+        }
         char *returnType = method_copyReturnType(tempMethod);
         
         dbx_track_replaceMethod(cls, selector, returnType);
         free(returnType);
     }
-    return YES;
 }
 
 BOOL dbx_track_replaceMethod(Class cls, SEL originSelector, char *returnType) {
     Method targetMethod = class_getInstanceMethod(cls, originSelector);
     IMP targetMethodIMP = method_getImplementation(targetMethod);
     if (targetMethodIMP != _objc_msgForward) {
-//        const char *typeEncoding = method_getTypeEncoding(targetMethod);
-//
-//        // 给cls添加一个新方法aliasSelector，实现为rule的selector
-//        Method aliMethod = class_getInstanceMethod(cls, rule.aliasSelector);
-//        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), rule.aliasSelector);
-//        if (![cls instanceMethodForSelector:rule.aliasSelector] || aliMethod == superAliMethod) {
-//            class_addMethod(cls, targetModel.aliasSelector, targetMethodIMP, typeEncoding);
-//        }
-//        class_replaceMethod(cls, roriginSelector, _objc_msgForward, typeEncoding);
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+
+        SEL newSelecotr = dbx_createNewSelector(originSelector);
+
+        // 给cls添加一个新方法aliasSelector，实现为rule的selector
+        Method aliMethod = class_getInstanceMethod(cls, newSelecotr);
+        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), newSelecotr);
+        if (![cls instanceMethodForSelector:newSelecotr] || aliMethod == superAliMethod) {
+            class_addMethod(cls, newSelecotr, targetMethodIMP, typeEncoding);
+        }
+        class_replaceMethod(cls, originSelector, _objc_msgForward, typeEncoding);
 //        [self.classHooked addObject:cls];
     }
     return YES;
 }
 
+//创建一个新的selector
+SEL dbx_createNewSelector(SEL originalSelector) {
+    NSString *oldSelectorName = NSStringFromSelector(originalSelector);
+    NSString *newSelectorName = [NSString stringWithFormat:@"dbx_%@", oldSelectorName];
+    SEL newSelector = NSSelectorFromString(newSelectorName);
+    return newSelector;
+}
+
+//是否在默认的黑名单中
+BOOL dbx_isInBlackList(NSString *methodName) {
+    static NSArray *defaultBlackList = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultBlackList = @[/*UIViewController的:*/@".cxx_destruct", @"dealloc", @"_isDeallocating", @"release", @"autorelease", @"retain", @"Retain", @"_tryRetain", @"copy", /*UIView的:*/ @"nsis_descriptionOfVariable:", /*NSObject的:*/@"respondsToSelector:", @"class", @"methodSignatureForSelector:", @"allowsWeakReference", @"retainWeakReference", @"init", @"forwardInvocation:"];
+    });
+    return ([defaultBlackList containsObject:methodName]);
+}
+
 static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *invocation) {
-    
+    NSLog(@"track:%@", NSStringFromSelector(invocation.selector));
+    [invocation setSelector:dbx_createNewSelector(invocation.selector)];
+    [invocation setTarget:target];
+    [invocation invoke];
+
 }
 
 + (NSMutableSet<Class> *)classHooked {

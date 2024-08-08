@@ -13,6 +13,7 @@
 #import <objc/runtime.h>
 #import "DBXCore.h"
 #import "UIView+dbx_clickedArea.h"
+#import "DBXTrack.h"
 
 @interface DBXKitTests : XCTestCase
 
@@ -197,4 +198,14 @@
     }
     
 }
+
+- (void)testTrack {
+//    Animal *dog = [Animal new];
+    DBXTrackTarget *model = [DBXTrackTarget new];
+    model.target = UIViewController.class;
+    [DBXTrack dbx_trackTarget:model methodCall:nil];
+//    [dog run];
+//    [dog eat:@"shit"];
+}
+
 @end

@@ -9,7 +9,7 @@
 #import "DBXChainViewController.h"
 #import "DBXChainTask.h"
 #import "DBXOperate.h"
-
+#import "DBXTrack.h"
 @interface DBXChainViewController ()
 
 @end
@@ -18,7 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    DBXTrackTarget *model = [DBXTrackTarget new];
+    model.target = self.class;
+    [DBXTrack dbx_trackTarget:model methodCall:nil];
 }
 
 - (IBAction)testTimeoutTask:(id)sender {

@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DBXTrackTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface DBXTrack : NSObject
 
++ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel methodCall:(void (^)(NSInvocation *invocation))call;
 @end
 
 NS_ASSUME_NONNULL_END
