@@ -19,11 +19,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [DBXTrack dbx_trackTarget:self.class condition:^BOOL(SEL  _Nonnull selector) {
-        return YES;
+        if ([NSStringFromSelector(selector) isEqualToString:@"testChainTask:"]) {
+            return YES;
+        }
+        return NO;
     } before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
         NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
-    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
-        NSLog(@"after [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
+    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
     }];
 }
 

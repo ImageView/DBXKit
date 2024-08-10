@@ -9,7 +9,7 @@
 #import "DBXTrack.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
-#import "DBXRuntimeUtils.h"
+#import "DBXCore.h"
 
 static NSString *const DBXTrackForwardInvocationSelectorName = @"__dbx_track_forwardInvocation:";
 static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
@@ -25,16 +25,17 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
 
 + (void)dbx_trackTarget:(id)target
                  condition:(ConditionBlock)conditionBlock
-                    before:(WhenInvocateBlock)beforeBlock
-                     after:(WhenInvocateBlock)afterBlock {
+                    before:(BeforeInvocateBlock)beforeBlock
+                     after:(AfterInvocateBlock)afterBlock {
     if (!target) {
         return;
     }
     DBXTrackTarget *targetModel = [[DBXTrackTarget alloc] init];
     targetModel.target = target;
     targetModel.conditionBlock = conditionBlock;
-    targetModel.beforeInvocateBlock = beforeBlock;
-    targetModel.afterInvocateBlock = afterBlock;
+    targetModel.beforeBlock = beforeBlock;
+    targetModel.afterBlock = afterBlock;
+    // 创建关联对象，以便在forwardInvocation:里获取到DBXTrackTarget对象
     [targetModel createAccociateObject];
     
     [self dbx_trackTarget:targetModel];
@@ -83,12 +84,12 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
         }
     }
     
-    dbx_trackClass(cls);
-    dbx_trackClass(object_getClass(cls));
+    dbx_trackClass(cls, targetModel.conditionBlock);
+    dbx_trackClass(object_getClass(cls), targetModel.conditionBlock);
     return YES;
 }
 
-void dbx_trackClass(Class cls) {
+void dbx_trackClass(Class cls, ConditionBlock block) {
     unsigned int outCount;
     Method *methods = class_copyMethodList(cls, &outCount);
     
@@ -98,7 +99,9 @@ void dbx_trackClass(Class cls) {
         if (dbx_isInBlackList(NSStringFromSelector(selector))) {
             continue;
         }
-        
+        if (block && !block(selector)) {
+            continue;;
+        }
         char *returnType = method_copyReturnType(tempMethod);
         
         dbx_track_replaceMethod(cls, selector, returnType);
@@ -146,17 +149,24 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     }
     
     DBXTrackTarget *targetModel = accObj.targetModel;
-    if (targetModel) {
-        targetModel.beforeInvocateBlock(target, originInvacationSelector, argumes);
+    if (targetModel && targetModel.beforeBlock) {
+        targetModel.beforeBlock(target, originInvacationSelector, argumes);
     }
     
     [invocation setSelector:[DBXTrackTarget aliasSelector:originInvacationSelector]];
-    [invocation setTarget:target];
     [invocation invoke];
-    NSLog(@"track:%@", NSStringFromSelector(originInvacationSelector));
     
-    if (targetModel) {
-        targetModel.afterInvocateBlock(target, originInvacationSelector, argumes);
+    DBXLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
+    
+    if (targetModel && targetModel.afterBlock) {
+        id result = nil;
+        if (invocation.methodSignature.methodReturnLength > 0) {
+            void *returnVal;
+            [invocation getReturnValue:&returnVal];
+            result = (__bridge id)returnVal;
+        }
+        
+        targetModel.afterBlock(target, originInvacationSelector, argumes, result);
     }
 }
 

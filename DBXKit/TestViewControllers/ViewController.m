@@ -51,7 +51,6 @@
     [self.button2 addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.butView addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.button2.superview bringSubviewToFront:self.button2];
-    
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
     
     self.imageView.userInteractionEnabled = YES;

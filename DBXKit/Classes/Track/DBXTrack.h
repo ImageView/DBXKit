@@ -14,12 +14,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXTrack : NSObject
 
-//+ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel methodCall:(void (^)(NSInvocation *invocation))call;
-
+/// 追踪某个对象的函数调用
+/// - Parameters:
+///   - target: 要追踪的实例或者对象，如果是实例会创建一个派生类
+///   - conditionBlock: 具体某个函数是否需要追踪
+///   - beforeBlock: 函数调用前响应
+///   - afterBlock: 函数调用后响应
 + (void)dbx_trackTarget:(id)target
                  condition:(ConditionBlock)conditionBlock
-                    before:(WhenInvocateBlock)beforeBlock
-                     after:(WhenInvocateBlock)afterBlock;
+                    before:(BeforeInvocateBlock)beforeBlock
+                     after:(AfterInvocateBlock)afterBlock;
 @end
 
 NS_ASSUME_NONNULL_END
