@@ -9,7 +9,7 @@
 #import "DBXSyringeFactory.h"
 #import "DBXSyringeInject.h"
 #import "DBXSyringeInterface.h"
-#import "DBXSyringeUtils.h"
+#import "DBXRuntimeUtils.h"
 
 @interface DBXSyringeFactory ()
 
@@ -47,7 +47,7 @@
 - (void)forwardInvocation:(NSInvocation *)invocation {
 //    [self.lock lock];
     @synchronized (self) {
-        NSArray *argumes = [DBXSyringeUtils getArgumesFromInvocation:invocation];
+        NSArray *argumes = [DBXRuntimeUtils getValidArgumesFromInvocation:invocation];
         id outPut = [self createInstanceWithSelector:invocation.selector argumes:argumes];
         [invocation setReturnValue:&outPut];
     }

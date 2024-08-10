@@ -18,9 +18,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    DBXTrackTarget *model = [DBXTrackTarget new];
-    model.target = self.class;
-    [DBXTrack dbx_trackTarget:model methodCall:nil];
+    [DBXTrack dbx_trackTarget:self.class condition:^BOOL(SEL  _Nonnull selector) {
+        return YES;
+    } before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
+        NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
+    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
+        NSLog(@"after [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
+    }];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 }
 
 - (IBAction)testTimeoutTask:(id)sender {

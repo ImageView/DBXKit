@@ -203,7 +203,7 @@
 //    Animal *dog = [Animal new];
     DBXTrackTarget *model = [DBXTrackTarget new];
     model.target = UIViewController.class;
-    [DBXTrack dbx_trackTarget:model methodCall:nil];
+//    [DBXTrack dbx_trackTarget:model];
 //    [dog run];
 //    [dog eat:@"shit"];
 }

@@ -14,7 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXTrack : NSObject
 
-+ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel methodCall:(void (^)(NSInvocation *invocation))call;
+//+ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel methodCall:(void (^)(NSInvocation *invocation))call;
+
++ (void)dbx_trackTarget:(id)target
+                 condition:(ConditionBlock)conditionBlock
+                    before:(WhenInvocateBlock)beforeBlock
+                     after:(WhenInvocateBlock)afterBlock;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,7 +10,7 @@
 #import "DBXSyringeFactory.h"
 #import "DBXSyringeInterface+DBXSy.h"
 #import "DBXSyringeTmpArgument.h"
-#import "DBXSyringeUtils.h"
+#import "DBXRuntimeUtils.h"
 
 @interface DBXSyringeInterface ()
 
@@ -82,7 +82,7 @@
                 for (NSUInteger i = 0; i < argumCount - 2; i++) {
                     const char *argType = [signature getArgumentTypeAtIndex:i + 2];
                     // object / block / metaClass
-                    if ([DBXSyringeUtils validArgumentType:argType]) {
+                    if ([DBXRuntimeUtils validArgumentType:argType]) {
                         // 创建临时参数
                         DBXSyringeTmpArgument *tmpArgument = [[DBXSyringeTmpArgument alloc] initWithIndex:i];
                         [invocation setArgument:&tmpArgument atIndex:i + 2];

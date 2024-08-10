@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, DBXDebounceShouldInvote) {
 };
 
 #pragma mark - 防抖规则
-@class DBXDebounceDealloc;
+//@class DBXDebounceDealloc;
 @interface DBXDebounceRule : NSObject
 // 规则生效的对象
 @property(nonatomic, weak) id target;

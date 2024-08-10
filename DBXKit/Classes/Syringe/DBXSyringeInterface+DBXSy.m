@@ -7,14 +7,14 @@
 //
 
 #import "DBXSyringeInterface+DBXSy.h"
-#import "DBXSyringeUtils.h"
+#import "DBXRuntimeUtils.h"
 
 @implementation DBXSyringeInterface (DBXSy)
 
 // 读取当前的注入的method
 - (NSSet *)injectsSelects {
     NSMutableSet *injectsSet = [[NSMutableSet alloc] init];
-    NSSet *selectors = [DBXSyringeUtils methodsOfClassFrom:self.class toSuperClass:nil];
+    NSSet *selectors = [DBXRuntimeUtils methodsOfClassFrom:self.class toSuperClass:nil];
     for (NSString *sel in selectors) {
         if (![self.class isExcludeSelector:NSSelectorFromString(sel)]) {
             [injectsSet addObject:sel];

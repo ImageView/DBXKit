@@ -11,10 +11,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef BOOL(^ConditionBlock)(SEL selector);
+typedef void(^WhenInvocateBlock)(id target, SEL sel, NSArray *args);
+
+extern const NSString *kDBXTrackAccociatedObjKey;
+
+@class DBXTrackAssociatedObj;
+// 跟踪的任务
 @interface DBXTrackTarget : NSObject
 
 // 跟踪的真实目标
 @property(nonatomic, weak) id target;
+// 决定某个sel是否需要追踪
+@property(nonatomic, copy) ConditionBlock conditionBlock;
+// 在方法调用前的回调
+@property(nonatomic, copy) WhenInvocateBlock beforeInvocateBlock;
+// 在方法调用前的回调
+@property(nonatomic, copy) WhenInvocateBlock afterInvocateBlock;
+
+
+// 关联对象，用来把target跟DBXTrackTarget关联起来
+//@property(nonatomic, strong, readonly) DBXTrackAssociatedObj *accociatedObj;
+
+// 存储届时调用的selector的真实实现
++ (SEL)aliasSelector:(SEL)selector;
+
+- (void)createAccociateObject;
+- (DBXTrackAssociatedObj *)accociatedObj;
+
+@end
+
+@interface DBXTrackAssociatedObj : NSObject
+
+@property(nonatomic, strong) DBXTrackTarget *targetModel;
 
 @end
 

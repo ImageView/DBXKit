@@ -305,8 +305,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
             if (!subClass) {
                 return NO;
             }
-            [DBXDebounce hookClassFrom:subClass to:ocClass];
-            [DBXDebounce hookClassFrom:object_getClass(subClass) to:ocClass];
+            [DBXRuntimeUtils hookClassFrom:subClass to:ocClass];
+            [DBXRuntimeUtils hookClassFrom:object_getClass(subClass) to:ocClass];
             objc_registerClassPair(subClass);
         }
         object_setClass(rule.target, subClass);
@@ -408,14 +408,6 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
         return NO;
     }
     return YES;
-}
-
-+ (void)hookClassFrom:(Class)originalClass to:(Class)newClass {
-    IMP newIMP = imp_implementationWithBlock(^(id self) {
-        return newClass;
-    });
-    const char *methodType = method_getTypeEncoding(class_getInstanceMethod(originalClass, @selector(class)));
-    class_replaceMethod(originalClass, @selector(class), newIMP, methodType);
 }
 
 static void dbx_forwardInvocation(id target, SEL selector, NSInvocation *invocation) {

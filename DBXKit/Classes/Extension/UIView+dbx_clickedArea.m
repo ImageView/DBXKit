@@ -79,9 +79,8 @@ static const NSLock *createClassLock = nil;
     if (!subClass) {
         subClass = objc_allocateClassPair(ocClass, subClassName, 0);
         if (subClass) {
-            hookClassFrom(subClass, ocClass);
-            hookClassFrom(object_getClass(subClass), ocClass);
-            objc_registerClassPair(subClass);
+            [DBXRuntimeUtils hookClassFrom:subClass to:ocClass];
+            [DBXRuntimeUtils hookClassFrom:object_getClass(subClass) to:ocClass];
             
             Method originalMethod = class_getInstanceMethod(subClass, @selector(pointInside:withEvent:));
             IMP orignalIMP = method_getImplementation(originalMethod);
@@ -133,14 +132,6 @@ static const NSLock *createClassLock = nil;
 static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
     UIView *view = target;
     return CGRectContainsPoint([view dbx_extendedClikedArea], point);
-}
-
-static void hookClassFrom(Class originalClass, Class newClass) {
-    IMP newIMP = imp_implementationWithBlock(^(id self) {
-        return newClass;
-    });
-    const char *methodType = method_getTypeEncoding(class_getInstanceMethod(originalClass, @selector(class)));
-    class_replaceMethod(originalClass, @selector(class), newIMP, methodType);
 }
 
 @end

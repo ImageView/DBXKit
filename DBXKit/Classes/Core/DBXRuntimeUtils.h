@@ -1,5 +1,5 @@
 //
-//  DBXSyringeUtils.h
+//  DBXRuntimeUtils.h
 //  DBXKit
 //
 //  Created by asherluo on 2022/9/14.
@@ -10,11 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DBXSyringeFactory;
-@class DBXSyringeInterface;
 
 // 工具类
-@interface DBXSyringeUtils : NSObject
+@interface DBXRuntimeUtils : NSObject
 
 /// 读取类的所有方法，（从clazz到clazz的某一个父类为止）
 /// @param clazz 当前的类
@@ -28,9 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 // 是否是支持的参数类型
 + (BOOL)validArgumentType:(const char *)argType;
 
-//  读取invocation的参数
+//  读取invocation的对象类型的参数
++ (NSArray *)getValidArgumesFromInvocation:(NSInvocation *)invocation;
+// 读取invocation所有的参数
 + (NSArray *)getArgumesFromInvocation:(NSInvocation *)invocation;
 
+// 修改类的OC的class函数，主要用于派生新类后
++ (void)hookClassFrom:(Class)originalClass to:(Class)newClass;
 @end
 
 NS_ASSUME_NONNULL_END

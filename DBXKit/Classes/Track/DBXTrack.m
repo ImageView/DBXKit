@@ -9,6 +9,7 @@
 #import "DBXTrack.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "DBXRuntimeUtils.h"
 
 static NSString *const DBXTrackForwardInvocationSelectorName = @"__dbx_track_forwardInvocation:";
 static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
@@ -21,7 +22,25 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
 
 @implementation DBXTrack
 
-+ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel methodCall:(void (^)(NSInvocation *invocation))call {
+
++ (void)dbx_trackTarget:(id)target
+                 condition:(ConditionBlock)conditionBlock
+                    before:(WhenInvocateBlock)beforeBlock
+                     after:(WhenInvocateBlock)afterBlock {
+    if (!target) {
+        return;
+    }
+    DBXTrackTarget *targetModel = [[DBXTrackTarget alloc] init];
+    targetModel.target = target;
+    targetModel.conditionBlock = conditionBlock;
+    targetModel.beforeInvocateBlock = beforeBlock;
+    targetModel.afterInvocateBlock = afterBlock;
+    [targetModel createAccociateObject];
+    
+    [self dbx_trackTarget:targetModel];
+}
+
++ (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel {
     Class isaClass = object_getClass(targetModel.target);
     Class ocClass = [targetModel.target class];
     NSString *isaClassName= NSStringFromClass(isaClass);
@@ -42,8 +61,8 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
             if (!subClass) {
                 return NO;
             }
-//            [DBXDebounce hookClassFrom:subClass to:ocClass];
-//            [DBXDebounce hookClassFrom:object_getClass(subClass) to:ocClass];
+            [DBXRuntimeUtils hookClassFrom:subClass to:ocClass];
+            [DBXRuntimeUtils hookClassFrom:object_getClass(subClass) to:ocClass];
             objc_registerClassPair(subClass);
         }
         object_setClass(targetModel.target, subClass);
@@ -79,6 +98,7 @@ void dbx_trackClass(Class cls) {
         if (dbx_isInBlackList(NSStringFromSelector(selector))) {
             continue;
         }
+        
         char *returnType = method_copyReturnType(tempMethod);
         
         dbx_track_replaceMethod(cls, selector, returnType);
@@ -92,26 +112,17 @@ BOOL dbx_track_replaceMethod(Class cls, SEL originSelector, char *returnType) {
     if (targetMethodIMP != _objc_msgForward) {
         const char *typeEncoding = method_getTypeEncoding(targetMethod);
 
-        SEL newSelecotr = dbx_createNewSelector(originSelector);
-
+        SEL aliasSelector = [DBXTrackTarget aliasSelector:originSelector];
         // 给cls添加一个新方法aliasSelector，实现为rule的selector
-        Method aliMethod = class_getInstanceMethod(cls, newSelecotr);
-        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), newSelecotr);
-        if (![cls instanceMethodForSelector:newSelecotr] || aliMethod == superAliMethod) {
-            class_addMethod(cls, newSelecotr, targetMethodIMP, typeEncoding);
+        Method aliMethod = class_getInstanceMethod(cls, aliasSelector);
+        Method superAliMethod = class_getInstanceMethod(class_getSuperclass(cls), aliasSelector);
+        if (![cls instanceMethodForSelector:aliasSelector] || aliMethod == superAliMethod) {
+            class_addMethod(cls, aliasSelector, targetMethodIMP, typeEncoding);
         }
         class_replaceMethod(cls, originSelector, _objc_msgForward, typeEncoding);
 //        [self.classHooked addObject:cls];
     }
     return YES;
-}
-
-//创建一个新的selector
-SEL dbx_createNewSelector(SEL originalSelector) {
-    NSString *oldSelectorName = NSStringFromSelector(originalSelector);
-    NSString *newSelectorName = [NSString stringWithFormat:@"dbx_%@", oldSelectorName];
-    SEL newSelector = NSSelectorFromString(newSelectorName);
-    return newSelector;
 }
 
 //是否在默认的黑名单中
@@ -125,11 +136,28 @@ BOOL dbx_isInBlackList(NSString *methodName) {
 }
 
 static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *invocation) {
-    NSLog(@"track:%@", NSStringFromSelector(invocation.selector));
-    [invocation setSelector:dbx_createNewSelector(invocation.selector)];
+    SEL originInvacationSelector = invocation.selector;
+    NSArray *argumes = [DBXRuntimeUtils getArgumesFromInvocation:invocation];
+
+    DBXTrackAssociatedObj *accObj = objc_getAssociatedObject(target, &kDBXTrackAccociatedObjKey);
+    if (!accObj) {
+        // 如果没有实例对象的关联对象，尝试找其class的关联对象
+        accObj = objc_getAssociatedObject(object_getClass(target), &kDBXTrackAccociatedObjKey);
+    }
+    
+    DBXTrackTarget *targetModel = accObj.targetModel;
+    if (targetModel) {
+        targetModel.beforeInvocateBlock(target, originInvacationSelector, argumes);
+    }
+    
+    [invocation setSelector:[DBXTrackTarget aliasSelector:originInvacationSelector]];
     [invocation setTarget:target];
     [invocation invoke];
-
+    NSLog(@"track:%@", NSStringFromSelector(originInvacationSelector));
+    
+    if (targetModel) {
+        targetModel.afterInvocateBlock(target, originInvacationSelector, argumes);
+    }
 }
 
 + (NSMutableSet<Class> *)classHooked {
