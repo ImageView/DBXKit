@@ -24,6 +24,8 @@
 		2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF739AB287AD405007B2A95 /* DBXAutoReportManager.m */; };
 		70E96505CCF9CA9A13017130 /* Pods_DBXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */; };
 		C81B0DE92C674F77006A6452 /* DBXRuntimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C81B0DE82C674F77006A6452 /* DBXRuntimeUtils.m */; };
+		C81B0DEC2C689F37006A6452 /* NSInvocation+DBX.m in Sources */ = {isa = PBXBuildFile; fileRef = C81B0DEA2C689F37006A6452 /* NSInvocation+DBX.m */; };
+		C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81B0DEE2C68A051006A6452 /* DBXUnit.m */; };
 		C828F8D32C5B548800F43AF5 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C828F8D22C5B548800F43AF5 /* DBXLog.m */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
@@ -118,6 +120,10 @@
 		B641B5D2372CF2AE0559F1E1 /* Pods_DBXKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DBXKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C81B0DE72C674F77006A6452 /* DBXRuntimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXRuntimeUtils.h; sourceTree = "<group>"; };
 		C81B0DE82C674F77006A6452 /* DBXRuntimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXRuntimeUtils.m; sourceTree = "<group>"; };
+		C81B0DEA2C689F37006A6452 /* NSInvocation+DBX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+DBX.m"; sourceTree = "<group>"; };
+		C81B0DEB2C689F37006A6452 /* NSInvocation+DBX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+DBX.h"; sourceTree = "<group>"; };
+		C81B0DED2C68A051006A6452 /* DBXUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXUnit.h; sourceTree = "<group>"; };
+		C81B0DEE2C68A051006A6452 /* DBXUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXUnit.m; sourceTree = "<group>"; };
 		C828F8D12C5B548800F43AF5 /* DBXLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXLog.h; sourceTree = "<group>"; };
 		C828F8D22C5B548800F43AF5 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
@@ -293,12 +299,16 @@
 				C8F5698F2C55EDDC008100D7 /* DBXConfig.m */,
 				2EF739A6287AC793007B2A95 /* UIView+DBXCore.h */,
 				2EF739A7287AC793007B2A95 /* UIView+DBXCore.m */,
+				C81B0DEB2C689F37006A6452 /* NSInvocation+DBX.h */,
+				C81B0DEA2C689F37006A6452 /* NSInvocation+DBX.m */,
 				C8C2362A287FAD8600AD75F1 /* NSObject+DBXRuntime.h */,
 				C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */,
 				2E0482D3288BFADF00C69D08 /* DBXViewUtils.h */,
 				2E0482D4288BFADF00C69D08 /* DBXViewUtils.m */,
 				C828F8D12C5B548800F43AF5 /* DBXLog.h */,
 				C828F8D22C5B548800F43AF5 /* DBXLog.m */,
+				C81B0DED2C68A051006A6452 /* DBXUnit.h */,
+				C81B0DEE2C68A051006A6452 /* DBXUnit.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -654,6 +664,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
+				C81B0DEC2C689F37006A6452 /* NSInvocation+DBX.m in Sources */,
 				C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */,
 				C8EA514C2C64E5D900CACE45 /* DBXTrack.m in Sources */,
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
@@ -668,6 +679,7 @@
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
 				C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */,
+				C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */,
 				C8FA14342C5B56FA002F6B4A /* UIView+dbx_clickedArea.m in Sources */,
 				C8F569902C55EDDC008100D7 /* DBXConfig.m in Sources */,
 				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
