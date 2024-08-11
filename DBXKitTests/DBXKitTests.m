@@ -29,11 +29,10 @@
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫咪";
-    DBXConfig *config = [[DBXConfig alloc] init];
-    config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
-    config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
-    config.closeUnsafeFeatures = NO;
-    [DBXCenter initWithConfig:config];
+    [DBXCenter startWithConfig:^void _Nonnull(DBXConfig * _Nonnull config) {
+        config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
+        config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
+    }];
     DBXLog(@"测试日志");
 }
 
@@ -225,7 +224,7 @@
     
     
     Animal *cat = [Animal new];
-    dog.name = @"cccat";
+    cat.name = @"cccat";
     [cat run];
 }
 

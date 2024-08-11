@@ -58,7 +58,7 @@ static const NSLock *createClassLock = nil;
 }
 
 - (void)dbx_enableExtendedClickedArea {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableClickedArea]) {
         return;
     }
     Class isaClass = object_getClass(self);
@@ -116,7 +116,7 @@ static const NSLock *createClassLock = nil;
 }
 
 - (void)dbx_disableExtendedClickedArea {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableClickedArea]) {
         return;
     }
     Class isaClass = object_getClass(self);

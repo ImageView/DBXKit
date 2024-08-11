@@ -40,20 +40,27 @@
         DBXConfig *config = [[DBXConfig alloc] init];
         config.debugLogOption = DBXLogOptionDisable;
         config.logOption = DBXLogOptionBasic;
-        config.closeUnsafeFeatures = NO;
+        config.functionAvailable = DBXFunctionAvailableAll;
         self.config = config;
     }
     return self;
+}
+
++ (BOOL)functionIsAvailable:(DBXFunctionAvailable)func {
+    return [DBXCenter sharedInstance].config.functionAvailable & func;
 }
 
 + (DBXConfig *)sharedConfig {
     return [DBXCenter sharedInstance].config;
 }
 
-+ (void)initWithConfig:(DBXConfig *)config {
++ (void)startWithConfig:(void (^)(DBXConfig *config))updateConfigBlock {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [DBXCenter sharedInstance].config = config;
+        if (updateConfigBlock) {
+            updateConfigBlock([DBXCenter sharedInstance].config);
+        }
+        NSLog(@"123");
     });
 }
 

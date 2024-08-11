@@ -23,10 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - afterBlock: 函数调用后响应
 ///
 ///   Return 是否正在追踪
-+ (BOOL)dbx_trackTarget:(id)target
-                 condition:(ConditionBlock)conditionBlock
-                    before:(BeforeInvocateBlock)beforeBlock
-                     after:(AfterInvocateBlock)afterBlock;
++ (BOOL)dbx_trackTarget:(id _Nonnull)target
+                 condition:(ConditionBlock _Nullable)conditionBlock
+                    before:(BeforeInvocateBlock _Nullable)beforeBlock
+                     after:(AfterInvocateBlock _Nullable)afterBlock;
 @end
 
 NS_ASSUME_NONNULL_END
