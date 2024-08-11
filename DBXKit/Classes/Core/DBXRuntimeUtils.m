@@ -60,7 +60,9 @@
 + (NSArray *)getArgumesFromInvocation:(NSInvocation *)invocation {
     NSMethodSignature *methodSignature = [invocation methodSignature];
     NSInteger numberOfArguments = invocation.methodSignature.numberOfArguments;
-
+    if (numberOfArguments <= 2) {
+        return nil;
+    }
     NSMutableArray *argumentsArray = [NSMutableArray array];
     
     for (NSUInteger i = 2; i < numberOfArguments; i++) {
@@ -225,7 +227,8 @@
     } else if (strcmp(returnType, @encode(char *)) == 0) {
         WRAP_AND_RETURN(const char *);
     } else if (strcmp(returnType, @encode(void)) == 0) {
-        return @"void";
+        // 用以区分是否有返回值
+        return DBXUnit.voidUnit;
     } else {
         NSUInteger valueSize = 0;
         NSGetSizeAndAlignment(returnType, &valueSize, NULL);
@@ -273,4 +276,25 @@
     class_replaceMethod(originalClass, @selector(class), newIMP, methodType);
 }
 
+@end
+
+
+@interface DBXUnit ()
+@property(nonatomic, strong) NSString *dbxDescription;
+@end
+@implementation DBXUnit
+
++ (instancetype)voidUnit {
+    static dispatch_once_t onceToken;
+    static DBXUnit *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+        instance.dbxDescription = @"(void)";
+    });
+    return instance;
+}
+
+- (NSString *)description {
+    return self.dbxDescription ? : [super description];
+}
 @end

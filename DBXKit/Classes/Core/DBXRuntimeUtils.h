@@ -36,4 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)hookClassFrom:(Class)originalClass to:(Class)newClass;
 @end
 
+@interface DBXUnit : NSObject
+
++ (instancetype)voidUnit;
+
+@end
 NS_ASSUME_NONNULL_END
