@@ -200,12 +200,16 @@
 }
 
 - (void)testTrack {
-//    Animal *dog = [Animal new];
-    DBXTrackTarget *model = [DBXTrackTarget new];
-    model.target = UIViewController.class;
-//    [DBXTrack dbx_trackTarget:model];
-//    [dog run];
-//    [dog eat:@"shit"];
+    Animal *dog = [Animal new];
+    [DBXTrack dbx_trackTarget:Animal.class condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
+        NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
+    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
+    }];
+    [dog run];
+    [dog eatFood:@"shit"];
+    int count = [dog countOfFood:@"shit"];
+    DBXLog(@"%d",count);
 }
 
 @end

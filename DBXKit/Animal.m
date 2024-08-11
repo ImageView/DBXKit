@@ -43,6 +43,9 @@
     }
 }
 
+- (void)testNumber:(int)num {
+    NSLog(@"%d", num);
+}
 
 - (void)run {
     NSLog(@"跑%s,%@", __func__, self.name);

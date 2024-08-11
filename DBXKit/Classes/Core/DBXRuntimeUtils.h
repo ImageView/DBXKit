@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)getValidArgumesFromInvocation:(NSInvocation *)invocation;
 // 读取invocation所有的参数
 + (NSArray *)getArgumesFromInvocation:(NSInvocation *)invocation;
-
+// 获取invacation的返回值
++ (id)getReturnValueFromInvocation:(NSInvocation *)invocation;
 // 修改类的OC的class函数，主要用于派生新类后
 + (void)hookClassFrom:(Class)originalClass to:(Class)newClass;
 @end

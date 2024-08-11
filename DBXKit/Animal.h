@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (int)countOfFood:(NSString *)food;
 - (void)eat:(NSString *)food;
 - (void)run;
-
+- (void)testNumber:(int)num;
 - (void)barking;
 @end
 

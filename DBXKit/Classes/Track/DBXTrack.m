@@ -159,13 +159,7 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     DBXLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
     
     if (targetModel && targetModel.afterBlock) {
-        id result = nil;
-        if (invocation.methodSignature.methodReturnLength > 0) {
-            void *returnVal;
-            [invocation getReturnValue:&returnVal];
-            result = (__bridge id)returnVal;
-        }
-        
+        id result = [DBXRuntimeUtils getReturnValueFromInvocation:invocation];
         targetModel.afterBlock(target, originInvacationSelector, argumes, result);
     }
 }
