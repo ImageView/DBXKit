@@ -26,11 +26,11 @@
     NSArray *vclist = dict[@"testvc"];
     NSMutableArray *vcInstance = [NSMutableArray array];
     
-    DBXConfig *config = [[DBXConfig alloc] init];
-    config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
-    config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
-    config.closeUnsafeFeatures = NO;
-    [DBXCenter initWithConfig:config];
+    [DBXCenter startWithConfig:^void _Nonnull(DBXConfig * _Nonnull config) {
+        config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
+        config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
+        config.functionAvailable = DBXFunctionAvailableClickedArea | DBXFunctionAvailableTrack;
+    }];
     
     for (NSDictionary *vcDic in vclist) {
         NSString *vcClassName = vcDic[@"class"];

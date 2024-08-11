@@ -190,7 +190,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (BOOL)applyRule:(DBXDebounceRule *)rule {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableDebounce]) {
         return NO;
     }
     pthread_mutex_lock(&_lock);
@@ -248,7 +248,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (BOOL)discardRule:(DBXDebounceRule *)rule {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableDebounce]) {
         return NO;
     }
     pthread_mutex_lock(&_lock);
@@ -267,7 +267,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 }
 
 - (void)discardRule:(DBXDebounceRule *)rule whenTargetDealloc:(DBXDebounceDealloc *)dealloc {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableDebounce]) {
         return;
     }
     if (object_isClass(rule.target)) {

@@ -25,11 +25,11 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
 @implementation DBXTrack
 
 
-+ (BOOL)dbx_trackTarget:(id)target
-                 condition:(ConditionBlock)conditionBlock
-                    before:(BeforeInvocateBlock)beforeBlock
-                     after:(AfterInvocateBlock)afterBlock {
-    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
++ (BOOL)dbx_trackTarget:(id _Nonnull)target
+                 condition:(ConditionBlock _Nullable)conditionBlock
+                    before:(BeforeInvocateBlock _Nullable)beforeBlock
+                     after:(AfterInvocateBlock _Nullable)afterBlock{
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableTrack]) {
         return NO;
     }
     if (!target) {
@@ -113,6 +113,8 @@ void dbx_trackClass(Class cls, ConditionBlock block) {
     Class listCls;
     if ([NSStringFromClass(cls) containsString:DBXTrackSubclassPrefix]) {
         listCls = class_getSuperclass(cls);
+    } else {
+        listCls = cls;
     }
     unsigned int outCount;
     Method *methods = class_copyMethodList(listCls, &outCount);
