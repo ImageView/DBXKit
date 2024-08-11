@@ -15,5 +15,6 @@
 #import "NSObject+DBXRuntime.h"
 #import "DBXConfig.h"
 #import "DBXRuntimeUtils.h"
+#import "NSInvocation+DBX.h"
 
 #endif /* DBXCore_h */

@@ -81,7 +81,8 @@ static const NSLock *createClassLock = nil;
         if (subClass) {
             [DBXRuntimeUtils hookClassFrom:subClass to:ocClass];
             [DBXRuntimeUtils hookClassFrom:object_getClass(subClass) to:ocClass];
-            
+            objc_registerClassPair(subClass);
+
             Method originalMethod = class_getInstanceMethod(subClass, @selector(pointInside:withEvent:));
             IMP orignalIMP = method_getImplementation(originalMethod);
             if (orignalIMP != (IMP)dbx_extenedPointHittest) {

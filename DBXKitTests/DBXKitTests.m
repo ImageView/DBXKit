@@ -201,7 +201,7 @@
 
 - (void)testTrack {
     Animal *dog = [Animal new];
-    [DBXTrack dbx_trackTarget:Animal.class condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
+    [DBXTrack dbx_trackTarget:dog condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
         NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
     } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
         NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
@@ -210,6 +210,23 @@
     [dog eatFood:@"shit"];
     int count = [dog countOfFood:@"shit"];
     DBXLog(@"%d",count);
+}
+
+// 测试跟踪对象是否会影响类
+- (void)testTrackInstance {
+    Animal *dog = [Animal new];
+    dog.name = @"dddog";
+    [DBXTrack dbx_trackTarget:dog condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
+        NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
+    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
+    }];
+    [dog run];
+    
+    
+    Animal *cat = [Animal new];
+    dog.name = @"cccat";
+    [cat run];
 }
 
 @end

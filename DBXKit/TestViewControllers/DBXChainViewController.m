@@ -18,20 +18,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [DBXTrack dbx_trackTarget:self.class condition:^BOOL(SEL  _Nonnull selector) {
-        if ([NSStringFromSelector(selector) isEqualToString:@"testChainTask:"]) {
-            return YES;
-        }
-        return NO;
+    [DBXTrack dbx_trackTarget:self condition:^BOOL(SEL  _Nonnull selector) {
+//        if ([NSStringFromSelector(selector) isEqualToString:@"testChainTask:"]) {
+//            return YES;
+//        }
+        return YES;
     } before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
         NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
     } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
         NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
     }];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [DBXChainViewController testStaticMethod:100];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -65,6 +67,10 @@
         DBXChainTask *next = [self createTaskWithName:@"444" sleep:0];
         return next;
     }];
+}
+
++ (int)testStaticMethod:(int)a {
+    return a + 1;
 }
 
 - (IBAction)testGroup:(id)sender {

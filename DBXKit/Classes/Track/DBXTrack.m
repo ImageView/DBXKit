@@ -13,24 +13,27 @@
 #import <pthread.h>
 
 static NSString *const DBXTrackForwardInvocationSelectorName = @"__dbx_track_forwardInvocation:";
-static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
+static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
 
 @interface DBXTrack ()
 // 记录被修改了impl的类
 @property (class, readonly, nonatomic) NSMutableSet<Class> *classHooked;
-@property (class, nonatomic, assign) pthread_mutex_t mutexLock;
+@property (class, readonly, nonatomic, assign) pthread_mutex_t mutexLock;
 
 @end
 
 @implementation DBXTrack
 
 
-+ (void)dbx_trackTarget:(id)target
++ (BOOL)dbx_trackTarget:(id)target
                  condition:(ConditionBlock)conditionBlock
                     before:(BeforeInvocateBlock)beforeBlock
                      after:(AfterInvocateBlock)afterBlock {
+    if ([DBXCenter sharedConfig].closeUnsafeFeatures) {
+        return NO;
+    }
     if (!target) {
-        return;
+        return NO;
     }
     DBXTrackTarget *targetModel = [[DBXTrackTarget alloc] init];
     targetModel.target = target;
@@ -40,13 +43,24 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
     // 创建关联对象，以便在forwardInvocation:里获取到DBXTrackTarget对象
     [targetModel createAccociateObject];
     
-    [self dbx_trackTarget:targetModel];
+    return [self dbx_trackTarget:targetModel];
 }
 
+// return 是否正在追踪
 + (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel {
+    BOOL succ = NO;
     pthread_mutex_t lock = self.mutexLock;
     pthread_mutex_lock(&lock);
     [targetModel.accociatedObj lock];
+    
+    succ = [self overrideMethod:targetModel];
+    
+    [targetModel.accociatedObj unlock];
+    pthread_mutex_unlock(&lock);
+    return succ;
+}
+
++ (BOOL)overrideMethod:(DBXTrackTarget *)targetModel {
     Class isaClass = object_getClass(targetModel.target);
     Class ocClass = [targetModel.target class];
     NSString *isaClassName= NSStringFromClass(isaClass);
@@ -78,32 +92,39 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
     for (Class clsHooked in self.classHooked) {
         // 检查其子类是否被hook了
         if (clsHooked != cls && [clsHooked isSubclassOfClass:cls]) {
-            return NO;
+            return YES;
         }
     }
+    dbx_trackClass(cls, targetModel.conditionBlock);
+    dbx_trackClass(object_getClass(cls), targetModel.conditionBlock);
+    return YES;
+}
+
+void dbx_trackClass(Class cls, ConditionBlock block) {
     IMP targetOriginalForwardImp = class_getMethodImplementation(cls, @selector(forwardInvocation:));
     if (targetOriginalForwardImp != (IMP)dbx_track_forwardInvocation) {
         IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_track_forwardInvocation, "v@:@");
         if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXTrackForwardInvocationSelectorName), originalIMP, "v@:@");
         }
+        [DBXTrack.classHooked addObject:cls];
     }
     
-    dbx_trackClass(cls, targetModel.conditionBlock);
-    dbx_trackClass(object_getClass(cls), targetModel.conditionBlock);
-    [targetModel.accociatedObj unlock];
-    pthread_mutex_unlock(&lock);
-    return YES;
-}
-
-void dbx_trackClass(Class cls, ConditionBlock block) {
+    Class listCls;
+    if ([NSStringFromClass(cls) containsString:DBXTrackSubclassPrefix]) {
+        listCls = class_getSuperclass(cls);
+    }
     unsigned int outCount;
-    Method *methods = class_copyMethodList(cls, &outCount);
+    Method *methods = class_copyMethodList(listCls, &outCount);
     
     for (int i = 0; i < outCount; i ++) {
         Method tempMethod = *(methods + i);
         SEL selector = method_getName(tempMethod);
-        if (dbx_isInBlackList(NSStringFromSelector(selector))) {
+        NSString *selectorName = NSStringFromSelector(selector);
+        if (dbx_isInBlackList(selectorName)) {
+            continue;
+        }
+        if ([selectorName rangeOfString:@"dbx_"].location != NSNotFound) {
             continue;
         }
         if (block && !block(selector)) {
@@ -147,7 +168,7 @@ BOOL dbx_isInBlackList(NSString *methodName) {
 
 static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *invocation) {
     SEL originInvacationSelector = invocation.selector;
-    NSArray *argumes = [DBXRuntimeUtils getArgumesFromInvocation:invocation];
+    NSArray *argumes = [invocation dbx_getArgumes];
 
     DBXTrackAssociatedObj *accObj = objc_getAssociatedObject(target, &kDBXTrackAccociatedObjKey);
     if (!accObj) {
@@ -166,7 +187,7 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     DBXLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
     
     if (targetModel && targetModel.afterBlock) {
-        id result = [DBXRuntimeUtils getReturnValueFromInvocation:invocation];
+        id result = [invocation dbx_getReturnValue];
         targetModel.afterBlock(target, originInvacationSelector, argumes, result);
     }
     [accObj unlock];
