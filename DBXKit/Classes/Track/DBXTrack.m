@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "DBXCore.h"
+#import <pthread.h>
 
 static NSString *const DBXTrackForwardInvocationSelectorName = @"__dbx_track_forwardInvocation:";
 static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
@@ -17,6 +18,7 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
 @interface DBXTrack ()
 // 记录被修改了impl的类
 @property (class, readonly, nonatomic) NSMutableSet<Class> *classHooked;
+@property (class, nonatomic, assign) pthread_mutex_t mutexLock;
 
 @end
 
@@ -42,6 +44,9 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
 }
 
 + (BOOL)dbx_trackTarget:(DBXTrackTarget *)targetModel {
+    pthread_mutex_t lock = self.mutexLock;
+    pthread_mutex_lock(&lock);
+    [targetModel.accociatedObj lock];
     Class isaClass = object_getClass(targetModel.target);
     Class ocClass = [targetModel.target class];
     NSString *isaClassName= NSStringFromClass(isaClass);
@@ -86,6 +91,8 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrackDebounce_";
     
     dbx_trackClass(cls, targetModel.conditionBlock);
     dbx_trackClass(object_getClass(cls), targetModel.conditionBlock);
+    [targetModel.accociatedObj unlock];
+    pthread_mutex_unlock(&lock);
     return YES;
 }
 
@@ -147,7 +154,7 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
         // 如果没有实例对象的关联对象，尝试找其class的关联对象
         accObj = objc_getAssociatedObject(object_getClass(target), &kDBXTrackAccociatedObjKey);
     }
-    
+    [accObj lock];
     DBXTrackTarget *targetModel = accObj.targetModel;
     if (targetModel && targetModel.beforeBlock) {
         targetModel.beforeBlock(target, originInvacationSelector, argumes);
@@ -162,6 +169,7 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
         id result = [DBXRuntimeUtils getReturnValueFromInvocation:invocation];
         targetModel.afterBlock(target, originInvacationSelector, argumes, result);
     }
+    [accObj unlock];
 }
 
 + (NSMutableSet<Class> *)classHooked {
@@ -171,6 +179,15 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
         _classHooked = [NSMutableSet set];
     });
     return _classHooked;
+}
+
++ (pthread_mutex_t)mutexLock {
+    static dispatch_once_t once;
+    static pthread_mutex_t _lock;
+    dispatch_once(&once, ^{
+        pthread_mutex_init(&_lock, NULL);
+    });
+    return _lock;
 }
 
 @end

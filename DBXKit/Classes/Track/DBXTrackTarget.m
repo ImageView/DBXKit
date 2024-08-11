@@ -8,6 +8,7 @@
 
 #import "DBXTrackTarget.h"
 #import <objc/runtime.h>
+#import <pthread.h>
 
 const NSString *kDBXTrackAccociatedObjKey = @"kDBXTrackAccociatedObjKey";
 
@@ -45,8 +46,31 @@ const NSString *kDBXTrackAccociatedObjKey = @"kDBXTrackAccociatedObjKey";
 
 @end
 
+@interface DBXTrackAssociatedObj ()
+// 操作类的锁
+@property(nonatomic, assign) pthread_mutex_t invokeLock;
+@end
+
 @implementation DBXTrackAssociatedObj
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        pthread_mutexattr_t attr;
+        pthread_mutexattr_init(&attr);
+        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&_invokeLock, &attr);
+    }
+    return self;
+}
 
+- (void)lock {
+    pthread_mutex_lock(&_invokeLock);
+}
+
+- (void)unlock {
+    pthread_mutex_unlock(&_invokeLock);
+}
 
 @end

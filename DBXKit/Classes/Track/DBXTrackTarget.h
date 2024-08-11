@@ -46,6 +46,9 @@ extern const NSString *kDBXTrackAccociatedObjKey;
 
 @property(nonatomic, strong) DBXTrackTarget *targetModel;
 
+- (void)lock;
+- (void)unlock;
+
 @end
 
 NS_ASSUME_NONNULL_END
