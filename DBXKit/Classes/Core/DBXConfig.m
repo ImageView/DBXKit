@@ -60,7 +60,6 @@
         if (updateConfigBlock) {
             updateConfigBlock([DBXCenter sharedInstance].config);
         }
-        NSLog(@"123");
     });
 }
 

@@ -29,7 +29,7 @@
     self.dog.name = @"狗狗";
     self.cat = [[Animal alloc] init];
     self.cat.name = @"猫咪";
-    [DBXCenter startWithConfig:^void _Nonnull(DBXConfig * _Nonnull config) {
+    [DBXCenter startWithConfig:^(DBXConfig * _Nonnull config) {
         config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
         config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
     }];
@@ -198,6 +198,7 @@
     
 }
 
+// 测试追踪基本功能
 - (void)testTrack {
     Animal *dog = [Animal new];
     [DBXTrack dbx_trackTarget:dog condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
@@ -211,21 +212,26 @@
     DBXLog(@"%d",count);
 }
 
-// 测试跟踪对象是否会影响类
+// 测试追踪对象是否会影响类
 - (void)testTrackInstance {
     Animal *dog = [Animal new];
     dog.name = @"dddog";
-    [DBXTrack dbx_trackTarget:dog condition:nil before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
-        NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
-    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
+    
+    [DBXTrack dbx_trackTarget:dog condition:^BOOL(SEL  _Nonnull selector) {
+        if ([NSStringFromSelector(selector) isEqualToString:@"name"]) {
+            return NO;
+        }
+        return YES;
+    } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog才对，不应该有其他名字");
     }];
     [dog run];
-    
     
     Animal *cat = [Animal new];
     cat.name = @"cccat";
     [cat run];
 }
+
+
 
 @end
