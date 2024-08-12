@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DBXTrack : NSObject
 
 /// 追踪某个对象的函数调用
-/// ⚠️同一个target只第一次调用有效⚠️
+/// ⚠️1.同一个target只第一次调用有效
+/// ⚠️2.有可变参数的方法用NSInvocation调用会丢失后面的参数，因此这类方法要用condition屏蔽掉，避免方法调用出问题
 /// - Parameters:
 ///   - target: 要追踪的实例或者对象，如果是实例会创建一个派生类
 ///   - conditionBlock: 具体某个函数是否需要追踪
