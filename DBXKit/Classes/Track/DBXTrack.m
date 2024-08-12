@@ -92,7 +92,7 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
     for (Class clsHooked in self.classHooked) {
         // 检查其子类是否被hook了
         if (clsHooked != cls && [clsHooked isSubclassOfClass:cls]) {
-            return YES;
+            return NO;
         }
     }
     dbx_trackClass(cls, targetModel.conditionBlock);

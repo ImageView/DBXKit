@@ -223,7 +223,7 @@
         }
         return YES;
     } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog才对，不应该有其他名字");
+        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog，不应该有其他名字");
     }];
     [dog run];
     
@@ -232,6 +232,23 @@
     [cat run];
 }
 
-
+- (void)testTrackManyTime {
+    Animal *dog = [Animal new];
+    dog.name = @"dddog";
+    BOOL succ = [DBXTrack dbx_trackTarget:dog condition:^BOOL(SEL  _Nonnull selector) {
+        if ([NSStringFromSelector(selector) isEqualToString:@"name"]) {
+            return NO;
+        }
+        return YES;
+    } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog，不应该有其他名字");
+    }];
+    BOOL succ1 = [DBXTrack dbx_trackTarget:dog.class condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        XCTAssert(false,@"追踪了实例，这里应该没反应才对");
+    }];
+    [dog run];
+    XCTAssertTrue(succ);
+    XCTAssertTrue(!succ1, @"已经追踪了实例，就无法再追踪类了");
+}
 
 @end
