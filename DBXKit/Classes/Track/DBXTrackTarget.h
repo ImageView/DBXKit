@@ -11,9 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef BOOL(^ConditionBlock)(SEL selector);
-typedef void(^BeforeInvocateBlock)(id target, SEL sel, NSArray *args);
-typedef void(^AfterInvocateBlock)(id target, SEL sel, NSArray *args, id returnValue);
+typedef BOOL(^ConditionBlock)(SEL _Nonnull selector);
+typedef void(^BeforeInvocateBlock)(id _Nonnull target, SEL _Nonnull sel, NSArray  * _Nullable args);
+typedef void(^AfterInvocateBlock)(id _Nonnull target, SEL _Nonnull sel, NSArray * _Nullable args, id _Nullable returnValue);
 
 extern const NSString *kDBXTrackAccociatedObjKey;
 
