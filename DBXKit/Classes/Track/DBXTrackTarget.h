@@ -30,14 +30,12 @@ extern const NSString *kDBXTrackAccociatedObjKey;
 // 在方法调用前的回调
 @property(nonatomic, copy) AfterInvocateBlock afterBlock;
 
-
-// 关联对象，用来把target跟DBXTrackTarget关联起来
-//@property(nonatomic, strong, readonly) DBXTrackAssociatedObj *accociatedObj;
-
 // 存储届时调用的selector的真实实现
 + (SEL)aliasSelector:(SEL)selector;
 
 - (void)createAccociateObject;
+
+// 关联对象，用来把target跟DBXTrackTarget关联起来
 - (DBXTrackAssociatedObj *)accociatedObj;
 
 @end

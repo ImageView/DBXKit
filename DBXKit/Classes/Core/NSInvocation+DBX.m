@@ -20,7 +20,7 @@
     }
     NSMutableArray *argumentsArray = [NSMutableArray arrayWithCapacity:numberOfArguments - 2];
     for (NSUInteger index = 2; index < numberOfArguments; index++) {
-        [argumentsArray addObject:[self dbx_argumentAtIndex:index] ?: DBXUnit.defaultUnit];
+        [argumentsArray addObject:[self dbx_argumentAtIndex:index] ?: DBXUnit.nilUnit];
     }
     return [argumentsArray copy];
 }

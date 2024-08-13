@@ -24,12 +24,12 @@
     return instance;
 }
 
-+ (instancetype)defaultUnit {
++ (instancetype)nilUnit {
     static dispatch_once_t onceToken;
     static DBXUnit *instance = nil;
     dispatch_once(&onceToken, ^{
         instance = [[self alloc] init];
-        instance.dbxDescription = @"(default)";
+        instance.dbxDescription = @"(nil)";
     });
     return instance;
 }

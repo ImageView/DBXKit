@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)voidUnit;
 
-+ (instancetype)defaultUnit;
++ (instancetype)nilUnit;
 @end
 
 NS_ASSUME_NONNULL_END
