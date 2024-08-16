@@ -89,12 +89,12 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
         cls = subClass;
     }
     
-    for (Class clsHooked in self.classHooked) {
-        // 检查其子类是否被hook了
-        if (clsHooked != cls && [clsHooked isSubclassOfClass:cls]) {
-            return NO;
-        }
-    }
+//    for (Class clsHooked in self.classHooked) {
+//        // 检查其子类是否被hook了
+//        if (clsHooked != cls && [clsHooked isSubclassOfClass:cls]) {
+//            return NO;
+//        }
+//    }
     dbx_trackClass(cls, targetModel.conditionBlock);
     dbx_trackClass(object_getClass(cls), targetModel.conditionBlock);
     return YES;
@@ -107,7 +107,7 @@ void dbx_trackClass(Class cls, ConditionBlock block) {
         if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXTrackForwardInvocationSelectorName), originalIMP, "v@:@");
         }
-        [DBXTrack.classHooked addObject:cls];
+//        [DBXTrack.classHooked addObject:cls];
     }
     
     Class listCls;
@@ -153,7 +153,6 @@ BOOL dbx_track_replaceMethod(Class cls, SEL originSelector, char *returnType) {
             class_addMethod(cls, aliasSelector, targetMethodIMP, typeEncoding);
         }
         class_replaceMethod(cls, originSelector, _objc_msgForward, typeEncoding);
-//        [self.classHooked addObject:cls];
     }
     return YES;
 }

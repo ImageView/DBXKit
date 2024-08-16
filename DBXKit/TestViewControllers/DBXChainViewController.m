@@ -18,17 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [DBXTrack dbx_trackTarget:self condition:^BOOL(SEL  _Nonnull selector) {
-//        if ([NSStringFromSelector(selector) isEqualToString:@"testChainTask:"]) {
-//            return YES;
-//        }
-        return YES;
-    } before:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args) {
-        NSLog(@"before [%@ %@ %@]",[target class], NSStringFromSelector(sel), args);
-    } after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        NSLog(@"after [%@ %@ %@] -> %@",[target class], NSStringFromSelector(sel), args, returnValue);
-    }];
-    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
