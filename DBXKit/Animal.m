@@ -23,6 +23,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ %@>", object_getClass(self), _name];
+}
+
 - (void)eat:(NSString *)food {
     NSLog(@"吃%@,%s,%@", food, __func__, self.name);
 }
@@ -48,7 +52,7 @@
 }
 
 - (void)run {
-    NSLog(@"跑%s,%@", __func__, self.name);
+    NSLog(@"跑%s,%@", __func__, _name);
 }
 
 - (void)barking {

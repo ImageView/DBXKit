@@ -17,7 +17,7 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
 
 @interface DBXTrack ()
 // 记录被修改了impl的类
-@property (class, readonly, nonatomic) NSMutableSet<Class> *classHooked;
+//@property (class, readonly, nonatomic) NSMutableSet<Class> *classHooked;
 @property (class, readonly, nonatomic, assign) pthread_mutex_t mutexLock;
 
 @end
@@ -162,7 +162,7 @@ BOOL dbx_isInBlackList(NSString *methodName) {
     static NSArray *defaultBlackList = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        defaultBlackList = @[/*UIViewController的:*/@".cxx_destruct", @"dealloc", @"_isDeallocating", @"release", @"autorelease", @"retain", @"Retain", @"_tryRetain", @"copy", /*UIView的:*/ @"nsis_descriptionOfVariable:", /*NSObject的:*/@"respondsToSelector:", @"class", @"methodSignatureForSelector:", @"allowsWeakReference", @"retainWeakReference", @"init", @"forwardInvocation:"];
+        defaultBlackList = @[/*UIViewController的:*/@".cxx_destruct", @"dealloc", @"_isDeallocating", @"release", @"autorelease", @"retain", @"Retain", @"_tryRetain", @"copy", /*UIView的:*/ @"nsis_descriptionOfVariable:", /*NSObject的:*/@"respondsToSelector:", @"description", @"class", @"methodSignatureForSelector:", @"allowsWeakReference", @"retainWeakReference", @"init", @"forwardInvocation:"];
     });
     return ([defaultBlackList containsObject:methodName]);
 }
@@ -185,7 +185,7 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     [invocation setSelector:[DBXTrackTarget aliasSelector:originInvacationSelector]];
     [invocation invoke];
     
-    DBXLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
+    DBXpLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
     
     if (targetModel && targetModel.afterBlock) {
         id result = [invocation dbx_getReturnValue];
@@ -194,14 +194,14 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     [accObj unlock];
 }
 
-+ (NSMutableSet<Class> *)classHooked {
-    static dispatch_once_t once;
-    static NSMutableSet *_classHooked = nil;
-    dispatch_once(&once, ^{
-        _classHooked = [NSMutableSet set];
-    });
-    return _classHooked;
-}
+//+ (NSMutableSet<Class> *)classHooked {
+//    static dispatch_once_t once;
+//    static NSMutableSet *_classHooked = nil;
+//    dispatch_once(&once, ^{
+//        _classHooked = [NSMutableSet set];
+//    });
+//    return _classHooked;
+//}
 
 + (pthread_mutex_t)mutexLock {
     static dispatch_once_t once;
@@ -210,6 +210,46 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
         pthread_mutex_init(&_lock, NULL);
     });
     return _lock;
+}
+
+@end
+
+@implementation NSObject (DBXTrack)
+
+- (_Nullable id)dbx_performSelectorUnTracked:(SEL _Nonnull)selector {
+    return [self dbx_performSelectorUnTracked:selector withArguments:nil];
+}
+
+- (_Nullable id)dbx_performSelectorUnTracked:(SEL _Nonnull)selector withArguments:(void *_Nullable)firstArgument, ... NS_REQUIRES_NIL_TERMINATION {
+    // methodSignatureForSelector:必须使用原selector，因此要初始化之后在修改selector
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+    [invocation setTarget:self];
+    
+    Method targetMethod = class_getInstanceMethod(object_getClass(self), selector);
+    IMP targetMethodIMP = method_getImplementation(targetMethod);
+    if (targetMethodIMP == _objc_msgForward) {
+        [invocation setSelector:[DBXTrackTarget aliasSelector:selector]];
+    } else {
+        [invocation setSelector:selector];
+    }
+        
+    if (firstArgument) {
+        va_list valist;
+        va_start(valist, firstArgument);
+        [invocation setArgument:firstArgument atIndex:2];// 0->self, 1->_cmd
+        
+        void *currentArgument;
+        NSInteger index = 3;
+        while ((currentArgument = va_arg(valist, void *))) {
+            [invocation setArgument:currentArgument atIndex:index];
+            index++;
+        }
+        va_end(valist);
+    }
+    
+    [invocation invoke];
+    id result = [invocation dbx_getReturnValue];
+    return result;
 }
 
 @end

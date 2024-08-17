@@ -223,7 +223,8 @@
         }
         return YES;
     } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog，不应该有其他名字");
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name)];
+        XCTAssertEqual(name, @"dddog", @"只追踪了dddog，不应该有其他名字");
     }];
     [dog run];
     
@@ -232,7 +233,7 @@
     [cat run];
 }
 
-- (void)testTrackManyTime {
+- (void)testTrackInstanceAndClass {
     Animal *dog = [Animal new];
     dog.name = @"dddog";
     BOOL succ = [DBXTrack dbx_trackTarget:dog condition:^BOOL(SEL  _Nonnull selector) {
@@ -241,14 +242,55 @@
         }
         return YES;
     } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        XCTAssertEqual(((Animal *)target).name, @"dddog", @"只追踪了dddog，不应该有其他名字");
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name)];
+        XCTAssertEqual(name, @"dddog", @"只追踪了dddog，不应该有其他名字");
     }];
+    
     BOOL succ1 = [DBXTrack dbx_trackTarget:dog.class condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        XCTAssert(false,@"追踪了实例，这里应该没反应才对");
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
+        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
     }];
     [dog run];
+    
+    Animal *cat = [Animal new];
+    cat.name = @"cccaaat";
+    [cat run];
     XCTAssertTrue(succ);
-    XCTAssertTrue(!succ1, @"已经追踪了实例，就无法再追踪类了");
+    XCTAssertTrue(succ1, @"实例和class可以同时追踪");
 }
+
+
+// 测试追踪同一个class 的不同实例，并且两边的sel不同
+- (void)testTrackSameClassOfInstanceManyTime {
+    Animal *dog = [Animal new];
+    dog.name = @"dddog";
+    
+    Animal *cat = [Animal new];
+    cat.name = @"cccaaat";
+    
+    
+    BOOL succ = [DBXTrack dbx_trackTarget:dog condition:^BOOL(SEL  _Nonnull selector) {
+        return YES;
+    } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name)];
+        XCTAssertEqual(name, @"dddog", @"只追踪了dddog，不应该有其他名字");
+    }];
+    
+    BOOL succ1 = [DBXTrack dbx_trackTarget:cat condition:^BOOL(SEL  _Nonnull selector) {
+        if ([NSStringFromSelector(selector) isEqualToString:@"name"]) {
+            return NO;
+        }
+        return YES;
+    } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
+        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
+    }];
+    
+    [dog run];
+    [cat run];
+    XCTAssertTrue(succ);
+    XCTAssertTrue(succ1, @"实例和class可以同时追踪");
+}
+
 
 @end
