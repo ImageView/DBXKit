@@ -82,7 +82,7 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
 
 - (SEL)aliasSelector {
     if (!_aliasSelector) {
-        _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"__dbx_%@", NSStringFromSelector(self.selector)]);
+        _aliasSelector = NSSelectorFromString([NSString stringWithFormat:@"%@debounce_%@", kDBXHookMethodPrefix, NSStringFromSelector(self.selector)]);
     }
     return _aliasSelector;
 }
@@ -324,7 +324,8 @@ static NSString *const DBXSubclassPrefix = @"_DBXDebounce_";
     IMP targetOriginalForwardImp = class_getMethodImplementation(cls, @selector(forwardInvocation:));
     if (targetOriginalForwardImp != (IMP)dbx_forwardInvocation) {
         // 把cls的方法转发的方法转移到当前类里，即dbx_forwardInvocation，然后重新加一个方法DBXForwardInvocationSelectorName保留原始的实现，因为cls里可能实现了forwardInvocation:
-        IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");// 暂未找到C方法获取encoding的方式，先写死"v@:@"
+        IMP originalIMP = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)dbx_forwardInvocation, "v@:@");
+        // 暂未找到C方法获取encoding的方式，先写死"v@:@"
         if (originalIMP) {
             class_addMethod(cls, NSSelectorFromString(DBXForwardInvocationSelectorName), originalIMP, "v@:@");
         }

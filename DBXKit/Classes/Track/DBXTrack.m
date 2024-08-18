@@ -88,7 +88,7 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
         object_setClass(targetModel.target, subClass);
         cls = subClass;
     }
-    
+    [targetModel accociatedObj].cls = cls;// 这里需要记录cls，后面要获取转发指针
 //    for (Class clsHooked in self.classHooked) {
 //        // 检查其子类是否被hook了
 //        if (clsHooked != cls && [clsHooked isSubclassOfClass:cls]) {
@@ -126,7 +126,11 @@ void dbx_trackClass(Class cls, ConditionBlock block) {
         if (dbx_isInBlackList(selectorName)) {
             continue;
         }
-        if ([selectorName rangeOfString:@"dbx_"].location != NSNotFound) {
+        /**
+         已经监听的方法也不再重复监听，kDBXHookMethodPrefix是标识当前是否被监听
+         debounce里也是用这个标识，因为被debounce派生出来的新函数不能被这里修改，不然debounce会找不到新函数的IMP
+         */
+        if ([selectorName rangeOfString:kDBXHookMethodPrefix].location != NSNotFound) {
             continue;
         }
         if (block && !block(selector)) {
@@ -181,9 +185,17 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     if (targetModel && targetModel.beforeBlock) {
         targetModel.beforeBlock(target, originInvacationSelector, argumes);
     }
-    
-    [invocation setSelector:[DBXTrackTarget aliasSelector:originInvacationSelector]];
-    [invocation invoke];
+    /**
+     在其他地方也修改了forwardInvocation:的imp时会保存在这个方法里
+     为了不影响其他监听组件，被修改了实现的方法就不会去添加aliasSelector（具体实现见 dbx_track_replaceMethod里的if (targetMethodIMP != _objc_msgForward) 判定），如果这里继续走aliasSelector会找不到IMP而crash
+    */
+    IMP originalForwardIMP = class_getMethodImplementation(accObj.cls, NSSelectorFromString(DBXTrackForwardInvocationSelectorName));
+    if (originalForwardIMP && originalForwardIMP != (IMP)dbx_track_forwardInvocation && originalForwardIMP != _objc_msgForward) {
+        ((void (*)(id, SEL, NSInvocation*))originalForwardIMP)(target, selector, invocation);
+    } else {
+        [invocation setSelector:[DBXTrackTarget aliasSelector:originInvacationSelector]];
+        [invocation invoke];
+    }
     
     DBXpLog(@"追踪函数：%@", NSStringFromSelector(originInvacationSelector));
     

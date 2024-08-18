@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// dbx组件hook其他函数后产生的新的函数的统一前缀
+static NSString *const kDBXHookMethodPrefix = @"__dbx_";
+
 typedef NS_OPTIONS(NSInteger, DBXLogOption) {
     DBXLogOptionDisable = 0,                                            // 关闭日志
     DBXLogOptionBasic = (1 << 0),                                       // 基本内容，只有日志信息本身

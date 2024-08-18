@@ -29,7 +29,6 @@
     [DBXCenter startWithConfig:^(DBXConfig * _Nonnull config) {
         config.debugLogOption = DBXLogOptionLogFunction | DBXLogOptionLogThread;
         config.logOption = DBXLogOptionLogFile | DBXLogOptionLogThread;
-        config.functionAvailable = DBXFunctionAvailableClickedArea | DBXFunctionAvailableTrack;
     }];
     for (NSDictionary *vcDic in vclist) {
         NSString *vcClassName = vcDic[@"class"];

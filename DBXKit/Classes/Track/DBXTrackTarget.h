@@ -43,6 +43,7 @@ extern const NSString *kDBXTrackAccociatedObjKey;
 @interface DBXTrackAssociatedObj : NSObject
 
 @property(nonatomic, strong) DBXTrackTarget *targetModel;
+@property (nonatomic) Class cls;
 
 - (void)lock;
 - (void)unlock;

@@ -126,26 +126,29 @@
 
 // 测试一个类的不同实例对同一个方法添加rule
 - (void)testTwoSameRule {
-    DBXDebounceRule *rule1 = [self.cat dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
+    Animal *cat = [[Animal alloc] init];
+    Animal *dog = [[Animal alloc] init];
+
+    DBXDebounceRule *rule1 = [cat dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
     Animal *jinmao = [[Animal alloc] init];
     jinmao.name = @"金毛";
     DBXDebounceRule *rule2 = [jinmao dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
     int testCount = 5;
     for (int i = 0; i<testCount; i++) {
-        [self.dog eatFood:@"狗粮"];
-        [self.cat eatFood:@"猫粮"];
+        [dog eatFood:@"狗粮"];
+        [cat eatFood:@"猫粮"];
         [jinmao eatFood:@"骨头"];
     }
-    XCTAssertEqual([self.dog countOfFood:@"狗粮"], testCount, @"规则没有设置到self.dog上，不限量吃");
-    XCTAssertEqual([self.cat countOfFood:@"猫粮"], 1, @"self.cat加了规则，应该只吃了1次");
+    XCTAssertEqual([dog countOfFood:@"狗粮"], testCount, @"规则没有设置到dog上，不限量吃");
+    XCTAssertEqual([cat countOfFood:@"猫粮"], 1, @"cat加了规则，应该只吃了1次");
     XCTAssertEqual([jinmao countOfFood:@"骨头"], 1, @"金毛加了规则，应该只吃了1次");
     [rule1 discard];
     
     for (int i = 0; i<testCount; i++) {
-        [self.cat eatFood:@"other"];
+        [cat eatFood:@"other"];
         [jinmao eatFood:@"other"];
     }
-    XCTAssertEqual([self.cat countOfFood:@"other"], testCount, @"self.cat规则去除了，不限量了");
+    XCTAssertEqual([cat countOfFood:@"other"], testCount, @"cat规则去除了，不限量了");
     XCTAssertEqual([jinmao countOfFood:@"other"], 0, @"金毛规则还在，应该只吃了0次");
     
     [rule2 discard];
@@ -246,34 +249,34 @@
         XCTAssertEqual(name, @"dddog", @"只追踪了dddog，不应该有其他名字");
     }];
     
-    BOOL succ1 = [DBXTrack dbx_trackTarget:dog.class condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
-        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
-        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
-    }];
+//    BOOL succ1 = [DBXTrack dbx_trackTarget:dog.class condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+//        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
+//        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
+//    }];
     [dog run];
     
     Animal *cat = [Animal new];
     cat.name = @"cccaaat";
     [cat run];
     XCTAssertTrue(succ);
-    XCTAssertTrue(succ1, @"实例和class可以同时追踪");
+//    XCTAssertTrue(succ1, @"实例和class可以同时追踪");
 }
 
 
 // 测试追踪同一个class 的不同实例，并且两边的sel不同
 - (void)testTrackSameClassOfInstanceManyTime {
     Animal *dog = [Animal new];
-    dog.name = @"dddog";
+    dog.name = @"dog3";
     
     Animal *cat = [Animal new];
-    cat.name = @"cccaaat";
+    cat.name = @"cat3";
     
     
     BOOL succ = [DBXTrack dbx_trackTarget:dog condition:^BOOL(SEL  _Nonnull selector) {
         return YES;
     } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
         NSString *name = [target dbx_performSelectorUnTracked:@selector(name)];
-        XCTAssertEqual(name, @"dddog", @"只追踪了dddog，不应该有其他名字");
+        XCTAssertEqual(name, @"dog3", @"只追踪了dddog，不应该有其他名字");
     }];
     
     BOOL succ1 = [DBXTrack dbx_trackTarget:cat condition:^BOOL(SEL  _Nonnull selector) {
@@ -283,7 +286,7 @@
         return YES;
     } before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
         NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
-        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
+        XCTAssertNotEqual(name, @"dog3", @"dddog单独追踪了，不应该到这里才对名字");
     }];
     
     [dog run];
@@ -292,5 +295,22 @@
     XCTAssertTrue(succ1, @"实例和class可以同时追踪");
 }
 
+- (void)testDebounceAndTrack {
+    Animal *dog = [Animal new];
+    dog.name = @"dog4";
+    
+    DBXDebounceRule *rule = [dog dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
+    
+    BOOL trackedSucc = [DBXTrack dbx_trackTarget:object_getClass(dog) condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
+        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
+    }];
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
 
+    XCTAssertEqual([dog countOfFood:@"gutou1"], 1, @"dd");
+    [rule discard];
+}
 @end

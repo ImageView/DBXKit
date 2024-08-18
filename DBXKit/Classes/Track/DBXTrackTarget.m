@@ -9,6 +9,7 @@
 #import "DBXTrackTarget.h"
 #import <objc/runtime.h>
 #import <pthread.h>
+#import "DBXCore.h"
 
 const NSString *kDBXTrackAccociatedObjKey = @"kDBXTrackAccociatedObjKey";
 
@@ -16,7 +17,7 @@ const NSString *kDBXTrackAccociatedObjKey = @"kDBXTrackAccociatedObjKey";
 @implementation DBXTrackTarget
 
 + (SEL)aliasSelector:(SEL)selector {
-    NSString *aliasSelectorName = [NSString stringWithFormat:@"__dbx_track_%@", NSStringFromSelector(selector)];
+    NSString *aliasSelectorName = [NSString stringWithFormat:@"%@track_%@", kDBXHookMethodPrefix, NSStringFromSelector(selector)];
     SEL aliasSelector = NSSelectorFromString(aliasSelectorName);
     return aliasSelector;
 }
