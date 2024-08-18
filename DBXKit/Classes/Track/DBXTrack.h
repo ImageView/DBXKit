@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// ⚠️2.有可变参数的方法用NSInvocation调用会丢失后面的参数，因此这类方法要用condition屏蔽掉，避免方法调用出问题
 /// ⚠️3.如果某个class和其一个实例都追踪了，优先走实例的追踪
 /// ⚠️4.如果要忽略追踪直接执行selector，如在before/after中，请使用dbx_performSelectorUnTracked:来执行
+/// ⚠️5.直接监听class比较危险，因为会修改被监听的class的不少实现，最好尽量监听实例
 /// - Parameters:
 ///   - target: 要追踪的实例或者对象，如果是实例会创建一个派生类
 ///   - conditionBlock: 具体某个函数是否需要追踪

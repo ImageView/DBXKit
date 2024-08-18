@@ -295,7 +295,8 @@
     XCTAssertTrue(succ1, @"实例和class可以同时追踪");
 }
 
-- (void)testDebounceAndTrack {
+// 先debounce再track
+- (void)testDebounceThenTrack {
     Animal *dog = [Animal new];
     dog.name = @"dog4";
     
@@ -310,7 +311,28 @@
     [dog eatFood:@"gutou1"];
     [dog eatFood:@"gutou1"];
 
-    XCTAssertEqual([dog countOfFood:@"gutou1"], 1, @"dd");
+    XCTAssertEqual([dog countOfFood:@"gutou1"], 1, @"先debounce再track，track兼容了debounce，因此debounce正常运行");
+    [rule discard];
+}
+
+// 先track再debounce
+- (void)testTrackThenDebounce {
+    Animal *dog = [Animal new];
+    dog.name = @"dog4";
+    
+//    BOOL trackedSucc = [DBXTrack dbx_trackTarget:object_getClass(dog) condition:nil before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nonnull args, id returnValue) {
+//        NSString *name = [target dbx_performSelectorUnTracked:@selector(name) withArguments:nil];
+//        XCTAssertNotEqual(name, @"dddog", @"dddog单独追踪了，不应该到这里才对名字");
+//    }];
+    
+    DBXDebounceRule *rule = [dog dbx_performSelectorDebounce:@selector(eatFood:) debounceInterval:.5 mode:DBXDebounceModeFirstOnly];
+
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
+    [dog eatFood:@"gutou1"];
+
+//    XCTAssertEqual([dog countOfFood:@"gutou1"], 0, @"不支持先track再debounce，因为debounce无法处理被debounce之后的类，因此这里会无法调用方法，导致次数为0");
     [rule discard];
 }
 @end
