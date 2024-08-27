@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dbx_enableExtendedClickedAreaFixMinSize:(CGSize)minSize;
 /// 使点击区域不小于44x44
 - (void)dbx_enableExtendedClickedAreaFix44x44;
+
+#pragma mark - 增加额外的点击区域，主要是为了部分不规则形状的需求
+- (void)dbx_addExtraArea:(CGRect)extraArea;
+
 @end
 
 NS_ASSUME_NONNULL_END

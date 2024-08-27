@@ -2,7 +2,7 @@ PODS:
   - IQKeyboardManager (6.5.6)
   - Masonry (1.1.0)
   - MJRefresh (3.5.0)
-  - MnaDebuggingOnLine (0.1.11)
+  - MnaDebuggingOnLine (0.2.2)
   - QMUIKit (4.6.0):
     - QMUIKit/QMUIComponents (= 4.6.0)
     - QMUIKit/QMUICore (= 4.6.0)
@@ -325,7 +325,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
-  MnaDebuggingOnLine: 0b0ca0afa85f5d7cd8bc27789f2b073276c68e78
+  MnaDebuggingOnLine: 79e3ef6290a9801bcd7dbeece83e42bfdbfe1c94
   QMUIKit: 6321cf1124623d686a9ec0a79a7cc59d0d64a52c
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
 

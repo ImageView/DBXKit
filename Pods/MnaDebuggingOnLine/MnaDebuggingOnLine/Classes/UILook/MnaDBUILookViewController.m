@@ -99,11 +99,12 @@
     
     NSString *addInfo = nil;
     NSString *className = NSStringFromClass(object_getClass(view));
-    if ([className hasPrefix:@"_DBXClickedButton_"]) {
+    if ([className rangeOfString:@"_DBXClickedButton_"].location != NSNotFound) {
         SEL selector = NSSelectorFromString(@"dbx_extendedClikedArea");
         if ([view respondsToSelector:selector]) {
             CGRect expandedRect = ((CGRect (*)(id, SEL))[view methodForSelector:selector])(view, selector);
             self.buttonClickedFrameView.hidden = NO;
+            [self.buttonClickedFrameView setNeedsDisplay];
             self.buttonClickedFrameView.frame = [view convertRect:expandedRect toView:nil];
             addInfo = [NSString stringWithFormat:@"按钮点击区域(x:%.1f  y:%.1f  宽:%.1f  高:%.1f), ",
                        expandedRect.origin.x,

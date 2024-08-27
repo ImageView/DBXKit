@@ -13,11 +13,13 @@
 static NSString *const DBXButtonSubclassPrefix = @"_DBXClickedButton_";
 static const NSString *KEY_CLICKED_AREA_EDGE_INSETS = @"kDBXClickedAreaEdgeInsets";
 static const NSString *KEY_CLICKED_AUTO_FIX_SIZE = @"kDBXClickedAutoFixMinSize";
+static const NSString *KEY_CLICKED_AUTO_EXTRA_AREA = @"kDBXClickedAutoExtraArea";
 static const NSLock *createClassLock = nil;
 
 @interface UIView ()
 
-
+// 额外的点击区域
+@property(nonatomic, strong) NSMutableArray *dbx_extraAreas;
 @end
 
 @implementation UIView (ClickedArea)
@@ -43,6 +45,11 @@ static const NSLock *createClassLock = nil;
     objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_FIX_SIZE, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (NSMutableArray *)dbx_extraAreas {
+    NSMutableArray *array = objc_getAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA);
+    return array;
+}
+
 - (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
     self.dbx_clickedAreaEdgeInsets = clickedAreaEdgeInsets;
     [self dbx_enableExtendedClickedArea];
@@ -55,6 +62,15 @@ static const NSLock *createClassLock = nil;
 
 - (void)dbx_enableExtendedClickedAreaFix44x44 {
     [self dbx_enableExtendedClickedAreaFixMinSize:CGSizeMake(44, 44)];
+}
+
+- (void)dbx_addExtraArea:(CGRect)extraArea {
+    if (!self.dbx_extraAreas) {
+        NSMutableArray *temp = [NSMutableArray array];
+        objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA, temp, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.dbx_extraAreas = temp;
+    }
+    [self.dbx_extraAreas addObject:[NSValue valueWithCGRect:extraArea]];
 }
 
 - (void)dbx_enableExtendedClickedArea {
@@ -132,7 +148,16 @@ static const NSLock *createClassLock = nil;
 
 static BOOL dbx_extenedPointHittest(id target, SEL selector, CGPoint point, UIEvent *event) {
     UIView *view = target;
-    return CGRectContainsPoint([view dbx_extendedClikedArea], point);
+    BOOL extraPoint = NO;
+    if (view.dbx_extraAreas) {
+        for (NSValue *extraRect in view.dbx_extraAreas) {
+            if (CGRectContainsPoint([extraRect CGRectValue], point)) {
+                extraPoint = YES;
+                break;
+            }
+        }
+    }
+    return CGRectContainsPoint([view dbx_extendedClikedArea], point) || extraPoint;
 }
 
 @end
