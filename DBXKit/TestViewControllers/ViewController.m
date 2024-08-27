@@ -43,7 +43,10 @@
     
 //    self.button1.dbx_reportID = @"2341";
     [self.button1 dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-40, -40, -30, 30)];
-    [self.button1.superview dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-0, -40, 0, 30)];
+    [self.button1 dbx_addExtraArea:CGRectMake(-10, -60, 20, 20)];
+    [self.button1 dbx_addExtraArea:CGRectMake(100, -60, 20, 20)];
+
+    [self.button1.superview dbx_enableExtendedClickedAreaEdgeInsets:UIEdgeInsetsMake(-20, -40, 0, 30)];
 
     [self.button2 dbx_enableExtendedClickedAreaFix44x44];
 

@@ -45,9 +45,12 @@ static const NSLock *createClassLock = nil;
     objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_FIX_SIZE, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (void)setDbx_extraAreas:(NSMutableArray *)dbx_extraAreas {
+    objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA, dbx_extraAreas, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (NSMutableArray *)dbx_extraAreas {
-    NSMutableArray *array = objc_getAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA);
-    return array;
+    return objc_getAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA);
 }
 
 - (void)dbx_enableExtendedClickedAreaEdgeInsets:(UIEdgeInsets)clickedAreaEdgeInsets {
@@ -66,9 +69,7 @@ static const NSLock *createClassLock = nil;
 
 - (void)dbx_addExtraArea:(CGRect)extraArea {
     if (!self.dbx_extraAreas) {
-        NSMutableArray *temp = [NSMutableArray array];
-        objc_setAssociatedObject(self, &KEY_CLICKED_AUTO_EXTRA_AREA, temp, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        self.dbx_extraAreas = temp;
+        self.dbx_extraAreas = [NSMutableArray array];
     }
     [self.dbx_extraAreas addObject:[NSValue valueWithCGRect:extraArea]];
 }
