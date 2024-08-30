@@ -34,7 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dbx_enableExtendedClickedAreaFix44x44;
 
 #pragma mark - 增加额外的点击区域，主要是为了部分不规则形状的需求
+/// 添加一个额外的可点击区域，以self.bound为基准
 - (void)dbx_addExtraArea:(CGRect)extraArea;
+/// 清理所有额外的点击区域
+- (void)dbx_clearExtraArea;
 
 @end
 

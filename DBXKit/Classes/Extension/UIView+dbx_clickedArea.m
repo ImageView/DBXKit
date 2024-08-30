@@ -74,6 +74,10 @@ static const NSLock *createClassLock = nil;
     [self.dbx_extraAreas addObject:[NSValue valueWithCGRect:extraArea]];
 }
 
+- (void)dbx_clearExtraArea {
+    [self.dbx_extraAreas removeAllObjects];
+}
+
 - (void)dbx_enableExtendedClickedArea {
     if (![DBXCenter functionIsAvailable:DBXFunctionAvailableClickedArea]) {
         return;
