@@ -37,9 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSObject (DBXTrack)
 
 /// 躲过监听的执行某个selector
-/// 如在before/after里执行被追踪的函数时sel1，执行sel1又会进入before/after，因此无限递归，因此要用以下方法来调用sel1，避免递归问题
+/// 如在before/after里执行被追踪的函数时sel1，执行sel1又会进入before/after，因而会无限递归，因此要用以下方法来调用sel1，避免递归问题
 - (_Nullable id)dbx_performSelectorUnTracked:(SEL _Nonnull)selector;
 - (_Nullable id)dbx_performSelectorUnTracked:(SEL _Nonnull)selector withArguments:(void *_Nullable)firstArgument, ... NS_REQUIRES_NIL_TERMINATION;
+
+// 常用日志模板
++ (NSString *)dbx_trackStringWithFormate:(NSString *)formate
+                                  target:(id)target
+                                     sel:(SEL)sel
+                                    args:(NSArray *)args
+                             returnValue:(id)returnValue;
 @end
 
 NS_ASSUME_NONNULL_END

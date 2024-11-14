@@ -81,7 +81,21 @@
                 va_end(args);
             } else {
                 // 单个对象
-                *values = result[key];
+                NSString *k = nil;
+                NSString *cls = nil;
+                if ([key containsString:@"@"]) {
+                    NSArray *tempKeys = [key componentsSeparatedByString:@"@"];
+                    k = tempKeys.firstObject;
+                    cls = tempKeys[1];
+                } else {
+                    k = key;
+                }
+                id resultValue = result[k];
+                if (cls && ![resultValue isKindOfClass:NSClassFromString(cls)]) {
+                    *values = nil;
+                } else {
+                    *values = resultValue;
+                }
             }
         } else {
             result = result[key];

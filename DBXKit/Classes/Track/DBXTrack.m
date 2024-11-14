@@ -264,4 +264,15 @@ static void dbx_track_forwardInvocation(id target, SEL selector, NSInvocation *i
     return result;
 }
 
++ (NSString *)dbx_trackStringWithFormate:(NSString *)formate
+                                  target:(id)target
+                                     sel:(SEL)sel
+                                    args:(NSArray *)args
+                             returnValue:(id)returnValue {
+    if (returnValue) {
+        return [NSString stringWithFormat:@"[%@ %@ %@]->%@", [target class], NSStringFromSelector(sel), args.count>0?args:@"", returnValue];
+    } else {
+        return [NSString stringWithFormat:@"[%@ %@ %@]", [target class], NSStringFromSelector(sel), args.count>0?args:@""];
+    }
+}
 @end

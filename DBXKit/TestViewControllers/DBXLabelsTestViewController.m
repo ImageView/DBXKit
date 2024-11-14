@@ -98,7 +98,7 @@
     NSLog(@"c = %@, d = %@, dic = %@", c, d, dic);
     
     NSString *e;
-    [textDic dbx_valuesForKeyPath:@"11.44" values:&e,nil];
+    [textDic dbx_valuesForKeyPath:@"11.44@NSString" values:&e,nil];
     NSLog(@"e = %@", e);
     
     
