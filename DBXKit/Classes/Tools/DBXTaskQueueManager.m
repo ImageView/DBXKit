@@ -135,7 +135,7 @@
 
 @end
 
-// 用于管理IM消息播放队列（礼物、超级推荐等）
+// 队列管理器
 @implementation DBXTaskQueueManager
 
 + (instancetype)sharedInstance {
@@ -154,9 +154,17 @@
 
 // 注册一个队列
 - (DBXTaskQueue *)registerQueue:(NSString *)identifier {
-    DBXTaskQueue *instance = [[DBXTaskQueue alloc] init];
-    instance.identifier = identifier;
+    DBXTaskQueue *instance = [self.queuePool objectForKey:identifier];
+    if (!instance) {
+        instance = [[DBXTaskQueue alloc] init];
+        instance.identifier = identifier;
+        [self.queuePool setObject:instance forKey:identifier];
+    }
     return instance;
+}
+
+- (DBXTaskQueue *)fetchQueue:(NSString *)identifier {
+    return [self.queuePool objectForKey:identifier];
 }
 
 - (NSMutableDictionary *)queuePool {

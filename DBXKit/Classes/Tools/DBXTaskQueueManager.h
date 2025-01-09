@@ -51,9 +51,14 @@ typedef void (^DBXMessageTaskFunc)(id  _Nonnull task, void (^taskFinished)(NSErr
 #pragma mark - 队列管理器
 @interface DBXTaskQueueManager : NSObject
 
-//// 注册一个队列
-//- (DBXTaskQueue *)registerQueue:(NSString *)identifier;
 
+/// 注册一个队列
+/// - Parameter identifier: 队列id
+- (DBXTaskQueue *)registerQueue:(NSString *)identifier;
+
+/// 根据id获取已经注册的队列，没有注册的返回nil
+/// - Parameter identifier: 队列id
+- (DBXTaskQueue *)fetchQueue:(NSString *)identifier;
 
 @end
 

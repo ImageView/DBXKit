@@ -42,8 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  }
  */
 // 要取name，sex，playgame，的值，调用方式为
-// NSString *name;
-// NSString *sex;
+// NSString *name, *sex
 // NSDictionary *games;
 // [dictionary dbx_valuesForkeyPath:@"content.name&sex&playgame" values:&name, &sex, &games];
 // 如果要指定字段类型，在keyPath的字段key后面拼接@及类名，如@"content.name&sex@NSString&playgame@NSDictionary"
