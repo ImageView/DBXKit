@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
                     before:(BeforeInvocateBlock _Nullable)beforeBlock
                      after:(AfterInvocateBlock _Nullable)afterBlock;
 
+/// 便捷的看日志
++ (BOOL)dbx_trackTargetForLog:(id _Nonnull)target
+                    condition:(ConditionBlock _Nullable)conditionBlock
+                  logCallBack:(void (^)(NSString *afterlog))logBlock;
 @end
 
 @interface NSObject (DBXTrack)

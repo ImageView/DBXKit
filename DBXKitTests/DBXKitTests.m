@@ -215,6 +215,17 @@
     DBXLog(@"%d",count);
 }
 
+- (void)testTrackForLog {
+    Animal *dog = [Animal new];
+    [DBXTrack dbx_trackTargetForLog:dog condition:nil logCallBack:^(NSString * _Nonnull afterlog) {
+        NSLog(afterlog);
+    }];
+    [dog run];
+    [dog eatFood:@"shit"];
+    int count = [dog countOfFood:@"shit"];
+    DBXLog(@"%d",count);
+}
+
 // 测试追踪对象是否会影响类
 - (void)testTrackInstance {
     Animal *dog = [Animal new];

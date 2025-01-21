@@ -24,6 +24,15 @@ static NSString *const DBXTrackSubclassPrefix = @"_DBXTrack_";
 
 @implementation DBXTrack
 
++ (BOOL)dbx_trackTargetForLog:(id _Nonnull)target
+                    condition:(ConditionBlock _Nullable)conditionBlock
+                  logCallBack:(void (^)(NSString *afterlog))logBlock {
+    return [self dbx_trackTarget:target condition:conditionBlock before:nil after:^(id  _Nonnull target, SEL  _Nonnull sel, NSArray * _Nullable args, id  _Nullable returnValue) {
+        if (logBlock) {
+            logBlock([NSString stringWithFormat:@"[%@ %@ %@]->%@", [target class], NSStringFromSelector(sel), args.count>0?args:@"", returnValue]);
+        }
+    }];
+}
 
 + (BOOL)dbx_trackTarget:(id _Nonnull)target
                  condition:(ConditionBlock _Nullable)conditionBlock
