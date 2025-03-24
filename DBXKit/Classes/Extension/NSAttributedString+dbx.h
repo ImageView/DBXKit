@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface NSString (dbx)
-- (NSString *)beginDelimiter;
-- (NSString *)endDelimiter;
+- (NSString *)dbx_beginDelimiter;
+- (NSString *)dbx_endDelimiter;
 @end
 
 NS_ASSUME_NONNULL_END

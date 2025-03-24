@@ -20,7 +20,6 @@ static NSString const *kDelimiter = @"DBXKit";
 //    }
 //    NSDictionary *attributes = config[@"attributes"];
 //    NSAttributedString *tempAttStr = [[NSAttributedString alloc] initWithString:string attributes:attributes];
-//    
 //}
 
 - (instancetype)dbx_addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs delimiter:(NSString *)delimiter {
@@ -32,7 +31,8 @@ static NSString const *kDelimiter = @"DBXKit";
     }
     
     NSMutableAttributedString *mutableSelf = (NSMutableAttributedString *)self;
-    if ([self isKindOfClass:[NSAttributedString class]]) {
+    BOOL isMutable = [self isKindOfClass:[NSMutableAttributedString class]];
+    if (!isMutable) {
         mutableSelf = self.mutableCopy;
     }
     
@@ -40,7 +40,7 @@ static NSString const *kDelimiter = @"DBXKit";
     [mutableSelf addAttributes:attrs range:range];
     [mutableSelf deleteCharactersInRange:endRange];
     [mutableSelf deleteCharactersInRange:beginRange];
-    if ([self isKindOfClass:[NSAttributedString class]]) {
+    if (!isMutable) {
         return mutableSelf.copy;
     }
     return self;
@@ -52,11 +52,11 @@ static NSString const *kDelimiter = @"DBXKit";
 
 @implementation NSString (dbx)
 
-- (NSString *)beginDelimiter {
+- (NSString *)dbx_beginDelimiter {
     return [NSString stringWithFormat:@"%@_%@", kDelimiter, self];
 }
 
-- (NSString *)endDelimiter {
+- (NSString *)dbx_endDelimiter {
     return [NSString stringWithFormat:@"%@_%@", self, kDelimiter];
 }
 
