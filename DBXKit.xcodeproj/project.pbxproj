@@ -34,6 +34,8 @@
 		C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F52B53B8AF007D11E8 /* Animal.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
+		C87C67C12D91ADC900D9E71A /* DBXStub.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C02D91ADC900D9E71A /* DBXStub.m */; };
+		C87C67C42D91AFC200D9E71A /* DBXStubURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C32D91AFC200D9E71A /* DBXStubURLProtocol.m */; };
 		C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6242B5EC298008C9C36 /* DBXDebounce.m */; };
 		C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62A2B64F0EB008C9C36 /* DBXDebounceDealloc.m */; };
 		C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */; };
@@ -140,6 +142,10 @@
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
 		C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTextCollectionViewCell.m; sourceTree = "<group>"; };
+		C87C67BF2D91ADC900D9E71A /* DBXStub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStub.h; sourceTree = "<group>"; };
+		C87C67C02D91ADC900D9E71A /* DBXStub.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStub.m; sourceTree = "<group>"; };
+		C87C67C22D91AFC200D9E71A /* DBXStubURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubURLProtocol.h; sourceTree = "<group>"; };
+		C87C67C32D91AFC200D9E71A /* DBXStubURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubURLProtocol.m; sourceTree = "<group>"; };
 		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
 		C880A6242B5EC298008C9C36 /* DBXDebounce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebounce.m; sourceTree = "<group>"; };
 		C880A6292B64F0EB008C9C36 /* DBXDebounceDealloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounceDealloc.h; sourceTree = "<group>"; };
@@ -361,6 +367,17 @@
 			path = LabelsView;
 			sourceTree = "<group>";
 		};
+		C87C67BE2D91ABF000D9E71A /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				C87C67BF2D91ADC900D9E71A /* DBXStub.h */,
+				C87C67C02D91ADC900D9E71A /* DBXStub.m */,
+				C87C67C22D91AFC200D9E71A /* DBXStubURLProtocol.h */,
+				C87C67C32D91AFC200D9E71A /* DBXStubURLProtocol.m */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
 		C880A6222B5EC260008C9C36 /* Debounce */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,6 +392,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C87C67BE2D91ABF000D9E71A /* Stub */,
 				C8EA51492C64E56C00CACE45 /* Track */,
 				C880A6222B5EC260008C9C36 /* Debounce */,
 				C8F301702B4A9CDB00524BEE /* Syringe */,
@@ -681,6 +699,7 @@
 				C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */,
 				C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */,
 				C8FA14342C5B56FA002F6B4A /* UIView+dbx_clickedArea.m in Sources */,
+				C87C67C12D91ADC900D9E71A /* DBXStub.m in Sources */,
 				C8F569902C55EDDC008100D7 /* DBXConfig.m in Sources */,
 				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
 				C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */,
@@ -698,6 +717,7 @@
 				C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */,
 				C81B0DE92C674F77006A6452 /* DBXRuntimeUtils.m in Sources */,
 				C828F8D32C5B548800F43AF5 /* DBXLog.m in Sources */,
+				C87C67C42D91AFC200D9E71A /* DBXStubURLProtocol.m in Sources */,
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
