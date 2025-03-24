@@ -59,7 +59,7 @@
     self.imageView.userInteractionEnabled = YES;
     [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedImageView:)]];
     
-    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"腾讯%@手游%@加速器%@王者荣耀%@%@加速%@", @"a".beginDelimiter, @"a".endDelimiter, @"b".beginDelimiter, @"b".endDelimiter, @"c".beginDelimiter, @"c".endDelimiter]];
+    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"腾讯%@手游%@加速器%@王者荣耀%@%@加速%@", @"a".dbx_beginDelimiter, @"a".dbx_endDelimiter, @"b".dbx_beginDelimiter, @"b".dbx_endDelimiter, @"c".dbx_beginDelimiter, @"c".dbx_endDelimiter]];
     attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.redColor,NSFontAttributeName:[UIFont systemFontOfSize:20]} delimiter:@"a"];
     attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.blueColor,NSFontAttributeName:[UIFont boldSystemFontOfSize:11]} delimiter:@"b"];
     attStr = [attStr dbx_addAttributes:@{NSForegroundColorAttributeName:UIColor.systemPinkColor,NSFontAttributeName:[UIFont boldSystemFontOfSize:30]} delimiter:@"c"];

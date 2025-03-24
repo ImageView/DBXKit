@@ -23,8 +23,8 @@ static NSString const *kDelimiter = @"DBXKit";
 //}
 
 - (instancetype)dbx_addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs delimiter:(NSString *)delimiter {
-    NSRange beginRange = [self.string rangeOfString:delimiter.beginDelimiter];
-    NSRange endRange = [self.string rangeOfString:delimiter.endDelimiter];
+    NSRange beginRange = [self.string rangeOfString:delimiter.dbx_beginDelimiter];
+    NSRange endRange = [self.string rangeOfString:delimiter.dbx_endDelimiter];
     NSInteger rangeLength = endRange.location - (beginRange.location + beginRange.length);
     if (rangeLength <= 0) {
         return self;
