@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+//@class DBXStubsResponse;
+//
+//typedef BOOL(^StubConditionBlock)(NSURLRequest *requeset);
+//typedef DBXStubsResponse* _Nonnull (^StubsResponseBlock)(NSURLRequest* request);
 
 @interface DBXStub : NSObject
+
+
 
 @end
 
