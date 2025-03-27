@@ -36,7 +36,6 @@
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C87C67C12D91ADC900D9E71A /* DBXStub.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C02D91ADC900D9E71A /* DBXStub.m */; };
 		C87C67C42D91AFC200D9E71A /* DBXStubURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C32D91AFC200D9E71A /* DBXStubURLProtocol.m */; };
-		C87C67C72D91BDC700D9E71A /* DBXStubRule.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C62D91BDC700D9E71A /* DBXStubRule.m */; };
 		C87C67CA2D91BEEC00D9E71A /* DBXStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C92D91BEEC00D9E71A /* DBXStubsResponse.m */; };
 		C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6242B5EC298008C9C36 /* DBXDebounce.m */; };
 		C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62A2B64F0EB008C9C36 /* DBXDebounceDealloc.m */; };
@@ -148,8 +147,6 @@
 		C87C67C02D91ADC900D9E71A /* DBXStub.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStub.m; sourceTree = "<group>"; };
 		C87C67C22D91AFC200D9E71A /* DBXStubURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubURLProtocol.h; sourceTree = "<group>"; };
 		C87C67C32D91AFC200D9E71A /* DBXStubURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubURLProtocol.m; sourceTree = "<group>"; };
-		C87C67C52D91BDC700D9E71A /* DBXStubRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubRule.h; sourceTree = "<group>"; };
-		C87C67C62D91BDC700D9E71A /* DBXStubRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubRule.m; sourceTree = "<group>"; };
 		C87C67C82D91BEEC00D9E71A /* DBXStubsResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubsResponse.h; sourceTree = "<group>"; };
 		C87C67C92D91BEEC00D9E71A /* DBXStubsResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubsResponse.m; sourceTree = "<group>"; };
 		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
@@ -378,8 +375,6 @@
 			children = (
 				C87C67BF2D91ADC900D9E71A /* DBXStub.h */,
 				C87C67C02D91ADC900D9E71A /* DBXStub.m */,
-				C87C67C52D91BDC700D9E71A /* DBXStubRule.h */,
-				C87C67C62D91BDC700D9E71A /* DBXStubRule.m */,
 				C87C67C82D91BEEC00D9E71A /* DBXStubsResponse.h */,
 				C87C67C92D91BEEC00D9E71A /* DBXStubsResponse.m */,
 				C87C67C22D91AFC200D9E71A /* DBXStubURLProtocol.h */,
@@ -715,7 +710,6 @@
 				C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */,
 				C8F301842B4A9CDB00524BEE /* DBXSyringeMethod.m in Sources */,
 				C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */,
-				C87C67C72D91BDC700D9E71A /* DBXStubRule.m in Sources */,
 				C8F301802B4A9CDB00524BEE /* DBXSyringeInterface.m in Sources */,
 				C8F301832B4A9CDB00524BEE /* DBXSyringeTmpArgument.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
