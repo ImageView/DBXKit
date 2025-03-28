@@ -27,7 +27,8 @@ typedef NS_OPTIONS(NSInteger, DBXFunctionAvailable) {
     DBXFunctionAvailableTrack = (1 << 0),       // 追踪功能
     DBXFunctionAvailableClickedArea = (1 << 1), // 点击区域功能
     DBXFunctionAvailableDebounce = (1 << 2),    // 防抖
-    DBXFunctionAvailableAll = DBXFunctionAvailableTrack | DBXFunctionAvailableClickedArea | DBXFunctionAvailableDebounce
+    DBXFunctionAvailableStubs = (1 << 3),        // 网络模拟
+    DBXFunctionAvailableAll = DBXFunctionAvailableTrack | DBXFunctionAvailableClickedArea | DBXFunctionAvailableDebounce | DBXFunctionAvailableStubs
 };
 
 // 初始化配置

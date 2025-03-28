@@ -19,10 +19,17 @@ typedef DBXStubsResponse* _Nonnull (^StubsResponseBlock)(NSURLRequest* request);
 @interface DBXStubRule : NSObject
 // 自定义名字
 @property(nonatomic, copy, nullable) NSString *name;
+// 返回值block
+@property(nonatomic, copy) StubsResponseBlock responseBlock;
+
 @end
 
 #pragma mark - 核心类类
 @interface DBXStub : NSObject
+
++ (BOOL)activateStub;
+
++ (void)deactivateStub;
 
 + (DBXStubRule *)stubMatching:(StubConditionBlock)condition
                           responseWith:(StubsResponseBlock)response;

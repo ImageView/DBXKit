@@ -7,14 +7,15 @@
 //
 
 #import "DBXStub.h"
+#import "DBXCore.h"
+#import "DBXStubURLProtocol.h"
 
 #pragma mark - DBXStubRule类
 /// 一个截取的规则
 @interface DBXStubRule ()
 // 过滤block
 @property(nonatomic, copy) StubConditionBlock conditionBlock;
-// 返回值block
-@property(nonatomic, copy) StubsResponseBlock responseBlock;
+
 @end
 @implementation DBXStubRule
 - (NSString*)description {
@@ -37,6 +38,20 @@
         instance = [[super allocWithZone:NULL] init];
     });
     return instance;
+}
+
++ (BOOL)activateStub {
+    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
+        return NO;
+    }
+    return [NSURLProtocol registerClass:DBXStubURLProtocol.class];
+}
+
++ (void)deactivateStub {
+//    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
+//        return;
+//    }
+    [NSURLProtocol unregisterClass:DBXStubURLProtocol.class];
 }
 
 + (DBXStubRule *)stubMatching:(StubConditionBlock)condition
