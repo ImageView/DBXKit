@@ -74,6 +74,11 @@
     
 }
 
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
+{
+    return request;
+}
+
 - (NSCachedURLResponse *)cachedResponse {
     return nil;
 }
