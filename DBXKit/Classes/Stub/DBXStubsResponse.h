@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 错误吗
 @property(nonatomic, assign) int statusCode;
 
-// 大文件写入
+// 文件写入
 @property(nonatomic, strong) NSInputStream *inputStream;
 
 // 文件大小
@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 错误
 @property(nonatomic, strong) NSError *error;
+
+
 
 @end
 

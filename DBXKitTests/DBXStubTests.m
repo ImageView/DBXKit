@@ -59,11 +59,10 @@
     // This is a very handy way to send an asynchronous method, but only available in iOS5+
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error)
-     {
-         NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
+        NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         NSLog(@"result = %@", receivedText);
-     }];
+    }];
 }
 
 - (void)testPerformanceExample {
