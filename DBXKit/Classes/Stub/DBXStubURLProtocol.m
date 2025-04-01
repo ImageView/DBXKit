@@ -10,6 +10,25 @@
 #import "DBXStub.h"
 #import "DBXStubsResponse.h"
 
+static NSTimeInterval const kslotTime = 0.25;
+
+@interface DBXStubTimingInfo : NSObject
+@property(nonatomic, assign) NSTimeInterval slotTime;   // 时隙时间
+@property(nonatomic, assign) double slotSize;
+@property(nonatomic, assign) double cumulativeChunkSize;
+@end
+
+@implementation DBXStubTimingInfo
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _slotSize = kslotTime;
+    }
+    return self;
+}
+@end
+
 @interface DBXStubURLProtocol ()
 @property(nonatomic, strong) DBXStubRule *stubRule;     // 本次生效的规则
 @property(nonatomic, assign) CFRunLoopRef clientRunLoop;    // 请求所在的runloop
@@ -46,7 +65,7 @@
     }
     DBXStubsResponse *response = self.stubRule.responseBlock(request);
     if (response.error) {
-        [self executeOnClientRunLoopAfterDelay:response.requestTime block:^{
+        [self executeOnClientRunLoopAfterDelay:response.responseTime block:^{
             if (!self.isStop) {
                 [client URLProtocol:self didFailWithError:response.error];
             }
@@ -61,17 +80,87 @@
         }
     }
     [self executeOnClientRunLoopAfterDelay:response.requestTime block:^{
-        // 开始发头信息
+        if (self.isStop) {
+            return;
+        }
+        // 发头信息
         [client URLProtocol:self didReceiveResponse:urlResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
         if (response.inputStream.streamStatus == NSStreamStatusNotOpen) {
             [response.inputStream open];
         }
-        
+        if (response.dataSize <= 0 || !response.inputStream.hasBytesAvailable) {
+            [self executeOnClientRunLoopAfterDelay:response.responseTime block:^{
+                [response.inputStream close];
+                if (!self.isStop) {
+                    [client URLProtocol:self didFailWithError:response.error];
+                }
+            }];
+            return;
+        }
+        DBXStubTimingInfo *timingInfo = [self getTimeInfoFromResponse:response];
+        [self streamDataForClient:client fromStream:response.inputStream timingInfo:timingInfo completion:^(NSError *error) {
+            [response.inputStream close];
+            if (error) {
+                [client URLProtocol:self didFailWithError:error];
+            } else {
+                [client URLProtocolDidFinishLoading:self];
+            }
+        }];
     }];
 }
 
+- (void)streamDataForClient:(id<NSURLProtocolClient>)client fromStream:(NSInputStream*)inputStream timingInfo:(DBXStubTimingInfo *)timingInfo completion:(void(^)(NSError * error))completion {
+    if (!self.isStop && inputStream.hasBytesAvailable) {
+        double cumulativeChunkSizeAfterRead = timingInfo.cumulativeChunkSize + timingInfo.slotSize;
+        NSUInteger chunkSizeToRead = floor(cumulativeChunkSizeAfterRead) - floor(timingInfo.cumulativeChunkSize);
+        timingInfo.cumulativeChunkSize = cumulativeChunkSizeAfterRead;
+        
+        if (chunkSizeToRead == 0) {
+            [self executeOnClientRunLoopAfterDelay:timingInfo.slotTime block:^{
+                [self streamDataForClient:client fromStream:inputStream
+                               timingInfo:timingInfo completion:completion];
+            }];
+        } else {
+            uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*chunkSizeToRead);
+            NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
+            if (bytesRead > 0)
+            {
+                NSData * data = [NSData dataWithBytes:buffer length:bytesRead];
+                [self executeOnClientRunLoopAfterDelay:((double)bytesRead / (double)chunkSizeToRead) * timingInfo.slotTime block:^{
+                    [client URLProtocol:self didLoadData:data];
+                    [self streamDataForClient:client fromStream:inputStream
+                                   timingInfo:timingInfo completion:completion];
+                }];
+            } else {
+                if (completion)
+                {
+                    completion(inputStream.streamError);
+                }
+            }
+            free(buffer);
+        }
+    } else {
+        if (completion) {
+            completion(nil);
+        }
+    }
+}
+
+- (DBXStubTimingInfo *)getTimeInfoFromResponse:(DBXStubsResponse *)response {
+    DBXStubTimingInfo *timing = [[DBXStubTimingInfo alloc] init];
+    if (response.responseTime < 0) {
+        timing.slotSize = fabs(response.responseTime) * 1000 * timing.slotTime;
+    } else if (response.responseTime < kslotTime) {
+        timing.slotSize = response.dataSize;
+        timing.slotTime = response.requestTime;
+    } else {
+        timing.slotSize = ((response.dataSize/response.responseTime) * timing.slotTime);
+    }
+    return timing;
+}
+
 - (void)stopLoading {
-    
+    self.stop = YES;
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
