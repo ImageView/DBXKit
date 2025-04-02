@@ -42,8 +42,8 @@
             @"Content-Length" : [NSString stringWithFormat:@"%llu", response.dataSize],
             @"Content-Type" : @"text/plain"
         };
-        response.requestTime = 0;
-        response.responseTime = 0;
+        response.requestTime = 1;
+        response.responseTime = 2;
         return response;
     }];
 }
@@ -53,6 +53,7 @@
 }
 
 - (void)testExample {
+    XCTestExpectation *expect = [self expectationWithDescription:@"请求完成"];
     NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?txt";
     NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
@@ -62,7 +63,9 @@
                            completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
         NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         NSLog(@"result = %@", receivedText);
+        [expect fulfill];
     }];
+    [self waitForExpectations:@[expect]];
 }
 
 - (void)testPerformanceExample {

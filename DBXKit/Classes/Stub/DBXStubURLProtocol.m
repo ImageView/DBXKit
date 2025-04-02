@@ -23,7 +23,7 @@ static NSTimeInterval const kslotTime = 0.25;
 {
     self = [super init];
     if (self) {
-        _slotSize = kslotTime;
+        _slotTime = kslotTime;
     }
     return self;
 }
