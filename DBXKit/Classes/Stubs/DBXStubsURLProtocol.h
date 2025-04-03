@@ -1,5 +1,5 @@
 //
-//  DBXStubURLProtocol.h
+//  DBXStubsURLProtocol.h
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2025/3/24.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBXStubURLProtocol : NSURLProtocol
+@interface DBXStubsURLProtocol : NSURLProtocol
 
 @end
 

@@ -1,5 +1,5 @@
 //
-//  DBXStub.h
+//  DBXStubs.h
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2025/3/24.
@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class DBXStubsResponse;
 
-typedef BOOL(^StubConditionBlock)(NSURLRequest *requeset);
+typedef BOOL(^StubConditionBlock)(NSURLRequest *request);
 typedef DBXStubsResponse* _Nonnull (^StubsResponseBlock)(NSURLRequest* request);
 
 #pragma mark - 截取规则的类
-@interface DBXStubRule : NSObject
+@interface DBXStubsRule : NSObject
 // 自定义名字
 @property(nonatomic, copy, nullable) NSString *name;
 // 返回值block
@@ -24,19 +24,21 @@ typedef DBXStubsResponse* _Nonnull (^StubsResponseBlock)(NSURLRequest* request);
 
 @end
 
+NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass);
+
 #pragma mark - 核心类类
-@interface DBXStub : NSObject
+@interface DBXStubs : NSObject
 
 + (BOOL)activateStub;
 
 + (void)deactivateStub;
 
-+ (DBXStubRule *)stubMatching:(StubConditionBlock)condition
++ (DBXStubsRule *)stubMatching:(StubConditionBlock)condition
                           responseWith:(StubsResponseBlock)response;
 // 移除规则
-+ (void)removeStubRule:(DBXStubRule *)stubRule;
++ (void)removeStubRule:(DBXStubsRule *)stubRule;
 
-+ (DBXStubRule *)findMatchStubForRequest:(NSURLRequest *)request;
++ (DBXStubsRule *)findMatchStubForRequest:(NSURLRequest *)request;
 
 @end
 

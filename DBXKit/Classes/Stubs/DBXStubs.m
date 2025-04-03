@@ -1,39 +1,45 @@
 //
-//  DBXStub.m
+//  DBXStubs.m
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2025/3/24.
 //  Copyright © 2025 DBX. All rights reserved.
 //
 
-#import "DBXStub.h"
+#import "DBXStubs.h"
 #import "DBXCore.h"
-#import "DBXStubURLProtocol.h"
+#import "DBXStubsURLProtocol.h"
 
-#pragma mark - DBXStubRule类
+NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass) {
+    NSBundle* bundle = [NSBundle bundleForClass:inBundleForClass];
+    return [bundle pathForResource:[fileName stringByDeletingPathExtension]
+                            ofType:[fileName pathExtension]];
+}
+
+#pragma mark - DBXStubsRule类
 /// 一个截取的规则
-@interface DBXStubRule ()
+@interface DBXStubsRule ()
 // 过滤block
 @property(nonatomic, copy) StubConditionBlock conditionBlock;
 
 @end
-@implementation DBXStubRule
+@implementation DBXStubsRule
 - (NSString*)description {
     return [NSString stringWithFormat:@"<%@ %p : %@>", self.class, self, self.name];
 }
 @end
 
-#pragma mark - DBXStub类
-@interface DBXStub ()
+#pragma mark - DBXStubs类
+@interface DBXStubs ()
 @property(nonatomic, copy) NSMutableArray* stubRules;   // 存储规则]
 @property(nonatomic, strong) NSLock *listLock;
 @end
 
-@implementation DBXStub
+@implementation DBXStubs
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static DBXStub *instance = nil;
+    static DBXStubs *instance = nil;
     dispatch_once(&onceToken, ^{
         instance = [[super allocWithZone:NULL] init];
     });
@@ -44,22 +50,22 @@
     if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
         return NO;
     }
-    return [NSURLProtocol registerClass:DBXStubURLProtocol.class];
+    return [NSURLProtocol registerClass:DBXStubsURLProtocol.class];
 }
 
 + (void)deactivateStub {
 //    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
 //        return;
 //    }
-    [NSURLProtocol unregisterClass:DBXStubURLProtocol.class];
+    [NSURLProtocol unregisterClass:DBXStubsURLProtocol.class];
 }
 
-+ (DBXStubRule *)stubMatching:(StubConditionBlock)condition
++ (DBXStubsRule *)stubMatching:(StubConditionBlock)condition
                  responseWith:(StubsResponseBlock)response {
-    DBXStubRule *stubRule = [[DBXStubRule alloc] init];
+    DBXStubsRule *stubRule = [[DBXStubsRule alloc] init];
     stubRule.conditionBlock = condition;
     stubRule.responseBlock = response;
-    [DBXStub.sharedInstance addStubRule:stubRule];
+    [DBXStubs.sharedInstance addStubRule:stubRule];
     return stubRule;
 }
 
@@ -77,21 +83,21 @@
     return self;
 }
 
-- (void)addStubRule:(DBXStubRule *)stubRule {
+- (void)addStubRule:(DBXStubsRule *)stubRule {
     [_listLock lock];
     [self.stubRules addObject:stubRule];
     [_listLock unlock];
 }
 
-+ (void)removeStubRule:(DBXStubRule *)stubRule {
-    [DBXStub.sharedInstance.listLock lock];
-    [DBXStub.sharedInstance.stubRules removeObject:stubRule];
-    [DBXStub.sharedInstance.listLock unlock];
++ (void)removeStubRule:(DBXStubsRule *)stubRule {
+    [DBXStubs.sharedInstance.listLock lock];
+    [DBXStubs.sharedInstance.stubRules removeObject:stubRule];
+    [DBXStubs.sharedInstance.listLock unlock];
 }
 
-+ (DBXStubRule *)findMatchStubForRequest:(NSURLRequest *)request {
-    DBXStubRule *findRule = nil;
-    for (DBXStubRule *rule in DBXStub.sharedInstance.stubRules) {
++ (DBXStubsRule *)findMatchStubForRequest:(NSURLRequest *)request {
+    DBXStubsRule *findRule = nil;
+    for (DBXStubsRule *rule in DBXStubs.sharedInstance.stubRules) {
         if (rule.conditionBlock(request)) {
             findRule = rule;
             break;

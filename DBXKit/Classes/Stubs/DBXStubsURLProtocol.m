@@ -1,24 +1,24 @@
 //
-//  DBXStubURLProtocol.m
+//  DBXStubsURLProtocol.m
 //  DBXKit
 //
 //  Created by 罗俊宇 on 2025/3/24.
 //  Copyright © 2025 DBX. All rights reserved.
 //
 
-#import "DBXStubURLProtocol.h"
-#import "DBXStub.h"
+#import "DBXStubsURLProtocol.h"
+#import "DBXStubs.h"
 #import "DBXStubsResponse.h"
 
 static NSTimeInterval const kslotTime = 0.25;
 
-@interface DBXStubTimingInfo : NSObject
+@interface DBXStubsTimingInfo : NSObject
 @property(nonatomic, assign) NSTimeInterval slotTime;   // 时隙时间
 @property(nonatomic, assign) double slotSize;
 @property(nonatomic, assign) double cumulativeChunkSize;
 @end
 
-@implementation DBXStubTimingInfo
+@implementation DBXStubsTimingInfo
 - (instancetype)init
 {
     self = [super init];
@@ -29,16 +29,16 @@ static NSTimeInterval const kslotTime = 0.25;
 }
 @end
 
-@interface DBXStubURLProtocol ()
-@property(nonatomic, strong) DBXStubRule *stubRule;     // 本次生效的规则
+@interface DBXStubsURLProtocol ()
+@property(nonatomic, strong) DBXStubsRule *stubRule;     // 本次生效的规则
 @property(nonatomic, assign) CFRunLoopRef clientRunLoop;    // 请求所在的runloop
 @property(nonatomic, assign, getter=isStop) BOOL stop;
 @end
 
-@implementation DBXStubURLProtocol
+@implementation DBXStubsURLProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
-    DBXStubRule *stubRule = [DBXStub findMatchStubForRequest:request];
+    DBXStubsRule *stubRule = [DBXStubs findMatchStubForRequest:request];
     if (stubRule) {
         return YES;
     }
@@ -46,8 +46,8 @@ static NSTimeInterval const kslotTime = 0.25;
 }
 
 - (instancetype)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id<NSURLProtocolClient>)client {
-    DBXStubURLProtocol *proto = [super initWithRequest:request cachedResponse:cachedResponse client:client];
-    proto.stubRule = [DBXStub findMatchStubForRequest:request];
+    DBXStubsURLProtocol *proto = [super initWithRequest:request cachedResponse:cachedResponse client:client];
+    proto.stubRule = [DBXStubs findMatchStubForRequest:request];
     return proto;
 }
 
@@ -56,7 +56,7 @@ static NSTimeInterval const kslotTime = 0.25;
     NSURLRequest *request = self.request;
     id<NSURLProtocolClient> client = self.client;
     if (!self.stubRule) {
-        NSError *error = [NSError errorWithDomain:@"DBXStubError" code:-1 userInfo:@{
+        NSError *error = [NSError errorWithDomain:@"DBXStubsError" code:-1 userInfo:@{
             NSLocalizedFailureReasonErrorKey : @"Stub has been removed BEFORE the response had time to be sent.",
             NSURLErrorFailingURLErrorKey : request.URL
         }];
@@ -97,7 +97,7 @@ static NSTimeInterval const kslotTime = 0.25;
             }];
             return;
         }
-        DBXStubTimingInfo *timingInfo = [self getTimeInfoFromResponse:response];
+        DBXStubsTimingInfo *timingInfo = [self getTimeInfoFromResponse:response];
         [self streamDataForClient:client fromStream:response.inputStream timingInfo:timingInfo completion:^(NSError *error) {
             [response.inputStream close];
             if (error) {
@@ -109,7 +109,7 @@ static NSTimeInterval const kslotTime = 0.25;
     }];
 }
 
-- (void)streamDataForClient:(id<NSURLProtocolClient>)client fromStream:(NSInputStream*)inputStream timingInfo:(DBXStubTimingInfo *)timingInfo completion:(void(^)(NSError * error))completion {
+- (void)streamDataForClient:(id<NSURLProtocolClient>)client fromStream:(NSInputStream*)inputStream timingInfo:(DBXStubsTimingInfo *)timingInfo completion:(void(^)(NSError * error))completion {
     if (!self.isStop && inputStream.hasBytesAvailable) {
         double cumulativeChunkSizeAfterRead = timingInfo.cumulativeChunkSize + timingInfo.slotSize;
         NSUInteger chunkSizeToRead = floor(cumulativeChunkSizeAfterRead) - floor(timingInfo.cumulativeChunkSize);
@@ -146,8 +146,8 @@ static NSTimeInterval const kslotTime = 0.25;
     }
 }
 
-- (DBXStubTimingInfo *)getTimeInfoFromResponse:(DBXStubsResponse *)response {
-    DBXStubTimingInfo *timing = [[DBXStubTimingInfo alloc] init];
+- (DBXStubsTimingInfo *)getTimeInfoFromResponse:(DBXStubsResponse *)response {
+    DBXStubsTimingInfo *timing = [[DBXStubsTimingInfo alloc] init];
     if (response.responseTime < 0) {
         timing.slotSize = fabs(response.responseTime) * 1000 * timing.slotTime;
     } else if (response.responseTime < kslotTime) {
