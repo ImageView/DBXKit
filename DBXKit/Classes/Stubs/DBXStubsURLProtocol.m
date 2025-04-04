@@ -8,7 +8,6 @@
 
 #import "DBXStubsURLProtocol.h"
 #import "DBXStubs.h"
-#import "DBXStubsResponse.h"
 
 static NSTimeInterval const kslotTime = 0.25;
 
