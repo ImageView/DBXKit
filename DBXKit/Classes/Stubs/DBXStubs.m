@@ -52,65 +52,65 @@ NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass) 
     if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
         return NO;
     }
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self swizzleDefaultSession];
-    });
+    [self swizzleDefaultSession];
     return [NSURLProtocol registerClass:DBXStubsURLProtocol.class];
 }
 
 + (void)deactivateStub {
+    [self reSwizzleDefaultSession];
     [NSURLProtocol unregisterClass:DBXStubsURLProtocol.class];
 }
 
 + (void)swizzleDefaultSession   {
-    Class targetClass = [NSURLSessionConfiguration class];
+    Class metaClass = object_getClass([NSURLSessionConfiguration class]);
+    Method originalMethod = class_getClassMethod([NSURLSessionConfiguration class], @selector(defaultSessionConfiguration));
     
-    // 原始类方法选择器
-    SEL originalSel = @selector(defaultSessionConfiguration);
-    
-    // 新类方法选择器
-    SEL swizzledSel = @selector(modifiedDefaultSessionConfiguration);
-    
-    // 获取原始类方法
-    Method originalMethod = class_getClassMethod(targetClass, originalSel);
-    
-    // 获取替换类方法（注意这里要获取类方法）
-    Method swizzledMethod = class_getClassMethod(self, swizzledSel);
-    
-    // 关键：为 NSURLSessionConfiguration 动态添加类方法实现
-    BOOL didAddMethod = class_addMethod(object_getClass(targetClass),
-                                        swizzledSel,
-                                        method_getImplementation(swizzledMethod),
-                                        method_getTypeEncoding(swizzledMethod));
-    
-    if (didAddMethod) {
-        // 获取添加后的方法
-        Method newMethod = class_getClassMethod(targetClass, swizzledSel);
-        // 安全交换
-        method_exchangeImplementations(originalMethod, newMethod);
-    } else {
-        NSLog(@"⚠️ 方法交换失败，请检查方法签名");
+    IMP originalMethodIMP = method_getImplementation(originalMethod);
+    if (originalMethodIMP != (IMP)dbx_DefaultSessionConfiguration) {
+        const char *typeEncoding = method_getTypeEncoding(originalMethod);
+        IMP originalIMP = class_replaceMethod(metaClass, @selector(defaultSessionConfiguration), (IMP)dbx_DefaultSessionConfiguration, typeEncoding);
+        if (originalIMP) {
+            class_addMethod(metaClass, NSSelectorFromString(@"__dbx_orignalDefaultSessionConfiguration"), originalIMP, typeEncoding);
+        }
     }
 }
 
-// 新的类方法实现（必须用类方法！）
-+ (NSURLSessionConfiguration *)modifiedDefaultSessionConfiguration {
-    // 调用原始实现（现在交换后，这里实际上调用原来的 defaultSessionConfiguration）
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration performSelector:@selector(modifiedDefaultSessionConfiguration)];
++ (void)reSwizzleDefaultSession {
+    Class metaClass = object_getClass([NSURLSessionConfiguration class]);
+    Method targetMethod = class_getInstanceMethod(metaClass, @selector(defaultSessionConfiguration));
+    IMP targetMethodIMP = method_getImplementation(targetMethod);
+    if (targetMethodIMP == (IMP)dbx_DefaultSessionConfiguration) {
+        const char *typeEncoding = method_getTypeEncoding(targetMethod);
+        Method originalMethod = class_getInstanceMethod(metaClass, NSSelectorFromString(@"__dbx_orignalDefaultSessionConfiguration"));
+        IMP originalIMP = method_getImplementation(originalMethod);
+        class_replaceMethod(metaClass, @selector(defaultSessionConfiguration), originalIMP, typeEncoding);
+    }
+}
+
+static NSURLSessionConfiguration * dbx_DefaultSessionConfiguration(void) {
+    SEL originalSelector = NSSelectorFromString(@"__dbx_orignalDefaultSessionConfiguration");
+    __unsafe_unretained NSURLSessionConfiguration *config;
+    if ([NSURLSessionConfiguration respondsToSelector:originalSelector]) {
+        // 使用 NSInvocation 处理返回值（适用于非 void 返回类型）
+        NSMethodSignature *signature = [NSURLSessionConfiguration methodSignatureForSelector:originalSelector];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setSelector:originalSelector];
+        [invocation invokeWithTarget:[NSURLSessionConfiguration class]];
+        
+        // 获取返回值（假设返回类型为 NSURLSessionConfiguration*）
+        [invocation getReturnValue:&config];
+    }
     
-    Class yourProtocolClass = [DBXStubsURLProtocol class];
+    Class stubsProtocolClass = [DBXStubsURLProtocol class];
     NSArray *existingProtocols = config.protocolClasses;
     
-    // 防止重复添加
-    if (![existingProtocols containsObject:yourProtocolClass]) {
+    // 避免重复添加
+    if (![existingProtocols containsObject:stubsProtocolClass]) {
         NSMutableArray *newProtocols = [NSMutableArray arrayWithArray:existingProtocols ?: @[]];
-        [newProtocols insertObject:yourProtocolClass atIndex:0];
-        
+        [newProtocols insertObject:stubsProtocolClass atIndex:0];
         // 使用 KVC 安全赋值
         [config setValue:[newProtocols copy] forKey:@"protocolClasses"];
-        
-        NSLog(@"✅ 协议注入成功: %@", yourProtocolClass);
+        DBXpLog(@"✅ 协议注入成功: %@", stubsProtocolClass);
     }
     
     return config;

@@ -35,11 +35,16 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
-- (void)testA {
-    NSURLSessionConfiguration *testConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-//    testConfig.protocolClasses = @[NSClassFromString(@"DBXStubsURLProtocol")]; // 显式注入
-    NSURLSession *testSession = [NSURLSession sessionWithConfiguration:testConfig];
+- (void)testDoubleActivateStub {
+    [DBXStubs activateStub];
+}
 
+// 测试开启协议后自动把自定义协议插入到NSURLSessionConfiguration中，并且在关闭协议后不再插入
+- (void)testInsertProtocolToSecssionConfiguration {
+    NSURLSessionConfiguration *testConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *testSession = [NSURLSession sessionWithConfiguration:testConfig];
+    [DBXStubs deactivateStub];
+    NSURLSessionConfiguration *testConfig1 = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSessionDataTask *task = [testSession dataTaskWithURL:[NSURL URLWithString:@"https.com"]];
     [task resume];
 }
