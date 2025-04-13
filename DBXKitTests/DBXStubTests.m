@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import "DBXStubs.h"
-#import "DBXStubsResponse.h"
 
 @interface DBXStubTests : XCTestCase
 

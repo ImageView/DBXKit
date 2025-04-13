@@ -60,9 +60,6 @@ NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass) 
 }
 
 + (void)deactivateStub {
-//    if (![DBXCenter functionIsAvailable:DBXFunctionAvailableStubs]) {
-//        return;
-//    }
     [NSURLProtocol unregisterClass:DBXStubsURLProtocol.class];
 }
 
