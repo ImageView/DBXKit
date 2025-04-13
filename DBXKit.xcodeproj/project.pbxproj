@@ -40,6 +40,8 @@
 		C87C67CD2D984CB000D9E71A /* DBXStubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67CC2D984CB000D9E71A /* DBXStubTests.m */; };
 		C87C67CF2D984E4000D9E71A /* StubsJsonTests.geojson in Resources */ = {isa = PBXBuildFile; fileRef = C87C67CE2D984E4000D9E71A /* StubsJsonTests.geojson */; };
 		C87C67D12D9EE58100D9E71A /* testforStub.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C87C67D02D9EE58100D9E71A /* testforStub.pdf */; };
+		C87C67D62DA4229F00D9E71A /* DBXTestHookADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67D52DA4229F00D9E71A /* DBXTestHookADViewController.m */; };
+		C87C67D92DA4246600D9E71A /* DBXADInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67D82DA4246600D9E71A /* DBXADInjector.m */; };
 		C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A6242B5EC298008C9C36 /* DBXDebounce.m */; };
 		C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62A2B64F0EB008C9C36 /* DBXDebounceDealloc.m */; };
 		C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */; };
@@ -155,6 +157,10 @@
 		C87C67CC2D984CB000D9E71A /* DBXStubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubTests.m; sourceTree = "<group>"; };
 		C87C67CE2D984E4000D9E71A /* StubsJsonTests.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = StubsJsonTests.geojson; sourceTree = "<group>"; };
 		C87C67D02D9EE58100D9E71A /* testforStub.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testforStub.pdf; sourceTree = "<group>"; };
+		C87C67D42DA4229F00D9E71A /* DBXTestHookADViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTestHookADViewController.h; sourceTree = "<group>"; };
+		C87C67D52DA4229F00D9E71A /* DBXTestHookADViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTestHookADViewController.m; sourceTree = "<group>"; };
+		C87C67D72DA4246600D9E71A /* DBXADInjector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXADInjector.h; sourceTree = "<group>"; };
+		C87C67D82DA4246600D9E71A /* DBXADInjector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXADInjector.m; sourceTree = "<group>"; };
 		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
 		C880A6242B5EC298008C9C36 /* DBXDebounce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebounce.m; sourceTree = "<group>"; };
 		C880A6292B64F0EB008C9C36 /* DBXDebounceDealloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounceDealloc.h; sourceTree = "<group>"; };
@@ -484,6 +490,10 @@
 				C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */,
 				C8BF50672BD49BED0032721C /* DBXTaskQueueViewController.h */,
 				C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */,
+				C87C67D42DA4229F00D9E71A /* DBXTestHookADViewController.h */,
+				C87C67D52DA4229F00D9E71A /* DBXTestHookADViewController.m */,
+				C87C67D72DA4246600D9E71A /* DBXADInjector.h */,
+				C87C67D82DA4246600D9E71A /* DBXADInjector.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
 				C8F301612B40656E00524BEE /* testConfig.plist */,
 			);
@@ -710,6 +720,7 @@
 				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,
 				C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
+				C87C67D62DA4229F00D9E71A /* DBXTestHookADViewController.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
@@ -729,6 +740,7 @@
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
+				C87C67D92DA4246600D9E71A /* DBXADInjector.m in Sources */,
 				2E70D2C62933165F00ED8B9E /* DBXChainTask.m in Sources */,
 				2EF739AC287AD405007B2A95 /* DBXAutoReportManager.m in Sources */,
 				C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */,

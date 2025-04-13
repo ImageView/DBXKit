@@ -20,9 +20,9 @@
 		</dict>
 		<dict>
 			<key>title</key>
-			<string>队列</string>
+			<string>测试插入广告</string>
 			<key>class</key>
-			<string>DBXTaskQueueViewController</string>
+			<string>DBXTestHookADViewController</string>
 		</dict>
 		<dict>
 			<key>title</key>

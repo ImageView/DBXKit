@@ -34,7 +34,7 @@ NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass);
 + (void)deactivateStub;
 
 + (DBXStubsRule *)stubMatching:(StubConditionBlock)condition
-                          responseWith:(StubsResponseBlock)response;
+                  responseWith:(StubsResponseBlock)response;
 // 移除规则
 + (void)removeStubRule:(DBXStubsRule *)stubRule;
 

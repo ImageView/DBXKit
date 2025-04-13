@@ -19,7 +19,7 @@
 - (void)setUp {
     [DBXStubs activateStub];
     [DBXStubs stubMatching:^BOOL(NSURLRequest * _Nonnull request) {
-        if ([request.URL.absoluteString containsString:@"opensource.apple"]) {
+        if ([request.URL.absoluteString containsString:@"opensource.apple"] || [request.URL.absoluteString containsString:@"https.com"]) {
             return YES;
         }
         return NO;
@@ -36,36 +36,45 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
-- (void)testText {
-    XCTestExpectation *expect = [self expectationWithDescription:@"请求完成"];
-    NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?txt";
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    
-    // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
-        NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"result = %@", receivedText);
-        [expect fulfill];
-    }];
-    [self waitForExpectations:@[expect]];
+- (void)testA {
+    NSURLSessionConfiguration *testConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    testConfig.protocolClasses = @[NSClassFromString(@"DBXStubsURLProtocol")]; // 显式注入
+    NSURLSession *testSession = [NSURLSession sessionWithConfiguration:testConfig];
+
+    NSURLSessionDataTask *task = [testSession dataTaskWithURL:[NSURL URLWithString:@"https.com"]];
+    [task resume];
 }
 
-- (void)testBigFile {
-    XCTestExpectation *expect = [self expectationWithDescription:@"请求完成"];
-    NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?pdf";
-    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    
-    // This is a very handy way to send an asynchronous method, but only available in iOS5+
-    [NSURLConnection sendAsynchronousRequest:req
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
-        NSLog(@"bigfile = %ld", data.length);
-        [expect fulfill];
-    }];
-    [self waitForExpectations:@[expect]];
-}
+//- (void)testText {
+//    XCTestExpectation *expect = [self expectationWithDescription:@"请求完成"];
+//    NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?txt";
+//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+//    
+//    // This is a very handy way to send an asynchronous method, but only available in iOS5+
+//    [NSURLConnection sendAsynchronousRequest:req
+//                                       queue:[NSOperationQueue mainQueue]
+//                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
+//        NSString* receivedText = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+//        NSLog(@"result = %@", receivedText);
+//        [expect fulfill];
+//    }];
+//    [self waitForExpectations:@[expect]];
+//}
+
+//- (void)testBigFile {
+//    XCTestExpectation *expect = [self expectationWithDescription:@"请求完成"];
+//    NSString* urlString = @"http://www.opensource.apple.com/source/Git/Git-26/src/git-htmldocs/git-commit.txt?pdf";
+//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+//    
+//    // This is a very handy way to send an asynchronous method, but only available in iOS5+
+//    [NSURLConnection sendAsynchronousRequest:req
+//                                       queue:[NSOperationQueue mainQueue]
+//                           completionHandler:^(NSURLResponse* resp, NSData* data, NSError* error) {
+//        NSLog(@"bigfile = %ld", data.length);
+//        [expect fulfill];
+//    }];
+//    [self waitForExpectations:@[expect]];
+//}
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
