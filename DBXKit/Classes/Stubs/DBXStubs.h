@@ -11,6 +11,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+NSString * _Nullable DBXPathForFile(NSString * _Nonnull fileName, Class _Nonnull inBundleForClass);
+#ifdef __cplusplus
+}
+#endif
+
 @class DBXStubsResponse;
 
 typedef BOOL(^StubConditionBlock)(NSURLRequest *request);
@@ -25,7 +33,6 @@ typedef DBXStubsResponse* _Nonnull (^StubsResponseBlock)(NSURLRequest* request);
 
 @end
 
-NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass);
 
 #pragma mark - 核心类类
 @interface DBXStubs : NSObject
