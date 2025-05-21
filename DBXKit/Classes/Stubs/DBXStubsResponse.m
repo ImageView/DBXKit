@@ -77,7 +77,7 @@ const double DBXStubsDownloadSpeedWifi6         = -1200000 / 8; // 150000 KB/s
             headers[@"Content-Length"] = [NSString stringWithFormat:@"%llu", _dataSize];
         }
         if (!headers[@"Content-Type"]) {
-            headers[@"Content-Type"] = @"text/plain";
+            headers[@"Content-Type"] = @"application/json;encoding=utf-8";
         }
         _httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
     }

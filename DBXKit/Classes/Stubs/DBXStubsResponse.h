@@ -53,7 +53,7 @@ DBXStubsDownloadSpeedWifi6;     // 150000 KB/s
 // 错误
 @property(nonatomic, strong) NSError *error;
 
-// httpHeaders默认Content-Type为text/plain，可自行修改
+// httpHeaders默认Content-Type为application/json;encoding=utf-8，可自行修改
 + (instancetype)responseWithJson:(NSString *)jsonString
                       statusCode:(int)statusCode
                          headers:(nullable NSDictionary*)httpHeaders;
