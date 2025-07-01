@@ -61,4 +61,9 @@ Pod::Spec.new do |spec|
        ss.source_files = 'DBXKit/Classes/Stubs/**/*'
        ss.dependency 'DBXKit/Core'
   end
+  
+  spec.subspec 'Guard​' do |ss|
+       ss.source_files = 'DBXKit/Classes/Guard​/**/*'
+       ss.dependency 'DBXKit/Core'
+  end
 end
