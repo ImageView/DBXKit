@@ -26,7 +26,7 @@
     self.view.backgroundColor = [UIColor qmui_randomColor];
     self.collectionView.frame = self.view.bounds;
     [self.view addSubview:self.collectionView];
-    self.dataSource = [NSMutableArray arrayWithObjects:@"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i", @"j", @"k", @"l", nil];
+    self.dataSource = [NSMutableArray arrayWithObjects:@"a", @"b", @"c", @"d", @(1), @"e", @"f", @(2),@"g", @(3), @"h", @"i", @"j", @"k", @"l", nil];
     self.adapter = [[DBXListAdapter alloc] initWithViewController:self];
     self.adapter.collectionView = self.collectionView;
     self.adapter.dataSource = self;
@@ -37,6 +37,9 @@
 }
 
 - (DBXListSectionController *)listAdapter:(DBXListAdapter *)adapter sectionControllerForObject:(id)object {
+    if ([object isKindOfClass:[NSNumber class]]) {
+        return [[DBXTestHookADNumberSectionController alloc] init];
+    }
     return [[DBXTestHookADSectionController alloc] init];
 }
 
@@ -62,7 +65,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-
+        layout.itemSize = CGSizeMake(100, 50);
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
 //        _collectionView.dataSource = self;
     }

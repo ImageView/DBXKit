@@ -10,7 +10,6 @@
 #import "DBXCore.h"
 #import <objc/runtime.h>
 #import "DBXStubsURLProtocol.h"
-#import "DBXCore.h"
 
 NSString* __nullable DBXPathForFile(NSString* fileName, Class inBundleForClass) {
     NSBundle* bundle = [NSBundle bundleForClass:inBundleForClass];

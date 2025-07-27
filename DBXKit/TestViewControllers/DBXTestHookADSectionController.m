@@ -11,14 +11,20 @@
 
 @implementation DBXTestHookADSectionController
 
-// 本section的row数
-- (NSInteger)numberOfItems {
-    return 1;
+- (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
+    UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
+    
+    cell.backgroundColor = [UIColor redColor];
+    return cell;
 }
 
-- (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
-    UICollectionViewCell *cell = [self.context dequeueReusableCellOfClass:[UICollectionViewCell class] forSectionController:self atIndex:index];
-    cell.backgroundColor = [UIColor qmui_randomColor];
+@end
+
+@implementation DBXTestHookADNumberSectionController
+
+- (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
+    UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
+    cell.backgroundColor = [UIColor blackColor];
     return cell;
 }
 

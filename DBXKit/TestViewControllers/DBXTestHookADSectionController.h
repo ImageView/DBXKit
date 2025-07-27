@@ -14,4 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+
+@interface DBXTestHookADNumberSectionController : DBXListSectionController
+
+@end
 NS_ASSUME_NONNULL_END

@@ -13,16 +13,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXListSectionController : NSObject
 
-
 /** 上下文
  sectionController不持有collectionView实例本身，避免循环引用，因此这里用代理的方式把需要涉及collectionView实例的内容移交回adapter（adapter中有collectionView实例）去处理
 */
 @property(nonatomic, weak) id <DBXListCollectionContext> context;
 
-// 本section的row数
+// 本section的item数
 - (NSInteger)numberOfItems;
 
-- (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index;
+- (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item;
+
+// 获取循环池中的cell
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
 
 @end
 

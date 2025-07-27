@@ -81,12 +81,12 @@
 #pragma mark - Private method -- End
 
 #pragma mark - <DBXListCollectionContext>
-- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atIndex:(NSInteger)index {
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atItem:(NSInteger)item {
     NSString *identifier = DBXListReusableCellIdentifier(cellClass, nil);
     [self tryRegisterCell:cellClass withIdentifier:identifier];
     
     NSInteger section = [self.sectionMap sectionForSectionController:sectionController];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:section];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
     return [self _dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath sectionController:sectionController];
 }
 

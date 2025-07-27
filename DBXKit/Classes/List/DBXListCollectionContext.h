@@ -14,7 +14,7 @@
 @class DBXListSectionController;
 @protocol DBXListCollectionContext <NSObject>
 
-- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atIndex:(NSInteger)index;
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atItem:(NSInteger)item;
 
 @end
 

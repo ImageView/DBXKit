@@ -7,6 +7,7 @@
 //
 
 #import "DBXListSectionController.h"
+#import "DBXCore.h"
 
 @implementation DBXListSectionController
 
@@ -14,8 +15,13 @@
     return 1;
 }
 
-- (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
-    return [self.context dequeueReusableCellOfClass:[UICollectionViewCell class] forSectionController:self atIndex:index];
+- (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
+    return [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
+}
+
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item {
+    DBXpLog(@"index = %d", (int)item);
+    return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
 }
 
 @end

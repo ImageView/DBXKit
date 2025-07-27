@@ -23,7 +23,7 @@
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
-    UICollectionViewCell *cell = [sectionController cellForItemAtIndex:indexPath.row];
+    UICollectionViewCell *cell = [sectionController cellForItemAtItem:indexPath.item];
     return cell;
 }
 
