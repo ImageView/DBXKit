@@ -7,11 +7,15 @@
 //
 
 #import "DBXTestHookADViewController.h"
+#import "DBXList.h"
+#import <QMUIKit/QMUIKit.h>
+#import "DBXTestHookADSectionController.h"
 
-@interface DBXTestHookADViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, DBXListAdapterDataSource>
 
 @property(nonatomic, strong) UICollectionView *collectionView;
 @property(nonatomic, strong) NSMutableArray *dataSource;
+@property(nonatomic, strong) DBXListAdapter *adapter;
 
 @end
 
@@ -19,34 +23,48 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor qmui_randomColor];
     self.collectionView.frame = self.view.bounds;
     [self.view addSubview:self.collectionView];
     self.dataSource = [NSMutableArray arrayWithObjects:@"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i", @"j", @"k", @"l", nil];
+    self.adapter = [[DBXListAdapter alloc] initWithViewController:self];
+    self.adapter.collectionView = self.collectionView;
+    self.adapter.dataSource = self;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+- (NSArray *)objectsForListAdapter:(DBXListAdapter *)adapter {
+    return self.dataSource;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataSource.count;
+- (DBXListSectionController *)listAdapter:(DBXListAdapter *)adapter sectionControllerForObject:(id)object {
+    return [[DBXTestHookADSectionController alloc] init];
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    return cell;
-}
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(300, 50);
-}
+
+//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+//    return 1;
+//}
+//
+//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+//    return self.dataSource.count;
+//}
+//
+//- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+//    return cell;
+//}
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    return CGSizeMake(300, 50);
+//}
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        
+
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.dataSource = self;
+//        _collectionView.dataSource = self;
     }
     return _collectionView;
 }

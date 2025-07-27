@@ -33,6 +33,7 @@
 		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
 		C864D8F42B53B88A007D11E8 /* People.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F22B53B88A007D11E8 /* People.m */; };
 		C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F52B53B8AF007D11E8 /* Animal.m */; };
+		C866E7252E362A5F001A204A /* DBXTestHookADSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C87C67C12D91ADC900D9E71A /* DBXStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C02D91ADC900D9E71A /* DBXStubs.m */; };
@@ -48,6 +49,9 @@
 		C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
+		C893A29D2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A29B2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m */; };
+		C893A2A22E3536E9007A38AB /* DBXListSectionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A2A12E3536E9007A38AB /* DBXListSectionMap.m */; };
+		C893A2A72E361BD6007A38AB /* DBXListAdapter+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A2A62E361BD6007A38AB /* DBXListAdapter+Internal.m */; };
 		C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */; };
 		C8A5A7F92AD4F34B00643495 /* DBXTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A5A7F82AD4F34B00643495 /* DBXTextModel.m */; };
 		C8A606102C38470F00959C8E /* DBXKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A6060F2C38470F00959C8E /* DBXKitTests.m */; };
@@ -60,6 +64,8 @@
 		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
 		C8EA514C2C64E5D900CACE45 /* DBXTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA514B2C64E5D900CACE45 /* DBXTrack.m */; };
 		C8EA514F2C64EF2700CACE45 /* DBXTrackTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA514E2C64EF2700CACE45 /* DBXTrackTarget.m */; };
+		C8EA7A262E2D45FF00F65920 /* DBXListAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA7A252E2D45FF00F65920 /* DBXListAdapter.m */; };
+		C8EA7A292E2D462A00F65920 /* DBXListSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EA7A282E2D462A00F65920 /* DBXListSectionController.m */; };
 		C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F3015F2B40616C00524BEE /* DBXChainViewController.m */; };
 		C8F301622B40656E00524BEE /* testConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8F301612B40656E00524BEE /* testConfig.plist */; };
 		C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F301672B40704800524BEE /* DBXBaseViewController.m */; };
@@ -148,6 +154,8 @@
 		C864D8F32B53B88A007D11E8 /* People.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = People.h; sourceTree = "<group>"; };
 		C864D8F52B53B8AF007D11E8 /* Animal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animal.m; sourceTree = "<group>"; };
 		C864D8F62B53B8AF007D11E8 /* Animal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animal.h; sourceTree = "<group>"; };
+		C866E7232E362A5F001A204A /* DBXTestHookADSectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTestHookADSectionController.h; sourceTree = "<group>"; };
+		C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTestHookADSectionController.m; sourceTree = "<group>"; };
 		C8767EDE269E869B005C0B2C /* MnaLabelsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaLabelsView.m; sourceTree = "<group>"; };
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
@@ -165,6 +173,7 @@
 		C87C67D52DA4229F00D9E71A /* DBXTestHookADViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTestHookADViewController.m; sourceTree = "<group>"; };
 		C87C67D72DA4246600D9E71A /* DBXADInjector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXADInjector.h; sourceTree = "<group>"; };
 		C87C67D82DA4246600D9E71A /* DBXADInjector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXADInjector.m; sourceTree = "<group>"; };
+		C8809B4F2E34C62700158DA6 /* DBXListAdapterDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListAdapterDataSource.h; sourceTree = "<group>"; };
 		C880A6232B5EC298008C9C36 /* DBXDebounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounce.h; sourceTree = "<group>"; };
 		C880A6242B5EC298008C9C36 /* DBXDebounce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXDebounce.m; sourceTree = "<group>"; };
 		C880A6292B64F0EB008C9C36 /* DBXDebounceDealloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXDebounceDealloc.h; sourceTree = "<group>"; };
@@ -175,6 +184,16 @@
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
 		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
+		C893A29B2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBXListAdapter+UICollectionView.m"; sourceTree = "<group>"; };
+		C893A29C2E34CB03007A38AB /* DBXListAdapter+UICollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBXListAdapter+UICollectionView.h"; sourceTree = "<group>"; };
+		C893A29E2E353311007A38AB /* DBXListAdapterExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListAdapterExtension.h; sourceTree = "<group>"; };
+		C893A2A02E3536E9007A38AB /* DBXListSectionMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListSectionMap.h; sourceTree = "<group>"; };
+		C893A2A12E3536E9007A38AB /* DBXListSectionMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListSectionMap.m; sourceTree = "<group>"; };
+		C893A2A32E360633007A38AB /* DBXListCollectionContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListCollectionContext.h; sourceTree = "<group>"; };
+		C893A2A42E3613E8007A38AB /* DBXListSectionControllerExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListSectionControllerExtension.h; sourceTree = "<group>"; };
+		C893A2A52E361BD6007A38AB /* DBXListAdapter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBXListAdapter+Internal.h"; sourceTree = "<group>"; };
+		C893A2A62E361BD6007A38AB /* DBXListAdapter+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBXListAdapter+Internal.m"; sourceTree = "<group>"; };
+		C893A2A82E361D9C007A38AB /* DBXList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXList.h; sourceTree = "<group>"; };
 		C8A5A7F42AD4EAA600643495 /* NSObject+PropertyObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+PropertyObserver.h"; sourceTree = "<group>"; };
 		C8A5A7F52AD4EAA600643495 /* NSObject+PropertyObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertyObserver.m"; sourceTree = "<group>"; };
 		C8A5A7F72AD4F34B00643495 /* DBXTextModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTextModel.h; sourceTree = "<group>"; };
@@ -201,6 +220,10 @@
 		C8EA514B2C64E5D900CACE45 /* DBXTrack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTrack.m; sourceTree = "<group>"; };
 		C8EA514D2C64EF2700CACE45 /* DBXTrackTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTrackTarget.h; sourceTree = "<group>"; };
 		C8EA514E2C64EF2700CACE45 /* DBXTrackTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTrackTarget.m; sourceTree = "<group>"; };
+		C8EA7A242E2D45FF00F65920 /* DBXListAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListAdapter.h; sourceTree = "<group>"; };
+		C8EA7A252E2D45FF00F65920 /* DBXListAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListAdapter.m; sourceTree = "<group>"; };
+		C8EA7A272E2D462A00F65920 /* DBXListSectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListSectionController.h; sourceTree = "<group>"; };
+		C8EA7A282E2D462A00F65920 /* DBXListSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListSectionController.m; sourceTree = "<group>"; };
 		C8F3015E2B40616C00524BEE /* DBXChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXChainViewController.h; sourceTree = "<group>"; };
 		C8F3015F2B40616C00524BEE /* DBXChainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXChainViewController.m; sourceTree = "<group>"; };
 		C8F301612B40656E00524BEE /* testConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = testConfig.plist; sourceTree = "<group>"; };
@@ -423,6 +446,7 @@
 		C881792A26958BC900656441 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C8EA7A232E2D45AA00F65920 /* List */,
 				C82D32572E05363800A3FAAC /* Guard​ */,
 				C87C67BE2D91ABF000D9E71A /* Stubs */,
 				C8EA51492C64E56C00CACE45 /* Track */,
@@ -454,6 +478,21 @@
 				C8FA14322C5B56FA002F6B4A /* UIView+dbx_clickedArea.m */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		C893A29F2E353613007A38AB /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				C893A29E2E353311007A38AB /* DBXListAdapterExtension.h */,
+				C893A2A42E3613E8007A38AB /* DBXListSectionControllerExtension.h */,
+				C893A29C2E34CB03007A38AB /* DBXListAdapter+UICollectionView.h */,
+				C893A29B2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m */,
+				C893A2A52E361BD6007A38AB /* DBXListAdapter+Internal.h */,
+				C893A2A62E361BD6007A38AB /* DBXListAdapter+Internal.m */,
+				C893A2A02E3536E9007A38AB /* DBXListSectionMap.h */,
+				C893A2A12E3536E9007A38AB /* DBXListSectionMap.m */,
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		C8A6060E2C38470F00959C8E /* DBXKitTests */ = {
@@ -491,6 +530,21 @@
 			path = Track;
 			sourceTree = "<group>";
 		};
+		C8EA7A232E2D45AA00F65920 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C893A2A82E361D9C007A38AB /* DBXList.h */,
+				C8EA7A242E2D45FF00F65920 /* DBXListAdapter.h */,
+				C8EA7A252E2D45FF00F65920 /* DBXListAdapter.m */,
+				C8EA7A272E2D462A00F65920 /* DBXListSectionController.h */,
+				C8EA7A282E2D462A00F65920 /* DBXListSectionController.m */,
+				C8809B4F2E34C62700158DA6 /* DBXListAdapterDataSource.h */,
+				C893A2A32E360633007A38AB /* DBXListCollectionContext.h */,
+				C893A29F2E353613007A38AB /* Internal */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
 		C8F3015D2B40614500524BEE /* TestViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,6 +562,8 @@
 				C8BF50682BD49BED0032721C /* DBXTaskQueueViewController.m */,
 				C87C67D42DA4229F00D9E71A /* DBXTestHookADViewController.h */,
 				C87C67D52DA4229F00D9E71A /* DBXTestHookADViewController.m */,
+				C866E7232E362A5F001A204A /* DBXTestHookADSectionController.h */,
+				C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */,
 				C87C67D72DA4246600D9E71A /* DBXADInjector.h */,
 				C87C67D82DA4246600D9E71A /* DBXADInjector.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
@@ -741,10 +797,12 @@
 				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,
 				C8F301682B40704800524BEE /* DBXBaseViewController.m in Sources */,
 				2EF739A8287AC793007B2A95 /* UIView+DBXCore.m in Sources */,
+				C8EA7A262E2D45FF00F65920 /* DBXListAdapter.m in Sources */,
 				C87C67D62DA4229F00D9E71A /* DBXTestHookADViewController.m in Sources */,
 				2E95C2792691C9FD00A2801A /* ViewController.m in Sources */,
 				2E95C2732691C9FD00A2801A /* AppDelegate.m in Sources */,
 				C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */,
+				C893A29D2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m in Sources */,
 				C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */,
 				C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */,
 				C8FA14342C5B56FA002F6B4A /* UIView+dbx_clickedArea.m in Sources */,
@@ -768,6 +826,7 @@
 				C81B0DE92C674F77006A6452 /* DBXRuntimeUtils.m in Sources */,
 				C828F8D32C5B548800F43AF5 /* DBXLog.m in Sources */,
 				C87C67C42D91AFC200D9E71A /* DBXStubsURLProtocol.m in Sources */,
+				C866E7252E362A5F001A204A /* DBXTestHookADSectionController.m in Sources */,
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
@@ -778,10 +837,13 @@
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
+				C893A2A22E3536E9007A38AB /* DBXListSectionMap.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
+				C8EA7A292E2D462A00F65920 /* DBXListSectionController.m in Sources */,
 				C864D8F42B53B88A007D11E8 /* People.m in Sources */,
 				C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */,
 				C8F301862B4A9CDB00524BEE /* DBXSyringeInterface+DBXSy.m in Sources */,
+				C893A2A72E361BD6007A38AB /* DBXListAdapter+Internal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

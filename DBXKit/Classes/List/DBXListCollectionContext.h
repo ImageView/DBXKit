@@ -1,0 +1,21 @@
+//
+//  DBXListCollectionContext.h
+//  DBXKit
+//
+//  Created by 罗俊宇 on 2025/7/27.
+//  Copyright © 2025 DBX. All rights reserved.
+//
+
+#ifndef DBXListCollectionContext_h
+#define DBXListCollectionContext_h
+
+#import <UIKit/UIKit.h>
+
+@class DBXListSectionController;
+@protocol DBXListCollectionContext <NSObject>
+
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atIndex:(NSInteger)index;
+
+@end
+
+#endif /* DBXListCollectionContext_h */
