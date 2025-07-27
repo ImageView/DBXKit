@@ -11,7 +11,7 @@
 #import <QMUIKit/QMUIKit.h>
 #import "DBXTestHookADSectionController.h"
 
-@interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, DBXListAdapterDataSource>
+@interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, DBXListAdapterDataSource>
 
 @property(nonatomic, strong) UICollectionView *collectionView;
 @property(nonatomic, strong) NSMutableArray *dataSource;
@@ -62,11 +62,16 @@
 //    return CGSizeMake(300, 50);
 //}
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"abc");
+}
+
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.itemSize = CGSizeMake(100, 50);
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.delegate = self;
 //        _collectionView.dataSource = self;
     }
     return _collectionView;

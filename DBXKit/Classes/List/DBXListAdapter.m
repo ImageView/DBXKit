@@ -41,16 +41,14 @@
         [self _performDataSourceChange:^{
             self->_collectionView.dataSource = nil;
             self->_collectionView.dataSource = self;
-            self->_collectionView.delegate = nil;
-            self->_collectionView.delegate = self;
-//            [self _updateObjects];
+            [self _updateObjects];
         }];
     }
 }
 
 #pragma mark - Private method
 - (void)_updateObjects {
-    if (!_collectionView) {
+    if (!_collectionView || !_dataSource) {
         return;
     }
     DBXListSectionMap *map = self.sectionMap;
