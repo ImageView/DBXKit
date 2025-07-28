@@ -49,7 +49,14 @@
 - (void)setCollectionViewDelegate:(id<UICollectionViewDelegate>)collectionViewDelegate {
     if (_collectionViewDelegate != collectionViewDelegate) {
         _collectionViewDelegate = collectionViewDelegate;
-        
+        [self _createProxyDelegate];
+    }
+}
+
+- (void)setScrollerViewDelegate:(id<UIScrollViewDelegate>)scrollerViewDelegate {
+    if (_scrollerViewDelegate != scrollerViewDelegate) {
+        _scrollerViewDelegate = scrollerViewDelegate;
+        [self _createProxyDelegate];
     }
 }
 
@@ -106,5 +113,9 @@
     return [self _dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath sectionController:sectionController];
 }
 
+#pragma mark - <UIScrollViewDelegate>
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+}
 
 @end

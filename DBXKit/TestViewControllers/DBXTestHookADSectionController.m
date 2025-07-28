@@ -19,7 +19,7 @@
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
-    NSLog(@"- (void)didSelectItemAtItem:(NSInteger)item;");
+    NSLog(@"%s", __func__);
 }
 
 @end
@@ -33,7 +33,16 @@
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
-    NSLog(@"- (void)didSelectItemAtItem:(NSInteger)item;");
+    NSLog(@"%s", __func__);
 }
+
+- (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
+    NSLog(@"%s", __func__);
+}
+
+- (void)didEndDisplayingCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
+    NSLog(@"%s", __func__);
+}
+
 
 @end

@@ -8,5 +8,5 @@
 
 #import "DBXListAdapter.h"
 
-@interface DBXListAdapter (UICollectionView)<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DBXListAdapter (UICollectionView)<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @end

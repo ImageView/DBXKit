@@ -11,6 +11,7 @@
 
 @implementation DBXListSectionController
 
+#pragma mark - for UICollectionViewDataSource
 - (NSInteger)numberOfItems {
     return 1;
 }
@@ -20,11 +21,33 @@
 }
 
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item {
-    DBXpLog(@"index = %d", (int)item);
+//    DBXpLog(@"index = %d", (int)item);
     return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
 }
 
+#pragma mark - for UICollectionViewDelegate
 - (void)didSelectItemAtItem:(NSInteger)item {
+    
+}
+
+- (void)didDeselectItemAtItem:(NSInteger)item {
+    
+}
+
+- (CGSize)sizeForItemAtItem:(NSInteger)item {
+//    return CGSizeZero;
+    return CGSizeMake(50, 50);
+}
+
+- (UIEdgeInsets)inset {
+    return UIEdgeInsetsZero;
+}
+
+- (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
+    
+}
+
+- (void)didEndDisplayingCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
     
 }
 
