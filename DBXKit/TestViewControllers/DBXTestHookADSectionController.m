@@ -19,7 +19,7 @@
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
-    NSLog(@"%s", __func__);
+    NSLog(@"%s section:%d", __func__, (int)self.section);
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
@@ -29,6 +29,15 @@
 @end
 
 @implementation DBXTestHookADNumberSectionController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.minimumLineSpacing = 5;
+    }
+    return self;
+}
 
 - (NSInteger)numberOfItems {
     return 3;
@@ -46,15 +55,15 @@
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
-    NSLog(@"%s", __func__);
+    NSLog(@"%s section:%d", __func__, (int)self.section);
 }
 
 - (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
-    NSLog(@"%s", __func__);
+    NSLog(@"%s section:%d", __func__, (int)self.section);
 }
 
 - (void)didEndDisplayingCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {
-    NSLog(@"%s", __func__);
+    NSLog(@"%s section:%d", __func__, (int)self.section);
 }
 
 

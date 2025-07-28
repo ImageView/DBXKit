@@ -6,10 +6,22 @@
 //  Copyright © 2025 DBX. All rights reserved.
 //
 
-#import "DBXListSectionController.h"
+#import "DBXListSectionControllerExtension.h"
 #import "DBXCore.h"
 
 @implementation DBXListSectionController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _inset = UIEdgeInsetsZero;
+        _minimumLineSpacing = 0.0;
+        _minimumInteritemSpacing = 0.0;
+        _section = NSNotFound;
+    }
+    return self;
+}
 
 #pragma mark - for UICollectionViewDataSource
 - (NSInteger)numberOfItems {
@@ -35,12 +47,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-//    return CGSizeZero;
     return CGSizeMake(50, 50);
-}
-
-- (UIEdgeInsets)inset {
-    return UIEdgeInsetsZero;
 }
 
 - (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item {

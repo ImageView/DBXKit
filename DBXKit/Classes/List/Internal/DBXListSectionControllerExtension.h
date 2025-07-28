@@ -11,5 +11,10 @@
 
 #import "DBXListSectionController.h"
 
+@interface DBXListSectionController ()
+
+@property (nonatomic, assign) NSInteger section;
+
+@end
 
 #endif /* DBXListSectionControllerExtension_h */

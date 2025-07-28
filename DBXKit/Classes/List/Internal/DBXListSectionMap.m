@@ -7,7 +7,7 @@
 //
 
 #import "DBXListSectionMap.h"
-#import "DBXListSectionController.h"
+#import "DBXListSectionControllerExtension.h"
 
 @interface DBXListSectionMap ()
 
@@ -37,6 +37,7 @@
         DBXListSectionController *sectionController = sectionControllers[idx];
         [self.objectToSectionControllerMap setObject:sectionController forKey:obj];
         [self.sectionControllerToSectionMap setObject:@(idx) forKey:sectionController];
+        sectionController.section = (NSInteger)idx;
     }];
 }
 

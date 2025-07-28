@@ -33,6 +33,7 @@
     self.adapter.dataSource = self;
 }
 
+#pragma mark - DBXListAdapterDataSource
 - (NSArray *)objectsForListAdapter:(DBXListAdapter *)adapter {
     return self.dataSource;
 }
@@ -43,25 +44,6 @@
     }
     return [[DBXTestHookADSectionController alloc] init];
 }
-
-
-
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return 1;
-//}
-//
-//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return self.dataSource.count;
-//}
-//
-//- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-//    return cell;
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return CGSizeMake(300, 50);
-//}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"abc");
