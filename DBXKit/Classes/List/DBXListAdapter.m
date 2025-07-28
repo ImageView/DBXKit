@@ -41,6 +41,8 @@
         [self _performDataSourceChange:^{
             self->_collectionView.dataSource = nil;
             self->_collectionView.dataSource = self;
+            
+            [self _updateCollectionViewDelegate];
             [self _updateObjects];
         }];
     }

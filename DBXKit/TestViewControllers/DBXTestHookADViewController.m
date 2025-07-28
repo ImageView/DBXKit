@@ -28,9 +28,9 @@
     [self.view addSubview:self.collectionView];
     self.dataSource = [NSMutableArray arrayWithObjects:@"a", @"b", @"c", @"d", @(1), @"e", @"f", @(2),@"g", @(3), @"h", @"i", @"j", @"k", @"l", @"12", @"la", @"dw", @"w", @"e", @"h", nil];
     self.adapter = [[DBXListAdapter alloc] initWithViewController:self];
+    self.adapter.collectionViewDelegate = self;
     self.adapter.collectionView = self.collectionView;
     self.adapter.dataSource = self;
-    self.adapter.collectionViewDelegate = self;
 }
 
 - (NSArray *)objectsForListAdapter:(DBXListAdapter *)adapter {
