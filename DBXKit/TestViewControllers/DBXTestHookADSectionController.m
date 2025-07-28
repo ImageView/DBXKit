@@ -18,6 +18,10 @@
     return cell;
 }
 
+- (void)didSelectItemAtItem:(NSInteger)item {
+    NSLog(@"- (void)didSelectItemAtItem:(NSInteger)item;");
+}
+
 @end
 
 @implementation DBXTestHookADNumberSectionController
@@ -26,6 +30,10 @@
     UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
     cell.backgroundColor = [UIColor blackColor];
     return cell;
+}
+
+- (void)didSelectItemAtItem:(NSInteger)item {
+    NSLog(@"- (void)didSelectItemAtItem:(NSInteger)item;");
 }
 
 @end

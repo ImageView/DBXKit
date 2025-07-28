@@ -27,7 +27,11 @@
     return cell;
 }
 
-//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.collectionViewDelegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)]) {
+        [self.collectionViewDelegate collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+    }
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    
+}
 @end

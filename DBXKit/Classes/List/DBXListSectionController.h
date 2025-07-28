@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 获取循环池中的cell
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
 
+- (void)didSelectItemAtItem:(NSInteger)item;
 @end
 
 NS_ASSUME_NONNULL_END

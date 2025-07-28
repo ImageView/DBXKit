@@ -24,4 +24,8 @@
     return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
 }
 
+- (void)didSelectItemAtItem:(NSInteger)item {
+    
+}
+
 @end

@@ -28,6 +28,7 @@
 		C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81B0DEE2C68A051006A6452 /* DBXUnit.m */; };
 		C828F8D32C5B548800F43AF5 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C828F8D22C5B548800F43AF5 /* DBXLog.m */; };
 		C82D325A2E0536CF00A3FAAC /* DBXGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C82D32592E0536CF00A3FAAC /* DBXGuard.m */; };
+		C851BC3D2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C851BC3C2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m */; };
 		C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */; };
 		C864D8EE2B53B77C007D11E8 /* DBXSyringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8ED2B53B77C007D11E8 /* DBXSyringViewController.m */; };
 		C864D8F12B53B85A007D11E8 /* MySyringInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8EF2B53B85A007D11E8 /* MySyringInterface.m */; };
@@ -144,6 +145,8 @@
 		C828F8D22C5B548800F43AF5 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
 		C82D32582E0536CF00A3FAAC /* DBXGuard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXGuard.h; sourceTree = "<group>"; };
 		C82D32592E0536CF00A3FAAC /* DBXGuard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGuard.m; sourceTree = "<group>"; };
+		C851BC3B2E37A5D000F50581 /* DBXListCollectionDelegateProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListCollectionDelegateProxy.h; sourceTree = "<group>"; };
+		C851BC3C2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListCollectionDelegateProxy.m; sourceTree = "<group>"; };
 		C85C1A9D2AC5720800842EF6 /* NSAttributedString+dbx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+dbx.h"; sourceTree = "<group>"; };
 		C85C1A9E2AC5720800842EF6 /* NSAttributedString+dbx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+dbx.m"; sourceTree = "<group>"; };
 		C864D8EC2B53B77C007D11E8 /* DBXSyringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXSyringViewController.h; sourceTree = "<group>"; };
@@ -491,6 +494,8 @@
 				C893A2A62E361BD6007A38AB /* DBXListAdapter+Internal.m */,
 				C893A2A02E3536E9007A38AB /* DBXListSectionMap.h */,
 				C893A2A12E3536E9007A38AB /* DBXListSectionMap.m */,
+				C851BC3B2E37A5D000F50581 /* DBXListCollectionDelegateProxy.h */,
+				C851BC3C2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -837,6 +842,7 @@
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
+				C851BC3D2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m in Sources */,
 				C893A2A22E3536E9007A38AB /* DBXListSectionMap.m in Sources */,
 				C85C1A9F2AC5720800842EF6 /* NSAttributedString+dbx.m in Sources */,
 				C8EA7A292E2D462A00F65920 /* DBXListSectionController.m in Sources */,

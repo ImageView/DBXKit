@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) UIViewController *viewController;
 // 视图
 @property(nonatomic, weak, nullable) UICollectionView *collectionView;
+// collectionView原代理
+@property(nonatomic, weak) id <UICollectionViewDelegate> collectionViewDelegate;
+// scollerView原代理
+@property(nonatomic, weak) id <UIScrollViewDelegate> scrollerViewDelegate;
 
 - (instancetype)initWithViewController:(UIViewController *)viewController;
 
