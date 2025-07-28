@@ -22,14 +22,27 @@
     NSLog(@"%s", __func__);
 }
 
+- (CGSize)sizeForItemAtItem:(NSInteger)item {
+    return CGSizeMake(100, 200);
+}
+
 @end
 
 @implementation DBXTestHookADNumberSectionController
 
+- (NSInteger)numberOfItems {
+    return 3;
+}
+
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
-    cell.backgroundColor = [UIColor blackColor];
+    
+    cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
+}
+
+- (CGSize)sizeForItemAtItem:(NSInteger)item {
+    return CGSizeMake(30 * (item + 1), 200);
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
