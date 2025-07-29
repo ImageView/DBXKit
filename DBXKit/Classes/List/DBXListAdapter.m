@@ -126,13 +126,12 @@
 
 - (__kindof UICollectionReusableView *)dequeueReusableSupplementaryViewOfKind:(NSString *)elementKind
                                                          forSectionController:(DBXListSectionController *)sectionController
-                                                                    viewClass:(Class)viewClass
-                                                                       atItem:(NSInteger)item  {
+                                                                    viewClass:(Class)viewClass {
     NSString *identifier = DBXListReusableViewIdentifier(viewClass, elementKind, nil);
     [self tryRegisterSupplementaryView:viewClass elementKind:elementKind withIdentifier:identifier];
     
     NSInteger section = [self.sectionMap sectionForSectionController:sectionController];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     return [self _dequeueReusableSupplementaryViewOfKind:elementKind withReuseIdentifier:identifier forIndexPath:indexPath forSectionController:sectionController];
 }
 

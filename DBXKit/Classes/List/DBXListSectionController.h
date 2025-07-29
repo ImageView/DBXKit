@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item;
 
-- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind atItem:(NSInteger)item;
+- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind;
 
 - (void)didSelectItemAtItem:(NSInteger)item;
 
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 获取循环池中的cell
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
 // 获取循环池中的supplementaryView
-- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind atItem:(NSInteger)item;
+- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind;
 @end
 
 NS_ASSUME_NONNULL_END

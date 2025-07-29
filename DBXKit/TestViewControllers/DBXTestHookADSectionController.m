@@ -76,4 +76,10 @@
     return CGSizeMake(100, 50);
 }
 
+- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind {
+    UICollectionReusableView *view = [self dequeueReusableSupplementaryViewOfClass:[UICollectionReusableView class] elementKind:UICollectionElementKindSectionHeader];
+    view.backgroundColor = [UIColor qmui_randomColor];
+    return view;
+}
+
 @end

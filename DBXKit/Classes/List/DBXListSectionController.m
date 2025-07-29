@@ -32,8 +32,8 @@
     return [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
 }
 
-- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind atItem:(NSInteger)item {
-    return [self dequeueReusableSupplementaryViewOfClass:[UICollectionReusableView class] elementKind:kind atItem:item];
+- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind {
+    return [self dequeueReusableSupplementaryViewOfClass:[UICollectionReusableView class] elementKind:kind];
 }
 
 #pragma mark - for UICollectionViewDelegate
@@ -63,7 +63,7 @@
     return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
 }
 
-- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind atItem:(NSInteger)item {
-    return [self.context dequeueReusableSupplementaryViewOfKind:elementKind forSectionController:self viewClass:viewClass atItem:item];
+- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind{
+    return [self.context dequeueReusableSupplementaryViewOfKind:elementKind forSectionController:self viewClass:viewClass];
 }
 @end

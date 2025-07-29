@@ -115,8 +115,8 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:section];
-    return [sectionController viewForSupplementaryElementOfClass:<#(nonnull Class)#> elementKind:<#(nonnull NSString *)#> atItem:<#(NSInteger)#>]
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    return [sectionController viewForSupplementaryElementOfKind:kind];
 }
 
 @end
