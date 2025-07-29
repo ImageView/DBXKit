@@ -26,7 +26,7 @@
     self.view.backgroundColor = [UIColor qmui_randomColor];
     self.collectionView.frame = self.view.bounds;
     [self.view addSubview:self.collectionView];
-    self.dataSource = [NSMutableArray arrayWithObjects:@"a", @"b", @"c", @"d", @(1), @"e", @"f", @(2),@"g", @(3), @"h", @"i", @"j", @"k", @"l", @"12", @"la", @"dw", @"w", @"e", @"h", nil];
+    self.dataSource = [NSMutableArray arrayWithObjects:@(1), @(2), @(3),@"广告1", @(4),@(5),@"广告2",@(6),@(7),@"广告3",@(8),@"广告4",@(9),@(10),@(11),@(12),@(13),@(14),@(15),@(16), nil];
     self.adapter = [[DBXListAdapter alloc] initWithViewController:self];
     self.adapter.collectionViewDelegate = self;
     self.adapter.collectionView = self.collectionView;
@@ -39,7 +39,7 @@
 }
 
 - (DBXListSectionController *)listAdapter:(DBXListAdapter *)adapter sectionControllerForObject:(id)object {
-    if ([object isKindOfClass:[NSNumber class]]) {
+    if ([object isKindOfClass:[NSString class]]) {
         return [[DBXTestHookADNumberSectionController alloc] init];
     }
     return [[DBXTestHookADSectionController alloc] init];
