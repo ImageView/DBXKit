@@ -38,6 +38,7 @@
     if (_collectionView != collectionView || _collectionView.dataSource != self) {
         _collectionView = collectionView;
         _registerCellIdentiferSet = [[NSMutableSet alloc] init];
+        _registerSupplementaryViewIdentiferSet = [[NSMutableSet alloc] init];
         [self _performDataSourceChange:^{
             self->_collectionView.dataSource = nil;
             self->_collectionView.dataSource = self;
@@ -93,6 +94,14 @@
     return [self.collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
 }
 
+- (__kindof UICollectionReusableView *)_dequeueReusableSupplementaryViewOfKind:(NSString *)elementKind
+                                                           withReuseIdentifier:(NSString *)identifier
+                                                                  forIndexPath:(NSIndexPath *)indexPath
+                                                          forSectionController:(DBXListSectionController *)sectionController {
+    UICollectionReusableView * view = [self.collectionView dequeueReusableSupplementaryViewOfKind:elementKind withReuseIdentifier:identifier forIndexPath:indexPath];
+    return view;
+}
+
 - (void)_createProxyDelegate {
     _collectionView.delegate = nil;
     self.delegateProxy = [[DBXListCollectionDelegateProxy alloc] initWithCollectionViewTarget:_collectionViewDelegate scrollerViewTarget:_scrollerViewDelegate listAdapter:self];
@@ -113,6 +122,18 @@
     NSInteger section = [self.sectionMap sectionForSectionController:sectionController];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
     return [self _dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath sectionController:sectionController];
+}
+
+- (__kindof UICollectionReusableView *)dequeueReusableSupplementaryViewOfKind:(NSString *)elementKind
+                                                         forSectionController:(DBXListSectionController *)sectionController
+                                                                    viewClass:(Class)viewClass
+                                                                       atItem:(NSInteger)item  {
+    NSString *identifier = DBXListReusableViewIdentifier(viewClass, elementKind, nil);
+    [self tryRegisterSupplementaryView:viewClass elementKind:elementKind withIdentifier:identifier];
+    
+    NSInteger section = [self.sectionMap sectionForSectionController:sectionController];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    return [self _dequeueReusableSupplementaryViewOfKind:elementKind withReuseIdentifier:identifier forIndexPath:indexPath forSectionController:sectionController];
 }
 
 #pragma mark - <UIScrollViewDelegate>

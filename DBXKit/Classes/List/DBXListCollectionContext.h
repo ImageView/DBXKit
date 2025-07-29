@@ -16,6 +16,10 @@
 
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atItem:(NSInteger)item;
 
+- (__kindof UICollectionReusableView *)dequeueReusableSupplementaryViewOfKind:(NSString *)elementKind
+                                                         forSectionController:(DBXListSectionController *)sectionController
+                                                                    viewClass:(Class)viewClass
+                                                                       atItem:(NSInteger)item;
 @end
 
 #endif /* DBXListCollectionContext_h */

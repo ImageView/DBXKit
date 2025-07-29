@@ -30,7 +30,9 @@ NS_INLINE NSString *DBXListReusableCellIdentifier(Class cellClass, NSString * _N
 
 // 存储section、sectionController的信息
 @property(nonatomic, strong) DBXListSectionMap *sectionMap;
-// 注册的cell循环信息
+// 注册的supplementaryView循环信息
+@property(nonatomic, strong) NSMutableSet <NSString *> *registerSupplementaryViewIdentiferSet;
+// 注册的循环信息
 @property(nonatomic, strong) NSMutableSet <NSString *> *registerCellIdentiferSet;
 // 转发delegate
 @property(nonatomic, strong) DBXListCollectionDelegateProxy *delegateProxy;

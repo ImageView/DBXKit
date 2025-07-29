@@ -24,4 +24,12 @@
     [self.registerCellIdentiferSet addObject:identifier];
 }
 
+- (void)tryRegisterSupplementaryView:(Class)supplementaryViewClass elementKind:(NSString *)elementKind withIdentifier:(NSString *)identifier {
+    if (![identifier isKindOfClass:[NSString class]] || [self.registerSupplementaryViewIdentiferSet containsObject:identifier]) {
+        return;
+    }
+    [self.collectionView registerClass:supplementaryViewClass forSupplementaryViewOfKind:elementKind withReuseIdentifier:identifier];
+    [self.registerSupplementaryViewIdentiferSet addObject:identifier];
+}
+
 @end

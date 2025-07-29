@@ -32,9 +32,8 @@
     return [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
 }
 
-- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item {
-//    DBXpLog(@"index = %d", (int)item);
-    return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
+- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind atItem:(NSInteger)item {
+    return [self dequeueReusableSupplementaryViewOfClass:[UICollectionReusableView class] elementKind:kind atItem:item];
 }
 
 #pragma mark - for UICollectionViewDelegate
@@ -58,4 +57,13 @@
     
 }
 
+#pragma mark - public method
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item {
+//    DBXpLog(@"index = %d", (int)item);
+    return [self.context dequeueReusableCellOfClass:cellClass forSectionController:self atItem:item];
+}
+
+- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind atItem:(NSInteger)item {
+    return [self.context dequeueReusableSupplementaryViewOfKind:elementKind forSectionController:self viewClass:viewClass atItem:item];
+}
 @end

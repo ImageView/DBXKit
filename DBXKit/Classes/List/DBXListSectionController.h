@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DBXListCollectionContext.h"
+#import "DBXListSupplementaryViewSource.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
  sectionController不持有collectionView实例本身，避免循环引用，因此这里用代理的方式把需要涉及collectionView实例的内容移交回adapter（adapter中有collectionView实例）去处理
  */
 @property(nonatomic, weak) id <DBXListCollectionContext> context;
+// 补充视图的代理
+@property(nonatomic, weak) id <DBXListSupplementaryViewSource> supplementaryViewSource;
 
 @property(nonatomic, assign, readonly) NSInteger section;
 // inset
@@ -29,8 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item;
 
-// 获取循环池中的cell
-- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
+- (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind atItem:(NSInteger)item;
 
 - (void)didSelectItemAtItem:(NSInteger)item;
 
@@ -41,6 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item;
 - (void)didEndDisplayingCell:(UICollectionViewCell *)cell forItem:(NSInteger)item;
 
+
+#pragma mark - public method
+// 获取循环池中的cell
+- (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
+// 获取循环池中的supplementaryView
+- (UICollectionReusableView *)dequeueReusableSupplementaryViewOfClass:(Class)viewClass elementKind:(NSString *)elementKind atItem:(NSInteger)item;
 @end
 
 NS_ASSUME_NONNULL_END

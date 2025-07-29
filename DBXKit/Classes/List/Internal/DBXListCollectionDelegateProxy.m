@@ -24,14 +24,13 @@ static BOOL isAdapterSelector(SEL sel) {
 //            sel == @selector(collectionView:didDeselectItemAtIndexPath:) ||
 //            sel == @selector(collectionView:didHighlightItemAtIndexPath:) ||
 //            sel == @selector(collectionView:didUnhighlightItemAtIndexPath:) ||
-//            sel == @selector(indexPathForPreferredFocusedViewInCollectionView:) ||
             // UICollectionViewDelegateFlowLayout
             sel == @selector(collectionView:layout:sizeForItemAtIndexPath:) ||
             sel == @selector(collectionView:layout:insetForSectionAtIndex:) ||
             sel == @selector(collectionView:layout:minimumInteritemSpacingForSectionAtIndex:) ||
-            sel == @selector(collectionView:layout:minimumLineSpacingForSectionAtIndex:) //||
-//            sel == @selector(collectionView:layout:referenceSizeForFooterInSection:) ||
-//            sel == @selector(collectionView:layout:referenceSizeForHeaderInSection:) ||
+            sel == @selector(collectionView:layout:minimumLineSpacingForSectionAtIndex:) ||
+            sel == @selector(collectionView:layout:referenceSizeForFooterInSection:) ||
+            sel == @selector(collectionView:layout:referenceSizeForHeaderInSection:) //||
 
             // DBXListCollectionViewDelegateLayout
 //            sel == @selector(collectionView:layout:customizedInitialLayoutAttributes:atIndexPath:) ||

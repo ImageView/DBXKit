@@ -14,7 +14,7 @@
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
     
-    cell.backgroundColor = [UIColor redColor];
+    cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
 }
 
@@ -35,6 +35,8 @@
     self = [super init];
     if (self) {
         self.minimumLineSpacing = 5;
+        self.minimumInteritemSpacing = 10;
+        self.supplementaryViewSource = self;
     }
     return self;
 }
@@ -66,5 +68,12 @@
     NSLog(@"%s section:%d", __func__, (int)self.section);
 }
 
+#pragma mark - <DBXListSupplementaryViewSource>
+- (CGSize)supplementaryViewReferenceSizeOfKind:(NSString *)elementKind {
+    if ([elementKind isEqualToString:UICollectionElementKindSectionFooter]) {
+        return CGSizeZero;
+    }
+    return CGSizeMake(100, 50);
+}
 
 @end

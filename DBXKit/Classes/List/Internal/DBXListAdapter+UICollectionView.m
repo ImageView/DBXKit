@@ -77,13 +77,6 @@
     [sectionController didEndDisplayingCell:cell forItem:indexPath.item];
 }
 
-//- (nullable NSIndexPath *)indexPathForPreferredFocusedViewInCollectionView:(UICollectionView *)collectionView {
-//    if ([self.collectionViewDelegate respondsToSelector:@selector(indexPathForPreferredFocusedViewInCollectionView:)]) {
-//        return [self.collectionViewDelegate indexPathForPreferredFocusedViewInCollectionView:collectionView];
-//    }
-//    return nil;
-//}
-
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
@@ -105,12 +98,25 @@
     return sectionController.minimumInteritemSpacing;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-//    
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-//    
-//}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:section];
+    if (!sectionController.supplementaryViewSource) {
+        return CGSizeZero;
+    }
+    return [sectionController.supplementaryViewSource supplementaryViewReferenceSizeOfKind:UICollectionElementKindSectionHeader];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:section];
+    if (!sectionController.supplementaryViewSource) {
+        return CGSizeZero;
+    }
+    return [sectionController.supplementaryViewSource supplementaryViewReferenceSizeOfKind:UICollectionElementKindSectionFooter];
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:section];
+    return [sectionController viewForSupplementaryElementOfClass:<#(nonnull Class)#> elementKind:<#(nonnull NSString *)#> atItem:<#(NSInteger)#>]
+}
 
 @end

@@ -14,4 +14,5 @@
 
 - (void)tryRegisterCell:(Class)cellClass withIdentifier:(NSString *)identifier;
 
+- (void)tryRegisterSupplementaryView:(Class)supplementaryViewClass elementKind:(NSString *)elementKind withIdentifier:(NSString *)identifier;
 @end

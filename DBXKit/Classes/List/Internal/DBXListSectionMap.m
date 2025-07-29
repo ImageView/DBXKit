@@ -8,6 +8,7 @@
 
 #import "DBXListSectionMap.h"
 #import "DBXListSectionControllerExtension.h"
+#import "DBXCore.h"
 
 @interface DBXListSectionMap ()
 
@@ -38,6 +39,7 @@
         [self.objectToSectionControllerMap setObject:sectionController forKey:obj];
         [self.sectionControllerToSectionMap setObject:@(idx) forKey:sectionController];
         sectionController.section = (NSInteger)idx;
+        DBXpLog(@"添加sectionController：%@，idx：%d,obj:%@", sectionController, (int)idx, obj);
     }];
 }
 
