@@ -13,7 +13,10 @@
 
 @interface DBXListSectionController ()
 
-@property (nonatomic, assign) NSInteger section;
+// 所在控制器
+@property (nonatomic, weak, readwrite) UIViewController *viewController;
+// 当前section
+@property (nonatomic, assign, readwrite) NSInteger section;
 
 @end
 

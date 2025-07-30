@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) id <DBXListCollectionContext> context;
 // 补充视图的代理
 @property(nonatomic, weak) id <DBXListSupplementaryViewSource> supplementaryViewSource;
+// 所在控制器
+@property(nonatomic, weak, readonly) UIViewController *viewController;
 // 数据对象
 @property(nonatomic, strong) id object;
 // 所在section

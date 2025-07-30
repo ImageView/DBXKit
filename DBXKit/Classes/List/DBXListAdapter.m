@@ -77,9 +77,10 @@
             sectionController = [self.dataSource listAdapter:self sectionControllerForObject:obj];
             sectionController.section = idx;
             [sectionController updateObject:obj];
+            sectionController.context = self;
+            sectionController.viewController = self.viewController;
         }
         NSAssert([sectionController isKindOfClass:[DBXListSectionController class]], @"sectionController at index %d should be kind of DBXListSectionController", (int)idx);
-        sectionController.context = self;
         [sectionControllers addObject:sectionController];
     }];
     [map updateObjects:objects sectionControllers:sectionControllers.copy];
