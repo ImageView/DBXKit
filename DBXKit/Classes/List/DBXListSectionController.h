@@ -38,9 +38,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didDeselectItemAtItem:(NSInteger)item;
 
+- (void)didHighlightItemAtItem:(NSInteger)item;
+
+- (void)didUnhighlightItemAtItem:(NSInteger)item;
+
+- (BOOL)shouldSelectItemAtItem:(NSInteger)item;
+
+- (BOOL)shouldDeselectItemAtItem:(NSInteger)item;
+
 - (CGSize)sizeForItemAtItem:(NSInteger)item;
 
 - (void)willDisplayCell:(UICollectionViewCell *)cell forItem:(NSInteger)item;
+
 - (void)didEndDisplayingCell:(UICollectionViewCell *)cell forItem:(NSInteger)item;
 
 

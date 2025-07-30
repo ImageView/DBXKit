@@ -22,9 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 // collectionView原代理
 @property(nonatomic, weak) id <UICollectionViewDelegate> collectionViewDelegate;
 // scollerView原代理
-@property(nonatomic, weak) id <UIScrollViewDelegate> scrollerViewDelegate;
+@property(nonatomic, weak) id <UIScrollViewDelegate> scrollViewDelegate;
 
 - (instancetype)initWithViewController:(UIViewController *)viewController;
+
+- (void)reloadData;
 
 @end
 

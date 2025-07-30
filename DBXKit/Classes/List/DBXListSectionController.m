@@ -45,6 +45,22 @@
     
 }
 
+- (void)didHighlightItemAtItem:(NSInteger)item {
+    
+}
+
+- (void)didUnhighlightItemAtItem:(NSInteger)item {
+    
+}
+
+- (BOOL)shouldSelectItemAtItem:(NSInteger)item {
+    return YES;
+}
+
+- (BOOL)shouldDeselectItemAtItem:(NSInteger)item {
+    return YES;
+}
+
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
     return CGSizeMake(50, 50);
 }

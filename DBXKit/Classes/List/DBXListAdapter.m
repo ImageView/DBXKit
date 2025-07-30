@@ -56,9 +56,9 @@
     }
 }
 
-- (void)setScrollerViewDelegate:(id<UIScrollViewDelegate>)scrollerViewDelegate {
-    if (_scrollerViewDelegate != scrollerViewDelegate) {
-        _scrollerViewDelegate = scrollerViewDelegate;
+- (void)setscrollViewDelegate:(id<UIScrollViewDelegate>)scrollViewDelegate {
+    if (_scrollViewDelegate != scrollViewDelegate) {
+        _scrollViewDelegate = scrollViewDelegate;
         [self _createProxyDelegate];
     }
 }
@@ -85,9 +85,7 @@
 }
 
 - (void)reloadData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadData];
-    });
+    [self.collectionView reloadData];
 }
 
 - (UICollectionViewCell *)_dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath sectionController:(DBXListSectionController *)sectionController {
@@ -104,7 +102,7 @@
 
 - (void)_createProxyDelegate {
     _collectionView.delegate = nil;
-    self.delegateProxy = [[DBXListCollectionDelegateProxy alloc] initWithCollectionViewTarget:_collectionViewDelegate scrollerViewTarget:_scrollerViewDelegate listAdapter:self];
+    self.delegateProxy = [[DBXListCollectionDelegateProxy alloc] initWithCollectionViewTarget:_collectionViewDelegate scrollViewTarget:_scrollViewDelegate listAdapter:self];
     [self _updateCollectionViewDelegate];
 }
 

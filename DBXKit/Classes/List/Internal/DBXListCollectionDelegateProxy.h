@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DBXListAdapter;
 @interface DBXListCollectionDelegateProxy : NSProxy
 
-- (instancetype)initWithCollectionViewTarget:(nullable id<UICollectionViewDelegate>)collectionViewTarget scrollerViewTarget:(nullable id<UIScrollViewDelegate>)scrollViewTarget listAdapter:(DBXListAdapter *)adapter;
+- (instancetype)initWithCollectionViewTarget:(nullable id<UICollectionViewDelegate>)collectionViewTarget scrollViewTarget:(nullable id<UIScrollViewDelegate>)scrollViewTarget listAdapter:(DBXListAdapter *)adapter;
 
 @end
 

@@ -29,21 +29,31 @@
 }
 
 #pragma mark - <UICollectionViewDelegate>
-//- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//}
-//
-//- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//}
-//
-//- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
-//
-//- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.collectionViewDelegate respondsToSelector:@selector(collectionView:didHighlightItemAtIndexPath:)]) {
+        [self.collectionViewDelegate collectionView:collectionView didHighlightItemAtIndexPath:indexPath];
+    }
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    [sectionController didHighlightItemAtItem:indexPath.item];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.collectionViewDelegate respondsToSelector:@selector(collectionView:didUnhighlightItemAtIndexPath:)]) {
+        [self.collectionViewDelegate collectionView:collectionView didUnhighlightItemAtIndexPath:indexPath];
+    }
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    [sectionController didUnhighlightItemAtItem:indexPath.item];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    return [sectionController shouldSelectItemAtItem:indexPath.item];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    DBXListSectionController *sectionController = [self.sectionMap sectionControllerForSection:indexPath.section];
+    return [sectionController shouldDeselectItemAtItem:indexPath.item];
+}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.collectionViewDelegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)]) {

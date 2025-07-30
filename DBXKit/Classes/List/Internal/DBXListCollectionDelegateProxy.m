@@ -18,13 +18,13 @@ static BOOL isAdapterSelector(SEL sel) {
             // UICollectionViewDelegate
             sel == @selector(collectionView:willDisplayCell:forItemAtIndexPath:) ||
             sel == @selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:) ||
-//            sel == @selector(collectionView:shouldSelectItemAtIndexPath:) ||
+            sel == @selector(collectionView:shouldSelectItemAtIndexPath:) ||
             sel == @selector(collectionView:didSelectItemAtIndexPath:) ||
-//            sel == @selector(collectionView:shouldDeselectItemAtIndexPath:) ||
-//            sel == @selector(collectionView:didDeselectItemAtIndexPath:) ||
-//            sel == @selector(collectionView:didHighlightItemAtIndexPath:) ||
-//            sel == @selector(collectionView:didUnhighlightItemAtIndexPath:) ||
-            // UICollectionViewDelegateFlowLayout
+            sel == @selector(collectionView:shouldDeselectItemAtIndexPath:) ||
+            sel == @selector(collectionView:didDeselectItemAtIndexPath:) ||
+            sel == @selector(collectionView:didHighlightItemAtIndexPath:) ||
+            sel == @selector(collectionView:didUnhighlightItemAtIndexPath:) ||
+//             UICollectionViewDelegateFlowLayout
             sel == @selector(collectionView:layout:sizeForItemAtIndexPath:) ||
             sel == @selector(collectionView:layout:insetForSectionAtIndex:) ||
             sel == @selector(collectionView:layout:minimumInteritemSpacingForSectionAtIndex:) ||
@@ -40,7 +40,7 @@ static BOOL isAdapterSelector(SEL sel) {
 
 @interface DBXListCollectionDelegateProxy () {
     __weak id _collectionViewTarget;
-    __weak id _scrollerViewTarget;
+    __weak id _scrollViewTarget;
     __weak DBXListAdapter *_adapter;
 }
 
@@ -48,25 +48,25 @@ static BOOL isAdapterSelector(SEL sel) {
 
 @implementation DBXListCollectionDelegateProxy
 
-- (instancetype)initWithCollectionViewTarget:(nullable id<UICollectionViewDelegate>)collectionViewTarget scrollerViewTarget:(nullable id<UIScrollViewDelegate>)scrollViewTarget listAdapter:(DBXListAdapter *)adapter
+- (instancetype)initWithCollectionViewTarget:(nullable id<UICollectionViewDelegate>)collectionViewTarget scrollViewTarget:(nullable id<UIScrollViewDelegate>)scrollViewTarget listAdapter:(DBXListAdapter *)adapter
 {
     if (self) {
         _collectionViewTarget = collectionViewTarget;
-        _scrollerViewTarget = scrollViewTarget;
+        _scrollViewTarget = scrollViewTarget;
         _adapter = adapter;
     }
     return self;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector {
-    return isAdapterSelector(aSelector) || [_collectionViewTarget respondsToSelector:aSelector] || [_scrollerViewTarget respondsToSelector:aSelector];
+    return isAdapterSelector(aSelector) || [_collectionViewTarget respondsToSelector:aSelector] || [_scrollViewTarget respondsToSelector:aSelector];
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector {
     if (isAdapterSelector(aSelector)) {
         return _adapter;
     }
-    return [_scrollerViewTarget respondsToSelector:aSelector] ? _scrollerViewTarget : _collectionViewTarget;
+    return [_scrollViewTarget respondsToSelector:aSelector] ? _scrollViewTarget : _collectionViewTarget;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
