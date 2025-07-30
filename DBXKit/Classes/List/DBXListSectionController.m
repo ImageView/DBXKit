@@ -23,6 +23,10 @@
     return self;
 }
 
+- (void)updateObject:(id)obj {
+    self.object = obj;
+}
+
 #pragma mark - for UICollectionViewDataSource
 - (NSInteger)numberOfItems {
     return 1;

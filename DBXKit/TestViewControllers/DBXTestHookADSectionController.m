@@ -46,6 +46,7 @@
 }
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
+    NSLog(@"%s object:%@,section:%d item:%d", __func__, self.object, (int)self.section, (int)item);
     UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
     
     cell.backgroundColor = [UIColor qmui_randomColor];

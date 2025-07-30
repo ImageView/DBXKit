@@ -20,7 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) id <DBXListCollectionContext> context;
 // 补充视图的代理
 @property(nonatomic, weak) id <DBXListSupplementaryViewSource> supplementaryViewSource;
-
+// 数据对象
+@property(nonatomic, strong) id object;
+// 所在section
 @property(nonatomic, assign, readonly) NSInteger section;
 // inset
 @property(nonatomic, assign) UIEdgeInsets inset;
@@ -54,6 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - public method
+// 更新数据
+- (void)updateObject:(id)obj;
 // 获取循环池中的cell
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass atItem:(NSInteger)item;
 // 获取循环池中的supplementaryView

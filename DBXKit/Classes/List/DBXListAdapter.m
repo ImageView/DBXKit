@@ -75,6 +75,8 @@
         DBXListSectionController *sectionController = [map sectionControllerForObject:obj];
         if (![sectionController isKindOfClass:[DBXListSectionController class]]) {
             sectionController = [self.dataSource listAdapter:self sectionControllerForObject:obj];
+            sectionController.section = idx;
+            [sectionController updateObject:obj];
         }
         NSAssert([sectionController isKindOfClass:[DBXListSectionController class]], @"sectionController at index %d should be kind of DBXListSectionController", (int)idx);
         sectionController.context = self;
