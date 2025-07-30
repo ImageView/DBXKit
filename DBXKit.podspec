@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DBXKit"
-  spec.version      = "0.7.5"
+  spec.version      = "0.8.1"
   spec.summary      = "A short description of DBXKit."
 
   spec.homepage     = "https://github.com/ImageView/"
@@ -62,4 +62,8 @@ Pod::Spec.new do |spec|
        ss.dependency 'DBXKit/Core'
   end
   
+  spec.subspec 'List' do |ss|
+       ss.source_files = 'DBXKit/Classes/List/**/*'
+       ss.dependency 'DBXKit/Core'
+  end
 end
