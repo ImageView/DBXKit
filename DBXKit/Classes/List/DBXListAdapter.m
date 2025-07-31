@@ -84,11 +84,11 @@
         [sectionControllers addObject:sectionController];
     }];
     [map updateObjects:objects sectionControllers:sectionControllers.copy];
-    [self reloadData];
+    [self.collectionView reloadData];
 }
 
 - (void)reloadData {
-    [self.collectionView reloadData];
+    [self _updateObjects];
 }
 
 - (UICollectionViewCell *)_dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath sectionController:(DBXListSectionController *)sectionController {

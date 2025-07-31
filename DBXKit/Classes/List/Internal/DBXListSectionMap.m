@@ -31,8 +31,20 @@
     return self;
 }
 
+- (void)reset {
+    NSArray *objects = self.objects;
+    for (NSInteger section = 0; section < (NSInteger)objects.count; section++) {
+        id object = objects[section];
+        DBXListSectionController *sectionController = [self sectionControllerForObject:object];
+        sectionController.section = NSNotFound;
+    }
+    [self.objectToSectionControllerMap removeAllObjects];
+    [self.sectionControllerToSectionMap removeAllObjects];
+}
+
 - (void)updateObjects:(NSArray *)objects sectionControllers:(NSArray *)sectionControllers {
     NSAssert(objects.count == sectionControllers.count, @"objects leng != sectionsControllers length");
+    [self reset];
     self.objects = objects.mutableCopy;
     [objects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         DBXListSectionController *sectionController = sectionControllers[idx];

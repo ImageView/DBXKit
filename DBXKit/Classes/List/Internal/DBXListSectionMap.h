@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 对象组
 @property(nonatomic, strong, readonly) NSArray *objects;
 
+// 重置数据
+- (void)reset;
+
 // 更新数据组和对应的sectionControllers
 - (void)updateObjects:(NSArray *)objects sectionControllers:(NSArray *)sectionControllers;
 
