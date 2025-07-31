@@ -22,6 +22,10 @@
     return self;
 }
 
+- (void)reloadData {
+    [self _updateObjects];
+}
+
 - (void)setDataSource:(id<DBXListAdapterDataSource>)dataSource {
     if (_dataSource == dataSource) {
         return;
@@ -56,7 +60,7 @@
     }
 }
 
-- (void)setscrollViewDelegate:(id<UIScrollViewDelegate>)scrollViewDelegate {
+- (void)setScrollViewDelegate:(id<UIScrollViewDelegate>)scrollViewDelegate {
     if (_scrollViewDelegate != scrollViewDelegate) {
         _scrollViewDelegate = scrollViewDelegate;
         [self _createProxyDelegate];
@@ -85,10 +89,6 @@
     }];
     [map updateObjects:objects sectionControllers:sectionControllers.copy];
     [self.collectionView reloadData];
-}
-
-- (void)reloadData {
-    [self _updateObjects];
 }
 
 - (UICollectionViewCell *)_dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath sectionController:(DBXListSectionController *)sectionController {

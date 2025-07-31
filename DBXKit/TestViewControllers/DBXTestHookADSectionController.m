@@ -8,27 +8,39 @@
 
 #import "DBXTestHookADSectionController.h"
 #import <QMUIKit/QMUIKit.h>
+#import "DBXTestHookADCollectionCell.h"
 
 @implementation DBXTestHookADSectionController
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
-    UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
-    
+    DBXTestHookADCollectionCell *cell = (DBXTestHookADCollectionCell *)[self dequeueReusableCellOfClass:[DBXTestHookADCollectionCell class] atItem:item];
+    cell.textLabel.text = self.object;
+
     cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
     NSLog(@"%s section:%d", __func__, (int)self.section);
+    NSString *obj = self.object;
+    if ([obj containsString:@"插入"]) {
+        [self.delegate insertObjectToItem:-1];
+    } else if ([obj containsString:@"删除"]) {
+        [self.delegate deleteObjectItem:-1];
+    } else if ([obj containsString:@"修改"]) {
+        [self.delegate updateObject:[NSString stringWithFormat:@"更新后%ld", random()%100000] atItem:-1];
+    } else {
+        [self.delegate sectionColtrollerReload];
+    }
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(100, 200);
+    return CGSizeMake(150, 100);
 }
 
 @end
 
-@implementation DBXTestHookADNumberSectionController
+@implementation DBXTestADSectionController
 
 - (instancetype)init
 {
@@ -42,19 +54,19 @@
 }
 
 - (NSInteger)numberOfItems {
-    return 3;
+    return 1;
 }
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     NSLog(@"%s object:%@,section:%d item:%d", __func__, self.object, (int)self.section, (int)item);
-    UICollectionViewCell *cell = [self dequeueReusableCellOfClass:[UICollectionViewCell class] atItem:item];
-    
+    DBXTestADCollectionCell *cell = (DBXTestADCollectionCell *)[self dequeueReusableCellOfClass:[DBXTestADCollectionCell class] atItem:item];
+    cell.textLabel.text = self.object;
     cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(30 * (item + 1), 200);
+    return CGSizeMake(300, 100);
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {

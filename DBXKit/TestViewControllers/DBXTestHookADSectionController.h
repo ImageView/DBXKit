@@ -10,13 +10,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBXTestHookADSectionController : DBXListSectionController
+@protocol DBXTestHookADSectionControllerDelegate <NSObject>
+
+- (void)sectionColtrollerReload;
+- (void)deleteObjectItem:(NSInteger)item;
+- (void)insertObjectToItem:(NSInteger)item;
+- (void)updateObject:(NSString *)obj atItem:(NSInteger)item;
+@end
+
+@interface DBXTestHookADSectionController : DBXListSectionController<DBXTestHookADSectionControllerDelegate>
+
+@property(nonatomic, weak) id <DBXTestHookADSectionControllerDelegate> delegate;
 
 @end
 
 
 
-@interface DBXTestHookADNumberSectionController : DBXListSectionController<DBXListSupplementaryViewSource>
+@interface DBXTestADSectionController : DBXListSectionController<DBXListSupplementaryViewSource>
 
 @end
 NS_ASSUME_NONNULL_END

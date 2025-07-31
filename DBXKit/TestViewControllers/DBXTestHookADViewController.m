@@ -32,9 +32,31 @@
     self.adapter.dataSource = self;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.dataSource = [NSMutableArray arrayWithObjects:@(1), @(2), @(3),@"广告1", @(4),@(5),@"广告2",@(6),@(7),@"广告3",@(8),@"广告4",@(9),@(10),@(11),@(12),@(13),@(14),@(15),@(16), nil];
+        self.dataSource = [NSMutableArray arrayWithObjects:@"刷新",@"插入一条",@"删除最后一条",@"广告1",@"修改最后一条",@"广告2",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
         [self.adapter reloadData];
     });
+}
+
+- (void)sectionColtrollerReload {
+    [self.adapter reloadData];
+}
+- (void)deleteObjectItem:(NSInteger)item {
+    if (item < 0) {
+        item = self.dataSource.count-1;
+    }
+    [self.dataSource removeObjectAtIndex:item];
+}
+- (void)insertObjectToItem:(NSInteger)item {
+    if (item < 0) {
+        item = self.dataSource.count-1;
+    }
+    [self.dataSource insertObject:@"新插入的数据" atIndex:item];
+}
+- (void)updateObject:(NSString *)obj atItem:(NSInteger)item {
+    if (item < 0) {
+        item = self.dataSource.count-1;
+    }
+    [self.dataSource replaceObjectAtIndex:item withObject:@"新替换的数据"];
 }
 
 #pragma mark - DBXListAdapterDataSource
@@ -43,10 +65,12 @@
 }
 
 - (DBXListSectionController *)listAdapter:(DBXListAdapter *)adapter sectionControllerForObject:(id)object {
-    if ([object isKindOfClass:[NSString class]]) {
-        return [[DBXTestHookADNumberSectionController alloc] init];
+    if ([object hasPrefix:@"广告"]) {
+        return [[DBXTestADSectionController alloc] init];
     }
-    return [[DBXTestHookADSectionController alloc] init];
+    DBXTestHookADSectionController *sectionController =  [[DBXTestHookADSectionController alloc] init];
+    sectionController.delegate = self;
+    return sectionController;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
