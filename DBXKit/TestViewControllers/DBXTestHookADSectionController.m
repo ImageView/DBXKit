@@ -35,7 +35,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(150, 100);
+    return CGSizeMake(self.collectionViewContext.containerSize.width /2, 100);//CGSizeMake(150, 100);
 }
 
 @end

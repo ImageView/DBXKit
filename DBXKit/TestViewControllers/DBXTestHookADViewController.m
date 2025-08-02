@@ -10,6 +10,7 @@
 #import "DBXList.h"
 #import <QMUIKit/QMUIKit.h>
 #import "DBXTestHookADSectionController.h"
+#import "DBXTestHookADCustomFlowLayout.h"
 
 @interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, DBXListAdapterDataSource, DBXTestHookADSectionControllerDelegate>
 
@@ -84,10 +85,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.itemSize = CGSizeMake(100, 50);
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-//        _collectionView.delegate = self;
-//        _collectionView.dataSource = self;
     }
     return _collectionView;
 }

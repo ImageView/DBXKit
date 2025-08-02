@@ -36,6 +36,7 @@
 		C864D8F42B53B88A007D11E8 /* People.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F22B53B88A007D11E8 /* People.m */; };
 		C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = C864D8F52B53B8AF007D11E8 /* Animal.m */; };
 		C866E7252E362A5F001A204A /* DBXTestHookADSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */; };
+		C866E72B2E3E0322001A204A /* DBXTestHookADCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C866E72A2E3E0322001A204A /* DBXTestHookADCustomFlowLayout.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
 		C87C67C12D91ADC900D9E71A /* DBXStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C02D91ADC900D9E71A /* DBXStubs.m */; };
@@ -163,6 +164,8 @@
 		C864D8F62B53B8AF007D11E8 /* Animal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animal.h; sourceTree = "<group>"; };
 		C866E7232E362A5F001A204A /* DBXTestHookADSectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTestHookADSectionController.h; sourceTree = "<group>"; };
 		C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTestHookADSectionController.m; sourceTree = "<group>"; };
+		C866E7292E3E0322001A204A /* DBXTestHookADCustomFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXTestHookADCustomFlowLayout.h; sourceTree = "<group>"; };
+		C866E72A2E3E0322001A204A /* DBXTestHookADCustomFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXTestHookADCustomFlowLayout.m; sourceTree = "<group>"; };
 		C8767EDE269E869B005C0B2C /* MnaLabelsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MnaLabelsView.m; sourceTree = "<group>"; };
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
@@ -576,6 +579,8 @@
 				C851BC4C2E3B9B4500F50581 /* DBXTestHookADCollectionCell.m */,
 				C866E7232E362A5F001A204A /* DBXTestHookADSectionController.h */,
 				C866E7242E362A5F001A204A /* DBXTestHookADSectionController.m */,
+				C866E7292E3E0322001A204A /* DBXTestHookADCustomFlowLayout.h */,
+				C866E72A2E3E0322001A204A /* DBXTestHookADCustomFlowLayout.m */,
 				C87C67D72DA4246600D9E71A /* DBXADInjector.h */,
 				C87C67D82DA4246600D9E71A /* DBXADInjector.m */,
 				C8F3016B2B4074E100524BEE /* DBXChainVC.xib */,
@@ -826,6 +831,7 @@
 				C880A62B2B64F0EB008C9C36 /* DBXDebounceDealloc.m in Sources */,
 				C8F301802B4A9CDB00524BEE /* DBXSyringeInterface.m in Sources */,
 				C8F301832B4A9CDB00524BEE /* DBXSyringeTmpArgument.m in Sources */,
+				C866E72B2E3E0322001A204A /* DBXTestHookADCustomFlowLayout.m in Sources */,
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C8F301822B4A9CDB00524BEE /* DBXSyringeFactory.m in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
