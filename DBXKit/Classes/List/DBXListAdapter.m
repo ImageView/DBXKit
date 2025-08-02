@@ -26,6 +26,7 @@
     [self _updateObjects];
 }
 
+#pragma mark - Setter
 - (void)setDataSource:(id<DBXListAdapterDataSource>)dataSource {
     if (_dataSource == dataSource) {
         return;
@@ -81,7 +82,7 @@
             sectionController = [self.dataSource listAdapter:self sectionControllerForObject:obj];
             sectionController.section = idx;
             [sectionController updateObject:obj];
-            sectionController.context = self;
+            sectionController.collectionViewContext = self;
             sectionController.viewController = self.viewController;
         }
         NSAssert([sectionController isKindOfClass:[DBXListSectionController class]], @"sectionController at index %d should be kind of DBXListSectionController", (int)idx);
@@ -113,9 +114,36 @@
     self.collectionView.delegate = (id<UICollectionViewDelegate>)self.delegateProxy ? : self;
 }
 
-#pragma mark - Private method -- End
-
 #pragma mark - <DBXListCollectionContext>
+- (CGSize)containerSize {
+    return self.collectionView.bounds.size;
+}
+
+- (UIEdgeInsets)containerInset {
+    return self.collectionView.contentInset;
+}
+
+- (CGPoint)containerContentOffset {
+    return self.collectionView.contentOffset;
+}
+
+- (CGSize)containerSizeForSectionController:(DBXListSectionController *)sectionController {
+    UIEdgeInsets inset = sectionController.inset;
+    return CGSizeMake(self.containerSize.width - inset.left - inset.right, self.containerSize.height - inset.top - inset.bottom);
+}
+
+- (NSInteger)itemForCell:(UICollectionViewCell *)cell sectionController:(DBXListSectionController *)sectionController {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    return indexPath ? indexPath.item : NSNotFound;
+}
+
+- (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item sectionController:(DBXListSectionController *)sectionController {
+    NSInteger section = [self.sectionMap sectionForSectionController:sectionController];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    return cell;
+}
+
 - (UICollectionViewCell *)dequeueReusableCellOfClass:(Class)cellClass forSectionController:(DBXListSectionController *)sectionController atItem:(NSInteger)item {
     NSString *identifier = DBXListReusableCellIdentifier(cellClass, nil);
     [self tryRegisterCell:cellClass withIdentifier:identifier];

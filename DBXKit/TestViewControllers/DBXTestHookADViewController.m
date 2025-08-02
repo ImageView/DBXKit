@@ -11,7 +11,7 @@
 #import <QMUIKit/QMUIKit.h>
 #import "DBXTestHookADSectionController.h"
 
-@interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, DBXListAdapterDataSource>
+@interface DBXTestHookADViewController ()<UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, DBXListAdapterDataSource, DBXTestHookADSectionControllerDelegate>
 
 @property(nonatomic, strong) UICollectionView *collectionView;
 @property(nonatomic, strong) NSMutableArray *dataSource;

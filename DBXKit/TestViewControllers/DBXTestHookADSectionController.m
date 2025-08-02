@@ -13,7 +13,7 @@
 @implementation DBXTestHookADSectionController
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
-    DBXTestHookADCollectionCell *cell = (DBXTestHookADCollectionCell *)[self dequeueReusableCellOfClass:[DBXTestHookADCollectionCell class] atItem:item];
+    DBXTestHookADCollectionCell *cell = (DBXTestHookADCollectionCell *)[self.collectionViewContext dequeueReusableCellOfClass:[DBXTestHookADCollectionCell class] forSectionController:self atItem:item];
     cell.textLabel.text = self.object;
 
     cell.backgroundColor = [UIColor qmui_randomColor];
@@ -59,7 +59,7 @@
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     NSLog(@"%s object:%@,section:%d item:%d", __func__, self.object, (int)self.section, (int)item);
-    DBXTestADCollectionCell *cell = (DBXTestADCollectionCell *)[self dequeueReusableCellOfClass:[DBXTestADCollectionCell class] atItem:item];
+    DBXTestADCollectionCell *cell = (DBXTestADCollectionCell *)[self.collectionViewContext dequeueReusableCellOfClass:[DBXTestADCollectionCell class] forSectionController:self atItem:item];
     cell.textLabel.text = self.object;
     cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
@@ -90,7 +90,7 @@
 }
 
 - (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind {
-    UICollectionReusableView *view = [self dequeueReusableSupplementaryViewOfClass:[UICollectionReusableView class] elementKind:kind];
+    UICollectionReusableView *view = [self.collectionViewContext dequeueReusableSupplementaryViewOfKind:kind forSectionController:self viewClass:[UICollectionReusableView class]];
     view.backgroundColor = [UIColor qmui_randomColor];
     return view;
 }

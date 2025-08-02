@@ -17,6 +17,8 @@
 @property (nonatomic, weak, readwrite) UIViewController *viewController;
 // 当前section
 @property (nonatomic, assign, readwrite) NSInteger section;
+// collectionViewContext
+@property(nonatomic, weak, readwrite) id <DBXListCollectionContext> collectionViewContext;
 
 @end
 
