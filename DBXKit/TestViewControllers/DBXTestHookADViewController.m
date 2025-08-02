@@ -31,8 +31,12 @@
     self.adapter.collectionView = self.collectionView;
     self.adapter.dataSource = self;
     
+    UIBarButtonItem *rightItem =
+        [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(sectionColtrollerReload)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.dataSource = [NSMutableArray arrayWithObjects:@"刷新",@"插入一条",@"删除最后一条",@"广告1",@"修改最后一条",@"广告2",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
+        self.dataSource = [NSMutableArray arrayWithObjects:@"插入一条",@"删除最后一条",@"广告1",@"修改最后一条",@"广告2",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
         [self.adapter reloadData];
     });
 }
