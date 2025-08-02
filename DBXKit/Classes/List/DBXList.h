@@ -13,5 +13,6 @@
 #import "DBXListSectionController.h"
 #import "DBXListAdapterDataSource.h"
 #import "DBXListCollectionContext.h"
+#import "DBXListSupplementaryViewSource.h"
 
 #endif /* DBXList_h */
