@@ -47,6 +47,9 @@
     [self reset];
     self.objects = objects.mutableCopy;
     [objects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (sectionControllers.count <= idx) {
+            return;
+        }
         DBXListSectionController *sectionController = sectionControllers[idx];
         [self.objectToSectionControllerMap setObject:sectionController forKey:obj];
         [self.sectionControllerToSectionMap setObject:@(idx) forKey:sectionController];

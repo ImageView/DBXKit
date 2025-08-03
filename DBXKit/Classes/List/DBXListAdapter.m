@@ -26,6 +26,13 @@
     [self _updateObjects];
 }
 
+- (void)performUpdatesAnimated:(BOOL)animated completion:(void (^)(BOOL finish))completion {
+    if (!_collectionView || !_dataSource) {
+        return;
+    }
+    
+}
+
 #pragma mark - Setter
 - (void)setDataSource:(id<DBXListAdapterDataSource>)dataSource {
     if (_dataSource == dataSource) {
@@ -74,7 +81,7 @@
         return;
     }
     DBXListSectionMap *map = self.sectionMap;
-    NSArray *objects = [self.dataSource objectsForListAdapter:self];
+    NSArray *objects = [self objectWithDeduplication:[self.dataSource objectsForListAdapter:self]];
     NSMutableArray *sectionControllers = [NSMutableArray array];
     [objects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         DBXListSectionController *sectionController = [map sectionControllerForObject:obj];

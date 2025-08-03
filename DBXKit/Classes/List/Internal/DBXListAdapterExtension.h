@@ -15,6 +15,7 @@
 #import "DBXListAdapter+Internal.h"
 #import "DBXListCollectionContext.h"
 #import "DBXListCollectionDelegateProxy.h"
+#import "DBXListDiffable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 NS_INLINE NSString *DBXListReusableViewIdentifier(Class viewClass, NSString * _Nullable elementKind, NSString * _Nullable customIdentifier) {

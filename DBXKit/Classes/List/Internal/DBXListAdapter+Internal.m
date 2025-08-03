@@ -6,8 +6,8 @@
 //  Copyright © 2025 DBX. All rights reserved.
 //
 
-#import "DBXListAdapter+UICollectionView.h"
-#import "DBXListAdapterExtension.h"
+#import "DBXListAdapter+Internal.h"
+#import "dbxCore.h"
 
 @implementation DBXListAdapter (Internal)
 
@@ -30,6 +30,25 @@
     }
     [self.collectionView registerClass:supplementaryViewClass forSupplementaryViewOfKind:elementKind withReuseIdentifier:identifier];
     [self.registerSupplementaryViewIdentiferSet addObject:identifier];
+}
+
+// 去重
+- (NSArray *)objectWithDeduplication:(NSArray <id<DBXListDiffable>> *)objects {
+    if (![objects isKindOfClass:[NSArray class]]) {
+        return nil;
+    }
+    NSMutableArray *uniqueObjects = [NSMutableArray array];
+    NSMapTable *map = [NSMapTable strongToStrongObjectsMapTable];
+    for (id <DBXListDiffable> obj in objects) {
+        NSString *identifi = obj.diffIdentifier;
+        if (identifi && ![map objectForKey:identifi]) {
+            [uniqueObjects addObject:obj];
+            [map setObject:obj forKey:identifi];
+        } else {
+            DBXpLog(@"%@的identifi：%@重复了，只保留第一个", obj, identifi);
+        }
+    }
+    return uniqueObjects;
 }
 
 @end

@@ -6,7 +6,8 @@
 //  Copyright © 2025 DBX. All rights reserved.
 //
 
-#import "DBXListAdapter.h"
+#import "DBXListAdapterExtension.h"
+#import "DBXListDiffable.h"
 
 @interface DBXListAdapter (Internal)
 
@@ -15,4 +16,7 @@
 - (void)tryRegisterCell:(Class)cellClass withIdentifier:(NSString *)identifier;
 
 - (void)tryRegisterSupplementaryView:(Class)supplementaryViewClass elementKind:(NSString *)elementKind withIdentifier:(NSString *)identifier;
+
+- (NSArray *)objectWithDeduplication:(NSArray <id<DBXListDiffable>> *)objects;
+
 @end
