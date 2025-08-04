@@ -7,14 +7,24 @@
 //
 
 #import "People.h"
+#import "DBXList.h"
 
-@interface People ()
+@interface People ()<DBXListDiffable>
 
 @property(nonatomic, strong) NSString *name;
 
 @end
 
 @implementation People
+
+- (id)diffIdentifier {
+    return @(self.idnum);
+}
+
+- (BOOL)isEqualToDiffObject:(id<DBXListDiffable>)obj {
+    People *p = obj;
+    return [self.name isEqual:p.name] && self.idnum == p.idnum;
+}
 
 - (void)run {
     BOOL condition = NO;
@@ -87,6 +97,7 @@
     self = [super init];
     if (self) {
         self.idnum = [num integerValue];
+        self.name = name;
     }
     return self;
 }

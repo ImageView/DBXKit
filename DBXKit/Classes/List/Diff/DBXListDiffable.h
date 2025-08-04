@@ -13,7 +13,7 @@
 @protocol DBXListDiffable <NSObject>
 // 唯一标识符
 - (id)diffIdentifier;
-// 比对函数
+// 比对函数，用来判断当前obj是否发生变更
 - (BOOL)isEqualToDiffObject:(id <DBXListDiffable>)obj;
 
 @end

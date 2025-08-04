@@ -14,5 +14,7 @@
 #import "DBXListAdapterDataSource.h"
 #import "DBXListCollectionContext.h"
 #import "DBXListSupplementaryViewSource.h"
+#import "DBXListDiff.h"
+#import "DBXListDiffable.h"
 
 #endif /* DBXList_h */

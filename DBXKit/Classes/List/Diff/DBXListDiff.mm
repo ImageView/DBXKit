@@ -34,7 +34,7 @@ struct DBXListRecord {
 
 static id<NSObject> DBXListTableKey(__unsafe_unretained id<DBXListDiffable> object) {
     id<NSObject> key = [object diffIdentifier];
-    NSCAssert(key != nil, @"Cannot use a nil key for the diffIdentifier of object %@", object);
+    NSCAssert(key != nil, @"diffIdentifier Cannot be nil for object %@", object);
     return key;
 }
 
@@ -183,7 +183,7 @@ struct DBXListHashID {
     }
 
     NSCAssert((oldCount + (NSInteger)[mInserts count] - (NSInteger)[mDeletes count]) == newCount,
-              @"Sanity check failed applying %lu inserts and %lu deletes to old count %li equaling new count %li",
+              @"数量检查失败，有%lu条新增和%lu条删除，原始数组有%li条，新的数组有%li条",
               (unsigned long)[mInserts count], (unsigned long)[mDeletes count], (long)oldCount, (long)newCount);
 
     return [[DBXListDiffIndexResult alloc] initWithInserts:mInserts
