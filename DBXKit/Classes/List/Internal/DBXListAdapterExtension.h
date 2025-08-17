@@ -16,6 +16,8 @@
 #import "DBXListCollectionContext.h"
 #import "DBXListCollectionDelegateProxy.h"
 #import "DBXListDiffable.h"
+#import "DBXListUpdate.h"
+#import "DBXListTransitionData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 NS_INLINE NSString *DBXListReusableViewIdentifier(Class viewClass, NSString * _Nullable elementKind, NSString * _Nullable customIdentifier) {
@@ -37,6 +39,9 @@ NS_INLINE NSString *DBXListReusableCellIdentifier(Class cellClass, NSString * _N
 @property(nonatomic, strong) NSMutableSet <NSString *> *registerCellIdentiferSet;
 // 转发delegate
 @property(nonatomic, strong) DBXListCollectionDelegateProxy *delegateProxy;
+// 更新器
+@property(nonatomic, strong) DBXListUpdate *update;
+
 @end
 
 NS_ASSUME_NONNULL_END

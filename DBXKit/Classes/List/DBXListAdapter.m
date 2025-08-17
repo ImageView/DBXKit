@@ -18,6 +18,7 @@
     if (self) {
         _viewController = viewController;
         _sectionMap = [[DBXListSectionMap alloc] init];
+        _update = [[DBXListUpdate alloc] init];
     }
     return self;
 }
@@ -82,7 +83,20 @@
     }
     DBXListSectionMap *map = self.sectionMap;
     NSArray *objects = [self objectWithDeduplication:[self.dataSource objectsForListAdapter:self]];
+    [self _updateWithTransitionData:[self _transitionDataWithObjects:objects dataSource:self.dataSource]];
+}
+
+// 生成过渡数据
+- (DBXListTransitionData *)_transitionDataWithObjects:(NSArray *)objects dataSource:(id<DBXListAdapterDataSource>)dataSource {
+    DBXListSectionMap *map = self.sectionMap;
+    if (!dataSource) {
+        return [[DBXListTransitionData alloc] initWithFromObjects:map.objects
+                                                        toObjects:@[]
+                                               sectionControllers:@[]];
+    }
+    
     NSMutableArray *sectionControllers = [NSMutableArray array];
+    NSMutableArray *tempObjects = [NSMutableArray array];
     [objects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         DBXListSectionController *sectionController = [map sectionControllerForObject:obj];
         if (![sectionController isKindOfClass:[DBXListSectionController class]]) {
@@ -92,10 +106,21 @@
             sectionController.collectionViewContext = self;
             sectionController.viewController = self.viewController;
         }
-        NSAssert([sectionController isKindOfClass:[DBXListSectionController class]], @"sectionController at index %d should be kind of DBXListSectionController", (int)idx);
+        if (![sectionController isKindOfClass:[DBXListSectionController class]]) {
+            NSAssert(NO, @"sectionController at index %d should be kind of DBXListSectionController", (int)idx);
+            return;
+        }
         [sectionControllers addObject:sectionController];
+        [tempObjects addObject:obj];
     }];
-    [map updateObjects:objects sectionControllers:sectionControllers.copy];
+    return [[DBXListTransitionData alloc] initWithFromObjects:map.objects toObjects:tempObjects sectionControllers:sectionControllers];
+}
+
+- (void)_updateWithTransitionData:(DBXListTransitionData *)transitionData {
+    if (!_collectionView || !_dataSource) {
+        return;
+    }
+    [self.sectionMap updateObjects:transitionData.toObjects sectionControllers:transitionData.sectionContollers];
     [self.collectionView reloadData];
 }
 
