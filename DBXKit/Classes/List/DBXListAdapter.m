@@ -31,7 +31,32 @@
     if (!_collectionView || !_dataSource) {
         return;
     }
+    id<DBXListAdapterDataSource> dataSource = self.dataSource;
+
+    __weak __typeof(self)weakSelf = self;
+    DBXListUpdateCollectionViewBlock collectionViewBlock = ^UICollectionView *{
+        return weakSelf.collectionView;
+    };
     
+    DBXListUpdateTransitionDataBlock transitionBlock = ^DBXListTransitionData *{
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        DBXListTransitionData *data = nil;
+        if (strongSelf) {
+            NSArray *objects = [strongSelf objectWithDeduplication:[dataSource objectsForListAdapter:strongSelf]];
+            DBXListTransitionData *data = [strongSelf _transitionDataWithObjects:objects dataSource:dataSource];
+        }
+        return data;
+    };
+    
+    DBXListUpdateApplyTransitionDataBlock applyBlock = ^void(DBXListTransitionData *data) {
+        
+    };
+    
+    DBXListUpdateCompletion completionBlock = ^void(BOOL finish) {
+        
+    };
+    
+    [self.update performUpdateWithCollectionViewBlock:collectionViewBlock transitionDataBlock:transitionBlock applyDataBlock:applyBlock completion:completionBlock];
 }
 
 #pragma mark - Setter
@@ -81,7 +106,6 @@
     if (!_collectionView || !_dataSource) {
         return;
     }
-    DBXListSectionMap *map = self.sectionMap;
     NSArray *objects = [self objectWithDeduplication:[self.dataSource objectsForListAdapter:self]];
     [self _updateWithTransitionData:[self _transitionDataWithObjects:objects dataSource:self.dataSource]];
 }

@@ -23,6 +23,12 @@
     return self;
 }
 
+- (void)performUpdateWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
+                         transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
+                              applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
+                                  completion:(DBXListUpdateCompletion)completion {
+    
+}
 
 
 @end

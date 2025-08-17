@@ -16,14 +16,22 @@ typedef struct {
     NSTimeInterval maxInterval;     // 更新最大时间
 } DBXListUpdateConfig;
 
+@class DBXListTransitionData;
 typedef UICollectionView *_Nullable(^DBXListUpdateCollectionViewBlock)(void);
+typedef DBXListTransitionData *_Nullable(^DBXListUpdateTransitionDataBlock)(void);
+typedef void (^DBXListUpdateApplyTransitionDataBlock)(DBXListTransitionData *);
+typedef void(^DBXListUpdateCompletion)(BOOL finish);
 
-
+// list更新类
 @interface DBXListUpdate : NSObject
 
+// 更新的配置
 @property(nonatomic, assign) DBXListUpdateConfig updateConfig;
 
-- (void)performUpdateWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock;
+- (void)performUpdateWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
+                         transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
+                              applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
+                                  completion:(DBXListUpdateCompletion)completion;
 
 @end
 
