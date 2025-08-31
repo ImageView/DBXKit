@@ -27,8 +27,11 @@
                          transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
                               applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
                                   completion:(DBXListUpdateCompletion)completion {
-    
+    [self update];  
 }
 
+- (void)update {
+    
+}
 
 @end

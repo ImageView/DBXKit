@@ -34,10 +34,12 @@
     id<DBXListAdapterDataSource> dataSource = self.dataSource;
 
     __weak __typeof(self)weakSelf = self;
+    // 获取collectionView视图
     DBXListUpdateCollectionViewBlock collectionViewBlock = ^UICollectionView *{
         return weakSelf.collectionView;
     };
     
+    // 获取数据（从代理中获取））
     DBXListUpdateTransitionDataBlock transitionBlock = ^DBXListTransitionData *{
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         DBXListTransitionData *data = nil;
@@ -48,10 +50,15 @@
         return data;
     };
     
+    // 应用数据
     DBXListUpdateApplyTransitionDataBlock applyBlock = ^void(DBXListTransitionData *data) {
-        
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf _updateWithTransitionData:data];
+        }
     };
     
+    // 完成
     DBXListUpdateCompletion completionBlock = ^void(BOOL finish) {
         
     };
