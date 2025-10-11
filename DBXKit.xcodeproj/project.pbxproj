@@ -28,6 +28,7 @@
 		C81B0DEF2C68A051006A6452 /* DBXUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81B0DEE2C68A051006A6452 /* DBXUnit.m */; };
 		C828F8D32C5B548800F43AF5 /* DBXLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C828F8D22C5B548800F43AF5 /* DBXLog.m */; };
 		C82D325A2E0536CF00A3FAAC /* DBXGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C82D32592E0536CF00A3FAAC /* DBXGuard.m */; };
+		C83B7F752E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */; };
 		C84240DD2E51B5570033AD77 /* DBXListUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = C84240DC2E51B5570033AD77 /* DBXListUpdate.m */; };
 		C84240E02E51D5000033AD77 /* DBXListTransitionData.m in Sources */ = {isa = PBXBuildFile; fileRef = C84240DF2E51D5000033AD77 /* DBXListTransitionData.m */; };
 		C851BC3D2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C851BC3C2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m */; };
@@ -154,6 +155,9 @@
 		C828F8D22C5B548800F43AF5 /* DBXLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXLog.m; sourceTree = "<group>"; };
 		C82D32582E0536CF00A3FAAC /* DBXGuard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXGuard.h; sourceTree = "<group>"; };
 		C82D32592E0536CF00A3FAAC /* DBXGuard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGuard.m; sourceTree = "<group>"; };
+		C83B7F732E9A8AB50052D83C /* DBXListBatchUpdateTransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListBatchUpdateTransaction.h; sourceTree = "<group>"; };
+		C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListBatchUpdateTransaction.m; sourceTree = "<group>"; };
+		C83B7F762E9A8C680052D83C /* DBXListUpdatingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListUpdatingDelegate.h; sourceTree = "<group>"; };
 		C84240DB2E51B5570033AD77 /* DBXListUpdate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListUpdate.h; sourceTree = "<group>"; };
 		C84240DC2E51B5570033AD77 /* DBXListUpdate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListUpdate.m; sourceTree = "<group>"; };
 		C84240DE2E51D5000033AD77 /* DBXListTransitionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListTransitionData.h; sourceTree = "<group>"; };
@@ -443,6 +447,7 @@
 				C866E7352E3F7C9B001A204A /* DBXListDiff.mm */,
 				C866E7372E3F7CDD001A204A /* DBXListDiffIndexResult.h */,
 				C866E7382E3F7CDD001A204A /* DBXListDiffIndexResult.m */,
+				C83B7F762E9A8C680052D83C /* DBXListUpdatingDelegate.h */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -595,6 +600,8 @@
 				C851BC3E2E38F00800F50581 /* DBXListSupplementaryViewSource.h */,
 				C84240DB2E51B5570033AD77 /* DBXListUpdate.h */,
 				C84240DC2E51B5570033AD77 /* DBXListUpdate.m */,
+				C83B7F732E9A8AB50052D83C /* DBXListBatchUpdateTransaction.h */,
+				C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */,
 				C866E72C2E3F55AE001A204A /* Diff */,
 				C893A29F2E353613007A38AB /* Internal */,
 			);
@@ -896,6 +903,7 @@
 				C864D8F72B53B8AF007D11E8 /* Animal.m in Sources */,
 				2E0482C52882597500C69D08 /* DBXARUtils.m in Sources */,
 				C880A6252B5EC298008C9C36 /* DBXDebounce.m in Sources */,
+				C83B7F752E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m in Sources */,
 				C8EA514F2C64EF2700CACE45 /* DBXTrackTarget.m in Sources */,
 				C866E7392E3F7CDD001A204A /* DBXListDiffIndexResult.m in Sources */,
 				C8BF50692BD49BED0032721C /* DBXTaskQueueViewController.m in Sources */,

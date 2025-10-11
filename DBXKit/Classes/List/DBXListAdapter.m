@@ -45,7 +45,7 @@
         DBXListTransitionData *data = nil;
         if (strongSelf) {
             NSArray *objects = [strongSelf objectWithDeduplication:[dataSource objectsForListAdapter:strongSelf]];
-            DBXListTransitionData *data = [strongSelf _transitionDataWithObjects:objects dataSource:dataSource];
+            data = [strongSelf _transitionDataWithObjects:objects dataSource:dataSource];
         }
         return data;
     };
@@ -60,7 +60,9 @@
     
     // 完成
     DBXListUpdateCompletion completionBlock = ^void(BOOL finish) {
-        
+        if (completion) {
+            completion(finish);
+        }
     };
     
     [self.update performUpdateWithCollectionViewBlock:collectionViewBlock transitionDataBlock:transitionBlock applyDataBlock:applyBlock completion:completionBlock];

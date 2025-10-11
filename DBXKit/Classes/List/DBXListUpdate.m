@@ -8,6 +8,12 @@
 
 #import "DBXListUpdate.h"
 
+@interface DBXListUpdate ()
+
+@property(nonatomic, assign) BOOL hasQueuedUpdate;
+
+@end
+
 @implementation DBXListUpdate
 
 - (instancetype)init
@@ -27,10 +33,22 @@
                          transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
                               applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
                                   completion:(DBXListUpdateCompletion)completion {
-    [self update];  
+    
+    [self updateIfNeed];
+}
+
+- (void)updateIfNeed {
+    if (self.hasQueuedUpdate) {
+        return;
+    }
+    self.hasQueuedUpdate = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self update];
+    });
 }
 
 - (void)update {
+    self.hasQueuedUpdate = NO;
     
 }
 

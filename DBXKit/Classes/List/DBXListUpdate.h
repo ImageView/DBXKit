@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DBXListUpdatingDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,10 +18,7 @@ typedef struct {
 } DBXListUpdateConfig;
 
 @class DBXListTransitionData;
-typedef UICollectionView *_Nullable(^DBXListUpdateCollectionViewBlock)(void);
-typedef DBXListTransitionData *_Nullable(^DBXListUpdateTransitionDataBlock)(void);
-typedef void (^DBXListUpdateApplyTransitionDataBlock)(DBXListTransitionData *);
-typedef void(^DBXListUpdateCompletion)(BOOL finish);
+
 
 // list更新类
 @interface DBXListUpdate : NSObject
