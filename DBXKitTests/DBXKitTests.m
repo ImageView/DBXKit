@@ -218,7 +218,7 @@
 - (void)testTrackForLog {
     Animal *dog = [Animal new];
     [DBXTrack dbx_trackTargetForLog:dog condition:nil logCallBack:^(NSString * _Nonnull afterlog) {
-        NSLog(afterlog);
+        NSLog(@"%@", afterlog);
     }];
     [dog run];
     [dog eatFood:@"shit"];

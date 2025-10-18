@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXListBatchUpdateTransaction : NSObject
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

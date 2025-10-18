@@ -7,10 +7,13 @@
 //
 
 #import "DBXListUpdate.h"
+#import "DBXListBatchUpdateTransaction.h"
 
 @interface DBXListUpdate ()
-
+// 是否有更新操作在执行
 @property(nonatomic, assign) BOOL hasQueuedUpdate;
+// 当前更新操作
+@property(nonatomic, strong) DBXListBatchUpdateTransaction *transaction;
 
 @end
 
