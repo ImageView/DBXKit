@@ -9,10 +9,11 @@
 #ifndef DBXListUpdatingDelegate_h
 #define DBXListUpdatingDelegate_h
 #import <UIKit/UIKit.h>
+#import "DBXListTransitionData.h"
 
 typedef UICollectionView *_Nullable(^DBXListUpdateCollectionViewBlock)(void);
 typedef DBXListTransitionData *_Nullable(^DBXListUpdateTransitionDataBlock)(void);
-typedef void (^DBXListUpdateApplyTransitionDataBlock)(DBXListTransitionData *);
+typedef void (^DBXListUpdateApplyTransitionDataBlock)(DBXListTransitionData * _Nullable data);
 typedef void(^DBXListUpdateCompletion)(BOOL finish);
 
 #endif /* DBXListUpdatingDelegate_h */

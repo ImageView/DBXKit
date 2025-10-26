@@ -52,7 +52,10 @@
 
 - (void)update {
     self.hasQueuedUpdate = NO;
-    
+    if (self.transaction) {
+        return;
+    }
+    self.transaction = [[DBXListBatchUpdateTransaction alloc] init];
 }
 
 @end

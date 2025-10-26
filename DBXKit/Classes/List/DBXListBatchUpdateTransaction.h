@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DBXListUpdateTransactable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DBXListBatchUpdateTransaction : NSObject
+@interface DBXListBatchUpdateTransaction : NSObject<DBXListUpdateTransactable>
 
 
 

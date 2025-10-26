@@ -13,5 +13,6 @@
 
 - (void)begin;
 - (BOOL)cancel;
+
 @end
 #endif /* DBXListUpdateTransactable_h */
