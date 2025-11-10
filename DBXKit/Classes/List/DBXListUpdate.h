@@ -27,6 +27,7 @@ typedef struct {
 @property(nonatomic, assign) DBXListUpdateConfig updateConfig;
 
 - (void)performUpdateWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
+                                    animated:(BOOL)animated
                          transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
                               applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
                                   completion:(DBXListUpdateCompletion)completion;

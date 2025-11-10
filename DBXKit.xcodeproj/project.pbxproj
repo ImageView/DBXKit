@@ -70,6 +70,7 @@
 		C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362B287FAD8600AD75F1 /* NSObject+DBXRuntime.m */; };
 		C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */; };
 		C8D09D812E0945BA0012E036 /* DBXGuardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D09D802E0945BA0012E036 /* DBXGuardTests.m */; };
+		C8D2FA992EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D2FA982EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m */; };
 		C8DB31CF293A26F500090C61 /* DBXOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DB31CE293A26F500090C61 /* DBXOperate.m */; };
 		C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A428D30DC000E08AA1 /* DBXTaskTimerManager.m */; };
 		C8DD74A928D30F1D00E08AA1 /* DBXTaskQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DD74A728D30F1D00E08AA1 /* DBXTaskQueueManager.m */; };
@@ -244,6 +245,8 @@
 		C8C2362D287FAF7A00AD75F1 /* UIApplication+DBXAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+DBXAR.h"; sourceTree = "<group>"; };
 		C8C2362E287FAF7A00AD75F1 /* UIApplication+DBXAR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+DBXAR.m"; sourceTree = "<group>"; };
 		C8D09D802E0945BA0012E036 /* DBXGuardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXGuardTests.m; sourceTree = "<group>"; };
+		C8D2FA972EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListUpdateTransactionBuilder.h; sourceTree = "<group>"; };
+		C8D2FA982EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListUpdateTransactionBuilder.m; sourceTree = "<group>"; };
 		C8D7843C2C4CFFCC00E9682C /* DBXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXCore.h; sourceTree = "<group>"; };
 		C8DB31CD293A26F500090C61 /* DBXOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXOperate.h; sourceTree = "<group>"; };
 		C8DB31CE293A26F500090C61 /* DBXOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXOperate.m; sourceTree = "<group>"; };
@@ -601,6 +604,8 @@
 				C851BC3E2E38F00800F50581 /* DBXListSupplementaryViewSource.h */,
 				C84240DB2E51B5570033AD77 /* DBXListUpdate.h */,
 				C84240DC2E51B5570033AD77 /* DBXListUpdate.m */,
+				C8D2FA972EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.h */,
+				C8D2FA982EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m */,
 				C85566F82EA393E300871903 /* DBXListUpdateTransactable.h */,
 				C83B7F732E9A8AB50052D83C /* DBXListBatchUpdateTransaction.h */,
 				C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */,
@@ -862,6 +867,7 @@
 				C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */,
 				2E0482C8288259D200C69D08 /* UIView+DBXAR.m in Sources */,
 				2E67BF6728968CD40024839C /* DBXGestureTarget.m in Sources */,
+				C8D2FA992EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m in Sources */,
 				2E0482D5288BFADF00C69D08 /* DBXViewUtils.m in Sources */,
 				C8F301812B4A9CDB00524BEE /* DBXSyringeInject.m in Sources */,
 				C8F301602B40616C00524BEE /* DBXChainViewController.m in Sources */,

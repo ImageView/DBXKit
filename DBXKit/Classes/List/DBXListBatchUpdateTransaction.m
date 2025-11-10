@@ -7,27 +7,30 @@
 //
 
 #import "DBXListBatchUpdateTransaction.h"
-#import "DBXListUpdatingDelegate.h"
 
 @interface DBXListBatchUpdateTransaction ()
-@property(nonatomic, copy) DBXListUpdateCollectionViewBlock collectionViewBlock;
-@property(nonatomic, copy) DBXListUpdateTransitionDataBlock transitionDataBlock;
+@property (nonatomic, copy) UICollectionView *collectionView;
+@property (nonatomic, assign) BOOL animated;
+@property(nonatomic, copy) DBXListTransitionData *transitionData;
 @property(nonatomic, copy) DBXListUpdateApplyTransitionDataBlock applyBlock;
+@property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *completionBlocks;
+@property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *inUpdateCompletionBlocks;
+
 @end
 
 @implementation DBXListBatchUpdateTransaction
 
 - (instancetype)initWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
                                    animated:(BOOL)animated
-                           sectionDataBlock:(DBXListUpdateTransitionDataBlock)sectionDataBlock
+                        transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
                       applySectionDataBlock:(DBXListUpdateApplyTransitionDataBlock)applySectionDataBlock
                            completionBlocks:(NSArray<DBXListUpdateCompletion> *)completionBlocks {
     if (self = [super init]) {
-//        _collectionView = collectionViewBlock ? collectionViewBlock() : nil;
-//        _animated = animated;
-//        _sectionData = sectionDataBlock ? sectionDataBlock() : nil;
-//        _applySectionDataBlock = [applySectionDataBlock copy];
-//        _completionBlocks = [completionBlocks copy];
+        _collectionView = collectionViewBlock ? collectionViewBlock() : nil;
+        _animated = animated;
+        _transitionData = transitionDataBlock ? transitionDataBlock() : nil;
+        _applyBlock = [applySectionDataBlock copy];
+        _completionBlocks = [completionBlocks copy];
     }
     return self;
 }
@@ -41,7 +44,15 @@
 }
 
 - (void)_executeCompletionAsFinished:(BOOL)finish {
+    for (DBXListUpdateCompletion block in self.completionBlocks) {
+        block(finish);
+    }
     
+    NSArray *inUpdateCompletionBlocks = [_inUpdateCompletionBlocks copy];
+    for (DBXListUpdateCompletion block in inUpdateCompletionBlocks) {
+        block(finish);
+    }
+//    self.state = IGListBatchUpdateStateIdle;
 }
 
 @end

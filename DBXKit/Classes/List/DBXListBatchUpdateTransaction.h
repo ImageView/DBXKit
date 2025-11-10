@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "DBXListUpdateTransactable.h"
+#import "DBXListUpdatingDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DBXListBatchUpdateTransaction : NSObject<DBXListUpdateTransactable>
 
-
+- (instancetype)initWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
+                                   animated:(BOOL)animated
+                        transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
+                      applySectionDataBlock:(DBXListUpdateApplyTransitionDataBlock)applySectionDataBlock
+                           completionBlocks:(NSArray<DBXListUpdateCompletion> *)completionBlocks;
 
 @end
 

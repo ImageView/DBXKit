@@ -8,12 +8,15 @@
 
 #import "DBXListUpdate.h"
 #import "DBXListBatchUpdateTransaction.h"
+#import "DBXListUpdateTransactionBuilder.h"
 
 @interface DBXListUpdate ()
 // 是否有更新操作在执行
 @property(nonatomic, assign) BOOL hasQueuedUpdate;
 // 当前更新操作
 @property(nonatomic, strong) DBXListBatchUpdateTransaction *transaction;
+// 操作管理
+@property(nonatomic, strong) DBXListUpdateTransactionBuilder *transactionBuilder;
 
 @end
 
@@ -28,15 +31,21 @@
             .minInterval = 50,
             .maxInterval = 500
         };
+        _transactionBuilder = [[DBXListUpdateTransactionBuilder alloc] init];
     }
     return self;
 }
 
 - (void)performUpdateWithCollectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
+                                    animated:(BOOL)animated
                          transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock
                               applyDataBlock:(DBXListUpdateApplyTransitionDataBlock)applyBlock
                                   completion:(DBXListUpdateCompletion)completion {
-    
+    [self.transactionBuilder addSectionBatchUpdateAnimated:animated
+                                       collectionViewBlock:collectionViewBlock
+                                       transitionDataBlock:transitionDataBlock
+                                     applySectionDataBlock:applyBlock
+                                                completion:completion];
     [self updateIfNeed];
 }
 
@@ -55,7 +64,8 @@
     if (self.transaction) {
         return;
     }
-    self.transaction = [[DBXListBatchUpdateTransaction alloc] init];
+    self.transaction = [self.transactionBuilder buildTransaction];
+    [self.transaction begin];
 }
 
 @end
