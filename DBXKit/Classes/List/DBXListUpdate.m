@@ -64,7 +64,8 @@
     if (self.transaction) {
         return;
     }
-    self.transaction = [self.transactionBuilder buildTransaction];
+    id<DBXListUpdateTransactable> transaction = [self.transactionBuilder buildTransaction];
+    self.transaction = transaction;
     [self.transaction begin];
 }
 
