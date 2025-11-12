@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
                       applySectionDataBlock:(DBXListUpdateApplyTransitionDataBlock)applySectionDataBlock
                            completionBlocks:(NSArray<DBXListUpdateCompletion> *)completionBlocks;
 
+- (void)begin;
+- (BOOL)cancel;
+
+- (DBXListBatchUpdateState)state;
+
 @end
 
 NS_ASSUME_NONNULL_END

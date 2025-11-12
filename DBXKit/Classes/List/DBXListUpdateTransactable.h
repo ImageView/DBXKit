@@ -9,10 +9,19 @@
 #ifndef DBXListUpdateTransactable_h
 #define DBXListUpdateTransactable_h
 
+typedef NS_ENUM (NSInteger, DBXListBatchUpdateState) {
+    DBXListBatchUpdateStateIdle,
+    DBXListBatchUpdateStateQueuedBatchUpdate,
+    DBXListBatchUpdateStateExecutingBatchUpdateBlock,
+    DBXListBatchUpdateStateExecutedBatchUpdateBlock,
+};
+
 @protocol DBXListUpdateTransactable <NSObject>
 
 - (void)begin;
 - (BOOL)cancel;
+
+- (DBXListBatchUpdateState)state;
 
 @end
 #endif /* DBXListUpdateTransactable_h */

@@ -40,4 +40,8 @@
     return self;
 }
 
+- (NSInteger)changeCount {
+    return self.inserts.count + self.deletes.count + self.updates.count + self.moves.count;
+}
+
 @end
