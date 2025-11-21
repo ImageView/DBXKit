@@ -47,6 +47,9 @@
 		C866E7392E3F7CDD001A204A /* DBXListDiffIndexResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C866E7382E3F7CDD001A204A /* DBXListDiffIndexResult.m */; };
 		C8767EE0269E869B005C0B2C /* MnaLabelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EDE269E869B005C0B2C /* MnaLabelsView.m */; };
 		C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */; };
+		C877FF4B2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = C877FF4A2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m */; };
+		C877FF502ED02EFD009E835B /* DBXListBatchUpdateData.mm in Sources */ = {isa = PBXBuildFile; fileRef = C877FF4F2ED02EFD009E835B /* DBXListBatchUpdateData.mm */; };
+		C877FF532ED03008009E835B /* DBXListMoveIndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = C877FF522ED03008009E835B /* DBXListMoveIndexPath.m */; };
 		C87C67C12D91ADC900D9E71A /* DBXStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C02D91ADC900D9E71A /* DBXStubs.m */; };
 		C87C67C42D91AFC200D9E71A /* DBXStubsURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C32D91AFC200D9E71A /* DBXStubsURLProtocol.m */; };
 		C87C67CA2D91BEEC00D9E71A /* DBXStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C87C67C92D91BEEC00D9E71A /* DBXStubsResponse.m */; };
@@ -197,6 +200,12 @@
 		C8767EDF269E869B005C0B2C /* MnaLabelsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MnaLabelsView.h; sourceTree = "<group>"; };
 		C8767EE5269E898E005C0B2C /* DBXTextCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBXTextCollectionViewCell.h; sourceTree = "<group>"; };
 		C8767EE6269E898E005C0B2C /* DBXTextCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBXTextCollectionViewCell.m; sourceTree = "<group>"; };
+		C877FF492ED02D19009E835B /* DBXListAdapterUpdaterHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListAdapterUpdaterHelpers.h; sourceTree = "<group>"; };
+		C877FF4A2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListAdapterUpdaterHelpers.m; sourceTree = "<group>"; };
+		C877FF4E2ED02EFD009E835B /* DBXListBatchUpdateData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListBatchUpdateData.h; sourceTree = "<group>"; };
+		C877FF4F2ED02EFD009E835B /* DBXListBatchUpdateData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DBXListBatchUpdateData.mm; sourceTree = "<group>"; };
+		C877FF512ED03008009E835B /* DBXListMoveIndexPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListMoveIndexPath.h; sourceTree = "<group>"; };
+		C877FF522ED03008009E835B /* DBXListMoveIndexPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListMoveIndexPath.m; sourceTree = "<group>"; };
 		C87C67BF2D91ADC900D9E71A /* DBXStubs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubs.h; sourceTree = "<group>"; };
 		C87C67C02D91ADC900D9E71A /* DBXStubs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXStubs.m; sourceTree = "<group>"; };
 		C87C67C22D91AFC200D9E71A /* DBXStubsURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXStubsURLProtocol.h; sourceTree = "<group>"; };
@@ -451,7 +460,13 @@
 				C866E7352E3F7C9B001A204A /* DBXListDiff.mm */,
 				C866E7372E3F7CDD001A204A /* DBXListDiffIndexResult.h */,
 				C866E7382E3F7CDD001A204A /* DBXListDiffIndexResult.m */,
+				C877FF512ED03008009E835B /* DBXListMoveIndexPath.h */,
+				C877FF522ED03008009E835B /* DBXListMoveIndexPath.m */,
 				C83B7F762E9A8C680052D83C /* DBXListUpdatingDelegate.h */,
+				C877FF492ED02D19009E835B /* DBXListAdapterUpdaterHelpers.h */,
+				C877FF4A2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m */,
+				C877FF4E2ED02EFD009E835B /* DBXListBatchUpdateData.h */,
+				C877FF4F2ED02EFD009E835B /* DBXListBatchUpdateData.mm */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -857,6 +872,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C877FF4B2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m in Sources */,
 				C8C2362F287FAF7A00AD75F1 /* UIApplication+DBXAR.m in Sources */,
 				C81B0DEC2C689F37006A6452 /* NSInvocation+DBX.m in Sources */,
 				C851BC4D2E3B9B4500F50581 /* DBXTestHookADCollectionCell.m in Sources */,
@@ -894,10 +910,12 @@
 				2E95C2842691CA0100A2801A /* main.m in Sources */,
 				C8F301822B4A9CDB00524BEE /* DBXSyringeFactory.m in Sources */,
 				C84240DD2E51B5570033AD77 /* DBXListUpdate.m in Sources */,
+				C877FF502ED02EFD009E835B /* DBXListBatchUpdateData.mm in Sources */,
 				C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */,
 				2E67BF64289688280024839C /* UIGestureRecognizer+DBXAR.m in Sources */,
 				2E0482CC2882C13100C69D08 /* TextAutoReportImpl.m in Sources */,
 				C8767EE7269E898E005C0B2C /* DBXTextCollectionViewCell.m in Sources */,
+				C877FF532ED03008009E835B /* DBXListMoveIndexPath.m in Sources */,
 				C87C67D92DA4246600D9E71A /* DBXADInjector.m in Sources */,
 				C84240E02E51D5000033AD77 /* DBXListTransitionData.m in Sources */,
 				C866E7322E3F56F2001A204A /* NSString+DBXListDiffable.m in Sources */,
@@ -1104,6 +1122,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 28T35BAS7W;
 				INFOPLIST_FILE = DBXKit/Info.plist;
@@ -1124,6 +1143,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 28T35BAS7W;
 				INFOPLIST_FILE = DBXKit/Info.plist;

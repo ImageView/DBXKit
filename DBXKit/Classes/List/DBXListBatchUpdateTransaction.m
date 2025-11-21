@@ -9,6 +9,12 @@
 #import "DBXListBatchUpdateTransaction.h"
 #import "DBXListDiff.h"
 
+typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
+    DBXListBatchUpdateTransactionModeCancellable,
+    DBXListBatchUpdateTransactionModeNotCancellable,
+    DBXListBatchUpdateTransactionModeCancelled,
+};
+
 @interface DBXListBatchUpdateTransaction ()
 @property (nonatomic, copy) UICollectionView *collectionView;
 @property (nonatomic, assign) BOOL animated;
@@ -17,6 +23,7 @@
 @property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *completionBlocks;
 @property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *inUpdateCompletionBlocks;
 @property (nonatomic, assign) DBXListBatchUpdateState state;
+@property (nonatomic, assign) DBXListBatchUpdateTransactionMode mode;
 
 @end
 
@@ -56,16 +63,15 @@
     __weak __typeof__(self) weakSelf = self;
     
     DBXListDiffIndexResult *set = [DBXListDiff listDiffingWithOldArray:data.fromObjects newArray:data.toObjects option:DBXListDiffOptionListDiffEquality];
+    [self _didDiff:set];
 }
 
 - (void)_didDiff:(DBXListDiffIndexResult *)diffResult {
-//    if (self.mode == IGListBatchUpdateTransactionModeCancelled) {
-//        return;
-//    }
+    if (self.mode == DBXListBatchUpdateTransactionModeCancelled) {
+        return;
+    }
 
-    // After this point, we can assume that the update has began and there's no turning back.
-//    self.mode = IGListBatchUpdateTransactionModeNotCancellable;
-
+    self.mode = DBXListBatchUpdateTransactionModeNotCancellable;
 
     @try {
         id<UICollectionViewDataSource> const collectionViewDataSource = self.collectionView.dataSource;
@@ -131,10 +137,6 @@
     if (self.applyBlock != nil && self.transitionData != nil) {
         self.applyBlock((DBXListTransitionData *)self.transitionData);
     }
-//
-//    for (IGListItemUpdateBlock block in self.itemUpdateBlocks) {
-//        block();
-//    }
 
     self.state = DBXListBatchUpdateStateExecutedBatchUpdateBlock;
 }

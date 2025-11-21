@@ -65,7 +65,7 @@
         }
     };
     
-    [self.update performUpdateWithCollectionViewBlock:collectionViewBlock transitionDataBlock:transitionBlock applyDataBlock:applyBlock completion:completionBlock];
+    [self.update performUpdateWithCollectionViewBlock:collectionViewBlock animated:YES transitionDataBlock:transitionBlock applyDataBlock:applyBlock completion:completionBlock];
 }
 
 #pragma mark - Setter
