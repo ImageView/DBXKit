@@ -38,12 +38,14 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.dataSource = [NSMutableArray arrayWithObjects:@"插入一条",@"删除最后一条",@"广告1",@"修改最后一条",@"广告2",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4",@"啥也没有4", @"啥也没有2", @"啥也没有3", nil];
-        [self.adapter reloadData];
+//        [self.adapter reloadData];
+        [self.adapter performUpdatesAnimated:YES completion:nil];
     });
 }
 
 - (void)sectionColtrollerReload {
-    [self.adapter reloadData];
+//    [self.adapter reloadData];
+    [self.adapter performUpdatesAnimated:YES completion:nil];
 }
 - (void)deleteObjectItem:(NSInteger)item {
     if (item < 0) {

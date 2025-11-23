@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "DBXListUpdateTransactable.h"
-#import "DBXListUpdatingDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)cancel;
 
 - (DBXListBatchUpdateState)state;
+
+- (void)addCompletionBlock:(DBXListUpdateCompletion)completion;
 
 @end
 

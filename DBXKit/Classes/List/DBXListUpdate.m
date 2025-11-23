@@ -66,6 +66,21 @@
     }
     id<DBXListUpdateTransactable> transaction = [self.transactionBuilder buildTransaction];
     self.transaction = transaction;
+    
+    __weak __typeof(self)weakSelf = self;
+    __weak __typeof__(transaction) weakTransaction = transaction;
+    [transaction addCompletionBlock:^(BOOL finish) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
+        if (strongSelf.transaction == weakTransaction) {
+            strongSelf.transaction = nil;
+//            strongSelf.lastTransactionBuilder = nil;
+            
+            [strongSelf updateIfNeed];
+        }
+    }];
     [self.transaction begin];
 }
 

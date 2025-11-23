@@ -8,19 +8,10 @@
 
 #import "DBXListAdapterUpdaterHelpers.h"
 #import "DBXListBatchUpdateData.h"
+#import <UIKit/UIKit.h>
+#import "DBXListDiffIndexResult.h"
 
 
 @implementation DBXListAdapterUpdaterHelpers
-
-//DBXListBatchUpdateData *IGListApplyUpdatesToCollectionView(UICollectionView *collectionView,
-//                                                          DBXListIndexSetResult *diffResult,
-//                                                          NSMutableIndexSet *sectionReloads,
-//                                                          NSMutableArray<NSIndexPath *> *itemInserts,
-//                                                          NSMutableArray<NSIndexPath *> *itemDeletes,
-//                                                          NSMutableArray<DBXListReloadIndexPath *> *itemReloads,
-//                                                          NSMutableArray<DBXListMoveIndexPath *> *itemMoves,
-//                                                          NSArray<id<DBXListDiffable>> *fromObjects,
-//                                                          BOOL sectionMovesAsDeletesInserts,
-//                                                          BOOL preferItemReloadsForSectionReloads);
 
 @end

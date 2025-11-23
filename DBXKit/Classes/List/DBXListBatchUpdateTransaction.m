@@ -8,6 +8,7 @@
 
 #import "DBXListBatchUpdateTransaction.h"
 #import "DBXListDiff.h"
+#import "DBXListBatchUpdateData.h"
 
 typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
     DBXListBatchUpdateTransactionModeCancellable,
@@ -21,9 +22,10 @@ typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
 @property(nonatomic, copy) DBXListTransitionData *transitionData;
 @property(nonatomic, copy) DBXListUpdateApplyTransitionDataBlock applyBlock;
 @property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *completionBlocks;
-@property (nonatomic, copy) NSArray<DBXListUpdateCompletion> *inUpdateCompletionBlocks;
+@property (nonatomic, copy) NSMutableArray<DBXListUpdateCompletion> *inUpdateCompletionBlocks;
 @property (nonatomic, assign) DBXListBatchUpdateState state;
 @property (nonatomic, assign) DBXListBatchUpdateTransactionMode mode;
+@property (nonatomic, strong) DBXListBatchUpdateData *actualCollectionViewUpdates;
 
 @end
 
@@ -117,7 +119,11 @@ typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
 }
 
 - (void)_applyCollectioViewUpdates:(DBXListDiffIndexResult *)diffResult {
-    
+    [self.collectionView deleteSections:diffResult.deletes];
+    [self.collectionView insertSections:diffResult.inserts];
+    for (DBXListMoveIndex *move in diffResult.moves) {
+        [self.collectionView moveSection:move.from toSection:move.to];
+    }
 }
 
 - (void)_bail {
@@ -153,4 +159,10 @@ typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
     self.state = DBXListBatchUpdateStateIdle;
 }
 
+- (void)addCompletionBlock:(DBXListUpdateCompletion)completion {
+    if (!_inUpdateCompletionBlocks) {
+        _inUpdateCompletionBlocks = [NSMutableArray new];
+    }
+    [_inUpdateCompletionBlocks addObject:completion];
+}
 @end

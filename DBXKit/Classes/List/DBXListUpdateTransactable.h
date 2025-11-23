@@ -8,6 +8,7 @@
 
 #ifndef DBXListUpdateTransactable_h
 #define DBXListUpdateTransactable_h
+#import "DBXListUpdatingDelegate.h"
 
 typedef NS_ENUM (NSInteger, DBXListBatchUpdateState) {
     DBXListBatchUpdateStateIdle,
@@ -22,6 +23,8 @@ typedef NS_ENUM (NSInteger, DBXListBatchUpdateState) {
 - (BOOL)cancel;
 
 - (DBXListBatchUpdateState)state;
+
+- (void)addCompletionBlock:(DBXListUpdateCompletion)completion;
 
 @end
 #endif /* DBXListUpdateTransactable_h */

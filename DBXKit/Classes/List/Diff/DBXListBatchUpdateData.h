@@ -22,20 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSArray<NSIndexPath *> *updateIndexPaths;
 @property (nonatomic, strong, readonly) NSArray<DBXListMoveIndexPath *> *moveIndexPaths;
 
-/**
- Creates a new batch update object with section and item operations.
-
- @param insertSections Section indexes to insert.
- @param deleteSections Section indexes to delete.
- @param moveSections Section moves.
- @param insertIndexPaths Item index paths to insert.
- @param deleteIndexPaths Item index paths to delete.
- @param updateIndexPaths Item index paths to update.
- @param moveIndexPaths Item index paths to move.
-
-
- @return A new batch update object.
- */
 - (instancetype)initWithInsertSections:(NSIndexSet *)insertSections
                         deleteSections:(NSIndexSet *)deleteSections
                           moveSections:(NSSet<DBXListMoveIndex *> *)moveSections
