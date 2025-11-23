@@ -1,6 +1,0 @@
-framework module MnaDebuggingOnLine {
-  umbrella header "MnaDebuggingOnLine-umbrella.h"
-
-  export *
-  module * { export * }
-}

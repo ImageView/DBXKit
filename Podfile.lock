@@ -2,7 +2,6 @@ PODS:
   - IQKeyboardManager (6.5.6)
   - Masonry (1.1.0)
   - MJRefresh (3.5.0)
-  - MnaDebuggingOnLine (0.2.2)
   - QMUIKit (4.6.0):
     - QMUIKit/QMUIComponents (= 4.6.0)
     - QMUIKit/QMUICore (= 4.6.0)
@@ -307,13 +306,10 @@ DEPENDENCIES:
   - IQKeyboardManager
   - Masonry
   - MJRefresh
-  - MnaDebuggingOnLine
   - QMUIKit
   - SDWebImage
 
 SPEC REPOS:
-  https://git.woa.com/MNA-iOS/MnaSpec.git:
-    - MnaDebuggingOnLine
   https://github.com/CocoaPods/Specs.git:
     - IQKeyboardManager
     - Masonry
@@ -325,10 +321,9 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
-  MnaDebuggingOnLine: 79e3ef6290a9801bcd7dbeece83e42bfdbfe1c94
   QMUIKit: 6321cf1124623d686a9ec0a79a7cc59d0d64a52c
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
 
-PODFILE CHECKSUM: 04f4b062d036a4b5cc3531dc61a8773e78802c1c
+PODFILE CHECKSUM: 5c9c7ebbe1232ae8fb080c65df392bab9eb50c7f
 
 COCOAPODS: 1.15.2

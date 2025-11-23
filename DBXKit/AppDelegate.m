@@ -10,7 +10,7 @@
 #import "DBXChainViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import "DBXCore.h"
-#import <MnaDebuggingOnLine/MnaDebugging.h>
+//#import <MnaDebuggingOnLine/MnaDebugging.h>
 
 @interface AppDelegate ()
 
@@ -58,7 +58,7 @@
     QMUICMI.shouldPrintWarnLog = NO;
     QMUICMI.sendAnalyticsToQMUITeam = NO;
     
-    [MnaDebugging show];
+//    [MnaDebugging show];
     return YES;
 }
 

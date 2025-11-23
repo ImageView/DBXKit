@@ -76,9 +76,7 @@
         }
         if (strongSelf.transaction == weakTransaction) {
             strongSelf.transaction = nil;
-//            strongSelf.lastTransactionBuilder = nil;
-            
-            [strongSelf updateIfNeed];
+//            [strongSelf updateIfNeed];
         }
     }];
     [self.transaction begin];

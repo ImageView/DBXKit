@@ -15,7 +15,7 @@ target 'DBXKit' do
       pod 'MJRefresh'
       pod 'IQKeyboardManager'
       pod 'QMUIKit'
-      pod 'MnaDebuggingOnLine'
+#      pod 'MnaDebuggingOnLine'
 
 end
 
