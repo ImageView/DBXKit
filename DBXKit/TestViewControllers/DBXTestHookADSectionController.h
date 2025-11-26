@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteObjectItem:(NSInteger)item;
 - (void)insertObjectToItem:(NSInteger)item;
 - (void)updateObject:(NSString *)obj atItem:(NSInteger)item;
+- (void)moveObject;
+
 @end
 
 @interface DBXTestHookADSectionController : DBXListSectionController<DBXTestHookADSectionControllerDelegate>

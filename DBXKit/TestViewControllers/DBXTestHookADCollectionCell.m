@@ -32,7 +32,7 @@
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] init];
         _textLabel.font = [UIFont boldSystemFontOfSize:15];
-        _textLabel.textColor = [UIColor redColor];
+        _textLabel.textColor = [UIColor blackColor];
         _textLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _textLabel;

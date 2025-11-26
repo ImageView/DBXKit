@@ -29,13 +29,15 @@
         [self.delegate deleteObjectItem:-1];
     } else if ([obj containsString:@"修改"]) {
         [self.delegate updateObject:[NSString stringWithFormat:@"更新后%ld", random()%100000] atItem:-1];
+    } else if ([obj containsString:@"移动"]) {
+        [self.delegate moveObject];
     } else {
         [self.delegate sectionColtrollerReload];
     }
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(self.collectionViewContext.containerSize.width /2, 40);//CGSizeMake(150, 100);
+    return CGSizeMake(self.collectionViewContext.containerSize.width *.9, 40);//CGSizeMake(150, 100);
 }
 
 @end
@@ -61,7 +63,7 @@
     NSLog(@"%s object:%@,section:%d item:%d", __func__, self.object, (int)self.section, (int)item);
     DBXTestADCollectionCell *cell = (DBXTestADCollectionCell *)[self.collectionViewContext dequeueReusableCellOfClass:[DBXTestADCollectionCell class] forSectionController:self atItem:item];
     cell.textLabel.text = self.object;
-    cell.backgroundColor = [UIColor qmui_randomColor];
+    cell.backgroundColor = [UIColor lightGrayColor];
     return cell;
 }
 
@@ -91,7 +93,7 @@
 
 - (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind {
     UICollectionReusableView *view = [self.collectionViewContext dequeueReusableSupplementaryViewOfKind:kind forSectionController:self viewClass:[UICollectionReusableView class]];
-    view.backgroundColor = [UIColor qmui_randomColor];
+    view.backgroundColor = [UIColor lightGrayColor];
     return view;
 }
 

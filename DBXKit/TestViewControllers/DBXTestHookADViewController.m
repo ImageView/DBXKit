@@ -41,8 +41,7 @@
     self.navigationItem.rightBarButtonItem = rightItem;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.dataSource = [NSMutableArray arrayWithObjects:@"插入一条",@"删除最后一条",@"广告1",@"修改最后一条",@"广告2",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4",@"啥也没有4", @"啥也没有2", @"啥也没有3", nil];
-//        [self.adapter reloadData];
+        self.dataSource = [NSMutableArray arrayWithObjects:@"插入一条",@"删除最后一条",@"修改最后一条",@"移动",@"广告1",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
         [self.adapter performUpdatesAnimated:YES completion:nil];
     });
 }
@@ -65,7 +64,7 @@
 }
 - (void)insertObjectToItem:(NSInteger)item {
     if (item < 0) {
-        item = self.dataSource.count-1;
+        item = self.dataSource.count;
     }
     [self.dataSource insertObject:[NSString stringWithFormat:@"新插入的数据%f", [[NSDate date] timeIntervalSince1970]] atIndex:item];
 }
@@ -74,6 +73,11 @@
         item = self.dataSource.count-1;
     }
     [self.dataSource replaceObjectAtIndex:item withObject:[NSString stringWithFormat:@"替换的数据%f", [[NSDate date] timeIntervalSince1970]]];
+}
+- (void)moveObject {
+    id obj = self.dataSource.lastObject;
+    [self.dataSource removeLastObject];
+    [self.dataSource insertObject:obj atIndex:self.dataSource.count - 1];
 }
 
 #pragma mark - DBXListAdapterDataSource
@@ -97,6 +101,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     }
     return _collectionView;
