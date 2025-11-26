@@ -17,6 +17,9 @@
 @property(nonatomic, strong) DBXListBatchUpdateTransaction *transaction;
 // 操作管理
 @property(nonatomic, strong) DBXListUpdateTransactionBuilder *transactionBuilder;
+// 上一次的操作管理
+@property(nonatomic, strong) DBXListUpdateTransactionBuilder *lastTransactionBuilder;
+
 
 @end
 
@@ -66,6 +69,14 @@
     }
     id<DBXListUpdateTransactable> transaction = [self.transactionBuilder buildTransaction];
     self.transaction = transaction;
+    self.lastTransactionBuilder = self.transactionBuilder;
+    self.transactionBuilder = [[DBXListUpdateTransactionBuilder alloc] init];
+    
+    if (!transaction) {
+        // If we don't have enough information, we might not be able to create a transaction.
+        self.lastTransactionBuilder = nil;
+        return;
+    }
     
     __weak __typeof(self)weakSelf = self;
     __weak __typeof__(transaction) weakTransaction = transaction;
@@ -76,6 +87,7 @@
         }
         if (strongSelf.transaction == weakTransaction) {
             strongSelf.transaction = nil;
+            strongSelf.lastTransactionBuilder = nil;
 //            [strongSelf updateIfNeed];
         }
     }];
