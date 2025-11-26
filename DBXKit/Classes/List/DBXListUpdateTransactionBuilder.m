@@ -22,6 +22,15 @@
 
 @implementation DBXListUpdateTransactionBuilder
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _completionBlocks = [NSMutableArray new];
+    }
+    return self;
+}
+
 - (void)addSectionBatchUpdateAnimated:(BOOL)animated
                   collectionViewBlock:(DBXListUpdateCollectionViewBlock)collectionViewBlock
                   transitionDataBlock:(DBXListUpdateTransitionDataBlock)transitionDataBlock

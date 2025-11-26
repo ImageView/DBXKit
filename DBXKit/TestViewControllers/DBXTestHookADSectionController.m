@@ -35,7 +35,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(self.collectionViewContext.containerSize.width /2, 100);//CGSizeMake(150, 100);
+    return CGSizeMake(self.collectionViewContext.containerSize.width /2, 40);//CGSizeMake(150, 100);
 }
 
 @end
@@ -66,7 +66,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(300, 100);
+    return CGSizeMake(300, 30);
 }
 
 - (void)didSelectItemAtItem:(NSInteger)item {
@@ -86,7 +86,7 @@
     if ([elementKind isEqualToString:UICollectionElementKindSectionFooter]) {
         return CGSizeMake(100, 20);
     }
-    return CGSizeMake(100, 50);
+    return CGSizeMake(100, 20);
 }
 
 - (UICollectionReusableView *)viewForSupplementaryElementOfKind:(NSString *)kind {

@@ -27,7 +27,7 @@
     [self _updateObjects];
 }
 
-- (void)performUpdatesAnimated:(BOOL)animated completion:(void (^)(BOOL finish))completion {
+- (void)performUpdatesAnimated:(BOOL)animated completion:(void (^ _Nullable)(BOOL finish))completion {
     if (!_collectionView || !_dataSource) {
         return;
     }

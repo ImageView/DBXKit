@@ -32,8 +32,12 @@
     self.adapter.collectionView = self.collectionView;
     self.adapter.dataSource = self;
     
+    UIBarButtonItem *leftItem =
+        [[UIBarButtonItem alloc] initWithTitle:@"全量刷新" style:UIBarButtonItemStylePlain target:self action:@selector(sectionColtrollerReload)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
     UIBarButtonItem *rightItem =
-        [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(sectionColtrollerReload)];
+        [[UIBarButtonItem alloc] initWithTitle:@"局部刷新" style:UIBarButtonItemStylePlain target:self action:@selector(sectionColtrollerUpdate)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -44,9 +48,15 @@
 }
 
 - (void)sectionColtrollerReload {
-//    [self.adapter reloadData];
-    [self.adapter performUpdatesAnimated:YES completion:nil];
+    [self.adapter reloadData];
 }
+
+- (void)sectionColtrollerUpdate {
+    [self.adapter performUpdatesAnimated:YES completion:^(BOOL finish) {
+        NSLog(@"刷新完成performUpdatesAnimated");
+    }];
+}
+
 - (void)deleteObjectItem:(NSInteger)item {
     if (item < 0) {
         item = self.dataSource.count-1;
@@ -57,13 +67,13 @@
     if (item < 0) {
         item = self.dataSource.count-1;
     }
-    [self.dataSource insertObject:@"新插入的数据" atIndex:item];
+    [self.dataSource insertObject:[NSString stringWithFormat:@"新插入的数据%f", [[NSDate date] timeIntervalSince1970]] atIndex:item];
 }
 - (void)updateObject:(NSString *)obj atItem:(NSInteger)item {
     if (item < 0) {
         item = self.dataSource.count-1;
     }
-    [self.dataSource replaceObjectAtIndex:item withObject:@"新替换的数据"];
+    [self.dataSource replaceObjectAtIndex:item withObject:[NSString stringWithFormat:@"替换的数据%f", [[NSDate date] timeIntervalSince1970]]];
 }
 
 #pragma mark - DBXListAdapterDataSource

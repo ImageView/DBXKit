@@ -29,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadData;
 
 // 刷新UI，适用于数据有新增或者删除的情况，只刷新增删的部分，其他cell不动，性能较高
-- (void)performUpdatesAnimated:(BOOL)animated completion:(void (^)(BOOL finish))completion;
+- (void)performUpdatesAnimated:(BOOL)animated completion:(void (^ _Nullable)(BOOL finish))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END
