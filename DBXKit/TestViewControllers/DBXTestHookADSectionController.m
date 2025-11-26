@@ -12,9 +12,20 @@
 
 @implementation DBXTestHookADSectionController
 
+- (NSInteger)numberOfItems {
+    if ([self.object isKindOfClass:[NSArray class]]) {
+        return ((NSArray *) self.object).count;
+    }
+    return 1;
+}
+
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     DBXTestHookADCollectionCell *cell = (DBXTestHookADCollectionCell *)[self.collectionViewContext dequeueReusableCellOfClass:[DBXTestHookADCollectionCell class] forSectionController:self atItem:item];
-    cell.textLabel.text = self.object;
+    if ([self.object isKindOfClass:[NSArray class]]) {
+        cell.textLabel.text = ((NSArray *) self.object)[item];
+    } else {
+        cell.textLabel.text = self.object;
+    }
 
     cell.backgroundColor = [UIColor qmui_randomColor];
     return cell;
@@ -23,6 +34,9 @@
 - (void)didSelectItemAtItem:(NSInteger)item {
     NSLog(@"%s section:%d", __func__, (int)self.section);
     NSString *obj = self.object;
+    if ([obj isKindOfClass:[NSArray class]]) {
+        obj = ((NSArray *)obj)[item];
+    }
     if ([obj containsString:@"插入"]) {
         [self.delegate insertObjectToItem:-1];
     } else if ([obj containsString:@"删除"]) {
@@ -37,7 +51,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(self.collectionViewContext.containerSize.width *.9, 40);//CGSizeMake(150, 100);
+    return CGSizeMake(self.collectionViewContext.containerSize.width *.3, 40);//CGSizeMake(150, 100);
 }
 
 @end

@@ -8,6 +8,18 @@
 
 #import "NSString+DBXListDiffable.h"
 
+@implementation NSObject (DBXListDiffable)
+
+- (id)diffIdentifier {
+    return @(self.hash);
+}
+
+- (BOOL)isEqualToDiffObject:(id<DBXListDiffable>)object {
+    return [self isEqual:object];
+}
+
+@end
+
 @implementation NSString (DBXListDiffable)
 
 - (id)diffIdentifier {

@@ -41,8 +41,9 @@
     self.navigationItem.rightBarButtonItem = rightItem;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.dataSource = [NSMutableArray arrayWithObjects:@"插入一条",@"删除最后一条",@"修改最后一条",@"移动",@"广告1",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
-        [self.adapter performUpdatesAnimated:YES completion:nil];
+        self.dataSource = [NSMutableArray arrayWithObjects:@[@"插入一条",@"删除最后一条",@"修改最后一条",@"移动",],@"广告1",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
+//        [self.adapter performUpdatesAnimated:YES completion:nil];
+        [self.adapter reloadData];
     });
 }
 
@@ -86,9 +87,12 @@
 }
 
 - (DBXListSectionController *)listAdapter:(DBXListAdapter *)adapter sectionControllerForObject:(id)object {
-    if ([object hasPrefix:@"广告"]) {
-        return [[DBXTestADSectionController alloc] init];
+    if ([object isKindOfClass:[NSString class]]) {
+        if ([object hasPrefix:@"广告"]) {
+            return [[DBXTestADSectionController alloc] init];
+        }
     }
+    
     DBXTestHookADSectionController *sectionController =  [[DBXTestHookADSectionController alloc] init];
     sectionController.delegate = self;
     return sectionController;
@@ -101,7 +105,8 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        
+        layout.minimumLineSpacing = 10;
+        layout.minimumInteritemSpacing = 1;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     }
     return _collectionView;
