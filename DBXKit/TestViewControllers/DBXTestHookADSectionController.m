@@ -9,20 +9,21 @@
 #import "DBXTestHookADSectionController.h"
 #import <QMUIKit/QMUIKit.h>
 #import "DBXTestHookADCollectionCell.h"
+#import "DBXListArrayWrapper.h"
 
 @implementation DBXTestHookADSectionController
 
 - (NSInteger)numberOfItems {
-    if ([self.object isKindOfClass:[NSArray class]]) {
-        return ((NSArray *) self.object).count;
+    if ([self.object isKindOfClass:[DBXListArrayWrapper class]]) {
+        return ((DBXListArrayWrapper *) self.object).items.count;
     }
     return 1;
 }
 
 - (UICollectionViewCell *)cellForItemAtItem:(NSInteger)item {
     DBXTestHookADCollectionCell *cell = (DBXTestHookADCollectionCell *)[self.collectionViewContext dequeueReusableCellOfClass:[DBXTestHookADCollectionCell class] forSectionController:self atItem:item];
-    if ([self.object isKindOfClass:[NSArray class]]) {
-        cell.textLabel.text = ((NSArray *) self.object)[item];
+    if ([self.object isKindOfClass:[DBXListArrayWrapper class]]) {
+        cell.textLabel.text = ((DBXListArrayWrapper *) self.object).items[item];
     } else {
         cell.textLabel.text = self.object;
     }
@@ -34,8 +35,8 @@
 - (void)didSelectItemAtItem:(NSInteger)item {
     NSLog(@"%s section:%d", __func__, (int)self.section);
     NSString *obj = self.object;
-    if ([obj isKindOfClass:[NSArray class]]) {
-        obj = ((NSArray *)obj)[item];
+    if ([obj isKindOfClass:[DBXListArrayWrapper class]]) {
+        obj = ((DBXListArrayWrapper *) obj).items[item];
     }
     if ([obj containsString:@"插入"]) {
         [self.delegate insertObjectToItem:-1];
@@ -51,7 +52,7 @@
 }
 
 - (CGSize)sizeForItemAtItem:(NSInteger)item {
-    return CGSizeMake(self.collectionViewContext.containerSize.width *.3, 40);//CGSizeMake(150, 100);
+    return CGSizeMake(self.collectionViewContext.containerSize.width *.4, 40);//CGSizeMake(150, 100);
 }
 
 @end

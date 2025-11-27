@@ -62,8 +62,6 @@ typedef NS_ENUM (NSInteger, DBXListBatchUpdateTransactionMode) {
 
 - (void)_diff {
     DBXListTransitionData *data = self.transitionData;
-    __weak __typeof__(self) weakSelf = self;
-    
     DBXListDiffIndexResult *set = [DBXListDiff listDiffingWithOldArray:data.fromObjects newArray:data.toObjects option:DBXListDiffOptionListDiffEquality];
     [self _didDiff:set];
 }

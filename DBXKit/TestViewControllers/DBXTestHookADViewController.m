@@ -40,8 +40,9 @@
         [[UIBarButtonItem alloc] initWithTitle:@"局部刷新" style:UIBarButtonItemStylePlain target:self action:@selector(sectionColtrollerUpdate)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    DBXListArrayWrapper *wrapper = [[DBXListArrayWrapper alloc] initWithItems:@[@"插入一条",@"删除最后一条",@"修改最后一条",@"移动"] uniqueIdentifier:@"make"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.dataSource = [NSMutableArray arrayWithObjects:@[@"插入一条",@"删除最后一条",@"修改最后一条",@"移动",],@"广告1",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
+        self.dataSource = [NSMutableArray arrayWithObjects:wrapper, @"广告1",@"啥也没有1",@"广告3",@"啥也没有2",@"啥也没有3",@"啥也没有4", nil];
 //        [self.adapter performUpdatesAnimated:YES completion:nil];
         [self.adapter reloadData];
     });

@@ -16,5 +16,6 @@
 #import "DBXListSupplementaryViewSource.h"
 #import "DBXListDiff.h"
 #import "DBXListDiffable.h"
+#import "DBXListArrayWrapper.h"
 
 #endif /* DBXList_h */

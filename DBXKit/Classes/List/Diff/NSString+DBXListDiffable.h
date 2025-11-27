@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DBXListDiffable.h"
 
-@interface NSObject (DBXListDiffable) <DBXListDiffable>
-
-@end
-
 @interface NSString (DBXListDiffable) <DBXListDiffable>
 
 @end

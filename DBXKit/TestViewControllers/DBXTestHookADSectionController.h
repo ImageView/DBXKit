@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DBXTestHookADSectionController : DBXListSectionController<DBXTestHookADSectionControllerDelegate>
+@interface DBXTestHookADSectionController : DBXListSectionController
 
 @property(nonatomic, weak) id <DBXTestHookADSectionControllerDelegate> delegate;
 

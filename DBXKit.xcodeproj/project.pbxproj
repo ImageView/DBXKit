@@ -63,6 +63,7 @@
 		C880A62E2B66ADEF008C9C36 /* DBXDebounceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C880A62D2B66ADEF008C9C36 /* DBXDebounceViewController.m */; };
 		C881793026958BC900656441 /* NSObject+dbx_modelValue.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792C26958BC900656441 /* NSObject+dbx_modelValue.m */; };
 		C881793126958BC900656441 /* NSDictionary+dbx_valuePath.m in Sources */ = {isa = PBXBuildFile; fileRef = C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */; };
+		C88D4C8F2ED878D800CE276A /* DBXListArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = C88D4C8E2ED878D800CE276A /* DBXListArrayWrapper.m */; };
 		C893A29D2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A29B2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m */; };
 		C893A2A22E3536E9007A38AB /* DBXListSectionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A2A12E3536E9007A38AB /* DBXListSectionMap.m */; };
 		C893A2A72E361BD6007A38AB /* DBXListAdapter+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = C893A2A62E361BD6007A38AB /* DBXListAdapter+Internal.m */; };
@@ -230,6 +231,8 @@
 		C881792D26958BC900656441 /* NSDictionary+dbx_valuePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+dbx_valuePath.m"; sourceTree = "<group>"; };
 		C881792E26958BC900656441 /* NSObject+dbx_modelValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+dbx_modelValue.h"; sourceTree = "<group>"; };
 		C881792F26958BC900656441 /* NSDictionary+dbx_valuePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+dbx_valuePath.h"; sourceTree = "<group>"; };
+		C88D4C8D2ED878D800CE276A /* DBXListArrayWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListArrayWrapper.h; sourceTree = "<group>"; };
+		C88D4C8E2ED878D800CE276A /* DBXListArrayWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBXListArrayWrapper.m; sourceTree = "<group>"; };
 		C893A29B2E34CB03007A38AB /* DBXListAdapter+UICollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBXListAdapter+UICollectionView.m"; sourceTree = "<group>"; };
 		C893A29C2E34CB03007A38AB /* DBXListAdapter+UICollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBXListAdapter+UICollectionView.h"; sourceTree = "<group>"; };
 		C893A29E2E353311007A38AB /* DBXListAdapterExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBXListAdapterExtension.h; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 				C877FF4A2ED02D19009E835B /* DBXListAdapterUpdaterHelpers.m */,
 				C877FF4E2ED02EFD009E835B /* DBXListBatchUpdateData.h */,
 				C877FF4F2ED02EFD009E835B /* DBXListBatchUpdateData.mm */,
+				C88D4C8D2ED878D800CE276A /* DBXListArrayWrapper.h */,
+				C88D4C8E2ED878D800CE276A /* DBXListArrayWrapper.m */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -566,6 +571,11 @@
 				C851BC3C2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m */,
 				C84240DE2E51D5000033AD77 /* DBXListTransitionData.h */,
 				C84240DF2E51D5000033AD77 /* DBXListTransitionData.m */,
+				C8D2FA972EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.h */,
+				C8D2FA982EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m */,
+				C85566F82EA393E300871903 /* DBXListUpdateTransactable.h */,
+				C83B7F732E9A8AB50052D83C /* DBXListBatchUpdateTransaction.h */,
+				C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -619,11 +629,6 @@
 				C851BC3E2E38F00800F50581 /* DBXListSupplementaryViewSource.h */,
 				C84240DB2E51B5570033AD77 /* DBXListUpdate.h */,
 				C84240DC2E51B5570033AD77 /* DBXListUpdate.m */,
-				C8D2FA972EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.h */,
-				C8D2FA982EC2431700CFA5B3 /* DBXListUpdateTransactionBuilder.m */,
-				C85566F82EA393E300871903 /* DBXListUpdateTransactable.h */,
-				C83B7F732E9A8AB50052D83C /* DBXListBatchUpdateTransaction.h */,
-				C83B7F742E9A8AB50052D83C /* DBXListBatchUpdateTransaction.m */,
 				C866E72C2E3F55AE001A204A /* Diff */,
 				C893A29F2E353613007A38AB /* Internal */,
 			);
@@ -852,9 +857,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DBXKit/Pods-DBXKit-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DBXKit/Pods-DBXKit-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -934,6 +943,7 @@
 				C8F3016F2B41690F00524BEE /* DBXLabelsTestViewController.m in Sources */,
 				C8C2362C287FAD8600AD75F1 /* NSObject+DBXRuntime.m in Sources */,
 				C8DD74A628D30DC000E08AA1 /* DBXTaskTimerManager.m in Sources */,
+				C88D4C8F2ED878D800CE276A /* DBXListArrayWrapper.m in Sources */,
 				C8A5A7F62AD4EAA600643495 /* NSObject+PropertyObserver.m in Sources */,
 				C851BC3D2E37A5D000F50581 /* DBXListCollectionDelegateProxy.m in Sources */,
 				C893A2A22E3536E9007A38AB /* DBXListSectionMap.m in Sources */,

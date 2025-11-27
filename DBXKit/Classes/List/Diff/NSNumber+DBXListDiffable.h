@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DBXListDiffable.h"
-/**
- This category provides default `IGListDiffable` conformance for `NSNumber`.
- */
+
 @interface NSNumber (IGListDiffable) <DBXListDiffable>
 
 @end
