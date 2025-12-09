@@ -20,7 +20,7 @@
 		</dict>
 		<dict>
 			<key>title</key>
-			<string>测试插入广告</string>
+			<string>测试DBXList</string>
 			<key>class</key>
 			<string>DBXTestHookADViewController</string>
 		</dict>
