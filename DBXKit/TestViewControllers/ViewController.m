@@ -110,15 +110,15 @@
         NSLog(@"%s age=%@",__func__, value);
     }];
     
-    model.name = @"asherluo";
+    model.name = @"调包侠";
     model.age = 18;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        model.name = @"asherluo1";
+        model.name = @"调包侠1";
         model.age = 19;
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [model dbx_removeObserverForKeyPath:@"age"];
-        model.name = @"asherluo2";
+        model.name = @"调包侠2";
         model.age = 20;
     });
 }

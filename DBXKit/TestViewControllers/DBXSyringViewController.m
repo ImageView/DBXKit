@@ -2,7 +2,7 @@
 //  DBXSyringViewController.m
 //  DBXKit
 //
-//  Created by 罗俊宇 on 2024/1/14.
+//  Created by 调包侠 on 2024/1/14.
 //  Copyright © 2024 DBX. All rights reserved.
 //
 
@@ -29,7 +29,7 @@
 //    interface = [interface activated];
     MySyringInterface *interface = [MySyringInterface activatedInterface];
     People *p1 = [interface people];
-    People *p2 = [interface peopleName:@"asherluo" age:@(18)];
+    People *p2 = [interface peopleName:@"调包侠" age:@(18)];
     Animal *dog = p2.pet;
 //    [dog run];
     

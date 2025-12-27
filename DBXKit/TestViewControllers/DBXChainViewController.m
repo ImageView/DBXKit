@@ -2,7 +2,7 @@
 //  DBXChainViewController.m
 //  DBXKit
 //
-//  Created by 罗俊宇 on 2023/12/30.
+//  Created by 调包侠 on 2023/12/30.
 //  Copyright © 2023 DBX. All rights reserved.
 //
 
@@ -43,7 +43,7 @@
 }
 
 - (IBAction)testChainTask:(id)sender {
-    dispatch_queue_t queue = dispatch_queue_create("asherluo", nil);
+    dispatch_queue_t queue = dispatch_queue_create("调包侠", nil);
     [[[[self createTaskWithName:@"111"] thenWithBlock:^id _Nullable(DBXChainTask * _Nonnull task) {
         DBXChainTask *next = [self createTaskWithName:@"222"];
         return next;
